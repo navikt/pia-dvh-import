@@ -6,8 +6,9 @@ permissions: {}
 jobs:
   build:
     permissions:
-      id-token: write
+      packages: write
       contents: write
+      id-token: write
     name: build
     runs-on: ubuntu-latest
     steps:
@@ -88,12 +89,12 @@ jobs:
     name: Scanner docker image med Trivy
     if: github.ref == 'refs/heads/main'
     needs: build
-    runs-on: ubuntu-latest
     permissions:
       contents: read # to write sarif
       security-events: write # push sarif to github security
       id-token: write # for nais/login
       actions: read # for private repositories
+    runs-on: ubuntu-latest
     steps:
       - uses: navikt/pia-actions/trivy-scan@v1 # https://github.com/navikt/pia-actions/tree/main/trivy-scan
         with:
