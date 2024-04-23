@@ -1,0 +1,100 @@
+name: Build and deploy pia-dvh-import
+on: [ push ]
+
+permissions: {}
+
+jobs:
+  build:
+    permissions:
+      id-token: write
+      contents: write
+    name: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: gradle/wrapper-validation-action@v2
+      - uses: actions/cache@v4
+        with:
+          path: ~/.gradle/caches
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle.kts') }}
+          restore-keys: ${{ runner.os }}-gradle-
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 17
+      - name: Setup Gradle to generate and submit dependency graphs
+        uses: gradle/actions/setup-gradle@v3
+        with:
+          dependency-graph: generate-and-submit
+      - name: Compile, run tests and build
+        run: ./gradlew build
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+        with:
+          platforms: linux/amd64,linux/arm64
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+      - name: Build and push docker image
+        uses: nais/docker-build-push@v0
+        id: docker-push
+        with:
+          team: pia
+          tag: latest
+          project_id: ${{ vars.NAIS_MANAGEMENT_PROJECT_ID }}
+          identity_provider: ${{ secrets.NAIS_WORKLOAD_IDENTITY_PROVIDER }}
+    outputs:
+      image: ${{ steps.docker-push.outputs.image }}
+
+  deploy:
+    permissions:
+      id-token: write
+    strategy:
+      matrix:
+        cluster: [dev]
+    name: Deploy app to ${{ matrix.cluster }}
+    needs: build
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Deploy application to ${{ matrix.cluster }}
+        uses: nais/deploy/actions/deploy@v2
+        env:
+          CLUSTER: ${{ matrix.cluster }}-gcp
+          RESOURCE: .nais/nais.yaml
+          VARS: .nais/${{ matrix.cluster }}.yaml
+          VAR: image=${{ needs.build.outputs.image }}
+
+  deploy-dev:
+    permissions:
+      id-token: write
+    name: Deploy app to dev
+    needs: build
+    if: github.ref == 'refs/heads/name-of-branch'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Deploy application to dev
+        uses: nais/deploy/actions/deploy@v2
+        env:
+          CLUSTER: dev-gcp
+          RESOURCE: .nais/nais.yaml
+          VARS: .nais/dev.yaml
+          VAR: image=${{ needs.build.outputs.image }}
+
+  trivy-scan:
+    name: Scanner docker image med Trivy
+    if: github.ref == 'refs/heads/main'
+    needs: build
+    permissions:
+      contents: read # to write sarif
+      security-events: write # push sarif to github security
+      id-token: write # for nais/login
+    runs-on: ubuntu-latest
+    steps:
+      - uses: navikt/pia-actions/trivy-scan@v1 # https://github.com/navikt/pia-actions/tree/main/trivy-scan
+        with:
+          image: ${{ needs.build.outputs.image }}
+          team: pia
+          project_id: ${{ vars.NAIS_MANAGEMENT_PROJECT_ID }}
+          identity_provider: ${{ secrets.NAIS_WORKLOAD_IDENTITY_PROVIDER }}

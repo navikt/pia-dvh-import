@@ -1,0 +1,22 @@
+apiVersion: "nais.io/v1alpha1"
+kind: "Application"
+metadata:
+  name: "pia-dvh-import"
+  namespace: "pia"
+  labels:
+    "team": "pia"
+spec:
+  image: {{image}}
+  resources:
+    requests:
+      cpu: 100m
+  kafka:
+    pool: {{kafkaPool}}
+  prometheus:
+    enabled: true
+    path: /metrics
+  env:
+    - name: STATISTIKK_BUCKET_NAME
+      value: "sykefravarsstatistikk-bucket"
+    - name: STATISTIKK_FILE_NAME
+      value: "sykefravarsstatistikk.json"
