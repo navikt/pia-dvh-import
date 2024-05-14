@@ -17,8 +17,12 @@ class StatistikkImportService(
 
     fun start() {
         logger.info("Starter import av kvartalsvisstatistikk for sykefravær")
-        val statistikk: List<SykefraværsstatistikkDto> = getStatistikk(fileName)
-        logger.info("Antall rader med statistikk i bucket '$bucketName' med filnavn '$fileName': ${statistikk.size}")
+        try {
+            val statistikk: List<SykefraværsstatistikkDto> = getStatistikk(fileName)
+            logger.info("Antall rader med statistikk i bucket '$bucketName' med filnavn '$fileName': ${statistikk.size}")
+        } catch (e: Exception) {
+            logger.warn("Fikk exception med melding '${e.message}'", e)
+        }
     }
 
 

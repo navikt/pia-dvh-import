@@ -41,18 +41,24 @@ class Jobblytter(val statistikkImportService: StatistikkImportService) : Corouti
                     logger.info("Kafka consumer subscribed to ${topic.navnMedNamespace}")
                     while (job.isActive) {
                         val records = consumer.poll(Duration.ofSeconds(1))
+                        logger.info("[DEBUG] fikk ${records.count()} meldinger")
                         records.forEach {
+                            logger.info("[DEBUG] nøkkel ${it.key()}")
                             val jobInfo = Json.decodeFromString<JobInfo>(it.value())
-                            if (jobInfo.jobb.name != it.key())
+                            if (jobInfo.jobb != it.key())
                                 logger.warn("Received record with key ${it.key()} and value ${it.value()} from topic ${it.topic()} but jobInfo.job is ${jobInfo.jobb}")
                             else {
-                                logger.info("Starter jobb $jobInfo")
+                                logger.info("Starter jobb ${jobInfo.jobb}")
                                 when (jobInfo.jobb) {
-                                    Jobb.importSykefraværKvartalsstatistikk -> {
+                                    "importSykefraværKvartalsstatistikk" -> {
                                         statistikkImportService.start()
                                     }
+
+                                    else -> {
+                                        logger.info("Jobb '${jobInfo.jobb}' ignorert")
+                                    }
                                 }
-                                logger.info("Jobb ${jobInfo.jobb} ferdig")
+                                logger.info("Jobb '${jobInfo.jobb}' ferdig")
                             }
                         }
                         consumer.commitSync()
@@ -80,12 +86,7 @@ class Jobblytter(val statistikkImportService: StatistikkImportService) : Corouti
 
 @Serializable
 data class JobInfo(
-    val jobb: Jobb,
+    val jobb: String,
     val tidspunkt: String,
     val applikasjon: String,
 )
-
-enum class Jobb {
-    importSykefraværKvartalsstatistikk,
-}
-

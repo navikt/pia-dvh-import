@@ -4,7 +4,6 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.time.withTimeoutOrNull
 import no.nav.fia.arbeidsgiver.konfigurasjon.KafkaTopics
-import no.nav.pia.dvhimport.importjobb.kafka.Jobb
 import org.apache.kafka.clients.CommonClientConfigs
 import org.apache.kafka.clients.admin.AdminClient
 import org.apache.kafka.clients.admin.AdminClientConfig.BOOTSTRAP_SERVERS_CONFIG
@@ -100,11 +99,11 @@ class KafkaContainerHelper(
     }
 
 
-    fun sendJobbMelding(jobb: Jobb) {
+    fun sendJobbMelding(jobb: String) {
         sendOgVentTilKonsumert(
-            nøkkel = jobb.name,
+            nøkkel = jobb,
             melding = """{
-                "jobb": "${jobb.name}",
+                "jobb": "${jobb}",
                 "tidspunkt": "2023-01-01T00:00:00.000Z",
                 "applikasjon": "pia-dvh-import"
             }""".trimIndent(),
