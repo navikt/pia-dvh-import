@@ -1,5 +1,6 @@
 package no.nav.pia.dvhimport.helper
 
+import ia.felles.integrasjoner.jobbsender.Jobb
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.time.withTimeoutOrNull
@@ -99,11 +100,11 @@ class KafkaContainerHelper(
     }
 
 
-    fun sendJobbMelding(jobb: String) {
+    fun sendJobbMelding(jobb: Jobb) {
         sendOgVentTilKonsumert(
-            nøkkel = jobb,
+            nøkkel = jobb.name,
             melding = """{
-                "jobb": "${jobb}",
+                "jobb": "${jobb.name}",
                 "tidspunkt": "2023-01-01T00:00:00.000Z",
                 "applikasjon": "pia-dvh-import"
             }""".trimIndent(),

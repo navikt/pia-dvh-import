@@ -4,6 +4,9 @@ val logbackVersion = "1.5.3"
 val prometeusVersion = "1.12.4"
 val googleCloudStorageVersion = "2.30.1"
 val gcsNioVersion = "0.127.15"
+val iaFellesVersion = "1.1.0"
+val kotestVersion = "5.8.1"
+val testcontainersVersion = "1.19.7"
 
 plugins {
     kotlin("jvm") version "1.9.23"
@@ -15,6 +18,7 @@ group = "no.nav"
 
 repositories {
     mavenCentral()
+    maven("https://jitpack.io")
 }
 
 dependencies {
@@ -36,13 +40,13 @@ dependencies {
     implementation("com.google.cloud:google-cloud-storage:${googleCloudStorageVersion}")
     // Kafka
     implementation("org.apache.kafka:kafka-clients:3.7.0")
+    // Felles definisjoner for IA-domenet
+    implementation("com.github.navikt:ia-felles:$iaFellesVersion")
 
-    val kotestVersion = "5.8.1"
     testImplementation("io.kotest:kotest-assertions-core:$kotestVersion")
     testImplementation("io.kotest:kotest-assertions-json:$kotestVersion")
     testImplementation("io.ktor:ktor-server-tests-jvm:$ktorVersion")
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit:$kotlinVersion")
-    val testcontainersVersion = "1.19.7"
     testImplementation("org.testcontainers:testcontainers:$testcontainersVersion")
     testImplementation("org.testcontainers:kafka:$testcontainersVersion")
     testImplementation("org.wiremock:wiremock-standalone:3.4.2")

@@ -1,5 +1,8 @@
 package no.nav.pia.dvhimport.importjobb.kafka
 
+import ia.felles.integrasjoner.jobbsender.Jobb
+import ia.felles.integrasjoner.jobbsender.Jobb.*
+import ia.felles.integrasjoner.jobbsender.JobbInfo
 import kotlinx.coroutines.*
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
@@ -41,24 +44,21 @@ class Jobblytter(val statistikkImportService: StatistikkImportService) : Corouti
                     logger.info("Kafka consumer subscribed to ${topic.navnMedNamespace}")
                     while (job.isActive) {
                         val records = consumer.poll(Duration.ofSeconds(1))
-                        logger.info("[DEBUG] fikk ${records.count()} meldinger")
                         records.forEach {
-                            logger.info("[DEBUG] nøkkel ${it.key()}")
-                            val jobInfo = Json.decodeFromString<JobInfo>(it.value())
-                            if (jobInfo.jobb != it.key())
-                                logger.warn("Received record with key ${it.key()} and value ${it.value()} from topic ${it.topic()} but jobInfo.job is ${jobInfo.jobb}")
+                            val jobbInfo = Json.decodeFromString<SerializableJobbInfo>(it.value())
+                            if (jobbInfo.jobb.name != it.key())
+                                logger.warn("Received record with key ${it.key()} and value ${it.value()} from topic ${it.topic()} but jobInfo.job is ${jobbInfo.jobb}")
                             else {
-                                logger.info("Starter jobb ${jobInfo.jobb}")
-                                when (jobInfo.jobb) {
-                                    "importSykefraværKvartalsstatistikk" -> {
+                                logger.info("Starter jobb ${jobbInfo.jobb}")
+                                when (jobbInfo.jobb) {
+                                    importSykefraværKvartalsstatistikk -> {
                                         statistikkImportService.start()
                                     }
-
                                     else -> {
-                                        logger.info("Jobb '${jobInfo.jobb}' ignorert")
+                                        logger.info("Jobb '${jobbInfo.jobb}' ignorert")
                                     }
                                 }
-                                logger.info("Jobb '${jobInfo.jobb}' ferdig")
+                                logger.info("Jobb '${jobbInfo.jobb}' ferdig")
                             }
                         }
                         consumer.commitSync()
@@ -75,6 +75,13 @@ class Jobblytter(val statistikkImportService: StatistikkImportService) : Corouti
         }
     }
 
+    @Serializable
+    data class SerializableJobbInfo(
+        override val jobb: Jobb,
+        override val tidspunkt: String,
+        override val applikasjon: String,
+    ): JobbInfo
+
 
     private fun cancel() = runBlocking {
         logger.info("Stopping kafka consumer job for ${topic.navn}")
@@ -83,10 +90,3 @@ class Jobblytter(val statistikkImportService: StatistikkImportService) : Corouti
         logger.info("Stopped kafka consumer job for ${topic.navn}")
     }
 }
-
-@Serializable
-data class JobInfo(
-    val jobb: String,
-    val tidspunkt: String,
-    val applikasjon: String,
-)
