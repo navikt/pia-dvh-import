@@ -13,11 +13,14 @@ class BucketKlient(
     val bucketName: String,
 ) {
     private val logger: Logger = LoggerFactory.getLogger(this::class.java)
+    init {
+        ensureBucketExists()
+    }
 
-
-    fun ensureBucketExists(bucketName: String) {
+    fun ensureBucketExists() {
         when (gcpStorage.get(bucketName) != null) {
-            false -> throw IllegalStateException("Fant ikke bucket med navn $bucketName")
+            //false -> throw IllegalStateException("Fant ikke bucket med navn $bucketName")
+            false -> logger.warn("Bucket $bucketName ikke funnet")
             true -> logger.info("Bucket $bucketName funnet")
         }
     }
@@ -28,21 +31,20 @@ class BucketKlient(
         kotlin.runCatching {
             blob.exists()
         }.onFailure {
-            // do nothing
+            logger.info("Data for $storageKey finnes ikke for $bucketName")
+            return false
         }.onSuccess {
             logger.info("Henter data for $storageKey fra $bucketName")
             return true
         }
-        logger.info("Data for $storageKey finnes ikke for $bucketName")
         return false
     }
 
-
     fun getFromFile(filnavn: String): List<SykefraværsstatistikkDto> {
+        ensureBlobIdExists(fileName = filnavn)
         val blob: Blob = gcpStorage.get(bucketName, filnavn)
         val result = blob.getContent().decodeToString()
         return Json.decodeFromString<List<SykefraværsstatistikkDto>>(result)
     }
-
 
 }

@@ -15,7 +15,6 @@ import kotlin.test.Test
 
 class BucketKlientTest {
     private val storage = LocalStorageHelper.getOptions().service
-    private val bucketKlient = BucketKlient(storage, "test-in-memory-bucket")
 
     @Test
     fun `skal kunne lese statistikk fra bucket`() {
@@ -36,7 +35,7 @@ class BucketKlientTest {
             antallPersoner = 40
         )
         val statistikk = listOf(statistikk1, statistikk2)
-        lagreBlob(
+        lagreTestBlobInMemory(
             blobNavn = "statistikk.json",
             bucketName = "test-in-memory-bucket",
             storage = storage,
@@ -45,6 +44,7 @@ class BucketKlientTest {
             bytes = Json.encodeToString(statistikk).encodeToByteArray()
         )
 
+        val bucketKlient = BucketKlient(storage, "test-in-memory-bucket")
         val results = bucketKlient.getFromFile("statistikk.json")
 
         results.size shouldBe 2
@@ -52,18 +52,7 @@ class BucketKlientTest {
     }
 }
 
-fun hentBlob(
-    blobNavn: String,
-    bucketName: String,
-    storage: Storage,
-
-): BlobContent? {
-    return storage.get(bucketName, blobNavn)?.let {
-        return BlobContent(metadata = it.metadata, blob = it)
-    }
-}
-
-fun lagreBlob(
+fun lagreTestBlobInMemory(
     blobNavn: String,
     bucketName: String,
     storage: Storage,
@@ -80,21 +69,3 @@ fun lagreBlob(
 
     return storage.create(blobInfo, bytes)
 }
-
-data class BlobContent(
-    val metadata: MutableMap<String, String?>?,
-    val blob: Blob,
-)
-
-/*
-Expected :
-[
-  SykefraværsstatistikkDto(orgnr=987654321, årstall=2024, kvartal=3, tapteDagsverk=12, muligeDagsverk=100, antallPersoner=4),
-  SykefraværsstatistikkDto(orgnr=321456789, årstall=2024, kvartal=3, tapteDagsverk=120, muligeDagsverk=1000, antallPersoner=40)
-  ]
-Actual   : ArrayList<LinkedHashMap<String, String>>
-[
-  [("orgnr", "987654321"), ("arstall", 2024), ("kvartal", 3), ("taptedv", 12), ("muligedv", 100), ("antpers", 4)],
-  [("orgnr", "321456789"), ("arstall", 2024), ("kvartal", 3), ("taptedv", 120), ("muligedv", 1000), ("antpers", 40)]
-  ]
-*/
