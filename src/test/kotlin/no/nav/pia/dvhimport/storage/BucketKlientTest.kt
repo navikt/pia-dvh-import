@@ -10,6 +10,7 @@ import io.kotest.matchers.shouldBe
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import no.nav.pia.dvhimport.importjobb.domene.SykefraværsstatistikkDto
+import java.math.BigDecimal
 import kotlin.test.Test
 
 
@@ -19,29 +20,46 @@ class BucketKlientTest {
     @Test
     fun `skal kunne lese statistikk fra bucket`() {
         val statistikk1 = SykefraværsstatistikkDto(
-            orgnr = "987654321",
             årstall = 2024,
             kvartal = 3,
-            tapteDagsverk = 12,
-            muligeDagsverk = 100,
+            orgnr = "987654321",
+            næring = "68",
+            næringskode = "68209",
+            primærnæringskode = "68.209",
+            sektor = "3",
+            varighet = "X",
+            rectype = "1",
+            tapteDagsverk = BigDecimal(12.00),
+            muligeDagsverk = BigDecimal(100.00),
+            antallDagsverkGs = BigDecimal(0),
+            tapteDagsverkGs = BigDecimal(0),
             antallPersoner = 4
         )
         val statistikk2 = SykefraværsstatistikkDto(
-            orgnr = "321456789",
             årstall = 2024,
             kvartal = 3,
-            tapteDagsverk = 120,
-            muligeDagsverk = 1000,
+            orgnr = "321456789",
+            næring = "68",
+            næringskode = "68209",
+            primærnæringskode = "68.209",
+            sektor = "3",
+            varighet = "X",
+            rectype = "1",
+            tapteDagsverk = BigDecimal(120.23),
+            muligeDagsverk = BigDecimal(1000.00),
+            antallDagsverkGs = BigDecimal(5.5),
+            tapteDagsverkGs = BigDecimal(1.8),
             antallPersoner = 40
         )
         val statistikk = listOf(statistikk1, statistikk2)
+        val encodeToString = Json.encodeToString(statistikk)
         lagreTestBlobInMemory(
             blobNavn = "statistikk.json",
             bucketName = "test-in-memory-bucket",
             storage = storage,
             contentType = MediaType.JSON_UTF_8,
             metadata = emptyMap(),
-            bytes = Json.encodeToString(statistikk).encodeToByteArray()
+            bytes = encodeToString.encodeToByteArray()
         )
 
         val bucketKlient = BucketKlient(storage, "test-in-memory-bucket")
