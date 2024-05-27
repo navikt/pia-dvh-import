@@ -17,9 +17,9 @@ spec:
     path: /metrics
   env:
     - name: STATISTIKK_BUCKET_NAME
-      value: "syfra-ia-agg-data-bucket"
-      #value: "pia-sykefravarsstatistikk-api_test-bucket-1"
+      #value: "syfra-ia-agg-data-bucket"
+      value: "pia-sykefravarsstatistikk-api_test-bucket-1"
     - name: STATISTIKK_FILE_NAME
-      value: "2023K1_AGG_IA_SYKEFRAVAR_V3-v2.json"
+      #value: "2023K1_AGG_IA_SYKEFRAVAR_V3-v2.json"
       #value: "agg_ia_sykefravar.json"
-      #value: "sykefravarsstatistikk.json"
+      value: "agg_ia_sykefravar--test-pia.json"

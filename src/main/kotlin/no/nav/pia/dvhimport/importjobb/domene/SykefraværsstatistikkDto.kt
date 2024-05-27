@@ -42,10 +42,10 @@ data class SykefraværsstatistikkDto(
     val muligeDagsverk: BigDecimal,
     @SerialName("ANTALL_GS")
     @Serializable(with = BigDecimalSerializer::class)
-    val antallDagsverkGs: BigDecimal,
+    val antallGraderteSykemeldinger: BigDecimal,
     @SerialName("TAPTEDV_GS")
     @Serializable(with = BigDecimalSerializer::class)
-    val tapteDagsverkGs: BigDecimal,
+    val tapteDagsverkGradert: BigDecimal,
     @SerialName("ANTPERS")
     val antallPersoner: Int,
 )

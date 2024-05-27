@@ -31,8 +31,8 @@ class BucketKlientTest {
             rectype = "1",
             tapteDagsverk = BigDecimal(12.00),
             muligeDagsverk = BigDecimal(100.00),
-            antallDagsverkGs = BigDecimal(0),
-            tapteDagsverkGs = BigDecimal(0),
+            antallGraderteSykemeldinger = BigDecimal(0),
+            tapteDagsverkGradert = BigDecimal(0),
             antallPersoner = 4
         )
         val statistikk2 = SykefraværsstatistikkDto(
@@ -47,8 +47,8 @@ class BucketKlientTest {
             rectype = "1",
             tapteDagsverk = BigDecimal(120.23),
             muligeDagsverk = BigDecimal(1000.00),
-            antallDagsverkGs = BigDecimal(5.5),
-            tapteDagsverkGs = BigDecimal(1.8),
+            antallGraderteSykemeldinger = BigDecimal(5.5),
+            tapteDagsverkGradert = BigDecimal(1.8),
             antallPersoner = 40
         )
         val statistikk = listOf(statistikk1, statistikk2)

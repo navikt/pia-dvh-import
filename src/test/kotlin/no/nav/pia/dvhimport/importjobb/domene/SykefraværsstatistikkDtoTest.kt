@@ -34,8 +34,8 @@ class SykefraværsstatistikkDtoTest {
         dto.orgnr shouldBe "321456789"
         dto.tapteDagsverk shouldBe 120.23.toBigDecimal()
         dto.muligeDagsverk shouldBe 77.8716.toBigDecimal()
-        dto.tapteDagsverkGs shouldBe 1.80.toBigDecimal().setScale(2)
-        dto.antallDagsverkGs shouldBe 5.5.toBigDecimal()
+        dto.tapteDagsverkGradert shouldBe 1.80.toBigDecimal().setScale(2)
+        dto.antallGraderteSykemeldinger shouldBe 5.5.toBigDecimal()
         dto.antallPersoner shouldBe 40
     }
 
@@ -66,8 +66,8 @@ class SykefraværsstatistikkDtoTest {
         dto.orgnr shouldBe "321456789"
         dto.tapteDagsverk shouldBe 120.23.toBigDecimal()
         dto.muligeDagsverk shouldBe 77.8716.toBigDecimal()
-        dto.tapteDagsverkGs shouldBe 1.80.toBigDecimal().setScale(2)
-        dto.antallDagsverkGs shouldBe 5.5.toBigDecimal()
+        dto.tapteDagsverkGradert shouldBe 1.80.toBigDecimal().setScale(2)
+        dto.antallGraderteSykemeldinger shouldBe 5.5.toBigDecimal()
         dto.antallPersoner shouldBe 40
     }
 }
