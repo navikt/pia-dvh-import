@@ -2,7 +2,6 @@ package no.nav.pia.dvhimport.importjobb.domene
 
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.KSerializer
-import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.descriptors.PrimitiveKind
 import kotlinx.serialization.descriptors.PrimitiveSerialDescriptor
@@ -15,39 +14,31 @@ import kotlinx.serialization.json.jsonPrimitive
 import java.math.BigDecimal
 
 @Serializable
-data class SykefraværsstatistikkDto(
-    @SerialName("ARSTALL")
-    val årstall: Int,
-    @SerialName("KVARTAL")
-    val kvartal: Int,
-    @SerialName("ORGNR")
-    val orgnr: String,
-    @SerialName("NARING")
-    val næring: String,
-    @SerialName("NARING_KODE")
-    val næringskode: String,
-    @SerialName("PRIMARNARINGSKODE")
-    val primærnæringskode: String,
-    @SerialName("SEKTOR")
-    val sektor: String,
-    @SerialName("VARIGHET")
+data class TapteDagsverkPerVarighetDto(
     val varighet: String,
-    @SerialName("RECTYPE")
-    val rectype: String,
-    @SerialName("TAPTEDV")
     @Serializable(with = BigDecimalSerializer::class)
     val tapteDagsverk: BigDecimal,
-    @SerialName("MULIGEDV")
+)
+
+@Serializable
+data class SykefraværsstatistikkDto(
+    val årstall: Int,
+    val kvartal: Int,
+    val orgnr: String,
+    @Serializable(with = BigDecimalSerializer::class)
+    val prosent: BigDecimal,
+    @Serializable(with = BigDecimalSerializer::class)
+    val tapteDagsverk: BigDecimal,
     @Serializable(with = BigDecimalSerializer::class)
     val muligeDagsverk: BigDecimal,
-    @SerialName("ANTALL_GS")
-    @Serializable(with = BigDecimalSerializer::class)
-    val antallGraderteSykemeldinger: BigDecimal,
-    @SerialName("TAPTEDV_GS")
     @Serializable(with = BigDecimalSerializer::class)
     val tapteDagsverkGradert: BigDecimal,
-    @SerialName("ANTPERS")
+    val tapteDagsverkPerVarighet: List<TapteDagsverkPerVarighetDto>,
     val antallPersoner: Int,
+    val sektor: String,
+    val primærnæring: String,
+    val primærnæringskode: String,
+    val rectype: String,
 )
 
 @OptIn(ExperimentalSerializationApi::class)

@@ -20,6 +20,4 @@ spec:
       #value: "syfra-ia-agg-data-bucket"
       value: "pia-sykefravarsstatistikk-api_test-bucket-1"
     - name: STATISTIKK_FILE_NAME
-      #value: "2023K1_AGG_IA_SYKEFRAVAR_V3-v2.json"
-      #value: "agg_ia_sykefravar.json"
-      value: "agg_ia_sykefravar--test-pia.json"
+      value: "virksomhet.json"

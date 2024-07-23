@@ -11,31 +11,40 @@ class SykefraværsstatistikkDtoTest {
     fun `Parse en JSON String til SykefraværsstatistikkDto (med BigDecimal verdier som String)`() {
         val json = """
             {
-              "ARSTALL":2024,
-              "KVARTAL":3,
-              "ORGNR":"321456789",
-              "NARING":"68",
-              "NARING_KODE":"68209",
-              "PRIMARNARINGSKODE":"68.209",
-              "SEKTOR":"3",
-              "VARIGHET":"X",
-              "RECTYPE":"1",
-              "TAPTEDV":"120.23",
-              "MULIGEDV":"77.8716",
-              "ANTALL_GS":"5.5",
-              "TAPTEDV_GS":"1.80",
-              "ANTPERS":40
+              "årstall": 2024,
+              "kvartal": 3,
+              "orgnr": "321456789",
+              "prosent": "68.9876",
+              "tapteDagsverk": "120.23",
+              "muligeDagsverk": "77.8716",
+              "tapteDagsverkGradert": "1.80",
+               "tapteDagsverkPerVarighet": [
+                {
+                  "varighet": "A",
+                  "tapteDagsverk": "39.4"
+                },
+                {
+                  "varighet": "C",
+                  "tapteDagsverk": "1.5"
+                }
+              ],               
+              "antallPersoner": 40,
+              "sektor": "3",
+              "primærnæring": "68",
+              "primærnæringskode": "68209",
+              "rectype": "1"
             }
+
         """.trimIndent()
         val dto = Json.decodeFromString<SykefraværsstatistikkDto>(json)
 
         dto.årstall shouldBe 2024
         dto.kvartal shouldBe 3
         dto.orgnr shouldBe "321456789"
+        dto.prosent shouldBe 68.9876.toBigDecimal()
         dto.tapteDagsverk shouldBe 120.23.toBigDecimal()
         dto.muligeDagsverk shouldBe 77.8716.toBigDecimal()
         dto.tapteDagsverkGradert shouldBe 1.80.toBigDecimal().setScale(2)
-        dto.antallGraderteSykemeldinger shouldBe 5.5.toBigDecimal()
         dto.antallPersoner shouldBe 40
     }
 
@@ -43,20 +52,28 @@ class SykefraværsstatistikkDtoTest {
     fun `Skal kunne parse BigDecimal verdier som Raw Content`() {
         val json = """
             {
-              "ARSTALL": 2024,
-              "KVARTAL": 3,
-              "ORGNR": "321456789",
-              "NARING": "68",
-              "NARING_KODE": "68209",
-              "PRIMARNARINGSKODE": "68.209",
-              "SEKTOR": "3",
-              "VARIGHET": "X",
-              "RECTYPE": "1",
-              "TAPTEDV": 120.23,
-              "MULIGEDV": 77.8716,
-              "ANTALL_GS": 5.5,
-              "TAPTEDV_GS": 1.80,
-              "ANTPERS":40
+              "årstall": 2024,
+              "kvartal": 3,
+              "orgnr": "321456789",
+              "prosent": 68.9876,
+              "tapteDagsverk": 120.23,
+              "muligeDagsverk": 77.8716,
+              "tapteDagsverkGradert": 1.80,
+              "tapteDagsverkPerVarighet": [
+                {
+                  "varighet": "A",
+                  "tapteDagsverk": 39.4
+                },
+                {
+                  "varighet": "C",
+                  "tapteDagsverk": 1.5
+                }
+              ], 
+              "antallPersoner":40,
+              "sektor": "3",
+              "primærnæring": "68",
+              "primærnæringskode": "68209",
+              "rectype": "1"
             }
         """.trimIndent()
         val dto = Json.decodeFromString<SykefraværsstatistikkDto>(json)
@@ -64,10 +81,10 @@ class SykefraværsstatistikkDtoTest {
         dto.årstall shouldBe 2024
         dto.kvartal shouldBe 3
         dto.orgnr shouldBe "321456789"
+        dto.prosent shouldBe 68.9876.toBigDecimal()
         dto.tapteDagsverk shouldBe 120.23.toBigDecimal()
         dto.muligeDagsverk shouldBe 77.8716.toBigDecimal()
         dto.tapteDagsverkGradert shouldBe 1.80.toBigDecimal().setScale(2)
-        dto.antallGraderteSykemeldinger shouldBe 5.5.toBigDecimal()
         dto.antallPersoner shouldBe 40
     }
 }

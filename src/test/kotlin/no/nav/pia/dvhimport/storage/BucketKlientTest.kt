@@ -10,6 +10,7 @@ import io.kotest.matchers.shouldBe
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import no.nav.pia.dvhimport.importjobb.domene.SykefraværsstatistikkDto
+import no.nav.pia.dvhimport.importjobb.domene.TapteDagsverkPerVarighetDto
 import java.math.BigDecimal
 import kotlin.test.Test
 
@@ -20,36 +21,47 @@ class BucketKlientTest {
     @Test
     fun `skal kunne lese statistikk fra bucket`() {
         val statistikk1 = SykefraværsstatistikkDto(
+            orgnr = "987654321",
             årstall = 2024,
             kvartal = 3,
-            orgnr = "987654321",
-            næring = "68",
-            næringskode = "68209",
-            primærnæringskode = "68.209",
-            sektor = "3",
-            varighet = "X",
-            rectype = "1",
+            prosent = BigDecimal(10.00),
             tapteDagsverk = BigDecimal(12.00),
-            muligeDagsverk = BigDecimal(100.00),
-            antallGraderteSykemeldinger = BigDecimal(0),
+            muligeDagsverk = BigDecimal(120.00),
             tapteDagsverkGradert = BigDecimal(0),
-            antallPersoner = 4
+            tapteDagsverkPerVarighet = listOf(
+                TapteDagsverkPerVarighetDto(
+                    varighet = "A",
+                    tapteDagsverk = BigDecimal(3.000002)
+                )
+            ),
+            antallPersoner = 4,
+            sektor = "3",
+            primærnæring = "68",
+            primærnæringskode = "68209",
+            rectype = "1",
         )
         val statistikk2 = SykefraværsstatistikkDto(
+            orgnr = "987654321",
             årstall = 2024,
             kvartal = 3,
-            orgnr = "321456789",
-            næring = "68",
-            næringskode = "68209",
-            primærnæringskode = "68.209",
+            prosent = BigDecimal(11.00),
+            tapteDagsverk = BigDecimal(11.00),
+            muligeDagsverk = BigDecimal(100.00),
+            tapteDagsverkGradert = BigDecimal(0),
+            tapteDagsverkPerVarighet = listOf(
+                TapteDagsverkPerVarighetDto(
+                    varighet = "A",
+                    tapteDagsverk = BigDecimal(10.000002)
+                ), TapteDagsverkPerVarighetDto(
+                    varighet = "C",
+                    tapteDagsverk = BigDecimal(1.00)
+                )
+            ),
+            antallPersoner = 4,
             sektor = "3",
-            varighet = "X",
+            primærnæring = "68",
+            primærnæringskode = "68209",
             rectype = "1",
-            tapteDagsverk = BigDecimal(120.23),
-            muligeDagsverk = BigDecimal(1000.00),
-            antallGraderteSykemeldinger = BigDecimal(5.5),
-            tapteDagsverkGradert = BigDecimal(1.8),
-            antallPersoner = 40
         )
         val statistikk = listOf(statistikk1, statistikk2)
         val encodeToString = Json.encodeToString(statistikk)
@@ -79,11 +91,8 @@ fun lagreTestBlobInMemory(
     bytes: ByteArray,
 ): Blob {
     val contentTypeVerdi = contentType.toString()
-    val blobInfo =
-        BlobInfo.newBuilder(bucketName, blobNavn)
-            .setContentType(contentTypeVerdi)
-            .setMetadata(metadata + mapOf("content-type" to contentTypeVerdi))
-            .build()
+    val blobInfo = BlobInfo.newBuilder(bucketName, blobNavn).setContentType(contentTypeVerdi)
+        .setMetadata(metadata + mapOf("content-type" to contentTypeVerdi)).build()
 
     return storage.create(blobInfo, bytes)
 }

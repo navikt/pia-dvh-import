@@ -1,0 +1,78 @@
+[
+  {
+    "årstall": 2024,
+    "kvartal": 2,
+    "orgnr": "321456789",
+    "prosent": "68.9876",
+    "tapteDagsverk": "120.23",
+    "muligeDagsverk": "77.8716",
+    "tapteDagsverkGradert": "1.80",
+    "tapteDagsverkPerVarighet": [
+      {
+        "varighet": "A",
+        "tapteDagsverk": "39.4"
+      },
+      {
+        "varighet": "C",
+        "tapteDagsverk": "1.5"
+      }
+    ],
+    "antallPersoner": 40,
+    "sektor": "3",
+    "primærnæring": "68",
+    "primærnæringskode": "68209",
+    "rectype": "1"
+  },
+  {
+    "årstall": 2024,
+    "kvartal": 2,
+    "orgnr": "987654321",
+    "prosent": "11.0",
+    "tapteDagsverk": "14.23",
+    "muligeDagsverk": "872.446",
+    "tapteDagsverkGradert": "23.80",
+    "tapteDagsverkPerVarighet": [
+      {
+        "varighet": "A",
+        "tapteDagsverk": "22.45"
+      },
+      {
+        "varighet": "B",
+        "tapteDagsverk": "0.35"
+      },
+      {
+        "varighet": "D",
+        "tapteDagsverk": "33.4"
+      }
+    ],
+    "antallPersoner": 4,
+    "sektor": "3",
+    "primærnæring": "88",
+    "primærnæringskode": "88.211",
+    "rectype": "1"
+  },
+  {
+    "årstall": 2024,
+    "kvartal": 2,
+    "orgnr": "998877665",
+    "prosent": "3.44",
+    "tapteDagsverk": "14.23",
+    "muligeDagsverk": "8752.446",
+    "tapteDagsverkGradert": "223.80",
+    "tapteDagsverkPerVarighet": [
+      {
+        "varighet": "B",
+        "tapteDagsverk": "232.35"
+      },
+      {
+        "varighet": "E",
+        "tapteDagsverk": "3.4"
+      }
+    ],
+    "antallPersoner": 4,
+    "sektor": "3",
+    "primærnæring": "88",
+    "primærnæringskode": "88.211",
+    "rectype": "1"
+  }
+]
