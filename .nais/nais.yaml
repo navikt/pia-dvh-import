@@ -17,7 +17,7 @@ spec:
     path: /metrics
   env:
     - name: STATISTIKK_BUCKET_NAME
-      #value: "syfra-ia-agg-data-bucket"
-      value: "pia-sykefravarsstatistikk-api_test-bucket-1"
+      value: "syfra-ia-agg-data-bucket"
+      #value: "pia-sykefravarsstatistikk-api_test-bucket-1"
     - name: STATISTIKK_FILE_NAME
       value: "virksomhet.json"
