@@ -1,7 +1,6 @@
 package no.nav.pia.dvhimport.storage
 
 import com.google.cloud.storage.Blob
-import com.google.cloud.storage.BlobId
 import com.google.cloud.storage.Storage
 import kotlinx.serialization.json.Json
 import no.nav.pia.dvhimport.importjobb.domene.SykefraværsstatistikkDto
@@ -13,38 +12,39 @@ class BucketKlient(
     val bucketName: String,
 ) {
     private val logger: Logger = LoggerFactory.getLogger(this::class.java)
+
     init {
         ensureBucketExists()
     }
 
     fun ensureBucketExists() {
         when (gcpStorage.get(bucketName) != null) {
-            //false -> throw IllegalStateException("Fant ikke bucket med navn $bucketName")
             false -> logger.warn("Bucket $bucketName ikke funnet")
             true -> logger.info("Bucket $bucketName funnet")
         }
     }
 
-    fun ensureBlobIdExists(fileName: String): Boolean {
-        val storageKey = fileName
-        val blob: Blob = gcpStorage.get(BlobId.of(bucketName, storageKey))
+    fun ensureBlobExists(path: String, fileName: String): Boolean {
+        logger.info("Sjekker at filen '$path/$fileName' finnes i bucket '$bucketName'")
+
         kotlin.runCatching {
+            val blob: Blob = gcpStorage.get(bucketName, "$path/$fileName")
             blob.exists()
-        }.onFailure {
-            logger.info("Data for $storageKey finnes ikke for $bucketName")
+        }.onFailure { exception ->
+            logger.warn("Fil '$path/$fileName' ble ikke funnet i bucket '$bucketName'. Fikke følgende exception: ", exception)
             return false
         }.onSuccess {
-            logger.info("Henter data for $storageKey fra $bucketName")
+            logger.info("Henter data fra '$path/$fileName' i bucket '$bucketName'")
             return true
         }
         return false
     }
 
-    fun getFromFile(filnavn: String): List<SykefraværsstatistikkDto> {
-        ensureBlobIdExists(fileName = filnavn)
-        val blob: Blob = gcpStorage.get(bucketName, filnavn)
+    fun getFromFile(path: String, fileName: String): List<SykefraværsstatistikkDto> {
+        if (!ensureBlobExists(path = path, fileName = fileName)) return emptyList()
+
+        val blob: Blob = gcpStorage.get(bucketName, "$path/$fileName")
         val result = blob.getContent().decodeToString()
         return Json.decodeFromString<List<SykefraværsstatistikkDto>>(result)
     }
-
 }
