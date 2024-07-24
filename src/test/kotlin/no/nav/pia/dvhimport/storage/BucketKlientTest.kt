@@ -5,7 +5,6 @@ import com.google.cloud.storage.BlobInfo
 import com.google.cloud.storage.Storage
 import com.google.cloud.storage.contrib.nio.testing.LocalStorageHelper
 import com.google.common.net.MediaType
-import io.kotest.matchers.collections.shouldContainExactlyInAnyOrder
 import io.kotest.matchers.shouldBe
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
@@ -23,21 +22,20 @@ class BucketKlientTest {
         val statistikk1 = lagStatistikk("987654321", BigDecimal(10.00), BigDecimal(12.00), BigDecimal(120.00))
         val statistikk2 = lagStatistikk("812345679", BigDecimal(11.00), BigDecimal(11.00), BigDecimal(100.00))
         val statistikk = listOf(statistikk1, statistikk2)
-        val encodeToString = Json.encodeToString(statistikk)
+        val statistikkJson = Json.encodeToString(statistikk)
         lagreTestBlobInMemory(
             blobNavn = "2024K1/statistikk.json",
             bucketName = "test-in-memory-bucket",
             storage = storage,
             contentType = MediaType.JSON_UTF_8,
             metadata = emptyMap(),
-            bytes = encodeToString.encodeToByteArray()
+            bytes = statistikkJson.encodeToByteArray()
         )
 
         val bucketKlient = BucketKlient(storage, "test-in-memory-bucket")
 
         val results = bucketKlient.getFromFile(path = "2024K1", fileName = "statistikk.json")
-        results.size shouldBe 2
-        results shouldContainExactlyInAnyOrder statistikk
+        results shouldBe statistikkJson
     }
 
     @Test
@@ -54,7 +52,7 @@ class BucketKlientTest {
         val bucketKlient = BucketKlient(storage, "test-in-memory-bucket")
         val results = bucketKlient.getFromFile(path = "2024K1", fileName = "statistikk_not_found.json")
 
-        results.size shouldBe 0
+        results shouldBe "[]"
     }
 
 

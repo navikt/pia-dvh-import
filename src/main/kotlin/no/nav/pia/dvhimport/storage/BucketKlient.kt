@@ -2,8 +2,6 @@ package no.nav.pia.dvhimport.storage
 
 import com.google.cloud.storage.Blob
 import com.google.cloud.storage.Storage
-import kotlinx.serialization.json.Json
-import no.nav.pia.dvhimport.importjobb.domene.SykefraværsstatistikkDto
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
@@ -40,11 +38,11 @@ class BucketKlient(
         return false
     }
 
-    fun getFromFile(path: String, fileName: String): List<SykefraværsstatistikkDto> {
-        if (!ensureBlobExists(path = path, fileName = fileName)) return emptyList()
+    fun getFromFile(path: String, fileName: String): String {
+        if (!ensureBlobExists(path = path, fileName = fileName)) return "[]"
 
         val blob: Blob = gcpStorage.get(bucketName, "$path/$fileName")
         val result = blob.getContent().decodeToString()
-        return Json.decodeFromString<List<SykefraværsstatistikkDto>>(result)
+        return result
     }
 }

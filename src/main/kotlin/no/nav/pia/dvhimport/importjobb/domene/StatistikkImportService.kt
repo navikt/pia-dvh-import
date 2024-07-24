@@ -1,6 +1,7 @@
 package no.nav.pia.dvhimport.importjobb.domene
 
 import com.google.cloud.storage.Storage
+import kotlinx.serialization.json.Json
 import no.nav.pia.dvhimport.storage.BucketKlient
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -29,8 +30,12 @@ class StatistikkImportService(
         }
     }
 
-    private fun getStatistikk(path: String, fileName: String): List<SykefraværsstatistikkDto> =
-        bucketKlient.getFromFile(path = path, fileName = fileName)
+    fun String.toSykefraværsstatistikkDto() = Json.decodeFromString<List<SykefraværsstatistikkDto>>(this)
+
+    private fun getStatistikk(path: String, fileName: String): List<SykefraværsstatistikkDto> {
+        val result: String = bucketKlient.getFromFile(path = path, fileName = fileName)
+        return result.toSykefraværsstatistikkDto()
+    }
 
 
     companion object {
