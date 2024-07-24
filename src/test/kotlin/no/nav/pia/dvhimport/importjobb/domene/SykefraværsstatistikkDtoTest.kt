@@ -34,7 +34,6 @@ class SykefraværsstatistikkDtoTest {
               "primærnæringskode": "68209",
               "rectype": "1"
             }
-
         """.trimIndent()
         val dto = Json.decodeFromString<SykefraværsstatistikkDto>(json)
 
