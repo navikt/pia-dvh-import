@@ -28,7 +28,7 @@ class SykefraværsstatistikkDtoTest {
                   "tapteDagsverk": "1.5"
                 }
               ],               
-              "antallPersoner": 40,
+              "antallPersoner": "40.456",
               "sektor": "3",
               "primærnæring": "68",
               "primærnæringskode": "68209",
@@ -45,7 +45,7 @@ class SykefraværsstatistikkDtoTest {
         dto.tapteDagsverk shouldBe 120.23.toBigDecimal()
         dto.muligeDagsverk shouldBe 77.8716.toBigDecimal()
         dto.tapteDagsverkGradert shouldBe 1.80.toBigDecimal().setScale(2)
-        dto.antallPersoner shouldBe 40
+        dto.antallPersoner shouldBe 40.456.toBigDecimal()
     }
 
     @Test
@@ -69,7 +69,7 @@ class SykefraværsstatistikkDtoTest {
                   "tapteDagsverk": 1.5
                 }
               ], 
-              "antallPersoner":40,
+              "antallPersoner":40.456,
               "sektor": "3",
               "primærnæring": "68",
               "primærnæringskode": "68209",
@@ -85,6 +85,6 @@ class SykefraværsstatistikkDtoTest {
         dto.tapteDagsverk shouldBe 120.23.toBigDecimal()
         dto.muligeDagsverk shouldBe 77.8716.toBigDecimal()
         dto.tapteDagsverkGradert shouldBe 1.80.toBigDecimal().setScale(2)
-        dto.antallPersoner shouldBe 40
+        dto.antallPersoner shouldBe 40.456.toBigDecimal()
     }
 }

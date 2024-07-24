@@ -34,7 +34,8 @@ data class SykefraværsstatistikkDto(
     @Serializable(with = BigDecimalSerializer::class)
     val tapteDagsverkGradert: BigDecimal,
     val tapteDagsverkPerVarighet: List<TapteDagsverkPerVarighetDto>,
-    val antallPersoner: Int,
+    @Serializable(with = BigDecimalSerializer::class)
+    val antallPersoner: BigDecimal,
     val sektor: String,
     val primærnæring: String,
     val primærnæringskode: String,

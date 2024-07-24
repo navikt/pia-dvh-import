@@ -92,7 +92,7 @@ class BucketKlientTest {
                 tapteDagsverk = BigDecimal(3.000002)
             )
         ),
-        antallPersoner = 4,
+        antallPersoner = BigDecimal(4),
         sektor = "3",
         primærnæring = "68",
         primærnæringskode = "68209",
