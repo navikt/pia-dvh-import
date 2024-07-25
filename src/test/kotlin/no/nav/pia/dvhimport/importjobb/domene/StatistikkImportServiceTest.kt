@@ -27,21 +27,7 @@ class StatistikkImportServiceTest{
               "prosent": "68.9876",
               "tapteDagsverk": "120.23",
               "muligeDagsverk": "77.8716",
-              "tapteDagsverkGradert": "1.80",
-              "tapteDagsverkPerVarighet": [
-                {
-                  "varighet": "A",
-                  "tapteDagsverk": "39.4"
-                },
-                {
-                  "varighet": "C",
-                  "tapteDagsverk": "1.5"
-                }
-              ],               
               "antallPersoner": "40.456",
-              "sektor": "3",
-              "primærnæring": "68",
-              "primærnæringskode": "68209",
               "rectype": "1"
             }]
         """.trimIndent()
@@ -61,17 +47,7 @@ class StatistikkImportServiceTest{
                 prosent = BigDecimal(10.00),
                 tapteDagsverk = BigDecimal(12.00),
                 muligeDagsverk = BigDecimal(120.00),
-                tapteDagsverkGradert = BigDecimal(0),
-                tapteDagsverkPerVarighet = listOf(
-                    TapteDagsverkPerVarighetDto(
-                        varighet = "A",
-                        tapteDagsverk = BigDecimal(3.000002)
-                    )
-                ),
                 antallPersoner = BigDecimal(4),
-                sektor = "3",
-                primærnæring = "68",
-                primærnæringskode = "68209",
                 rectype = "1",
             ),
             VirksomhetSykefraværsstatistikkDto(
@@ -81,21 +57,7 @@ class StatistikkImportServiceTest{
                 prosent = BigDecimal(11.00),
                 tapteDagsverk = BigDecimal(11.00),
                 muligeDagsverk = BigDecimal(100.00),
-                tapteDagsverkGradert = BigDecimal(0),
-                tapteDagsverkPerVarighet = listOf(
-                    TapteDagsverkPerVarighetDto(
-                        varighet = "A",
-                        tapteDagsverk = BigDecimal(10.000002)
-                    ),
-                    TapteDagsverkPerVarighetDto(
-                        varighet = "C",
-                        tapteDagsverk = BigDecimal(1.00)
-                    )
-                ),
                 antallPersoner = BigDecimal(4),
-                sektor = "3",
-                primærnæring = "68",
-                primærnæringskode = "68209",
                 rectype = "1",
             )
         )

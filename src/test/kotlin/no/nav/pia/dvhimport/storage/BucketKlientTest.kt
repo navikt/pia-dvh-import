@@ -83,17 +83,7 @@ class BucketKlientTest {
         prosent = prosent,
         tapteDagsverk = tapteDagsverk,
         muligeDagsverk = muligeDagsverk,
-        tapteDagsverkGradert = BigDecimal(0),
-        tapteDagsverkPerVarighet = listOf(
-            TapteDagsverkPerVarighetDto(
-                varighet = "A",
-                tapteDagsverk = BigDecimal(3.000002)
-            )
-        ),
         antallPersoner = BigDecimal(4),
-        sektor = "3",
-        primærnæring = "68",
-        primærnæringskode = "68209",
         rectype = "1",
     )
 }

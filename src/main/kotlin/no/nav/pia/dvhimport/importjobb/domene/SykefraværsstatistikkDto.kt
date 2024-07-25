@@ -56,13 +56,19 @@ data class VirksomhetSykefraværsstatistikkDto(
     @Serializable(with = BigDecimalSerializer::class)
     override val muligeDagsverk: BigDecimal,
     @Serializable(with = BigDecimalSerializer::class)
-    val tapteDagsverkGradert: BigDecimal,
-    val tapteDagsverkPerVarighet: List<TapteDagsverkPerVarighetDto>,
+    val varighet_a: BigDecimal? = null,
+    @Serializable(with = BigDecimalSerializer::class)
+    val varighet_b: BigDecimal? = null,
+    @Serializable(with = BigDecimalSerializer::class)
+    val varighet_c: BigDecimal? = null,
+    @Serializable(with = BigDecimalSerializer::class)
+    val varighet_d: BigDecimal? = null,
+    @Serializable(with = BigDecimalSerializer::class)
+    val varighet_e: BigDecimal? = null,
+    @Serializable(with = BigDecimalSerializer::class)
+    val varighet_f: BigDecimal? = null,
     @Serializable(with = BigDecimalSerializer::class)
     override val antallPersoner: BigDecimal,
-    val sektor: String,
-    val primærnæring: String,
-    val primærnæringskode: String,
     val rectype: String,
 ) : SykefraværsstatistikkDto
 
