@@ -13,6 +13,30 @@ import kotlinx.serialization.json.JsonUnquotedLiteral
 import kotlinx.serialization.json.jsonPrimitive
 import java.math.BigDecimal
 
+interface SykefraværsstatistikkDto {
+    val årstall: Int
+    val kvartal: Int
+    val prosent: BigDecimal
+    val tapteDagsverk: BigDecimal
+    val muligeDagsverk: BigDecimal
+    val antallPersoner: BigDecimal
+}
+
+@Serializable
+data class LandSykefraværsstatistikkDto(
+    override val årstall: Int,
+    override val kvartal: Int,
+    val code: String,
+    @Serializable(with = BigDecimalSerializer::class)
+    override val prosent: BigDecimal,
+    @Serializable(with = BigDecimalSerializer::class)
+    override val tapteDagsverk: BigDecimal,
+    @Serializable(with = BigDecimalSerializer::class)
+    override val muligeDagsverk: BigDecimal,
+    @Serializable(with = BigDecimalSerializer::class)
+    override val antallPersoner: BigDecimal,
+): SykefraværsstatistikkDto
+
 @Serializable
 data class TapteDagsverkPerVarighetDto(
     val varighet: String,
@@ -21,29 +45,30 @@ data class TapteDagsverkPerVarighetDto(
 )
 
 @Serializable
-data class SykefraværsstatistikkDto(
-    val årstall: Int,
-    val kvartal: Int,
+data class VirksomhetSykefraværsstatistikkDto(
+    override val årstall: Int,
+    override val kvartal: Int,
+    @Serializable(with = BigDecimalSerializer::class)
+    override val prosent: BigDecimal,
     val orgnr: String,
     @Serializable(with = BigDecimalSerializer::class)
-    val prosent: BigDecimal,
+    override val tapteDagsverk: BigDecimal,
     @Serializable(with = BigDecimalSerializer::class)
-    val tapteDagsverk: BigDecimal,
-    @Serializable(with = BigDecimalSerializer::class)
-    val muligeDagsverk: BigDecimal,
+    override val muligeDagsverk: BigDecimal,
     @Serializable(with = BigDecimalSerializer::class)
     val tapteDagsverkGradert: BigDecimal,
     val tapteDagsverkPerVarighet: List<TapteDagsverkPerVarighetDto>,
     @Serializable(with = BigDecimalSerializer::class)
-    val antallPersoner: BigDecimal,
+    override val antallPersoner: BigDecimal,
     val sektor: String,
     val primærnæring: String,
     val primærnæringskode: String,
     val rectype: String,
-)
+) : SykefraværsstatistikkDto
+
 
 @OptIn(ExperimentalSerializationApi::class)
-private object BigDecimalSerializer : KSerializer<BigDecimal> {
+internal object BigDecimalSerializer : KSerializer<BigDecimal> {
 
     override val descriptor = PrimitiveSerialDescriptor("java.math.BigDecimal", PrimitiveKind.DOUBLE)
 

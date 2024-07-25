@@ -3,7 +3,8 @@ package no.nav.pia.dvhimport.importjobb.domene
 import io.kotest.matchers.collections.shouldHaveSize
 import io.kotest.matchers.shouldBe
 import no.nav.pia.dvhimport.importjobb.domene.StatistikkImportService.Companion.beregnSykefraværsprosentForLand
-import no.nav.pia.dvhimport.importjobb.domene.StatistikkImportService.Companion.toSykefraværsstatistikkDtoList
+import no.nav.pia.dvhimport.importjobb.domene.StatistikkImportService.Companion.tilGeneriskStatistikk
+import no.nav.pia.dvhimport.importjobb.domene.StatistikkImportService.Companion.tilVirksomhetSykefraværsstatistikkDto
 import java.math.BigDecimal
 import kotlin.test.Test
 
@@ -45,15 +46,15 @@ class StatistikkImportServiceTest{
             }]
         """.trimIndent()
 
-        val statistikkDtoListe: List<SykefraværsstatistikkDto> = json.toSykefraværsstatistikkDtoList()
+        val statistikkDtoListe: List<VirksomhetSykefraværsstatistikkDto> = json.tilGeneriskStatistikk().tilVirksomhetSykefraværsstatistikkDto()
         statistikkDtoListe shouldHaveSize 1
         // TODO: hent log
     }
 
     @Test
     fun `kan regne ut sykefraværsprosent`() {
-        val statistikk: List<SykefraværsstatistikkDto> = listOf(
-            SykefraværsstatistikkDto(
+        val statistikk: List<VirksomhetSykefraværsstatistikkDto> = listOf(
+            VirksomhetSykefraværsstatistikkDto(
                 orgnr = "987654321",
                 årstall = 2024,
                 kvartal = 3,
@@ -73,7 +74,7 @@ class StatistikkImportServiceTest{
                 primærnæringskode = "68209",
                 rectype = "1",
             ),
-            SykefraværsstatistikkDto(
+            VirksomhetSykefraværsstatistikkDto(
                 orgnr = "987654321",
                 årstall = 2024,
                 kvartal = 3,

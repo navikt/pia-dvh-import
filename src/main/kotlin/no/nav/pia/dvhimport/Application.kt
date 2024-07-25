@@ -20,8 +20,7 @@ fun main() {
     Jobblytter(
         statistikkImportService = StatistikkImportService(
             gcpStorage = storage,
-            bucketName = naisEnvironment.statistikkBucketName,
-            fileName = naisEnvironment.statistikkFileName
+            bucketName = naisEnvironment.statistikkBucketName
         )
     ).run()
     embeddedServer(Netty, port = 8080, host = "0.0.0.0", module = Application::dvhImport).start(wait = true)

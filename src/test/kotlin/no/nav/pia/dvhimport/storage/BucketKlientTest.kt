@@ -8,7 +8,7 @@ import com.google.common.net.MediaType
 import io.kotest.matchers.shouldBe
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
-import no.nav.pia.dvhimport.importjobb.domene.SykefraværsstatistikkDto
+import no.nav.pia.dvhimport.importjobb.domene.VirksomhetSykefraværsstatistikkDto
 import no.nav.pia.dvhimport.importjobb.domene.TapteDagsverkPerVarighetDto
 import java.math.BigDecimal
 import kotlin.test.Test
@@ -76,7 +76,7 @@ class BucketKlientTest {
         prosent: BigDecimal,
         tapteDagsverk: BigDecimal,
         muligeDagsverk: BigDecimal
-    ) = SykefraværsstatistikkDto(
+    ) = VirksomhetSykefraværsstatistikkDto(
         orgnr = orgnr,
         årstall = 2024,
         kvartal = 3,

@@ -5,7 +5,7 @@ import kotlinx.serialization.json.Json
 import kotlin.test.Test
 
 
-class SykefraværsstatistikkDtoTest {
+class VirksomhetSykefraværsstatistikkDtoTest {
 
     @Test
     fun `Parse en JSON String til SykefraværsstatistikkDto (med BigDecimal verdier som String)`() {
@@ -35,7 +35,7 @@ class SykefraværsstatistikkDtoTest {
               "rectype": "1"
             }
         """.trimIndent()
-        val dto = Json.decodeFromString<SykefraværsstatistikkDto>(json)
+        val dto = Json.decodeFromString<VirksomhetSykefraværsstatistikkDto>(json)
 
         dto.årstall shouldBe 2024
         dto.kvartal shouldBe 3
@@ -75,7 +75,7 @@ class SykefraværsstatistikkDtoTest {
               "rectype": "1"
             }
         """.trimIndent()
-        val dto = Json.decodeFromString<SykefraværsstatistikkDto>(json)
+        val dto = Json.decodeFromString<VirksomhetSykefraværsstatistikkDto>(json)
 
         dto.årstall shouldBe 2024
         dto.kvartal shouldBe 3

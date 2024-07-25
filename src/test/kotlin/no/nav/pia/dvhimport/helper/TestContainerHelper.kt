@@ -35,8 +35,7 @@ class TestContainerHelper {
                             mapOf(
                                 "NAIS_CLUSTER_NAME" to "lokal",
                                 "STATISTIKK_BUCKET_NAME" to "test-in-memory-bucket",
-                                "STATISTIKK_FILE_NAME" to "statistikk.json",
-                            )
+                                )
                 ).dependsOn(kafka.container)
                 .waitingFor(HttpWaitStrategy().forPath("/internal/isalive").withStartupTimeout(Duration.ofSeconds(20)))
                 .apply {
