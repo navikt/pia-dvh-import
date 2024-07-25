@@ -20,20 +20,29 @@ class StatistikkImportService(
 
     fun start() {
         logger.info("Starter import av sykefraværsstatistikk for alle statistikkkategorier")
-        try {
 
+        try {
             val landStatistikk: List<LandSykefraværsstatistikkDto> =
                 hentStatistikk(kvartal = kvartal, kategori = Statistikkategori.LAND).tilLandSykefraværsstatistikkDto()
+            logger.info("Sykefraværsprosent hentet for land er: '${landStatistikk.first().prosent}'")
+
+            val næringStatistikk: List<NæringSykefraværsstatistikkDto> =
+                hentStatistikk(
+                    kvartal = kvartal,
+                    kategori = Statistikkategori.NÆRING
+                ).tilNæringSykefraværsstatistikkDto()
+            val sykefraværsprosentAlleNæringer = kalkulerSykefraværsprosent(næringStatistikk)
+            logger.info("Sykefraværsprosent for land kalkulert for kategori ${Statistikkategori.NÆRING} er: '$sykefraværsprosentAlleNæringer'")
+
             val virksomhetStatistikk: List<VirksomhetSykefraværsstatistikkDto> =
                 hentStatistikk(
                     kvartal = kvartal,
                     kategori = Statistikkategori.VIRKSOMHET
                 ).tilVirksomhetSykefraværsstatistikkDto()
-            // kontroll tall
-            val sykefraværsprosentLand = beregnSykefraværsprosentForLand(virksomhetStatistikk)
-            logger.info("Sykefraværsprosent beregnet for land er: '$sykefraværsprosentLand', sykefraværsprosent for land er: '{${landStatistikk.first().prosent}}'")
+            val sykefraværsprosentAlleVirksomheter = kalkulerSykefraværsprosent(virksomhetStatistikk)
+            logger.info("Sykefraværsprosent for land kalkulert for kategori ${Statistikkategori.VIRKSOMHET} er: '$sykefraværsprosentAlleVirksomheter'")
         } catch (e: Exception) {
-            logger.warn("Fikk exception med melding '${e.message}'", e)
+            logger.warn("Fikk exception i import prosess med melding '${e.message}'", e)
         }
     }
 
@@ -81,6 +90,18 @@ class StatistikkImportService(
                 }
             }.mapNotNull { it.getOrNull() }
 
+        private fun String.tilNæringSykefraværsstatistikkDto(): NæringSykefraværsstatistikkDto =
+            Json.decodeFromString<NæringSykefraværsstatistikkDto>(this)
+
+        fun List<String>.tilNæringSykefraværsstatistikkDto(): List<NæringSykefraværsstatistikkDto> =
+            this.map { statistikkJson ->
+                kotlin.runCatching {
+                    statistikkJson.tilNæringSykefraværsstatistikkDto()
+                }.onFailure { failure ->
+                    logger.warn("Kunne ikke deserialize følgende element: '${sanityzeOrgnr(statistikkJson)}' til NæringSykefraværsstatistikkDto. Fikk følgende melding: '$failure'")
+                }
+            }.mapNotNull { it.getOrNull() }
+
         private fun String.tilVirksomhetSykefraværsstatistikkDto(): VirksomhetSykefraværsstatistikkDto =
             Json.decodeFromString<VirksomhetSykefraværsstatistikkDto>(this)
 
@@ -99,7 +120,7 @@ class StatistikkImportService(
             }.toList()
 
 
-        fun beregnSykefraværsprosentForLand(statistikk: List<VirksomhetSykefraværsstatistikkDto>): BigDecimal {
+        fun kalkulerSykefraværsprosent(statistikk: List<SykefraværsstatistikkDto>): BigDecimal {
             val sumAntallTapteDagsverk = statistikk.sumOf { statistikkDto -> statistikkDto.tapteDagsverk }
             val sumAntallMuligeDagsverk = statistikk.sumOf { statistikkDto -> statistikkDto.muligeDagsverk }
             val sykefraværsprosentLand =

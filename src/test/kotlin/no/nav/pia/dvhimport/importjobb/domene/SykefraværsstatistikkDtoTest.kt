@@ -7,9 +7,6 @@ import kotlin.test.Test
 
 class SykefraværsstatistikkDtoTest {
 
-    /*
-    {"land":"NO","årstall":"2024","kvartal":"1","prosent":6.2,"tapteDagsverk":8894426.768373,"muligeDagsverk":143458496.063556,"antallPersoner":3124427}
-    */
 
     @Test
     fun `Skal kunne parse en JSON String til LandSykefraværsstatistikkDto`() {
@@ -34,6 +31,31 @@ class SykefraværsstatistikkDtoTest {
         dto.muligeDagsverk shouldBe 143458496.063556.toBigDecimal()
         dto.antallPersoner shouldBe 3124427.toBigDecimal()
     }
+
+    @Test
+    fun `Skal kunne parse en JSON String til NæringSykefraværsstatistikkDto`() {
+        val json = """
+            {
+              "næring": "22",
+              "årstall": 2024,
+              "kvartal": 1,
+              "prosent": 6.2,
+              "tapteDagsverk": 8894426.768373,
+              "muligeDagsverk": 143458496.063556,
+              "antallPersoner": 3124427
+            }
+        """.trimIndent()
+        val dto = Json.decodeFromString<NæringSykefraværsstatistikkDto>(json)
+
+        dto.næring shouldBe "22"
+        dto.årstall shouldBe 2024
+        dto.kvartal shouldBe 1
+        dto.prosent shouldBe 6.2.toBigDecimal()
+        dto.tapteDagsverk shouldBe 8894426.768373.toBigDecimal()
+        dto.muligeDagsverk shouldBe 143458496.063556.toBigDecimal()
+        dto.antallPersoner shouldBe 3124427.toBigDecimal()
+    }
+
 
     @Test
     fun `Skal kunne parse en JSON String til VirksomhetSykefraværsstatistikkDto`() {

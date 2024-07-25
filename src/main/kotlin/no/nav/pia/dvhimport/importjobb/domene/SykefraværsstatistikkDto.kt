@@ -38,11 +38,19 @@ data class LandSykefraværsstatistikkDto(
 ): SykefraværsstatistikkDto
 
 @Serializable
-data class TapteDagsverkPerVarighetDto(
-    val varighet: String,
+data class NæringSykefraværsstatistikkDto(
+    val næring: String,
+    override val årstall: Int,
+    override val kvartal: Int,
     @Serializable(with = BigDecimalSerializer::class)
-    val tapteDagsverk: BigDecimal,
-)
+    override val prosent: BigDecimal,
+    @Serializable(with = BigDecimalSerializer::class)
+    override val tapteDagsverk: BigDecimal,
+    @Serializable(with = BigDecimalSerializer::class)
+    override val muligeDagsverk: BigDecimal,
+    @Serializable(with = BigDecimalSerializer::class)
+    override val antallPersoner: BigDecimal,
+) : SykefraværsstatistikkDto
 
 @Serializable
 data class VirksomhetSykefraværsstatistikkDto(

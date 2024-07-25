@@ -9,7 +9,6 @@ import io.kotest.matchers.shouldBe
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import no.nav.pia.dvhimport.importjobb.domene.VirksomhetSykefraværsstatistikkDto
-import no.nav.pia.dvhimport.importjobb.domene.TapteDagsverkPerVarighetDto
 import java.math.BigDecimal
 import kotlin.test.Test
 

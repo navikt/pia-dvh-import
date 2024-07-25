@@ -2,7 +2,7 @@ package no.nav.pia.dvhimport.importjobb.domene
 
 import io.kotest.matchers.collections.shouldHaveSize
 import io.kotest.matchers.shouldBe
-import no.nav.pia.dvhimport.importjobb.domene.StatistikkImportService.Companion.beregnSykefraværsprosentForLand
+import no.nav.pia.dvhimport.importjobb.domene.StatistikkImportService.Companion.kalkulerSykefraværsprosent
 import no.nav.pia.dvhimport.importjobb.domene.StatistikkImportService.Companion.tilGeneriskStatistikk
 import no.nav.pia.dvhimport.importjobb.domene.StatistikkImportService.Companion.tilVirksomhetSykefraværsstatistikkDto
 import java.math.BigDecimal
@@ -61,7 +61,7 @@ class StatistikkImportServiceTest{
                 rectype = "1",
             )
         )
-        val prosent = beregnSykefraværsprosentForLand(statistikk)
+        val prosent = kalkulerSykefraværsprosent(statistikk)
 
         prosent shouldBe 10.5.toBigDecimal()
     }
