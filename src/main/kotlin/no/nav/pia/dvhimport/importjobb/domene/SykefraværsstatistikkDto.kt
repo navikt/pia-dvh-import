@@ -24,9 +24,9 @@ interface SykefraværsstatistikkDto {
 
 @Serializable
 data class LandSykefraværsstatistikkDto(
+    val land: String,
     override val årstall: Int,
     override val kvartal: Int,
-    val code: String,
     @Serializable(with = BigDecimalSerializer::class)
     override val prosent: BigDecimal,
     @Serializable(with = BigDecimalSerializer::class)
@@ -46,11 +46,11 @@ data class TapteDagsverkPerVarighetDto(
 
 @Serializable
 data class VirksomhetSykefraværsstatistikkDto(
+    val orgnr: String,
     override val årstall: Int,
     override val kvartal: Int,
     @Serializable(with = BigDecimalSerializer::class)
     override val prosent: BigDecimal,
-    val orgnr: String,
     @Serializable(with = BigDecimalSerializer::class)
     override val tapteDagsverk: BigDecimal,
     @Serializable(with = BigDecimalSerializer::class)
