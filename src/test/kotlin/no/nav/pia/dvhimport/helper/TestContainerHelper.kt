@@ -22,6 +22,7 @@ class TestContainerHelper {
         val log: Logger = LoggerFactory.getLogger(TestContainerHelper::class.java)
         val network = Network.newNetwork()
         val kafka = KafkaContainerHelper(network = network, log = log)
+        val googleCloudStorage = GoogleCloudStorageContainerHelper(network = network, log = log)
 
         val dvhImportApplikasjon =
             GenericContainer(
@@ -34,9 +35,11 @@ class TestContainerHelper {
                     kafka.envVars() +
                             mapOf(
                                 "NAIS_CLUSTER_NAME" to "lokal",
-                                "STATISTIKK_BUCKET_NAME" to "test-in-memory-bucket",
                                 )
-                ).dependsOn(kafka.container)
+                                .plus(googleCloudStorage.envVars())
+                )
+                .dependsOn(kafka.container)
+                .dependsOn(googleCloudStorage.container)
                 .waitingFor(HttpWaitStrategy().forPath("/internal/isalive").withStartupTimeout(Duration.ofSeconds(20)))
                 .apply {
                     start()
@@ -71,16 +74,4 @@ internal suspend fun GenericContainer<*>.performGet(url: String, config: HttpReq
     performRequest(url) {
         config()
         method = HttpMethod.Get
-    }
-
-internal suspend inline fun <reified T> GenericContainer<*>.performPost(
-    url: String,
-    body: T,
-    crossinline config: HttpRequestBuilder.() -> Unit = {},
-) =
-    performRequest(url) {
-        config()
-        method = HttpMethod.Post
-        header(HttpHeaders.ContentType, ContentType.Application.Json)
-        setBody(body)
     }

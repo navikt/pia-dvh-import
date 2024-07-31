@@ -1,8 +1,5 @@
 package no.nav.pia.dvhimport.importjobb.domene
 
-import com.google.cloud.storage.Storage
-import kotlinx.serialization.json.Json
-import kotlinx.serialization.json.JsonArray
 import no.nav.pia.dvhimport.storage.BucketKlient
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -11,61 +8,73 @@ import java.math.RoundingMode
 
 
 class StatistikkImportService(
-    private val bucketName: String,
-    gcpStorage: Storage,
+    private val bucketKlient: BucketKlient,
+    private val brukKvartalIPath: Boolean
 ) {
-    private val kvartal: String = "2024K1" // TODO: hent kvartal som skal importeres
-    private val bucketKlient = BucketKlient(gcpStorage = gcpStorage, bucketName = bucketName)
     private val logger: Logger = LoggerFactory.getLogger(this::class.java)
 
-    fun start() {
+    fun importAlleKategorier() {
         logger.info("Starter import av sykefraværsstatistikk for alle statistikkkategorier")
+        bucketKlient.ensureBucketExists() // nødvendig ???
+
+        val kvartal = "2024K1" // TODO: hent kvartal som skal importeres
+
+        import<LandSykefraværsstatistikkDto>(Statistikkategori.LAND, kvartal)
+        import<VirksomhetSykefraværsstatistikkDto>(Statistikkategori.VIRKSOMHET, kvartal)
+    }
+
+
+    private inline fun <reified T: Sykefraværsstatistikk> import(kategori: Statistikkategori, kvartal: String) {
+        val path = if (brukKvartalIPath) kvartal else ""
+        bucketKlient.ensureFileExists(path, kategori.tilFilnavn())
 
         try {
-            val landStatistikk: List<LandSykefraværsstatistikkDto> =
-                hentStatistikk(kvartal = kvartal, kategori = Statistikkategori.LAND).tilLandSykefraværsstatistikkDto()
-            logger.info("Sykefraværsprosent hentet for land er: '${landStatistikk.first().prosent}'")
+            val statistikk = hentStatistikk(
+                kvartal = kvartal,
+                kategori = kategori,
+                brukKvartalIPath = brukKvartalIPath
+            )
+            val sykefraværsstatistikkDtoList: List<T> =
+                statistikk.toSykefraværsstatistikkDto<T>()
 
-            val næringStatistikk: List<NæringSykefraværsstatistikkDto> =
-                hentStatistikk(
-                    kvartal = kvartal,
-                    kategori = Statistikkategori.NÆRING
-                ).tilNæringSykefraværsstatistikkDto()
-            val sykefraværsprosentAlleNæringer = kalkulerSykefraværsprosent(næringStatistikk)
-            logger.info("Sykefraværsprosent for land kalkulert for kategori ${Statistikkategori.NÆRING} er: '$sykefraværsprosentAlleNæringer'")
-
-            val virksomhetStatistikk: List<VirksomhetSykefraværsstatistikkDto> =
-                hentStatistikk(
-                    kvartal = kvartal,
-                    kategori = Statistikkategori.VIRKSOMHET
-                ).tilVirksomhetSykefraværsstatistikkDto()
-            val sykefraværsprosentAlleVirksomheter = kalkulerSykefraværsprosent(virksomhetStatistikk)
-            logger.info("Sykefraværsprosent for land kalkulert for kategori ${Statistikkategori.VIRKSOMHET} er: '$sykefraværsprosentAlleVirksomheter'")
+            // kontroll
+            val sykefraværsprosentForKategori = kalkulerSykefraværsprosent(sykefraværsstatistikkDtoList)
+            logger.info("Sykefraværsprosent -snitt- for kategori $kategori er: '$sykefraværsprosentForKategori'")
         } catch (e: Exception) {
             logger.warn("Fikk exception i import prosess med melding '${e.message}'", e)
         }
     }
 
-
-    private fun hentStatistikk(kvartal: String, kategori: Statistikkategori): List<String> {
-        try {
-            val fileName = kategori.filnavn()
-            val dvhStatistikk = bucketKlient.getFromFile(path = kvartal, fileName = fileName)
+    private fun hentStatistikk(kvartal: String, kategori: Statistikkategori, brukKvartalIPath: Boolean): List<String> {
+        val path = if (brukKvartalIPath) kvartal else ""
+        val result: List<String> = try {
+            val fileName = kategori.tilFilnavn()
+            val dvhStatistikk = bucketKlient.getFromFile(
+                path = path,
+                fileName = fileName
+            )
             val statistikk: List<String> =
                 dvhStatistikk.tilGeneriskStatistikk()
-            logger.info("Antall rader med statistikk i bucket '$bucketName', i mappe '$kvartal' med filnavn '$fileName': ${statistikk.size}")
-            return statistikk
+            logger.info("Antall rader med statistikk for kategori '$kategori' og kvartal '$kvartal': ${statistikk.size}")
+            statistikk
         } catch (e: Exception) {
             logger.warn("Fikk exception med melding '${e.message}'", e)
-            return emptyList()
+            emptyList()
         }
+        return result
     }
 
 
     companion object {
-        private val logger: Logger = LoggerFactory.getLogger(this::class.java)
+        fun kalkulerSykefraværsprosent(statistikk: List<Sykefraværsstatistikk>): BigDecimal {
+            val sumAntallTapteDagsverk = statistikk.sumOf { statistikkDto -> statistikkDto.tapteDagsverk }
+            val sumAntallMuligeDagsverk = statistikk.sumOf { statistikkDto -> statistikkDto.muligeDagsverk }
+            val sykefraværsprosentLand =
+                StatistikkUtils.kalkulerSykefraværsprosent(sumAntallTapteDagsverk, sumAntallMuligeDagsverk)
+            return sykefraværsprosentLand.setScale(1, RoundingMode.HALF_UP)
+        }
 
-        private fun Statistikkategori.filnavn(): String =
+        private fun Statistikkategori.tilFilnavn(): String =
             when (this) {
                 Statistikkategori.LAND -> "land.json"
                 Statistikkategori.SEKTOR -> "sektor.json"
@@ -77,55 +86,5 @@ class StatistikkImportService(
 
         private fun sanityzeOrgnr(jsonElement: String): String =
             jsonElement.replace("[0-9]{9}".toRegex(), "*********")
-
-        private fun String.tilLandSykefraværsstatistikkDto(): LandSykefraværsstatistikkDto =
-            Json.decodeFromString<LandSykefraværsstatistikkDto>(this)
-
-        fun List<String>.tilLandSykefraværsstatistikkDto(): List<LandSykefraværsstatistikkDto> =
-            this.map { statistikkJson ->
-                kotlin.runCatching {
-                    statistikkJson.tilLandSykefraværsstatistikkDto()
-                }.onFailure { failure ->
-                    logger.warn("Kunne ikke deserialize følgende element: '${sanityzeOrgnr(statistikkJson)}' til LandSykefraværsstatistikkDto. Fikk følgende melding: '$failure'")
-                }
-            }.mapNotNull { it.getOrNull() }
-
-        private fun String.tilNæringSykefraværsstatistikkDto(): NæringSykefraværsstatistikkDto =
-            Json.decodeFromString<NæringSykefraværsstatistikkDto>(this)
-
-        fun List<String>.tilNæringSykefraværsstatistikkDto(): List<NæringSykefraværsstatistikkDto> =
-            this.map { statistikkJson ->
-                kotlin.runCatching {
-                    statistikkJson.tilNæringSykefraværsstatistikkDto()
-                }.onFailure { failure ->
-                    logger.warn("Kunne ikke deserialize følgende element: '${sanityzeOrgnr(statistikkJson)}' til NæringSykefraværsstatistikkDto. Fikk følgende melding: '$failure'")
-                }
-            }.mapNotNull { it.getOrNull() }
-
-        private fun String.tilVirksomhetSykefraværsstatistikkDto(): VirksomhetSykefraværsstatistikkDto =
-            Json.decodeFromString<VirksomhetSykefraværsstatistikkDto>(this)
-
-        fun List<String>.tilVirksomhetSykefraværsstatistikkDto(): List<VirksomhetSykefraværsstatistikkDto> =
-            this.map { statistikkJson ->
-                kotlin.runCatching {
-                    statistikkJson.tilVirksomhetSykefraværsstatistikkDto()
-                }.onFailure { failure ->
-                    logger.warn("Kunne ikke deserialize følgende element: '${sanityzeOrgnr(statistikkJson)}' til VirksomhetSykefraværsstatistikkDto. Fikk følgende melding: '$failure'")
-                }
-            }.mapNotNull { it.getOrNull() }
-
-        fun String.tilGeneriskStatistikk(): List<String> =
-            Json.decodeFromString<JsonArray>(this).map {
-                it.toString()
-            }.toList()
-
-
-        fun kalkulerSykefraværsprosent(statistikk: List<SykefraværsstatistikkDto>): BigDecimal {
-            val sumAntallTapteDagsverk = statistikk.sumOf { statistikkDto -> statistikkDto.tapteDagsverk }
-            val sumAntallMuligeDagsverk = statistikk.sumOf { statistikkDto -> statistikkDto.muligeDagsverk }
-            val sykefraværsprosentLand =
-                StatistikkUtils.kalkulerSykefraværsprosent(sumAntallTapteDagsverk, sumAntallMuligeDagsverk)
-            return sykefraværsprosentLand.setScale(1, RoundingMode.HALF_UP)
-        }
     }
 }

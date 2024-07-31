@@ -49,6 +49,7 @@ dependencies {
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit:$kotlinVersion")
     testImplementation("org.testcontainers:testcontainers:$testcontainersVersion")
     testImplementation("org.testcontainers:kafka:$testcontainersVersion")
+    testImplementation("io.aiven:testcontainers-fake-gcs-server:0.2.0")
     testImplementation("org.wiremock:wiremock-standalone:3.4.2")
     // Mock-oauth2-server
     testImplementation("no.nav.security:mock-oauth2-server:2.1.2")

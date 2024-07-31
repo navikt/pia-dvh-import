@@ -1,40 +1,22 @@
 package no.nav.pia.dvhimport.importjobb.domene
 
-import io.kotest.matchers.collections.shouldHaveSize
 import io.kotest.matchers.shouldBe
 import no.nav.pia.dvhimport.importjobb.domene.StatistikkImportService.Companion.kalkulerSykefraværsprosent
-import no.nav.pia.dvhimport.importjobb.domene.StatistikkImportService.Companion.tilGeneriskStatistikk
-import no.nav.pia.dvhimport.importjobb.domene.StatistikkImportService.Companion.tilVirksomhetSykefraværsstatistikkDto
 import java.math.BigDecimal
 import kotlin.test.Test
 
 
-class StatistikkImportServiceTest{
-    @Test
-    fun `dersom innhold er feil formattert, log objektet som er feil og ignore innhold`() {
-        val json = """
-            [{
-              "årstall": 2024,
-              "kvartal": 3,
-              "orgnr": "321456789",
-              "prosent": "68.9876",
-              "finnesIkke": "Dette feltet gjør at deserialization vil feile"
-            }, 
-            {
-              "årstall": 2024,
-              "kvartal": 3,
-              "orgnr": "321456789",
-              "prosent": "68.9876",
-              "tapteDagsverk": "120.23",
-              "muligeDagsverk": "77.8716",
-              "antallPersoner": "40.456",
-              "rectype": "1"
-            }]
-        """.trimIndent()
+class StatistikkImportServiceUnitTest{
 
-        val statistikkDtoListe: List<VirksomhetSykefraværsstatistikkDto> = json.tilGeneriskStatistikk().tilVirksomhetSykefraværsstatistikkDto()
-        statistikkDtoListe shouldHaveSize 1
-        // TODO: hent log
+    @Test
+    fun `mapper JsonArray til array of strings`() {
+        val result = """
+                [
+                  {"testField": "should fail"}
+                ]
+            """.trimIndent().tilGeneriskStatistikk()
+
+        result.size shouldBe 1
     }
 
     @Test

@@ -1,5 +1,6 @@
 class NaisEnvironment(
-    val statistikkBucketName: String = getEnvVar("STATISTIKK_BUCKET_NAME"),
+    val googleCloudStorageUrl: String = getEnvVar("GCS_URL"),
+    val statistikkBucketName: String = getEnvVar("GCS_SYKEFRAVARSSTATISTIKK_BUCKET_NAME"),
 )
 
 fun getEnvVar(varName: String, defaultValue: String? = null) =

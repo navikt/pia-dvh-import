@@ -52,7 +52,7 @@ class Jobblytter(val statistikkImportService: StatistikkImportService) : Corouti
                                 logger.info("Starter jobb ${jobbInfo.jobb}")
                                 when (jobbInfo.jobb) {
                                     importSykefraværKvartalsstatistikk -> {
-                                        statistikkImportService.start()
+                                        statistikkImportService.importAlleKategorier()
                                     }
                                     else -> {
                                         logger.info("Jobb '${jobbInfo.jobb}' ignorert")
