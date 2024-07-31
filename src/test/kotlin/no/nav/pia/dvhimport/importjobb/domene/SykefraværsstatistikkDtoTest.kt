@@ -111,10 +111,4 @@ class SykefraværsstatistikkDtoTest {
         dto.muligeDagsverk shouldBe 77.8716.toBigDecimal()
         dto.antallPersoner shouldBe 40.456.toBigDecimal()
     }
-
-
-    private infix fun VirksomhetSykefraværsstatistikkDto.shouldBe(expected: VirksomhetSykefraværsstatistikkDto) {
-        this.orgnr shouldBe expected.orgnr
-
-    }
 }
