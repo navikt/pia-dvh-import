@@ -26,14 +26,14 @@ class BucketKlient(
     }
 
     fun ensureFileExists(path: String, fileName: String): Boolean {
-
-        logger.info("Sjekker at filen '$fileName', i path '$path' finnes i bucket '$bucketName'")
+        val fil = if (path.isNotEmpty()) "$path/$fileName" else fileName
+        logger.info("Sjekker at filen '$fileName', i path '$path' finnes i bucket '$bucketName' (søk på fil: '$fil')")
 
         kotlin.runCatching {
-            val blob: Blob = gcpStorage.get(bucketName, fileName)
+            val blob: Blob = gcpStorage.get(bucketName, fil)
             blob.exists()
         }.onFailure { exception ->
-            logger.warn("Fil '$fileName' ble ikke funnet i bucket '$bucketName'. Fikke følgende exception: ", exception)
+            logger.warn("Fil '$fil' ble ikke funnet i bucket '$bucketName'. Fikke følgende exception: ", exception)
             return false
         }.onSuccess {
             logger.info("Henter data fra '$fileName' i bucket '$bucketName'")
