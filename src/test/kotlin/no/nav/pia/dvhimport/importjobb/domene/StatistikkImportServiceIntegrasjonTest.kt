@@ -84,6 +84,17 @@ class StatistikkImportServiceIntegrasjonTest {
     }
 
     @Test
+    fun `import statistikk NÆRINGSKODE`() {
+        lagTestDataForNæringskode()
+
+        kafkaContainer.sendJobbMelding(Jobb.næringskodeSykefraværsstatistikkDvhImport)
+
+        dvhImportApplikasjon shouldContainLog "Starter import av sykefraværsstatistikk for kategori 'NÆRINGSKODE'".toRegex()
+        dvhImportApplikasjon shouldContainLog "Sykefraværsprosent -snitt- for kategori NÆRINGSKODE er: '3.7'".toRegex()
+        dvhImportApplikasjon shouldContainLog "Jobb 'næringskodeSykefraværsstatistikkDvhImport' ferdig".toRegex()
+    }
+
+    @Test
     fun `import statistikk VIRKSOMHET`() {
         lagTestDataForVirksomhet()
 
@@ -99,6 +110,7 @@ class StatistikkImportServiceIntegrasjonTest {
         lagTestDataForLand()
         lagTestDataForSektor()
         lagTestDataForNæring()
+        lagTestDataForNæringskode()
         lagTestDataForVirksomhet()
 
         kafkaContainer.sendJobbMelding(Jobb.alleKategorierSykefraværsstatistikkDvhImport)
@@ -107,6 +119,7 @@ class StatistikkImportServiceIntegrasjonTest {
         dvhImportApplikasjon shouldContainLog "Sykefraværsprosent -snitt- for kategori LAND er: '6.2'".toRegex()
         dvhImportApplikasjon shouldContainLog "Sykefraværsprosent -snitt- for kategori SEKTOR er: '3.7'".toRegex()
         dvhImportApplikasjon shouldContainLog "Sykefraværsprosent -snitt- for kategori NÆRING er: '3.7'".toRegex()
+        dvhImportApplikasjon shouldContainLog "Sykefraværsprosent -snitt- for kategori NÆRINGSKODE er: '3.7'".toRegex()
         dvhImportApplikasjon shouldContainLog "Sykefraværsprosent -snitt- for kategori VIRKSOMHET er: '26.0'".toRegex()
         dvhImportApplikasjon shouldContainLog "Jobb 'alleKategorierSykefraværsstatistikkDvhImport' ferdig".toRegex()
     }
@@ -162,6 +175,7 @@ class StatistikkImportServiceIntegrasjonTest {
         val verifiserBlobFinnes = gcsContainer.verifiserBlobFinnes(blobNavn = filnavn)
         verifiserBlobFinnes shouldBe true
     }
+
     private fun lagTestDataForNæring() {
         val filnavn = Statistikkategori.NÆRING.tilFilnavn()
         gcsContainer.lagreTestBlob(
@@ -180,6 +194,33 @@ class StatistikkImportServiceIntegrasjonTest {
              "årstall": 2024,
              "kvartal": 1,
              "næring": "88",
+             "prosent": "2.7",
+             "tapteDagsverk": "94426.768373",
+             "muligeDagsverk": "3458496.063556",
+             "antallPersoner": "24427"
+            }]
+            """.trimIndent().encodeToByteArray()
+        )
+    }
+
+    private fun lagTestDataForNæringskode() {
+        val filnavn = Statistikkategori.NÆRINGSKODE.tilFilnavn()
+        gcsContainer.lagreTestBlob(
+            blobNavn = filnavn,
+            bytes = """
+            [{
+              "årstall": 2024,
+              "kvartal": 1,
+              "næringskode": "02300",
+              "prosent": "6.2",
+              "tapteDagsverk": "88944.768373",
+              "muligeDagsverk": "1434584.063556",
+              "antallPersoner": "3124427"
+            },
+            {
+             "årstall": 2024,
+             "kvartal": 1,
+             "næringskode": "88911",
              "prosent": "2.7",
              "tapteDagsverk": "94426.768373",
              "muligeDagsverk": "3458496.063556",

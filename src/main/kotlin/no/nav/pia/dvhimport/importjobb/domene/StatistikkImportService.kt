@@ -21,6 +21,7 @@ class StatistikkImportService(
         import<LandSykefraværsstatistikkDto>(Statistikkategori.LAND, kvartal)
         import<SektorSykefraværsstatistikkDto>(Statistikkategori.SEKTOR, kvartal)
         import<NæringSykefraværsstatistikkDto>(Statistikkategori.NÆRING, kvartal)
+        import<NæringskodeSykefraværsstatistikkDto>(Statistikkategori.NÆRINGSKODE, kvartal)
         import<VirksomhetSykefraværsstatistikkDto>(Statistikkategori.VIRKSOMHET, kvartal)
     }
 
@@ -39,6 +40,9 @@ class StatistikkImportService(
             }
             Statistikkategori.NÆRING -> {
                 import<NæringSykefraværsstatistikkDto>(Statistikkategori.NÆRING, kvartal)
+            }
+            Statistikkategori.NÆRINGSKODE -> {
+                import<NæringskodeSykefraværsstatistikkDto>(Statistikkategori.NÆRINGSKODE, kvartal)
             }
             Statistikkategori.VIRKSOMHET -> {
                 import<VirksomhetSykefraværsstatistikkDto>(Statistikkategori.VIRKSOMHET, kvartal)
