@@ -185,4 +185,3 @@ inline fun <reified R> Iterable<*>.mapAsInstance() = map { it.apply { check(this
 
 fun String.serializeToSykefraværsstatistikkDto(): SykefraværsstatistikkDto =
     Json.decodeFromJsonElement(SykefraværsstatistikkDtoSerializer, Json.parseToJsonElement(this))
-

@@ -106,12 +106,24 @@ class StatistikkImportServiceIntegrasjonTest {
     }
 
     @Test
+    fun `import statistikk VIRKSOMHET_METADATA`() {
+        lagTestDataForVirksomhetMetadata()
+
+        kafkaContainer.sendJobbMelding(Jobb.virksomhetMetadataSykefraværsstatistikkDvhImport)
+
+        dvhImportApplikasjon shouldContainLog "Starter import av virksomhet metadata".toRegex()
+        dvhImportApplikasjon shouldContainLog "Importert metadata for '1' virksomhet-er".toRegex()
+        dvhImportApplikasjon shouldContainLog "Jobb 'virksomhetMetadataSykefraværsstatistikkDvhImport' ferdig".toRegex()
+    }
+
+    @Test
     fun `import statistikk for alle kategorier`() {
         lagTestDataForLand()
         lagTestDataForSektor()
         lagTestDataForNæring()
         lagTestDataForNæringskode()
         lagTestDataForVirksomhet()
+        lagTestDataForVirksomhetMetadata()
 
         kafkaContainer.sendJobbMelding(Jobb.alleKategorierSykefraværsstatistikkDvhImport)
 
@@ -121,6 +133,7 @@ class StatistikkImportServiceIntegrasjonTest {
         dvhImportApplikasjon shouldContainLog "Sykefraværsprosent -snitt- for kategori NÆRING er: '3.7'".toRegex()
         dvhImportApplikasjon shouldContainLog "Sykefraværsprosent -snitt- for kategori NÆRINGSKODE er: '3.7'".toRegex()
         dvhImportApplikasjon shouldContainLog "Sykefraværsprosent -snitt- for kategori VIRKSOMHET er: '26.0'".toRegex()
+        dvhImportApplikasjon shouldContainLog "Importert metadata for '1' virksomhet-er".toRegex()
         dvhImportApplikasjon shouldContainLog "Jobb 'alleKategorierSykefraværsstatistikkDvhImport' ferdig".toRegex()
     }
 
@@ -253,6 +266,26 @@ class StatistikkImportServiceIntegrasjonTest {
 
         val verifiserBlobFinnes = gcsContainer.verifiserBlobFinnes(blobNavn = filnavn)
         verifiserBlobFinnes shouldBe true
+    }
 
+    private fun lagTestDataForVirksomhetMetadata() {
+        val filnavn = Statistikkategori.VIRKSOMHET_METADATA.tilFilnavn()
+        gcsContainer.lagreTestBlob(
+            blobNavn = filnavn,
+            bytes = """
+            [{
+              "årstall": 2024,
+              "kvartal": 3,
+              "orgnr": "987654321",
+              "sektor": "2",
+              "primærnæring": "88",
+              "primærnæringskode": "88.911",
+              "rectype": "1"
+            }]
+            """.trimIndent().encodeToByteArray()
+        )
+
+        val verifiserBlobFinnes = gcsContainer.verifiserBlobFinnes(blobNavn = filnavn)
+        verifiserBlobFinnes shouldBe true
     }
 }

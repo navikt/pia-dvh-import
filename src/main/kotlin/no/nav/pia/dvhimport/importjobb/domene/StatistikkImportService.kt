@@ -23,6 +23,7 @@ class StatistikkImportService(
         import<NæringSykefraværsstatistikkDto>(Statistikkategori.NÆRING, kvartal)
         import<NæringskodeSykefraværsstatistikkDto>(Statistikkategori.NÆRINGSKODE, kvartal)
         import<VirksomhetSykefraværsstatistikkDto>(Statistikkategori.VIRKSOMHET, kvartal)
+        importViksomhetMetadata()
     }
 
     fun importForKategori(kategori: Statistikkategori) {
@@ -47,12 +48,35 @@ class StatistikkImportService(
             Statistikkategori.VIRKSOMHET -> {
                 import<VirksomhetSykefraværsstatistikkDto>(Statistikkategori.VIRKSOMHET, kvartal)
             }
-            else -> {
-                logger.warn("Fant ikke kategori '${kategori}'")
+            Statistikkategori.VIRKSOMHET_METADATA -> {
+                importViksomhetMetadata()
             }
         }
     }
 
+
+    private fun importViksomhetMetadata(){
+        logger.info("Starter import av virksomhet metadata")
+
+        val kvartal = "2024K1" // TODO: hent kvartal som skal importeres
+        val path = if (brukKvartalIPath) kvartal else ""
+        bucketKlient.ensureFileExists(path, Statistikkategori.VIRKSOMHET_METADATA.tilFilnavn())
+
+        try {
+            val statistikk = hentStatistikk(
+                kvartal = kvartal,
+                kategori = Statistikkategori.VIRKSOMHET_METADATA,
+                brukKvartalIPath = brukKvartalIPath
+            )
+            val virksomhetMetadataDtoList: List<VirksomhetMetadataDto> =
+                statistikk.toVirksomhetMetadataDto()
+            // kontroll
+            logger.info("Importert metadata for '${virksomhetMetadataDtoList.size}' virksomhet-er")
+        } catch (e: Exception) {
+            logger.warn("Fikk exception i import prosess med melding '${e.message}'", e)
+        }
+
+    }
 
     private inline fun <reified T: Sykefraværsstatistikk> import(kategori: Statistikkategori, kvartal: String) {
         val path = if (brukKvartalIPath) kvartal else ""

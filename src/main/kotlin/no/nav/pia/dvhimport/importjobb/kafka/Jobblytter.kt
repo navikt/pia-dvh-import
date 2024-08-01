@@ -70,6 +70,9 @@ class Jobblytter(val statistikkImportService: StatistikkImportService) : Corouti
                                     virksomhetSykefraværsstatistikkDvhImport -> {
                                         statistikkImportService.importForKategori(Statistikkategori.VIRKSOMHET)
                                     }
+                                    virksomhetMetadataSykefraværsstatistikkDvhImport -> {
+                                        statistikkImportService.importForKategori(Statistikkategori.VIRKSOMHET_METADATA)
+                                    }
                                     else -> {
                                         logger.info("Jobb '${jobbInfo.jobb}' ignorert")
                                     }
