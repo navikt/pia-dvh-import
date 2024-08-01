@@ -52,6 +52,67 @@ class StatistikkImportServiceIntegrasjonTest {
 
     @Test
     fun `import statistikk LAND`() {
+        lagTestDataForLand()
+
+        kafkaContainer.sendJobbMelding(Jobb.landSykefraværsstatistikkDvhImport)
+
+        dvhImportApplikasjon shouldContainLog "Starter import av sykefraværsstatistikk for kategori 'LAND'".toRegex()
+        dvhImportApplikasjon shouldContainLog "Sykefraværsprosent -snitt- for kategori LAND er: '6.2'".toRegex()
+        dvhImportApplikasjon shouldContainLog "Jobb 'landSykefraværsstatistikkDvhImport' ferdig".toRegex()
+    }
+
+    @Test
+    fun `import statistikk SEKTOR`() {
+        lagTestDataForSektor()
+
+        kafkaContainer.sendJobbMelding(Jobb.sektorSykefraværsstatistikkDvhImport)
+
+        dvhImportApplikasjon shouldContainLog "Starter import av sykefraværsstatistikk for kategori 'SEKTOR'".toRegex()
+        dvhImportApplikasjon shouldContainLog "Sykefraværsprosent -snitt- for kategori SEKTOR er: '3.7'".toRegex()
+        dvhImportApplikasjon shouldContainLog "Jobb 'sektorSykefraværsstatistikkDvhImport' ferdig".toRegex()
+    }
+
+    @Test
+    fun `import statistikk NÆRING`() {
+        lagTestDataForNæring()
+
+        kafkaContainer.sendJobbMelding(Jobb.næringSykefraværsstatistikkDvhImport)
+
+        dvhImportApplikasjon shouldContainLog "Starter import av sykefraværsstatistikk for kategori 'NÆRING'".toRegex()
+        dvhImportApplikasjon shouldContainLog "Sykefraværsprosent -snitt- for kategori NÆRING er: '3.7'".toRegex()
+        dvhImportApplikasjon shouldContainLog "Jobb 'næringSykefraværsstatistikkDvhImport' ferdig".toRegex()
+    }
+
+    @Test
+    fun `import statistikk VIRKSOMHET`() {
+        lagTestDataForVirksomhet()
+
+        kafkaContainer.sendJobbMelding(Jobb.virksomhetSykefraværsstatistikkDvhImport)
+
+        dvhImportApplikasjon shouldContainLog "Starter import av sykefraværsstatistikk for kategori 'VIRKSOMHET'".toRegex()
+        dvhImportApplikasjon shouldContainLog "Sykefraværsprosent -snitt- for kategori VIRKSOMHET er: '26.0'".toRegex()
+        dvhImportApplikasjon shouldContainLog "Jobb 'virksomhetSykefraværsstatistikkDvhImport' ferdig".toRegex()
+    }
+
+    @Test
+    fun `import statistikk for alle kategorier`() {
+        lagTestDataForLand()
+        lagTestDataForSektor()
+        lagTestDataForNæring()
+        lagTestDataForVirksomhet()
+
+        kafkaContainer.sendJobbMelding(Jobb.alleKategorierSykefraværsstatistikkDvhImport)
+
+        dvhImportApplikasjon shouldContainLog "Starter import av sykefraværsstatistikk for alle statistikkkategorier".toRegex()
+        dvhImportApplikasjon shouldContainLog "Sykefraværsprosent -snitt- for kategori LAND er: '6.2'".toRegex()
+        dvhImportApplikasjon shouldContainLog "Sykefraværsprosent -snitt- for kategori SEKTOR er: '3.7'".toRegex()
+        dvhImportApplikasjon shouldContainLog "Sykefraværsprosent -snitt- for kategori NÆRING er: '3.7'".toRegex()
+        dvhImportApplikasjon shouldContainLog "Sykefraværsprosent -snitt- for kategori VIRKSOMHET er: '26.0'".toRegex()
+        dvhImportApplikasjon shouldContainLog "Jobb 'alleKategorierSykefraværsstatistikkDvhImport' ferdig".toRegex()
+    }
+
+
+    private fun lagTestDataForLand() {
         val filnavn = Statistikkategori.LAND.tilFilnavn()
         gcsContainer.lagreTestBlob(
             blobNavn = filnavn,
@@ -70,16 +131,9 @@ class StatistikkImportServiceIntegrasjonTest {
 
         val verifiserBlobFinnes = gcsContainer.verifiserBlobFinnes(blobNavn = filnavn)
         verifiserBlobFinnes shouldBe true
-
-        kafkaContainer.sendJobbMelding(Jobb.landSykefraværsstatistikkDvhImport)
-
-        dvhImportApplikasjon shouldContainLog "Starter import av sykefraværsstatistikk for kategori 'LAND'".toRegex()
-        dvhImportApplikasjon shouldContainLog "Sykefraværsprosent -snitt- for kategori LAND er: '6.2'".toRegex()
-        dvhImportApplikasjon shouldContainLog "Jobb 'landSykefraværsstatistikkDvhImport' ferdig".toRegex()
     }
 
-    @Test
-    fun `import statistikk SEKTOR`() {
+    private fun lagTestDataForSektor() {
         val filnavn = Statistikkategori.SEKTOR.tilFilnavn()
         gcsContainer.lagreTestBlob(
             blobNavn = filnavn,
@@ -107,16 +161,8 @@ class StatistikkImportServiceIntegrasjonTest {
 
         val verifiserBlobFinnes = gcsContainer.verifiserBlobFinnes(blobNavn = filnavn)
         verifiserBlobFinnes shouldBe true
-
-        kafkaContainer.sendJobbMelding(Jobb.sektorSykefraværsstatistikkDvhImport)
-
-        dvhImportApplikasjon shouldContainLog "Starter import av sykefraværsstatistikk for kategori 'SEKTOR'".toRegex()
-        dvhImportApplikasjon shouldContainLog "Sykefraværsprosent -snitt- for kategori SEKTOR er: '3.7'".toRegex()
-        dvhImportApplikasjon shouldContainLog "Jobb 'sektorSykefraværsstatistikkDvhImport' ferdig".toRegex()
     }
-
-    @Test
-    fun `import statistikk NÆRING`() {
+    private fun lagTestDataForNæring() {
         val filnavn = Statistikkategori.NÆRING.tilFilnavn()
         gcsContainer.lagreTestBlob(
             blobNavn = filnavn,
@@ -144,16 +190,9 @@ class StatistikkImportServiceIntegrasjonTest {
 
         val verifiserBlobFinnes = gcsContainer.verifiserBlobFinnes(blobNavn = filnavn)
         verifiserBlobFinnes shouldBe true
-
-        kafkaContainer.sendJobbMelding(Jobb.næringSykefraværsstatistikkDvhImport)
-
-        dvhImportApplikasjon shouldContainLog "Starter import av sykefraværsstatistikk for kategori 'NÆRING'".toRegex()
-        dvhImportApplikasjon shouldContainLog "Sykefraværsprosent -snitt- for kategori NÆRING er: '3.7'".toRegex()
-        dvhImportApplikasjon shouldContainLog "Jobb 'næringSykefraværsstatistikkDvhImport' ferdig".toRegex()
     }
 
-    @Test
-    fun `import statistikk VIRKSOMHET`() {
+    private fun lagTestDataForVirksomhet() {
         val filnavn = Statistikkategori.VIRKSOMHET.tilFilnavn()
         gcsContainer.lagreTestBlob(
             blobNavn = filnavn,
@@ -174,10 +213,5 @@ class StatistikkImportServiceIntegrasjonTest {
         val verifiserBlobFinnes = gcsContainer.verifiserBlobFinnes(blobNavn = filnavn)
         verifiserBlobFinnes shouldBe true
 
-        kafkaContainer.sendJobbMelding(Jobb.virksomhetSykefraværsstatistikkDvhImport)
-
-        dvhImportApplikasjon shouldContainLog "Starter import av sykefraværsstatistikk for kategori 'VIRKSOMHET'".toRegex()
-        dvhImportApplikasjon shouldContainLog "Sykefraværsprosent -snitt- for kategori VIRKSOMHET er: '26.0'".toRegex()
-        dvhImportApplikasjon shouldContainLog "Jobb 'virksomhetSykefraværsstatistikkDvhImport' ferdig".toRegex()
     }
 }
