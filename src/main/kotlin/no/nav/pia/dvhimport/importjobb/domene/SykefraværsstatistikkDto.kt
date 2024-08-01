@@ -178,7 +178,7 @@ fun String.tilGeneriskStatistikk(): List<String> =
     }.toList()
 
 
-inline fun <reified T> List<String>.toSykefraværsstatistikkDto(): List<T> =
+inline fun <reified T: Sykefraværsstatistikk> List<String>.toSykefraværsstatistikkDto(): List<T> =
     this.map { it.serializeToSykefraværsstatistikkDto() }.mapAsInstance<T>()
 
 inline fun <reified R> Iterable<*>.mapAsInstance() = map { it.apply { check(this is R) } as R }

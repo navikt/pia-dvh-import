@@ -15,12 +15,30 @@ class StatistikkImportService(
 
     fun importAlleKategorier() {
         logger.info("Starter import av sykefraværsstatistikk for alle statistikkkategorier")
-        bucketKlient.ensureBucketExists() // nødvendig ???
-
         val kvartal = "2024K1" // TODO: hent kvartal som skal importeres
+        bucketKlient.ensureBucketExists()
 
         import<LandSykefraværsstatistikkDto>(Statistikkategori.LAND, kvartal)
         import<VirksomhetSykefraværsstatistikkDto>(Statistikkategori.VIRKSOMHET, kvartal)
+    }
+
+    fun importForKategori(kategori: Statistikkategori) {
+        logger.info("Starter import av sykefraværsstatistikk for kategori '${kategori}'")
+        bucketKlient.ensureBucketExists()
+
+        val kvartal = "2024K1" // TODO: hent kvartal som skal importeres
+
+        when (kategori) {
+            Statistikkategori.LAND -> {
+                import<LandSykefraværsstatistikkDto>(Statistikkategori.LAND, kvartal)
+            }
+            Statistikkategori.VIRKSOMHET -> {
+                import<VirksomhetSykefraværsstatistikkDto>(Statistikkategori.VIRKSOMHET, kvartal)
+            }
+            else -> {
+                logger.warn("Fant ikke kategori '${kategori}'")
+            }
+        }
     }
 
 

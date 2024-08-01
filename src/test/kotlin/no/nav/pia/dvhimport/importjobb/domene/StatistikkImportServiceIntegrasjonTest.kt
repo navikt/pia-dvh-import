@@ -1,6 +1,6 @@
 package no.nav.pia.dvhimport.importjobb.domene
 
-import ia.felles.integrasjoner.jobbsender.Jobb.importSykefraværKvartalsstatistikk
+import ia.felles.integrasjoner.jobbsender.Jobb
 import io.kotest.matchers.shouldBe
 import no.nav.pia.dvhimport.helper.TestContainerHelper
 import no.nav.pia.dvhimport.helper.TestContainerHelper.Companion.dvhImportApplikasjon
@@ -16,6 +16,10 @@ class StatistikkImportServiceIntegrasjonTest {
     @BeforeTest
     fun setup() {
         gcsContainer.opprettTestBucketHvisIkkeFunnet()
+        /*
+         GCS Rest API er tilgjengelig fra eksponert port (dynamic port) på localhost (kjør test i debug)
+         f.eks: http://localhost:{dynamic_port}/storage/v1/b/fake-gcs-bucket-in-container/o/land.json
+        */
     }
 
     @Test
@@ -38,26 +42,15 @@ class StatistikkImportServiceIntegrasjonTest {
         val verifiserBlobFinnes = gcsContainer.verifiserBlobFinnes(blobNavn = "land.json")
         verifiserBlobFinnes shouldBe true
 
-        kafkaContainer.sendJobbMelding(importSykefraværKvartalsstatistikk)
+        kafkaContainer.sendJobbMelding(Jobb.alleKategorierSykefraværsstatistikkDvhImport)
 
         dvhImportApplikasjon shouldContainLog "Starter import av sykefraværsstatistikk for alle statistikkkategorier".toRegex()
         dvhImportApplikasjon shouldContainLog "Fikk exception i import prosess med melding 'Encountered an unknown key 'testField'".toRegex()
-        dvhImportApplikasjon shouldContainLog "Jobb 'importSykefraværKvartalsstatistikk' ferdig".toRegex()
+        dvhImportApplikasjon shouldContainLog "Jobb 'alleKategorierSykefraværsstatistikkDvhImport' ferdig".toRegex()
     }
 
     @Test
     fun `import statistikk LAND`() {
-        /*
-                      "land": "NO",
-              "årstall": 2024,
-              "kvartal": 1,
-              "prosent": 6.2,
-              "tapteDagsverk": 8894426.768373,
-              "muligeDagsverk": 143458496.063556,
-              "antallPersoner": 3124427
-
-         */
-
         gcsContainer.lagreTestBlob(
             blobNavn = "land.json",
             bytes = """
@@ -76,11 +69,11 @@ class StatistikkImportServiceIntegrasjonTest {
         val verifiserBlobFinnes = gcsContainer.verifiserBlobFinnes(blobNavn = "land.json")
         verifiserBlobFinnes shouldBe true
 
-        kafkaContainer.sendJobbMelding(importSykefraværKvartalsstatistikk)
+        kafkaContainer.sendJobbMelding(Jobb.alleKategorierSykefraværsstatistikkDvhImport)
 
         dvhImportApplikasjon shouldContainLog "Starter import av sykefraværsstatistikk for alle statistikkkategorier".toRegex()
         dvhImportApplikasjon shouldContainLog "Sykefraværsprosent -snitt- for kategori LAND er: '6.2'".toRegex()
-        dvhImportApplikasjon shouldContainLog "Jobb 'importSykefraværKvartalsstatistikk' ferdig".toRegex()
+        dvhImportApplikasjon shouldContainLog "Jobb 'alleKategorierSykefraværsstatistikkDvhImport' ferdig".toRegex()
     }
 
     @Test
@@ -119,10 +112,10 @@ class StatistikkImportServiceIntegrasjonTest {
         val verifiserBlobFinnes = gcsContainer.verifiserBlobFinnes(blobNavn = "virksomhet.json")
         verifiserBlobFinnes shouldBe true
 
-        kafkaContainer.sendJobbMelding(importSykefraværKvartalsstatistikk)
+        kafkaContainer.sendJobbMelding(Jobb.virksomhetSykefraværsstatistikkDvhImport)
 
-        dvhImportApplikasjon shouldContainLog "Starter import av sykefraværsstatistikk for alle statistikkkategorier".toRegex()
+        dvhImportApplikasjon shouldContainLog "Starter import av sykefraværsstatistikk for kategori 'VIRKSOMHET'".toRegex()
         dvhImportApplikasjon shouldContainLog "Sykefraværsprosent -snitt- for kategori VIRKSOMHET er: '26.0'".toRegex()
-        dvhImportApplikasjon shouldContainLog "Jobb 'importSykefraværKvartalsstatistikk' ferdig".toRegex()
+        dvhImportApplikasjon shouldContainLog "Jobb 'virksomhetSykefraværsstatistikkDvhImport' ferdig".toRegex()
     }
 }

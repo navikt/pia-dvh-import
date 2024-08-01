@@ -8,6 +8,7 @@ import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
 import no.nav.fia.arbeidsgiver.konfigurasjon.KafkaTopics
 import no.nav.pia.dvhimport.importjobb.domene.StatistikkImportService
+import no.nav.pia.dvhimport.importjobb.domene.Statistikkategori
 import no.nav.pia.dvhimport.konfigurasjon.KafkaConfig
 import org.apache.kafka.clients.consumer.KafkaConsumer
 import org.apache.kafka.common.errors.RetriableException
@@ -51,8 +52,14 @@ class Jobblytter(val statistikkImportService: StatistikkImportService) : Corouti
                             else {
                                 logger.info("Starter jobb ${jobbInfo.jobb}")
                                 when (jobbInfo.jobb) {
-                                    importSykefraværKvartalsstatistikk -> {
+                                    alleKategorierSykefraværsstatistikkDvhImport -> {
                                         statistikkImportService.importAlleKategorier()
+                                    }
+                                    landSykefraværsstatistikkDvhImport -> {
+                                        statistikkImportService.importForKategori(Statistikkategori.LAND)
+                                    }
+                                    virksomhetSykefraværsstatistikkDvhImport -> {
+                                        statistikkImportService.importForKategori(Statistikkategori.VIRKSOMHET)
                                     }
                                     else -> {
                                         logger.info("Jobb '${jobbInfo.jobb}' ignorert")
