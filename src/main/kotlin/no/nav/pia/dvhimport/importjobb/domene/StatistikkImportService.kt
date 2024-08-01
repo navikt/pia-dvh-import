@@ -19,6 +19,8 @@ class StatistikkImportService(
         bucketKlient.ensureBucketExists()
 
         import<LandSykefraværsstatistikkDto>(Statistikkategori.LAND, kvartal)
+        import<SektorSykefraværsstatistikkDto>(Statistikkategori.SEKTOR, kvartal)
+        import<NæringSykefraværsstatistikkDto>(Statistikkategori.NÆRING, kvartal)
         import<VirksomhetSykefraværsstatistikkDto>(Statistikkategori.VIRKSOMHET, kvartal)
     }
 
@@ -34,6 +36,9 @@ class StatistikkImportService(
             }
             Statistikkategori.SEKTOR -> {
                 import<SektorSykefraværsstatistikkDto>(Statistikkategori.SEKTOR, kvartal)
+            }
+            Statistikkategori.NÆRING -> {
+                import<NæringSykefraværsstatistikkDto>(Statistikkategori.NÆRING, kvartal)
             }
             Statistikkategori.VIRKSOMHET -> {
                 import<VirksomhetSykefraværsstatistikkDto>(Statistikkategori.VIRKSOMHET, kvartal)
@@ -95,7 +100,7 @@ class StatistikkImportService(
             return sykefraværsprosentLand.setScale(1, RoundingMode.HALF_UP)
         }
 
-        private fun Statistikkategori.tilFilnavn(): String =
+        fun Statistikkategori.tilFilnavn(): String =
             when (this) {
                 Statistikkategori.LAND -> "land.json"
                 Statistikkategori.SEKTOR -> "sektor.json"

@@ -5,6 +5,7 @@ import io.kotest.matchers.shouldBe
 import no.nav.pia.dvhimport.helper.TestContainerHelper
 import no.nav.pia.dvhimport.helper.TestContainerHelper.Companion.dvhImportApplikasjon
 import no.nav.pia.dvhimport.helper.TestContainerHelper.Companion.shouldContainLog
+import no.nav.pia.dvhimport.importjobb.domene.StatistikkImportService.Companion.tilFilnavn
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 
@@ -51,8 +52,9 @@ class StatistikkImportServiceIntegrasjonTest {
 
     @Test
     fun `import statistikk LAND`() {
+        val filnavn = Statistikkategori.LAND.tilFilnavn()
         gcsContainer.lagreTestBlob(
-            blobNavn = "land.json",
+            blobNavn = filnavn,
             bytes = """
             [{
               "årstall": 2024,
@@ -66,7 +68,7 @@ class StatistikkImportServiceIntegrasjonTest {
             """.trimIndent().encodeToByteArray()
         )
 
-        val verifiserBlobFinnes = gcsContainer.verifiserBlobFinnes(blobNavn = "land.json")
+        val verifiserBlobFinnes = gcsContainer.verifiserBlobFinnes(blobNavn = filnavn)
         verifiserBlobFinnes shouldBe true
 
         kafkaContainer.sendJobbMelding(Jobb.landSykefraværsstatistikkDvhImport)
@@ -78,8 +80,9 @@ class StatistikkImportServiceIntegrasjonTest {
 
     @Test
     fun `import statistikk SEKTOR`() {
+        val filnavn = Statistikkategori.SEKTOR.tilFilnavn()
         gcsContainer.lagreTestBlob(
-            blobNavn = "sektor.json",
+            blobNavn = filnavn,
             bytes = """
             [{
               "årstall": 2024,
@@ -102,7 +105,7 @@ class StatistikkImportServiceIntegrasjonTest {
             """.trimIndent().encodeToByteArray()
         )
 
-        val verifiserBlobFinnes = gcsContainer.verifiserBlobFinnes(blobNavn = "sektor.json")
+        val verifiserBlobFinnes = gcsContainer.verifiserBlobFinnes(blobNavn = filnavn)
         verifiserBlobFinnes shouldBe true
 
         kafkaContainer.sendJobbMelding(Jobb.sektorSykefraværsstatistikkDvhImport)
@@ -113,24 +116,47 @@ class StatistikkImportServiceIntegrasjonTest {
     }
 
     @Test
-    fun `import statistikk VIRKSOMHET`() {
-
+    fun `import statistikk NÆRING`() {
+        val filnavn = Statistikkategori.NÆRING.tilFilnavn()
         gcsContainer.lagreTestBlob(
-            blobNavn = "land.json",
+            blobNavn = filnavn,
             bytes = """
             [{
               "årstall": 2024,
-              "kvartal": 3,
-              "land": "NO",
-              "prosent": "5.0",
-              "tapteDagsverk": "20.00",
-              "muligeDagsverk": "100.00",
-              "antallPersoner": "10"
+              "kvartal": 1,
+              "næring": "02",
+              "prosent": "6.2",
+              "tapteDagsverk": "88944.768373",
+              "muligeDagsverk": "1434584.063556",
+              "antallPersoner": "3124427"
+            },
+            {
+             "årstall": 2024,
+             "kvartal": 1,
+             "næring": "88",
+             "prosent": "2.7",
+             "tapteDagsverk": "94426.768373",
+             "muligeDagsverk": "3458496.063556",
+             "antallPersoner": "24427"
             }]
             """.trimIndent().encodeToByteArray()
         )
+
+        val verifiserBlobFinnes = gcsContainer.verifiserBlobFinnes(blobNavn = filnavn)
+        verifiserBlobFinnes shouldBe true
+
+        kafkaContainer.sendJobbMelding(Jobb.næringSykefraværsstatistikkDvhImport)
+
+        dvhImportApplikasjon shouldContainLog "Starter import av sykefraværsstatistikk for kategori 'NÆRING'".toRegex()
+        dvhImportApplikasjon shouldContainLog "Sykefraværsprosent -snitt- for kategori NÆRING er: '3.7'".toRegex()
+        dvhImportApplikasjon shouldContainLog "Jobb 'næringSykefraværsstatistikkDvhImport' ferdig".toRegex()
+    }
+
+    @Test
+    fun `import statistikk VIRKSOMHET`() {
+        val filnavn = Statistikkategori.VIRKSOMHET.tilFilnavn()
         gcsContainer.lagreTestBlob(
-            blobNavn = "virksomhet.json",
+            blobNavn = filnavn,
             bytes = """
             [{
               "årstall": 2024,
@@ -145,7 +171,7 @@ class StatistikkImportServiceIntegrasjonTest {
             """.trimIndent().encodeToByteArray()
         )
 
-        val verifiserBlobFinnes = gcsContainer.verifiserBlobFinnes(blobNavn = "virksomhet.json")
+        val verifiserBlobFinnes = gcsContainer.verifiserBlobFinnes(blobNavn = filnavn)
         verifiserBlobFinnes shouldBe true
 
         kafkaContainer.sendJobbMelding(Jobb.virksomhetSykefraværsstatistikkDvhImport)

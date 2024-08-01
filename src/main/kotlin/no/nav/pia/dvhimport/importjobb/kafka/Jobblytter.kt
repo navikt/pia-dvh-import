@@ -61,6 +61,9 @@ class Jobblytter(val statistikkImportService: StatistikkImportService) : Corouti
                                     sektorSykefraværsstatistikkDvhImport -> {
                                         statistikkImportService.importForKategori(Statistikkategori.SEKTOR)
                                     }
+                                    næringSykefraværsstatistikkDvhImport -> {
+                                        statistikkImportService.importForKategori(Statistikkategori.NÆRING)
+                                    }
                                     virksomhetSykefraværsstatistikkDvhImport -> {
                                         statistikkImportService.importForKategori(Statistikkategori.VIRKSOMHET)
                                     }
