@@ -32,6 +32,9 @@ class StatistikkImportService(
             Statistikkategori.LAND -> {
                 import<LandSykefraværsstatistikkDto>(Statistikkategori.LAND, kvartal)
             }
+            Statistikkategori.SEKTOR -> {
+                import<SektorSykefraværsstatistikkDto>(Statistikkategori.SEKTOR, kvartal)
+            }
             Statistikkategori.VIRKSOMHET -> {
                 import<VirksomhetSykefraværsstatistikkDto>(Statistikkategori.VIRKSOMHET, kvartal)
             }

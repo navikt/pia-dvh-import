@@ -69,11 +69,47 @@ class StatistikkImportServiceIntegrasjonTest {
         val verifiserBlobFinnes = gcsContainer.verifiserBlobFinnes(blobNavn = "land.json")
         verifiserBlobFinnes shouldBe true
 
-        kafkaContainer.sendJobbMelding(Jobb.alleKategorierSykefraværsstatistikkDvhImport)
+        kafkaContainer.sendJobbMelding(Jobb.landSykefraværsstatistikkDvhImport)
 
-        dvhImportApplikasjon shouldContainLog "Starter import av sykefraværsstatistikk for alle statistikkkategorier".toRegex()
+        dvhImportApplikasjon shouldContainLog "Starter import av sykefraværsstatistikk for kategori 'LAND'".toRegex()
         dvhImportApplikasjon shouldContainLog "Sykefraværsprosent -snitt- for kategori LAND er: '6.2'".toRegex()
-        dvhImportApplikasjon shouldContainLog "Jobb 'alleKategorierSykefraværsstatistikkDvhImport' ferdig".toRegex()
+        dvhImportApplikasjon shouldContainLog "Jobb 'landSykefraværsstatistikkDvhImport' ferdig".toRegex()
+    }
+
+    @Test
+    fun `import statistikk SEKTOR`() {
+        gcsContainer.lagreTestBlob(
+            blobNavn = "sektor.json",
+            bytes = """
+            [{
+              "årstall": 2024,
+              "kvartal": 1,
+              "sektor": "2",
+              "prosent": "6.2",
+              "tapteDagsverk": "88944.768373",
+              "muligeDagsverk": "1434584.063556",
+              "antallPersoner": "3124427"
+            },
+            {
+             "årstall": 2024,
+             "kvartal": 1,
+             "sektor": "3",
+             "prosent": "2.7",
+             "tapteDagsverk": "94426.768373",
+             "muligeDagsverk": "3458496.063556",
+             "antallPersoner": "24427"
+            }]
+            """.trimIndent().encodeToByteArray()
+        )
+
+        val verifiserBlobFinnes = gcsContainer.verifiserBlobFinnes(blobNavn = "sektor.json")
+        verifiserBlobFinnes shouldBe true
+
+        kafkaContainer.sendJobbMelding(Jobb.sektorSykefraværsstatistikkDvhImport)
+
+        dvhImportApplikasjon shouldContainLog "Starter import av sykefraværsstatistikk for kategori 'SEKTOR'".toRegex()
+        dvhImportApplikasjon shouldContainLog "Sykefraværsprosent -snitt- for kategori SEKTOR er: '3.7'".toRegex()
+        dvhImportApplikasjon shouldContainLog "Jobb 'sektorSykefraværsstatistikkDvhImport' ferdig".toRegex()
     }
 
     @Test
