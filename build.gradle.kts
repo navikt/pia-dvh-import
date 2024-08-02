@@ -52,7 +52,7 @@ dependencies {
     testImplementation("io.aiven:testcontainers-fake-gcs-server:0.2.0")
     testImplementation("org.wiremock:wiremock-standalone:3.4.2")
     // Mock-oauth2-server
-    testImplementation("no.nav.security:mock-oauth2-server:2.1.2")
+    testImplementation("no.nav.security:mock-oauth2-server:2.1.8")
     // In-memory google cloud storage bucket
     testImplementation("com.google.cloud:google-cloud-nio:$gcsNioVersion")
 
