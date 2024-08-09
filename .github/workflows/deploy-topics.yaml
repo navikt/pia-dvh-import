@@ -15,18 +15,14 @@ jobs:
     strategy:
       matrix:
         cluster: [dev]
-    name: Deploy app to ${{ matrix.cluster }}
+    name: Deploy topics to ${{ matrix.cluster }}
     if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Deploy topics to ${{ matrix.cluster }}
+      - name: Deploy kafka topics to ${{ matrix.cluster }}
         uses: nais/deploy/actions/deploy@v2
         env:
           CLUSTER: ${{ matrix.cluster }}-gcp
-          RESOURCE: "\
-            .nais/topics/kvartalsvis-sykefravarsstatistikk-ovrige-kategorier-topic.yaml"
-          #  .nais/topics/kvartalsvis-sykefravarsstatistikk-virksomhet-topic.yaml
-          #  .nais/topics/kvartalsvis-sykefravarsstatistikk-virksomhet-metadata-topic.yaml
-          #  .nais/topics/kvartalsvis-sykefravarsstatistikk-publiseringsdato-topic.yaml
+          RESOURCE: .nais/topics/kvartalsvis-sykefravarsstatistikk-ovrige-kategorier-topic.yaml
           VARS: .nais/${{ matrix.cluster }}.yaml
