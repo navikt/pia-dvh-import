@@ -70,8 +70,7 @@ class StatistikkImportServiceIntegrasjonTest {
 
     @Test
     fun `import statistikk LAND og send statistikk til Kafka`() {
-        lagTestDataForLand()
-        val nøkkel = """{"kvartal":"2024K1","meldingType":"SYKEFRAVÆRSSTATISTIKK-LAND"}"""
+        lagTestDataForLand().lagreITestBucket(kategori = Statistikkategori.LAND, nøkkel = "land", verdi = "NO")
 
         kafkaContainer.sendJobbMelding(Jobb.landSykefraværsstatistikkDvhImport)
 
@@ -81,7 +80,7 @@ class StatistikkImportServiceIntegrasjonTest {
 
         runBlocking {
             kafkaContainer.ventOgKonsumerKafkaMeldinger(
-                key = nøkkel,
+                key = """{"kvartal":"2024K1","meldingType":"SYKEFRAVÆRSSTATISTIKK-LAND"}""",
                 konsument = eksportertStatistikkKonsument
             ) { meldinger ->
                 val deserialiserteSvar = meldinger.map {
@@ -92,6 +91,11 @@ class StatistikkImportServiceIntegrasjonTest {
                     landStatistikk.land shouldBe "NO"
                     landStatistikk.årstall shouldBe 2024
                     landStatistikk.kvartal shouldBe 1
+                    landStatistikk.prosent shouldBe 6.2
+                    landStatistikk.tapteDagsverk shouldBe 88944.768373
+                    landStatistikk.muligeDagsverk shouldBe 1434584.063556
+                    landStatistikk.antallPersoner shouldBe 3124427
+
                 }
             }
         }
@@ -106,6 +110,37 @@ class StatistikkImportServiceIntegrasjonTest {
         dvhImportApplikasjon shouldContainLog "Starter import av sykefraværsstatistikk for kategori 'SEKTOR'".toRegex()
         dvhImportApplikasjon shouldContainLog "Sykefraværsprosent -snitt- for kategori SEKTOR er: '3.7'".toRegex()
         dvhImportApplikasjon shouldContainLog "Jobb 'sektorSykefraværsstatistikkDvhImport' ferdig".toRegex()
+
+        val nøkkel = """{"kvartal":"2024K1","meldingType":"SYKEFRAVÆRSSTATISTIKK-SEKTOR"}"""
+        runBlocking {
+            kafkaContainer.ventOgKonsumerKafkaMeldinger(
+                key = nøkkel,
+                konsument = eksportertStatistikkKonsument
+            ) { meldinger ->
+                val deserialiserteSvar = meldinger.map {
+                    Json.decodeFromString<SektorSykefraværsstatistikkDto>(it)
+                }
+                deserialiserteSvar shouldHaveAtLeastSize 2
+                deserialiserteSvar.filter { it.sektor == "3" }.forAtLeastOne { sektorStatistikk ->
+                    sektorStatistikk.sektor shouldBe "3"
+                    sektorStatistikk.årstall shouldBe 2024
+                    sektorStatistikk.kvartal shouldBe 1
+                    sektorStatistikk.prosent shouldBe 2.7.toBigDecimal()
+                    sektorStatistikk.tapteDagsverk shouldBe 94426.768373.toBigDecimal()
+                    sektorStatistikk.muligeDagsverk shouldBe 3458496.063556.toBigDecimal()
+                    sektorStatistikk.antallPersoner shouldBe 24427.toBigDecimal()
+                }
+                deserialiserteSvar.filter { it.sektor == "2" }.forAtLeastOne { sektorStatistikk ->
+                    sektorStatistikk.sektor shouldBe "2"
+                    sektorStatistikk.årstall shouldBe 2024
+                    sektorStatistikk.kvartal shouldBe 1
+                    sektorStatistikk.prosent shouldBe 6.2.toBigDecimal()
+                    sektorStatistikk.tapteDagsverk shouldBe 88944.768373.toBigDecimal()
+                    sektorStatistikk.muligeDagsverk shouldBe 1434584.063556.toBigDecimal()
+                    sektorStatistikk.antallPersoner shouldBe 3124427.toBigDecimal()
+                }
+            }
+        }
     }
 
     @Test
@@ -173,7 +208,6 @@ class StatistikkImportServiceIntegrasjonTest {
         dvhImportApplikasjon shouldContainLog "Jobb 'alleKategorierSykefraværsstatistikkDvhImport' ferdig".toRegex()
     }
 
-
     private fun lagTestDataForLand(
         land: String = "NO",
         årstall: Int = 2024,
@@ -183,24 +217,6 @@ class StatistikkImportServiceIntegrasjonTest {
         muligeDagsverk: BigDecimal = BigDecimal(143458496.063556),
         antallPersoner: BigDecimal = BigDecimal(3124427),
     ): LandSykefraværsstatistikkDto {
-        val filnavn = Statistikkategori.LAND.tilFilnavn()
-        gcsContainer.lagreTestBlob(
-            blobNavn = filnavn,
-            bytes = """
-            [{
-              "årstall": 2024,
-              "kvartal": 1,
-              "land": "NO",
-              "prosent": "6.2",
-              "tapteDagsverk": "8894426.768373",
-              "muligeDagsverk": "143458496.063556",
-              "antallPersoner": "3124427"
-            }]
-            """.trimIndent().encodeToByteArray()
-        )
-
-        val verifiserBlobFinnes = gcsContainer.verifiserBlobFinnes(blobNavn = filnavn)
-        verifiserBlobFinnes shouldBe true
         return LandSykefraværsstatistikkDto(
             land = land,
             årstall = årstall,
@@ -211,6 +227,32 @@ class StatistikkImportServiceIntegrasjonTest {
             antallPersoner = antallPersoner,
         )
     }
+
+    private fun SykefraværsstatistikkDto.lagreITestBucket(
+        kategori: Statistikkategori,
+        nøkkel: String,
+        verdi: String,
+    ) {
+        val filnavn = kategori.tilFilnavn()
+        gcsContainer.lagreTestBlob(
+            blobNavn = filnavn,
+            bytes = """
+            [{
+              "årstall": ${this.årstall},
+              "kvartal": ${this.kvartal},
+              "$nøkkel": "$verdi",
+              "prosent": "${this.prosent}",
+              "tapteDagsverk": "${this.tapteDagsverk}",
+              "muligeDagsverk": "${this.muligeDagsverk}",
+              "antallPersoner": "${this.antallPersoner}"
+            }]
+            """.trimIndent().encodeToByteArray()
+        )
+
+        val verifiserBlobFinnes = gcsContainer.verifiserBlobFinnes(blobNavn = filnavn)
+        verifiserBlobFinnes shouldBe true
+    }
+
 
     private fun lagTestDataForSektor() {
         val filnavn = Statistikkategori.SEKTOR.tilFilnavn()

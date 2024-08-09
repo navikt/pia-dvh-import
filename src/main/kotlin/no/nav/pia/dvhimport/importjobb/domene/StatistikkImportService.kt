@@ -44,7 +44,8 @@ class StatistikkImportService(
                 sendTilKafka(kvartal = kvartal, statistikkategori = Statistikkategori.LAND, statistikk = statistikk)
             }
             Statistikkategori.SEKTOR -> {
-                import<SektorSykefraværsstatistikkDto>(Statistikkategori.SEKTOR, kvartal)
+                val statistikk = import<SektorSykefraværsstatistikkDto>(Statistikkategori.SEKTOR, kvartal)
+                sendTilKafka(kvartal = kvartal, statistikkategori = Statistikkategori.SEKTOR, statistikk = statistikk)
             }
             Statistikkategori.NÆRING -> {
                 import<NæringSykefraværsstatistikkDto>(Statistikkategori.NÆRING, kvartal)
