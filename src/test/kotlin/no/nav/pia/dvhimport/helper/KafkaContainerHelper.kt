@@ -2,18 +2,24 @@ package no.nav.pia.dvhimport.helper
 
 import ia.felles.integrasjoner.jobbsender.Jobb
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.isActive
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.time.withTimeout
 import kotlinx.coroutines.time.withTimeoutOrNull
-import no.nav.fia.arbeidsgiver.konfigurasjon.KafkaTopics
+import no.nav.pia.dvhimport.konfigurasjon.KafkaConfig
+import no.nav.pia.dvhimport.konfigurasjon.KafkaTopics
 import org.apache.kafka.clients.CommonClientConfigs
 import org.apache.kafka.clients.admin.AdminClient
 import org.apache.kafka.clients.admin.AdminClientConfig.BOOTSTRAP_SERVERS_CONFIG
 import org.apache.kafka.clients.admin.NewTopic
+import org.apache.kafka.clients.consumer.KafkaConsumer
 import org.apache.kafka.clients.producer.KafkaProducer
 import org.apache.kafka.clients.producer.ProducerConfig
 import org.apache.kafka.clients.producer.ProducerRecord
 import org.apache.kafka.clients.producer.RecordMetadata
 import org.apache.kafka.common.config.SaslConfigs
+import org.apache.kafka.common.serialization.StringDeserializer
 import org.apache.kafka.common.serialization.StringSerializer
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -34,7 +40,7 @@ class KafkaContainerHelper(
     private var adminClient: AdminClient
     private var kafkaProducer: KafkaProducer<String, String>
 
-    val container = KafkaContainer(
+    val kafkaContainer = KafkaContainer(
         DockerImageName.parse("confluentinc/cp-kafka:7.4.3")
     )
         .withKraft()
@@ -58,6 +64,46 @@ class KafkaContainerHelper(
             kafkaProducer = producer()
         }
 
+    fun nyKonsument(topic: KafkaTopics) =
+        KafkaConfig(
+            brokers = kafkaContainer.bootstrapServers,
+            truststoreLocation = "",
+            keystoreLocation = "",
+            credstorePassword = "",
+        )
+            .consumerProperties(konsumentGruppe = topic.konsumentGruppe)
+            .let { config ->
+                KafkaConsumer(config, StringDeserializer(), StringDeserializer())
+            }
+
+    suspend fun ventOgKonsumerKafkaMeldinger(
+        key: String,
+        konsument: KafkaConsumer<String, String>,
+        block: (meldinger: List<String>) -> Unit,
+    ) {
+        withTimeout(Duration.ofSeconds(5)) {
+            launch {
+                while (this.isActive) {
+                    val records = konsument.poll(Duration.ofMillis(50))
+
+                    println("[DEBUG] -------> got records: $records ")
+                    records.forEach {
+                        println("[DEBUG] -------> record is: $it ")
+                        println("[DEBUG] -------> record key is: ${it.key()} ")
+                    }
+
+                    val meldinger = records
+                        .filter { it.key() == key }
+                        .map { it.value() }
+                    if (meldinger.isNotEmpty()) {
+                        block(meldinger)
+                        break
+                    }
+                }
+            }
+        }
+    }
+
     fun envVars() = mapOf(
         "KAFKA_BROKERS" to "BROKER://$kafkaNetworkAlias:9092,PLAINTEXT://$kafkaNetworkAlias:9092",
         "KAFKA_TRUSTSTORE_PATH" to "",
@@ -68,7 +114,8 @@ class KafkaContainerHelper(
     private fun createTopics() {
         adminClient.createTopics(
             listOf(
-                NewTopic(KafkaTopics.DVH_IMPORT_JOBBLYTTER.navn, 1, 1.toShort()),
+                NewTopic(KafkaTopics.PIA_JOBBLYTTER.navn, 1, 1.toShort()),
+                NewTopic(KafkaTopics.KVARTALSVIS_SYKEFRAVARSSTATISTIKK_ØVRIGE_KATEGORIER.navn, 1, 1.toShort()),
             )
         )
     }
@@ -108,7 +155,7 @@ class KafkaContainerHelper(
                 "tidspunkt": "2023-01-01T00:00:00.000Z",
                 "applikasjon": "pia-dvh-import"
             }""".trimIndent(),
-            topic = KafkaTopics.DVH_IMPORT_JOBBLYTTER,
+            topic = KafkaTopics.PIA_JOBBLYTTER,
         )
     }
 

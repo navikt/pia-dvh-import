@@ -6,10 +6,10 @@ import ia.felles.integrasjoner.jobbsender.JobbInfo
 import kotlinx.coroutines.*
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
-import no.nav.fia.arbeidsgiver.konfigurasjon.KafkaTopics
 import no.nav.pia.dvhimport.importjobb.domene.StatistikkImportService
 import no.nav.pia.dvhimport.importjobb.domene.Statistikkategori
 import no.nav.pia.dvhimport.konfigurasjon.KafkaConfig
+import no.nav.pia.dvhimport.konfigurasjon.KafkaTopics
 import org.apache.kafka.clients.consumer.KafkaConsumer
 import org.apache.kafka.common.errors.RetriableException
 import org.apache.kafka.common.errors.WakeupException
@@ -22,7 +22,7 @@ import kotlin.coroutines.CoroutineContext
 class Jobblytter(val statistikkImportService: StatistikkImportService) : CoroutineScope {
     private val logger: Logger = LoggerFactory.getLogger(this::class.java)
     private val job: Job = Job()
-    private val topic = KafkaTopics.DVH_IMPORT_JOBBLYTTER
+    private val topic = KafkaTopics.PIA_JOBBLYTTER
     private val kafkaConsumer = KafkaConsumer(
         KafkaConfig().consumerProperties(konsumentGruppe = topic.konsumentGruppe),
         StringDeserializer(),

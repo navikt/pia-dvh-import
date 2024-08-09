@@ -1,5 +1,6 @@
 package no.nav.pia.dvhimport.konfigurasjon
 
+import no.nav.pia.dvhimport.NaisEnvironment.Companion.getEnvVar
 import org.apache.kafka.clients.CommonClientConfigs
 import org.apache.kafka.clients.consumer.ConsumerConfig
 import org.apache.kafka.clients.producer.ProducerConfig
@@ -16,8 +17,6 @@ class KafkaConfig(
     ) {
     companion object {
         const val clientId: String = "pia-dvh-import"
-        private fun getEnvVar(varName: String, defaultValue: String? = null) =
-            System.getenv(varName) ?: defaultValue ?: throw RuntimeException("Missing required variable $varName")
     }
 
     private fun securityConfigs() =

@@ -1,1 +1,2 @@
 kafkaPool: nav-dev
+retentionHours: 8

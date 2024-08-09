@@ -1,0 +1,32 @@
+name: Deploy pia-dvh-import topics
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - .nais/topics/** # Deploy topics ved endringer i topics-mappen
+      - .github/workflows/deploy-topics.yaml # Deploy topics ved endringer i denne filen
+
+permissions:
+  id-token: write
+
+jobs:
+  deploy:
+    strategy:
+      matrix:
+        cluster: [dev]
+    name: Deploy app to ${{ matrix.cluster }}
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Deploy topics to ${{ matrix.cluster }}
+        uses: nais/deploy/actions/deploy@v2
+        env:
+          CLUSTER: ${{ matrix.cluster }}-gcp
+          RESOURCE: "\
+            .nais/topics/kvartalsvis-sykefravarsstatistikk-ovrige-kategorier-topic.yaml"
+          #  .nais/topics/kvartalsvis-sykefravarsstatistikk-virksomhet-topic.yaml
+          #  .nais/topics/kvartalsvis-sykefravarsstatistikk-virksomhet-metadata-topic.yaml
+          #  .nais/topics/kvartalsvis-sykefravarsstatistikk-publiseringsdato-topic.yaml
+          VARS: .nais/${{ matrix.cluster }}.yaml

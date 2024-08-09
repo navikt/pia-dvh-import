@@ -38,7 +38,7 @@ class TestContainerHelper {
                                 )
                                 .plus(googleCloudStorage.envVars())
                 )
-                .dependsOn(kafka.container)
+                .dependsOn(kafka.kafkaContainer)
                 .dependsOn(googleCloudStorage.container)
                 .waitingFor(HttpWaitStrategy().forPath("/internal/isalive").withStartupTimeout(Duration.ofSeconds(20)))
                 .apply {

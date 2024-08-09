@@ -1,6 +1,9 @@
 package no.nav.pia.dvhimport.importjobb.domene
 
+import no.nav.pia.dvhimport.importjobb.kafka.EksportProdusent
+import no.nav.pia.dvhimport.importjobb.kafka.EksportProdusent.SykefraværsstatistikkMelding
 import no.nav.pia.dvhimport.storage.BucketKlient
+import no.nav.pia.dvhimport.konfigurasjon.KafkaConfig
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import java.math.BigDecimal
@@ -12,6 +15,9 @@ class StatistikkImportService(
     private val brukKvartalIPath: Boolean
 ) {
     private val logger: Logger = LoggerFactory.getLogger(this::class.java)
+    private val eksportProdusent by lazy {
+        EksportProdusent(kafkaConfig = KafkaConfig())
+    }
 
     fun importAlleKategorier() {
         logger.info("Starter import av sykefraværsstatistikk for alle statistikkkategorier")
@@ -34,7 +40,8 @@ class StatistikkImportService(
 
         when (kategori) {
             Statistikkategori.LAND -> {
-                import<LandSykefraværsstatistikkDto>(Statistikkategori.LAND, kvartal)
+                val statistikk = import<LandSykefraværsstatistikkDto>(Statistikkategori.LAND, kvartal)
+                sendTilKafka(kvartal = kvartal, statistikkategori = Statistikkategori.LAND, statistikk = statistikk)
             }
             Statistikkategori.SEKTOR -> {
                 import<SektorSykefraværsstatistikkDto>(Statistikkategori.SEKTOR, kvartal)
@@ -78,7 +85,7 @@ class StatistikkImportService(
 
     }
 
-    private inline fun <reified T: Sykefraværsstatistikk> import(kategori: Statistikkategori, kvartal: String) {
+    private inline fun <reified T: Sykefraværsstatistikk> import(kategori: Statistikkategori, kvartal: String): List<T> {
         val path = if (brukKvartalIPath) kvartal else ""
         bucketKlient.ensureFileExists(path, kategori.tilFilnavn())
 
@@ -94,8 +101,10 @@ class StatistikkImportService(
             // kontroll
             val sykefraværsprosentForKategori = kalkulerSykefraværsprosent(sykefraværsstatistikkDtoList)
             logger.info("Sykefraværsprosent -snitt- for kategori $kategori er: '$sykefraværsprosentForKategori'")
+            return sykefraværsstatistikkDtoList
         } catch (e: Exception) {
             logger.warn("Fikk exception i import prosess med melding '${e.message}'", e)
+            return emptyList()
         }
     }
 
@@ -116,6 +125,22 @@ class StatistikkImportService(
             emptyList()
         }
         return result
+    }
+
+    fun sendTilKafka(
+        kvartal: String,
+        statistikkategori: Statistikkategori,
+        statistikk: List<SykefraværsstatistikkDto>
+    ) {
+        statistikk.forEach {
+            eksportProdusent.sendMelding(
+                melding = SykefraværsstatistikkMelding(
+                    kvartal = kvartal,
+                    statistikkategori = statistikkategori,
+                    sykefraværsstatistikk = it
+                )
+            )
+        }
     }
 
 

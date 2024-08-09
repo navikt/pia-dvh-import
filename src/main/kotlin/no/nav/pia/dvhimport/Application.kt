@@ -1,6 +1,5 @@
 package no.nav.pia.dvhimport
 
-import NaisEnvironment
 import com.google.cloud.NoCredentials
 import com.google.cloud.storage.Storage
 import com.google.cloud.storage.StorageOptions
