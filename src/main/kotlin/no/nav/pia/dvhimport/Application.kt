@@ -17,15 +17,15 @@ import no.nav.pia.dvhimport.storage.BucketKlient
 fun main() {
     val naisEnvironment = NaisEnvironment()
     val storageURL = naisEnvironment.googleCloudStorageUrl
-    val brukKvartalIPath: Boolean
+    val brukÅrOgKvartalIPathTilFilene: Boolean
     val storage: Storage
 
 
     if (storageURL.startsWith("https://")) {
-        brukKvartalIPath = true
+        brukÅrOgKvartalIPathTilFilene = true
         storage = StorageOptions.getDefaultInstance().service // Https / Credentials i GCP (workload identity federation)
     } else {
-        brukKvartalIPath = false
+        brukÅrOgKvartalIPathTilFilene = false
         val projectId = "fake-google-cloud-storage-container-project"
         storage = StorageOptions.newBuilder()
             .setCredentials(NoCredentials.getInstance())
@@ -38,7 +38,7 @@ fun main() {
     Jobblytter(
         statistikkImportService = StatistikkImportService(
             bucketKlient = BucketKlient(gcpStorage = storage, bucketName = naisEnvironment.statistikkBucketName),
-            brukKvartalIPath = brukKvartalIPath
+            brukÅrOgKvartalIPathTilFilene = brukÅrOgKvartalIPathTilFilene
         )
     ).run()
     embeddedServer(Netty, port = 8080, host = "0.0.0.0", module = Application::dvhImport).start(wait = true)

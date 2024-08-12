@@ -12,7 +12,7 @@ import java.math.RoundingMode
 
 class StatistikkImportService(
     private val bucketKlient: BucketKlient,
-    private val brukKvartalIPath: Boolean
+    private val brukÅrOgKvartalIPathTilFilene: Boolean
 ) {
     private val logger: Logger = LoggerFactory.getLogger(this::class.java)
     private val eksportProdusent by lazy {
@@ -21,17 +21,19 @@ class StatistikkImportService(
 
     fun importAlleKategorier() {
         logger.info("Starter import av sykefraværsstatistikk for alle statistikkkategorier")
-        val kvartal = "2024K1" // TODO: hent kvartal som skal importeres
+        val årstallOgKvartal = hentÅrstallOgKvartal()
+        val path = if (brukÅrOgKvartalIPathTilFilene) "${årstallOgKvartal.first}/${årstallOgKvartal.second}" else ""
+
 
         if (!bucketKlient.sjekkBucketExists()) {
             logger.error("Bucket ikke funnet, avbryter import for alle kategorier")
             return
         }
-        import<LandSykefraværsstatistikkDto>(Statistikkategori.LAND, kvartal)
-        import<SektorSykefraværsstatistikkDto>(Statistikkategori.SEKTOR, kvartal)
-        import<NæringSykefraværsstatistikkDto>(Statistikkategori.NÆRING, kvartal)
-        import<NæringskodeSykefraværsstatistikkDto>(Statistikkategori.NÆRINGSKODE, kvartal)
-        import<VirksomhetSykefraværsstatistikkDto>(Statistikkategori.VIRKSOMHET, kvartal)
+        import<LandSykefraværsstatistikkDto>(Statistikkategori.LAND, path)
+        import<SektorSykefraværsstatistikkDto>(Statistikkategori.SEKTOR, path)
+        import<NæringSykefraværsstatistikkDto>(Statistikkategori.NÆRING, path)
+        import<NæringskodeSykefraværsstatistikkDto>(Statistikkategori.NÆRINGSKODE, path)
+        import<VirksomhetSykefraværsstatistikkDto>(Statistikkategori.VIRKSOMHET, path)
         importViksomhetMetadata()
     }
 
@@ -43,27 +45,34 @@ class StatistikkImportService(
             return
         }
 
-        val kvartal = "2024K1" // TODO: hent kvartal som skal importeres
+        val årstallOgKvartal = hentÅrstallOgKvartal()
+        val kvartal = "${årstallOgKvartal.first}${årstallOgKvartal.second}"
+        val path = if (brukÅrOgKvartalIPathTilFilene) "${årstallOgKvartal.first}/${årstallOgKvartal.second}" else ""
 
         when (kategori) {
             Statistikkategori.LAND -> {
-                val statistikk = import<LandSykefraværsstatistikkDto>(Statistikkategori.LAND, kvartal)
+                val statistikk = import<LandSykefraværsstatistikkDto>(Statistikkategori.LAND, path)
                 sendTilKafka(kvartal = kvartal, statistikkategori = Statistikkategori.LAND, statistikk = statistikk)
             }
+
             Statistikkategori.SEKTOR -> {
-                val statistikk = import<SektorSykefraværsstatistikkDto>(Statistikkategori.SEKTOR, kvartal)
+                val statistikk = import<SektorSykefraværsstatistikkDto>(Statistikkategori.SEKTOR, path)
                 sendTilKafka(kvartal = kvartal, statistikkategori = Statistikkategori.SEKTOR, statistikk = statistikk)
             }
+
             Statistikkategori.NÆRING -> {
-                val statistikk = import<NæringSykefraværsstatistikkDto>(Statistikkategori.NÆRING, kvartal)
+                val statistikk = import<NæringSykefraværsstatistikkDto>(Statistikkategori.NÆRING, path)
                 sendTilKafka(kvartal = kvartal, statistikkategori = Statistikkategori.NÆRING, statistikk = statistikk)
             }
+
             Statistikkategori.NÆRINGSKODE -> {
-                import<NæringskodeSykefraværsstatistikkDto>(Statistikkategori.NÆRINGSKODE, kvartal)
+                import<NæringskodeSykefraværsstatistikkDto>(Statistikkategori.NÆRINGSKODE, path)
             }
+
             Statistikkategori.VIRKSOMHET -> {
-                import<VirksomhetSykefraværsstatistikkDto>(Statistikkategori.VIRKSOMHET, kvartal)
+                import<VirksomhetSykefraværsstatistikkDto>(Statistikkategori.VIRKSOMHET, path)
             }
+
             Statistikkategori.VIRKSOMHET_METADATA -> {
                 importViksomhetMetadata()
             }
@@ -71,18 +80,24 @@ class StatistikkImportService(
     }
 
 
-    private fun importViksomhetMetadata(){
-        logger.info("Starter import av virksomhet metadata")
+    private fun hentÅrstallOgKvartal() =
+        Pair("2024", "K1")        // TODO: hent kvartal som skal importeres fra en eller annen tjeneste
 
-        val kvartal = "2024K1" // TODO: hent kvartal som skal importeres
-        val path = if (brukKvartalIPath) kvartal else ""
-        bucketKlient.ensureFileExists(path, Statistikkategori.VIRKSOMHET_METADATA.tilFilnavn())
+
+    private fun importViksomhetMetadata() {
+        logger.info("Starter import av virksomhet metadata")
+        val kvartal = hentÅrstallOgKvartal()
+        val path = if (brukÅrOgKvartalIPathTilFilene) "${kvartal.first}/${kvartal.second}" else ""
+
+        bucketKlient.ensureFileExists(
+            path = path,
+            fileName = Statistikkategori.VIRKSOMHET_METADATA.tilFilnavn()
+        )
 
         try {
             val statistikk = hentStatistikk(
-                kvartal = kvartal,
+                path = path,
                 kategori = Statistikkategori.VIRKSOMHET_METADATA,
-                brukKvartalIPath = brukKvartalIPath
             )
             val virksomhetMetadataDtoList: List<VirksomhetMetadataDto> =
                 statistikk.toVirksomhetMetadataDto()
@@ -94,15 +109,16 @@ class StatistikkImportService(
 
     }
 
-    private inline fun <reified T: Sykefraværsstatistikk> import(kategori: Statistikkategori, kvartal: String): List<T> {
-        val path = if (brukKvartalIPath) kvartal else ""
+    private inline fun <reified T : Sykefraværsstatistikk> import(
+        kategori: Statistikkategori,
+        path: String
+    ): List<T> {
         bucketKlient.ensureFileExists(path, kategori.tilFilnavn())
 
         try {
             val statistikk = hentStatistikk(
-                kvartal = kvartal,
+                path = path,
                 kategori = kategori,
-                brukKvartalIPath = brukKvartalIPath
             )
             val sykefraværsstatistikkDtoList: List<T> =
                 statistikk.toSykefraværsstatistikkDto<T>()
@@ -117,8 +133,7 @@ class StatistikkImportService(
         }
     }
 
-    private fun hentStatistikk(kvartal: String, kategori: Statistikkategori, brukKvartalIPath: Boolean): List<String> {
-        val path = if (brukKvartalIPath) kvartal else ""
+    private fun hentStatistikk(path: String, kategori: Statistikkategori): List<String> {
         val result: List<String> = try {
             val fileName = kategori.tilFilnavn()
             val dvhStatistikk = bucketKlient.getFromFile(
@@ -130,7 +145,7 @@ class StatistikkImportService(
 
             val statistikk: List<String> =
                 dvhStatistikk.tilGeneriskStatistikk()
-            logger.info("Antall rader med statistikk for kategori '$kategori' og kvartal '$kvartal': ${statistikk.size}")
+            logger.info("Antall rader med statistikk for kategori '$kategori' og path '$path': ${statistikk.size}")
             statistikk
         } catch (e: Exception) {
             logger.warn("Fikk exception med melding '${e.message}'", e)
