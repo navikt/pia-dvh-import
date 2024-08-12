@@ -5,11 +5,9 @@ import com.google.cloud.storage.BlobInfo
 import com.google.cloud.storage.Storage
 import com.google.cloud.storage.contrib.nio.testing.LocalStorageHelper
 import com.google.common.net.MediaType
-import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.shouldBe
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
-import no.nav.pia.dvhimport.importjobb.Feil
 import no.nav.pia.dvhimport.importjobb.domene.VirksomhetSykefraværsstatistikkDto
 import java.math.BigDecimal
 import kotlin.test.Test
@@ -40,7 +38,7 @@ class BucketKlientTest {
     }
 
     @Test
-    fun `kast Exception hvis filen ikke finnes`() {
+    fun `returnerer null hvis filen ikke finnes`() {
         lagreTestBlobInMemory(
             blobNavn = "2024K1/statistikk.json",
             bucketName = "test-in-memory-bucket",
@@ -49,12 +47,11 @@ class BucketKlientTest {
             metadata = emptyMap(),
             bytes = "nothing here".encodeToByteArray()
         )
-
         val bucketKlient = BucketKlient(storage, "test-in-memory-bucket")
 
-        shouldThrow<Feil> {
-            bucketKlient.getFromFile(path = "2024K1", fileName = "statistikk_not_found.json")
-        }
+        val innhold = bucketKlient.getFromFile(path = "2024K1", fileName = "statistikk_not_found.json")
+
+        innhold shouldBe null
     }
 
 

@@ -91,10 +91,10 @@ class StatistikkImportServiceIntegrasjonTest {
                     landStatistikk.land shouldBe "NO"
                     landStatistikk.årstall shouldBe 2024
                     landStatistikk.kvartal shouldBe 1
-                    landStatistikk.prosent shouldBe 6.2
-                    landStatistikk.tapteDagsverk shouldBe 88944.768373
-                    landStatistikk.muligeDagsverk shouldBe 1434584.063556
-                    landStatistikk.antallPersoner shouldBe 3124427
+                    landStatistikk.tapteDagsverk shouldBe 8894426.768373.toBigDecimal()
+                    landStatistikk.muligeDagsverk shouldBe 143458496.063556.toBigDecimal()
+                    landStatistikk.antallPersoner shouldBe 3124427.toBigDecimal()
+                    landStatistikk.prosent shouldBe 6.2.toBigDecimal()
 
                 }
             }
@@ -102,7 +102,7 @@ class StatistikkImportServiceIntegrasjonTest {
     }
 
     @Test
-    fun `import statistikk SEKTOR`() {
+    fun `import statistikk SEKTOR og send statistikk til Kafka`() {
         lagTestDataForSektor()
 
         kafkaContainer.sendJobbMelding(Jobb.sektorSykefraværsstatistikkDvhImport)
@@ -144,7 +144,7 @@ class StatistikkImportServiceIntegrasjonTest {
     }
 
     @Test
-    fun `import statistikk NÆRING`() {
+    fun `import statistikk NÆRING og send statistikk til Kafka`() {
         lagTestDataForNæring()
 
         kafkaContainer.sendJobbMelding(Jobb.næringSykefraværsstatistikkDvhImport)
@@ -152,6 +152,38 @@ class StatistikkImportServiceIntegrasjonTest {
         dvhImportApplikasjon shouldContainLog "Starter import av sykefraværsstatistikk for kategori 'NÆRING'".toRegex()
         dvhImportApplikasjon shouldContainLog "Sykefraværsprosent -snitt- for kategori NÆRING er: '3.7'".toRegex()
         dvhImportApplikasjon shouldContainLog "Jobb 'næringSykefraværsstatistikkDvhImport' ferdig".toRegex()
+
+        val nøkkel = """{"kvartal":"2024K1","meldingType":"SYKEFRAVÆRSSTATISTIKK-NÆRING"}"""
+        runBlocking {
+            kafkaContainer.ventOgKonsumerKafkaMeldinger(
+                key = nøkkel,
+                konsument = eksportertStatistikkKonsument
+            ) { meldinger ->
+                val deserialiserteSvar = meldinger.map {
+                    Json.decodeFromString<NæringSykefraværsstatistikkDto>(it)
+                }
+                deserialiserteSvar shouldHaveAtLeastSize 2
+                deserialiserteSvar.filter { it.næring == "88" }.forAtLeastOne { næringStatistikk ->
+                    næringStatistikk.næring shouldBe "88"
+                    næringStatistikk.årstall shouldBe 2024
+                    næringStatistikk.kvartal shouldBe 1
+                    næringStatistikk.prosent shouldBe 2.7.toBigDecimal()
+                    næringStatistikk.tapteDagsverk shouldBe 94426.768373.toBigDecimal()
+                    næringStatistikk.muligeDagsverk shouldBe 3458496.063556.toBigDecimal()
+                    næringStatistikk.antallPersoner shouldBe 24427.toBigDecimal()
+                }
+                deserialiserteSvar.filter { it.næring == "02" }.forAtLeastOne { næringStatistikk ->
+                    næringStatistikk.næring shouldBe "02"
+                    næringStatistikk.årstall shouldBe 2024
+                    næringStatistikk.kvartal shouldBe 1
+                    næringStatistikk.prosent shouldBe 6.2.toBigDecimal()
+                    næringStatistikk.tapteDagsverk shouldBe 88944.768373.toBigDecimal()
+                    næringStatistikk.muligeDagsverk shouldBe 1434584.063556.toBigDecimal()
+                    næringStatistikk.antallPersoner shouldBe 3124427.toBigDecimal()
+                }
+            }
+        }
+
     }
 
     @Test
@@ -189,7 +221,7 @@ class StatistikkImportServiceIntegrasjonTest {
 
     @Test
     fun `import statistikk for alle kategorier`() {
-        lagTestDataForLand()
+        lagTestDataForLand().lagreITestBucket(kategori = Statistikkategori.LAND, nøkkel = "land", verdi = "NO")
         lagTestDataForSektor()
         lagTestDataForNæring()
         lagTestDataForNæringskode()
@@ -212,10 +244,10 @@ class StatistikkImportServiceIntegrasjonTest {
         land: String = "NO",
         årstall: Int = 2024,
         kvartal: Int = 1,
-        prosent: BigDecimal = BigDecimal(6.2),
-        tapteDagsverk: BigDecimal = BigDecimal(8894426.768373),
-        muligeDagsverk: BigDecimal = BigDecimal(143458496.063556),
-        antallPersoner: BigDecimal = BigDecimal(3124427),
+        prosent: BigDecimal = 6.2.toBigDecimal(),
+        tapteDagsverk: BigDecimal = 8894426.768373.toBigDecimal(),
+        muligeDagsverk: BigDecimal = 143458496.063556.toBigDecimal(),
+        antallPersoner: BigDecimal = 3124427.toBigDecimal(),
     ): LandSykefraværsstatistikkDto {
         return LandSykefraværsstatistikkDto(
             land = land,

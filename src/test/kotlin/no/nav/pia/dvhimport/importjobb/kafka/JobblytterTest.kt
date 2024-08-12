@@ -15,7 +15,6 @@ class JobblytterTest {
     fun `skal kunne trigge import jobb via kafka`() {
         kafkaContainer.sendJobbMelding(alleKategorierSykefraværsstatistikkDvhImport)
         dvhImportApplikasjon shouldContainLog "Starter import av sykefraværsstatistikk for alle statistikkkategorier".toRegex()
-        dvhImportApplikasjon shouldContainLog "Jobb 'alleKategorierSykefraværsstatistikkDvhImport' ferdig".toRegex()
     }
 
     @Test

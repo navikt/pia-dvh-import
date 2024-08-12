@@ -85,13 +85,6 @@ class KafkaContainerHelper(
             launch {
                 while (this.isActive) {
                     val records = konsument.poll(Duration.ofMillis(50))
-
-                    println("[DEBUG] -------> got records: $records ")
-                    records.forEach {
-                        println("[DEBUG] -------> record is: $it ")
-                        println("[DEBUG] -------> record key is: ${it.key()} ")
-                    }
-
                     val meldinger = records
                         .filter { it.key() == key }
                         .map { it.value() }

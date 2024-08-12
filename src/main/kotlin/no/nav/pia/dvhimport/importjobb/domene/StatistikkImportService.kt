@@ -22,8 +22,11 @@ class StatistikkImportService(
     fun importAlleKategorier() {
         logger.info("Starter import av sykefraværsstatistikk for alle statistikkkategorier")
         val kvartal = "2024K1" // TODO: hent kvartal som skal importeres
-        bucketKlient.ensureBucketExists()
 
+        if (!bucketKlient.sjekkBucketExists()) {
+            logger.error("Bucket ikke funnet, avbryter import for alle kategorier")
+            return
+        }
         import<LandSykefraværsstatistikkDto>(Statistikkategori.LAND, kvartal)
         import<SektorSykefraværsstatistikkDto>(Statistikkategori.SEKTOR, kvartal)
         import<NæringSykefraværsstatistikkDto>(Statistikkategori.NÆRING, kvartal)
@@ -34,7 +37,11 @@ class StatistikkImportService(
 
     fun importForKategori(kategori: Statistikkategori) {
         logger.info("Starter import av sykefraværsstatistikk for kategori '${kategori}'")
-        bucketKlient.ensureBucketExists()
+
+        if (!bucketKlient.sjekkBucketExists()) {
+            logger.error("Bucket ikke funnet, avbryter import for kategori '${kategori}'")
+            return
+        }
 
         val kvartal = "2024K1" // TODO: hent kvartal som skal importeres
 
@@ -48,7 +55,8 @@ class StatistikkImportService(
                 sendTilKafka(kvartal = kvartal, statistikkategori = Statistikkategori.SEKTOR, statistikk = statistikk)
             }
             Statistikkategori.NÆRING -> {
-                import<NæringSykefraværsstatistikkDto>(Statistikkategori.NÆRING, kvartal)
+                val statistikk = import<NæringSykefraværsstatistikkDto>(Statistikkategori.NÆRING, kvartal)
+                sendTilKafka(kvartal = kvartal, statistikkategori = Statistikkategori.NÆRING, statistikk = statistikk)
             }
             Statistikkategori.NÆRINGSKODE -> {
                 import<NæringskodeSykefraværsstatistikkDto>(Statistikkategori.NÆRINGSKODE, kvartal)
@@ -117,6 +125,9 @@ class StatistikkImportService(
                 path = path,
                 fileName = fileName
             )
+            if (dvhStatistikk.isNullOrEmpty())
+                return emptyList()
+
             val statistikk: List<String> =
                 dvhStatistikk.tilGeneriskStatistikk()
             logger.info("Antall rader med statistikk for kategori '$kategori' og kvartal '$kvartal': ${statistikk.size}")

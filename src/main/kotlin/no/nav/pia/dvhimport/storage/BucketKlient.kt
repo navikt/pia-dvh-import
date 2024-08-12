@@ -4,7 +4,6 @@ import com.google.cloud.storage.Blob
 import com.google.cloud.storage.Storage
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
-import no.nav.pia.dvhimport.importjobb.Feil
 
 class BucketKlient(
     val gcpStorage: Storage,
@@ -16,13 +15,15 @@ class BucketKlient(
         logger.info("BucketKlient for bucket '$bucketName' er klar")
     }
 
-    fun ensureBucketExists() {
+    fun sjekkBucketExists(): Boolean {
         val bucket = gcpStorage.get(bucketName)
+        val erBucketFunnet = bucket != null
 
-        when (bucket != null) {
+        when (erBucketFunnet) {
             false -> logger.warn("Bucket $bucketName ikke funnet")
             true -> logger.info("Bucket $bucketName funnet")
         }
+        return erBucketFunnet
     }
 
     fun ensureFileExists(path: String, fileName: String): Boolean {
@@ -42,19 +43,16 @@ class BucketKlient(
         return false
     }
 
-    fun getFromFile(path: String, fileName: String): String {
+    fun getFromFile(path: String, fileName: String): String? {
         val fil = if (path.isNotEmpty()) "$path/$fileName" else fileName
         logger.info("Fetch data i bucket '$bucketName' fra fil i path '$path' med filnavn '$fileName'")
 
         val blob: Blob = try {
             gcpStorage.get(bucketName, fil)
         } catch (npe: NullPointerException) {
-            throw Feil(
-                feilmelding = "Finner ikke fil '$fil' fra bucket '$bucketName'",
-                opprinneligException = npe
-            )
+            logger.error("Finner ikke fil '$fil' fra bucket '$bucketName'")
+            return null
         }
-        val result = blob.getContent().decodeToString()
-        return result
+        return blob.getContent().decodeToString()
     }
 }
