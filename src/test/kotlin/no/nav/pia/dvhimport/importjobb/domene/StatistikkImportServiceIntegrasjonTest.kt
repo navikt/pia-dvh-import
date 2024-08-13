@@ -369,6 +369,13 @@ class StatistikkImportServiceIntegrasjonTest {
               "prosent": "6.2",
               "tapteDagsverk": "88944.768373",
               "muligeDagsverk": "1434584.063556",
+              "tapteDagsverkGradert": 90.034285,
+              "tapteDagsverkPerVarighet": [
+                {
+                  "varighet": "D",
+                  "tapteDagsverk": 148.534285
+                }
+              ],
               "antallPersoner": "3124427"
             },
             {
@@ -378,6 +385,13 @@ class StatistikkImportServiceIntegrasjonTest {
              "prosent": "2.7",
              "tapteDagsverk": "94426.768373",
              "muligeDagsverk": "3458496.063556",
+             "tapteDagsverkGradert": 90.034285,
+             "tapteDagsverkPerVarighet": [
+               {
+                 "varighet": "D",
+                 "tapteDagsverk": 148.534285
+               }
+             ],
              "antallPersoner": "24427"
             }]
             """.trimIndent().encodeToByteArray()
