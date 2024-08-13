@@ -41,6 +41,33 @@ class SykefraværsstatistikkDtoTest {
               "prosent": 6.2,
               "tapteDagsverk": 8894426.768373,
               "muligeDagsverk": 143458496.063556,
+              "tapteDagsverkGradert": 90.034285,
+              "tapteDagsverkPerVarighet": [
+                {
+                  "varighet": "A",
+                  "tapteDagsverk": 12.1527
+                },
+                {
+                  "varighet": "B",
+                  "tapteDagsverk": 2.7
+                },
+                {
+                  "varighet": "C",
+                  "tapteDagsverk": 15
+                },
+                {
+                  "varighet": "D",
+                  "tapteDagsverk": 148.534285
+                },
+                {
+                  "varighet": "E",
+                  "tapteDagsverk": 142.6
+                },
+                {
+                  "varighet": "F",
+                  "tapteDagsverk": 31.4
+                }
+              ],
               "antallPersoner": 3124427
             }]
         """.trimIndent()
@@ -52,6 +79,10 @@ class SykefraværsstatistikkDtoTest {
         dto.prosent shouldBe 6.2.toBigDecimal()
         dto.tapteDagsverk shouldBe 8894426.768373.toBigDecimal()
         dto.muligeDagsverk shouldBe 143458496.063556.toBigDecimal()
+        dto.tapteDagsverkGradert shouldBe 90.034285.toBigDecimal()
+        dto.tapteDagsverkPerVarighet.size shouldBe 6
+        dto.tapteDagsverkPerVarighet[0].varighet shouldBe "A"
+        dto.tapteDagsverkPerVarighet[0].tapteDagsverk shouldBe 12.1527.toBigDecimal()
         dto.antallPersoner shouldBe 3124427.toBigDecimal()
     }
 
