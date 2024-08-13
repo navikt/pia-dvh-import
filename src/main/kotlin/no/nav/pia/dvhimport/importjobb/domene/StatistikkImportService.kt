@@ -66,7 +66,8 @@ class StatistikkImportService(
             }
 
             Statistikkategori.NÆRINGSKODE -> {
-                import<NæringskodeSykefraværsstatistikkDto>(Statistikkategori.NÆRINGSKODE, path)
+                val statistikk = import<NæringskodeSykefraværsstatistikkDto>(Statistikkategori.NÆRINGSKODE, path)
+                sendTilKafka(kvartal = kvartal, statistikkategori = Statistikkategori.NÆRINGSKODE, statistikk = statistikk)
             }
 
             Statistikkategori.VIRKSOMHET -> {

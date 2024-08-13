@@ -17,7 +17,7 @@ import kotlin.test.BeforeTest
 import kotlin.test.Test
 
 
-class StatistikkImportServiceIntegrasjonTest {
+class StatistikkImportServiceIntegrasjonstest {
     private val gcsContainer = TestContainerHelper.googleCloudStorage
     private val kafkaContainer = TestContainerHelper.kafka
     private val eksportertStatistikkKonsument =
@@ -195,6 +195,45 @@ class StatistikkImportServiceIntegrasjonTest {
         dvhImportApplikasjon shouldContainLog "Starter import av sykefraværsstatistikk for kategori 'NÆRINGSKODE'".toRegex()
         dvhImportApplikasjon shouldContainLog "Sykefraværsprosent -snitt- for kategori NÆRINGSKODE er: '3.7'".toRegex()
         dvhImportApplikasjon shouldContainLog "Jobb 'næringskodeSykefraværsstatistikkDvhImport' ferdig".toRegex()
+
+        val nøkkel = """{"kvartal":"2024K1","meldingType":"SYKEFRAVÆRSSTATISTIKK-NÆRINGSKODE"}"""
+        runBlocking {
+            kafkaContainer.ventOgKonsumerKafkaMeldinger(
+                key = nøkkel,
+                konsument = eksportertStatistikkKonsument
+            ) { meldinger ->
+                val deserialiserteSvar = meldinger.map {
+                    Json.decodeFromString<NæringskodeSykefraværsstatistikkDto>(it)
+                }
+                deserialiserteSvar shouldHaveAtLeastSize 2
+                deserialiserteSvar.filter { it.næringskode == "88911" }.forAtLeastOne { næringskodeStatistikk ->
+                    næringskodeStatistikk.næringskode shouldBe "88911"
+                    næringskodeStatistikk.årstall shouldBe 2024
+                    næringskodeStatistikk.kvartal shouldBe 1
+                    næringskodeStatistikk.prosent shouldBe 2.7.toBigDecimal()
+                    næringskodeStatistikk.tapteDagsverk shouldBe 94426.768373.toBigDecimal()
+                    næringskodeStatistikk.muligeDagsverk shouldBe 3458496.063556.toBigDecimal()
+                    næringskodeStatistikk.tapteDagsverkGradert shouldBe 90.034285.toBigDecimal()
+                    næringskodeStatistikk.tapteDagsverkPerVarighet.size shouldBe 1
+                    næringskodeStatistikk.tapteDagsverkPerVarighet[0].varighet shouldBe "D"
+                    næringskodeStatistikk.tapteDagsverkPerVarighet[0].tapteDagsverk shouldBe 148.534285.toBigDecimal()
+                    næringskodeStatistikk.antallPersoner shouldBe 24427.toBigDecimal()
+                }
+                deserialiserteSvar.filter { it.næringskode == "02300" }.forAtLeastOne { næringskodeStatistikk ->
+                    næringskodeStatistikk.næringskode shouldBe "02300"
+                    næringskodeStatistikk.årstall shouldBe 2024
+                    næringskodeStatistikk.kvartal shouldBe 1
+                    næringskodeStatistikk.prosent shouldBe 6.2.toBigDecimal()
+                    næringskodeStatistikk.tapteDagsverk shouldBe 88944.768373.toBigDecimal()
+                    næringskodeStatistikk.muligeDagsverk shouldBe 1434584.063556.toBigDecimal()
+                    næringskodeStatistikk.tapteDagsverkGradert shouldBe 90.034285.toBigDecimal()
+                    næringskodeStatistikk.tapteDagsverkPerVarighet.size shouldBe 1
+                    næringskodeStatistikk.tapteDagsverkPerVarighet[0].varighet shouldBe "D"
+                    næringskodeStatistikk.tapteDagsverkPerVarighet[0].tapteDagsverk shouldBe 148.534285.toBigDecimal()
+                    næringskodeStatistikk.antallPersoner shouldBe 3124427.toBigDecimal()
+                }
+            }
+        }
     }
 
     @Test
