@@ -82,6 +82,8 @@ class BucketKlientTest {
         prosent = prosent,
         tapteDagsverk = tapteDagsverk,
         muligeDagsverk = muligeDagsverk,
+        tapteDagsverkGradert = BigDecimal(0.00),
+        tapteDagsverkPerVarighet = emptyList(),
         antallPersoner = BigDecimal(4),
         rectype = "1",
     )

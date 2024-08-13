@@ -385,6 +385,33 @@ class StatistikkImportServiceIntegrasjonTest {
               "prosent": "26.0",
               "tapteDagsverk": "20.23",
               "muligeDagsverk": "77.8716",
+              "tapteDagsverkGradert": 90.034285,
+              "tapteDagsverkPerVarighet": [
+                {
+                  "varighet": "A",
+                  "tapteDagsverk": 12.1527
+                },
+                {
+                  "varighet": "B",
+                  "tapteDagsverk": 2.7
+                },
+                {
+                  "varighet": "C",
+                  "tapteDagsverk": 15
+                },
+                {
+                  "varighet": "D",
+                  "tapteDagsverk": 148.534285
+                },
+                {
+                  "varighet": "E",
+                  "tapteDagsverk": 142.6
+                },
+                {
+                  "varighet": "F",
+                  "tapteDagsverk": 31.4
+                }
+              ],
               "antallPersoner": "40.456", 
               "rectype": "1"
             }]

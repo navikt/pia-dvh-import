@@ -29,6 +29,8 @@ class StatistikkImportServiceUnitTest{
                 prosent = BigDecimal(10.00),
                 tapteDagsverk = BigDecimal(12.00),
                 muligeDagsverk = BigDecimal(120.00),
+                tapteDagsverkGradert = BigDecimal(0.00),
+                tapteDagsverkPerVarighet = emptyList(),
                 antallPersoner = BigDecimal(4),
                 rectype = "1",
             ),
@@ -39,6 +41,8 @@ class StatistikkImportServiceUnitTest{
                 prosent = BigDecimal(11.00),
                 tapteDagsverk = BigDecimal(11.00),
                 muligeDagsverk = BigDecimal(100.00),
+                tapteDagsverkGradert = BigDecimal(0.00),
+                tapteDagsverkPerVarighet = emptyList(),
                 antallPersoner = BigDecimal(4),
                 rectype = "1",
             )

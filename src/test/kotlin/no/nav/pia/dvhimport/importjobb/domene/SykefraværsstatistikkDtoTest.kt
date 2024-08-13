@@ -60,31 +60,56 @@ class SykefraværsstatistikkDtoTest {
     fun `Skal kunne parse en JSON String til VirksomhetSykefraværsstatistikkDto`() {
         val json = """
             [{
-              "orgnr": "222222222",
-              "årstall": "2024",
-              "kvartal": "1",
-              "prosent": 10.3,
-              "tapteDagsverk": 73.28912,
-              "muligeDagsverk": 708.9544,
-              "rectype": "2",
-              "antallPersoner": 10.00862,
-              "varighet_a": null,
-              "varighet_b": 3.2805,
-              "varighet_c": null,
-              "varighet_d": 10.00862,
-              "varighet_e": 22,
-              "varighet_f": 38
-            }]
+                "orgnr": "999888777",
+                "årstall": "2024",
+                "kvartal": "1",
+                "prosent": 19.2,
+                "tapteDagsverk": 352.386985,
+                "muligeDagsverk": 1832.599301,
+                "antallPersoner": 40,
+                "rectype": "2",
+                "tapteDagsverkGradert": 90.034285,
+                "tapteDagsverkPerVarighet": [
+                  {
+                    "varighet": "A",
+                    "tapteDagsverk": 12.1527
+                  },
+                  {
+                    "varighet": "B",
+                    "tapteDagsverk": 2.7
+                  },
+                  {
+                    "varighet": "C",
+                    "tapteDagsverk": 15
+                  },
+                  {
+                    "varighet": "D",
+                    "tapteDagsverk": 148.534285
+                  },
+                  {
+                    "varighet": "E",
+                    "tapteDagsverk": 142.6
+                  },
+                  {
+                    "varighet": "F",
+                    "tapteDagsverk": 31.4
+                  }
+                ]
+              }]
         """.trimIndent()
         val dto = json.tilGeneriskStatistikk().toSykefraværsstatistikkDto<VirksomhetSykefraværsstatistikkDto>().first()
 
         dto.årstall shouldBe 2024
         dto.kvartal shouldBe 1
-        dto.orgnr shouldBe "222222222"
-        dto.prosent shouldBe 10.3.toBigDecimal()
-        dto.tapteDagsverk shouldBe 73.28912.toBigDecimal()
-        dto.muligeDagsverk shouldBe 708.9544.toBigDecimal()
-        dto.antallPersoner shouldBe 10.00862.toBigDecimal()
+        dto.orgnr shouldBe "999888777"
+        dto.prosent shouldBe 19.2.toBigDecimal()
+        dto.tapteDagsverk shouldBe 352.386985.toBigDecimal()
+        dto.muligeDagsverk shouldBe 1832.599301.toBigDecimal()
+        dto.tapteDagsverkGradert shouldBe 90.034285.toBigDecimal()
+        dto.antallPersoner shouldBe 40.toBigDecimal()
+        dto.tapteDagsverkPerVarighet.size shouldBe 6
+        dto.tapteDagsverkPerVarighet[0].varighet shouldBe "A"
+        dto.tapteDagsverkPerVarighet[0].tapteDagsverk shouldBe 12.1527.toBigDecimal()
     }
 
     @Test
@@ -97,6 +122,33 @@ class SykefraværsstatistikkDtoTest {
               "prosent": "68.9876",
               "tapteDagsverk": "120.23",
               "muligeDagsverk": "77.8716",
+              "tapteDagsverkGradert": "90.034285",
+              "tapteDagsverkPerVarighet": [
+                {
+                  "varighet": "A",
+                  "tapteDagsverk": "12.1527"
+                },
+                {
+                  "varighet": "B",
+                  "tapteDagsverk": 2.7
+                },
+                {
+                  "varighet": "C",
+                  "tapteDagsverk": 15
+                },
+                {
+                  "varighet": "D",
+                  "tapteDagsverk": 148.534285
+                },
+                {
+                  "varighet": "E",
+                  "tapteDagsverk": 142.6
+                },
+                {
+                  "varighet": "F",
+                  "tapteDagsverk": 31.4
+                }
+              ],
               "antallPersoner": "40.456",
               "rectype": "1"
             }]
@@ -109,6 +161,55 @@ class SykefraværsstatistikkDtoTest {
         dto.prosent shouldBe 68.9876.toBigDecimal()
         dto.tapteDagsverk shouldBe 120.23.toBigDecimal()
         dto.muligeDagsverk shouldBe 77.8716.toBigDecimal()
+        dto.antallPersoner shouldBe 40.456.toBigDecimal()
+    }
+
+    @Test
+    fun `Skal kunne parse en JSON String til VirksomhetSykefraværsstatistikkDto med null-verdier for varighet`() {
+        val json = """
+            [{
+              "årstall": 2024,
+              "kvartal": 3,
+              "orgnr": "321456789",
+              "prosent": "68.9876",
+              "tapteDagsverk": "120.23",
+              "muligeDagsverk": "77.8716",
+              "tapteDagsverkGradert": "90.034285",
+              "tapteDagsverkPerVarighet": [
+                {
+                  "varighet": "B",
+                  "tapteDagsverk": null
+                },
+                {
+                  "varighet": "C",
+                  "tapteDagsverk": 15
+                },
+                {
+                  "varighet": "D",
+                  "tapteDagsverk": 148.534285
+                },
+                {
+                  "varighet": "E",
+                  "tapteDagsverk": 0
+                },
+                {
+                  "varighet": "F",
+                  "tapteDagsverk": null
+                }
+              ],
+              "antallPersoner": "40.456",
+              "rectype": "1"
+            }]
+        """.trimIndent()
+        val dto = json.tilGeneriskStatistikk().toSykefraværsstatistikkDto<VirksomhetSykefraværsstatistikkDto>().first()
+
+        dto.årstall shouldBe 2024
+        dto.kvartal shouldBe 3
+        dto.orgnr shouldBe "321456789"
+        dto.prosent shouldBe 68.9876.toBigDecimal()
+        dto.tapteDagsverk shouldBe 120.23.toBigDecimal()
+        dto.muligeDagsverk shouldBe 77.8716.toBigDecimal()
+
         dto.antallPersoner shouldBe 40.456.toBigDecimal()
     }
 }

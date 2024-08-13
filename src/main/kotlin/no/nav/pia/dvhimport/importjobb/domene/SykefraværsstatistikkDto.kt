@@ -111,21 +111,19 @@ data class VirksomhetSykefraværsstatistikkDto(
     @Serializable(with = BigDecimalSerializer::class)
     override val muligeDagsverk: BigDecimal,
     @Serializable(with = BigDecimalSerializer::class)
-    val varighet_a: BigDecimal? = null,
-    @Serializable(with = BigDecimalSerializer::class)
-    val varighet_b: BigDecimal? = null,
-    @Serializable(with = BigDecimalSerializer::class)
-    val varighet_c: BigDecimal? = null,
-    @Serializable(with = BigDecimalSerializer::class)
-    val varighet_d: BigDecimal? = null,
-    @Serializable(with = BigDecimalSerializer::class)
-    val varighet_e: BigDecimal? = null,
-    @Serializable(with = BigDecimalSerializer::class)
-    val varighet_f: BigDecimal? = null,
+    val tapteDagsverkGradert: BigDecimal,
+    val tapteDagsverkPerVarighet: List<TapteDagsverkPerVarighetDto>,
     @Serializable(with = BigDecimalSerializer::class)
     override val antallPersoner: BigDecimal,
     val rectype: String,
 ) : SykefraværsstatistikkDto()
+
+@Serializable
+data class TapteDagsverkPerVarighetDto (
+    val varighet: String,
+    @Serializable(with = BigDecimalSerializer::class)
+    val tapteDagsverk: BigDecimal? = null,
+)
 
 
 @OptIn(ExperimentalSerializationApi::class)
