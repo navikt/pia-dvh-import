@@ -23,6 +23,8 @@ class StatistikkImportServiceIntegrasjonstest {
     private val eksportertStatistikkKonsument =
         kafkaContainer.nyKonsument(topic = KafkaTopics.KVARTALSVIS_SYKEFRAVARSSTATISTIKK_ØVRIGE_KATEGORIER)
 
+    private val eksportertVirksomhetStatistikkKonsument =
+        kafkaContainer.nyKonsument(topic = KafkaTopics.KVARTALSVIS_SYKEFRAVARSSTATISTIKK_VIRKSOMHET)
 
     @BeforeTest
     fun setup() {
@@ -32,12 +34,16 @@ class StatistikkImportServiceIntegrasjonstest {
          f.eks: http://localhost:{dynamic_port}/storage/v1/b/fake-gcs-bucket-in-container/o/land.json
         */
         eksportertStatistikkKonsument.subscribe(mutableListOf(KafkaTopics.KVARTALSVIS_SYKEFRAVARSSTATISTIKK_ØVRIGE_KATEGORIER.navnMedNamespace))
+        eksportertVirksomhetStatistikkKonsument.subscribe(mutableListOf(KafkaTopics.KVARTALSVIS_SYKEFRAVARSSTATISTIKK_VIRKSOMHET.navnMedNamespace))
     }
 
     @AfterTest
     fun tearDown() {
         eksportertStatistikkKonsument.unsubscribe()
         eksportertStatistikkKonsument.close()
+
+        eksportertVirksomhetStatistikkKonsument.unsubscribe()
+        eksportertVirksomhetStatistikkKonsument.close()
     }
 
 
@@ -250,7 +256,7 @@ class StatistikkImportServiceIntegrasjonstest {
         runBlocking {
             kafkaContainer.ventOgKonsumerKafkaMeldinger(
                 key = nøkkel,
-                konsument = eksportertStatistikkKonsument
+                konsument = eksportertVirksomhetStatistikkKonsument
             ) { meldinger ->
                 val deserialiserteSvar = meldinger.map {
                     Json.decodeFromString<VirksomhetSykefraværsstatistikkDto>(it)

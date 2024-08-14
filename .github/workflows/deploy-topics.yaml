@@ -25,5 +25,7 @@ jobs:
         uses: nais/deploy/actions/deploy@v2
         env:
           CLUSTER: ${{ matrix.cluster }}-gcp
-          RESOURCE: .nais/topics/kvartalsvis-sykefravarsstatistikk-ovrige-kategorier-topic.yaml
+          RESOURCE: "\
+            .nais/topics/kvartalsvis-sykefravarsstatistikk-ovrige-kategorier-topic.yaml,\
+            .nais/topics/kvartalsvis-sykefravarsstatistikk-virksomhet-topic.yaml"
           VARS: .nais/${{ matrix.cluster }}.yaml

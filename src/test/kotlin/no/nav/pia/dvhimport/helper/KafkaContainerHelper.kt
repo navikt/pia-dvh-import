@@ -109,6 +109,7 @@ class KafkaContainerHelper(
             listOf(
                 NewTopic(KafkaTopics.PIA_JOBBLYTTER.navn, 1, 1.toShort()),
                 NewTopic(KafkaTopics.KVARTALSVIS_SYKEFRAVARSSTATISTIKK_ØVRIGE_KATEGORIER.navn, 1, 1.toShort()),
+                NewTopic(KafkaTopics.KVARTALSVIS_SYKEFRAVARSSTATISTIKK_VIRKSOMHET.navn, 1, 1.toShort()),
             )
         )
     }

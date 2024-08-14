@@ -21,9 +21,18 @@ class EksportProdusent(kafkaConfig: KafkaConfig) {
     }
 
     fun <T> sendMelding(melding: EksportMelding<T>) {
+        val topic = when (melding) {
+            is SykefraværsstatistikkMelding -> if (melding.ekstraNøkkel != Statistikkategori.VIRKSOMHET.name) {
+                KafkaTopics.KVARTALSVIS_SYKEFRAVARSSTATISTIKK_ØVRIGE_KATEGORIER.navnMedNamespace
+            } else {
+                KafkaTopics.KVARTALSVIS_SYKEFRAVARSSTATISTIKK_VIRKSOMHET.navnMedNamespace
+            }
+            is VirksomhetMetadataMelding -> KafkaTopics.KVARTALSVIS_SYKEFRAVARSSTATISTIKK_VIRKSOMHET_METADATA.navnMedNamespace
+            is PubliseringsdatoMelding -> "Not yet implemented" //TODO: Implement
+        }
         producer.send(
             ProducerRecord(
-                KafkaTopics.KVARTALSVIS_SYKEFRAVARSSTATISTIKK_ØVRIGE_KATEGORIER.navnMedNamespace,
+                topic,
                 melding.tilNøkkel(),
                 melding.tilMelding()
             )
