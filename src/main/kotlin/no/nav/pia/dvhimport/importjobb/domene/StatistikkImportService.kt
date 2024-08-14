@@ -71,7 +71,8 @@ class StatistikkImportService(
             }
 
             Statistikkategori.VIRKSOMHET -> {
-                import<VirksomhetSykefraværsstatistikkDto>(Statistikkategori.VIRKSOMHET, path)
+                val statistikk = import<VirksomhetSykefraværsstatistikkDto>(Statistikkategori.VIRKSOMHET, path)
+                sendTilKafka(kvartal = kvartal, statistikkategori = Statistikkategori.VIRKSOMHET, statistikk = statistikk)
             }
 
             Statistikkategori.VIRKSOMHET_METADATA -> {

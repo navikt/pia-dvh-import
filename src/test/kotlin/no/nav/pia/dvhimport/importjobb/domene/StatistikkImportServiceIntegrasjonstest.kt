@@ -245,6 +245,33 @@ class StatistikkImportServiceIntegrasjonstest {
         dvhImportApplikasjon shouldContainLog "Starter import av sykefraværsstatistikk for kategori 'VIRKSOMHET'".toRegex()
         dvhImportApplikasjon shouldContainLog "Sykefraværsprosent -snitt- for kategori VIRKSOMHET er: '26.0'".toRegex()
         dvhImportApplikasjon shouldContainLog "Jobb 'virksomhetSykefraværsstatistikkDvhImport' ferdig".toRegex()
+
+        val nøkkel = """{"kvartal":"2024K1","meldingType":"SYKEFRAVÆRSSTATISTIKK-VIRKSOMHET"}"""
+        runBlocking {
+            kafkaContainer.ventOgKonsumerKafkaMeldinger(
+                key = nøkkel,
+                konsument = eksportertStatistikkKonsument
+            ) { meldinger ->
+                val deserialiserteSvar = meldinger.map {
+                    Json.decodeFromString<VirksomhetSykefraværsstatistikkDto>(it)
+                }
+                deserialiserteSvar shouldHaveAtLeastSize 1
+                deserialiserteSvar.filter { it.orgnr == "987654321" }.forAtLeastOne { virksomhetStatistikk ->
+                    virksomhetStatistikk.orgnr shouldBe "987654321"
+                    virksomhetStatistikk.årstall shouldBe 2024
+                    virksomhetStatistikk.kvartal shouldBe 3
+                    virksomhetStatistikk.prosent shouldBe 26.0.toBigDecimal()
+                    virksomhetStatistikk.tapteDagsverk shouldBe 20.23.toBigDecimal()
+                    virksomhetStatistikk.muligeDagsverk shouldBe 77.8716.toBigDecimal()
+                    virksomhetStatistikk.tapteDagsverkGradert shouldBe 90.034285.toBigDecimal()
+                    virksomhetStatistikk.tapteDagsverkPerVarighet.size shouldBe 6
+                    virksomhetStatistikk.tapteDagsverkPerVarighet[0].varighet shouldBe "A"
+                    virksomhetStatistikk.tapteDagsverkPerVarighet[0].tapteDagsverk shouldBe 12.1527.toBigDecimal()
+                    virksomhetStatistikk.antallPersoner shouldBe 40.456.toBigDecimal()
+                    virksomhetStatistikk.rectype shouldBe "1"
+                }
+            }
+        }
     }
 
     @Test
