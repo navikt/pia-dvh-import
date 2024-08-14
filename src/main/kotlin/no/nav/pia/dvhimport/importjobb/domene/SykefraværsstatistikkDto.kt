@@ -4,8 +4,10 @@ import kotlinx.serialization.DeserializationStrategy
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.KSerializer
 import kotlinx.serialization.Serializable
+import kotlinx.serialization.builtins.ListSerializer
 import kotlinx.serialization.descriptors.PrimitiveKind
 import kotlinx.serialization.descriptors.PrimitiveSerialDescriptor
+import kotlinx.serialization.descriptors.SerialDescriptor
 import kotlinx.serialization.encoding.Decoder
 import kotlinx.serialization.encoding.Encoder
 import kotlinx.serialization.json.Json
@@ -82,6 +84,7 @@ data class NæringSykefraværsstatistikkDto(
     override val muligeDagsverk: BigDecimal,
     @Serializable(with = BigDecimalSerializer::class)
     val tapteDagsverkGradert: BigDecimal,
+    @Serializable(with = TapteDagsverkPerVarighetListSerializer::class)
     val tapteDagsverkPerVarighet: List<TapteDagsverkPerVarighetDto>,
     @Serializable(with = BigDecimalSerializer::class)
     override val antallPersoner: BigDecimal,
@@ -100,6 +103,7 @@ data class NæringskodeSykefraværsstatistikkDto(
     override val muligeDagsverk: BigDecimal,
     @Serializable(with = BigDecimalSerializer::class)
     val tapteDagsverkGradert: BigDecimal,
+    @Serializable(with = TapteDagsverkPerVarighetListSerializer::class)
     val tapteDagsverkPerVarighet: List<TapteDagsverkPerVarighetDto>,
     @Serializable(with = BigDecimalSerializer::class)
     override val antallPersoner: BigDecimal,
@@ -118,6 +122,7 @@ data class VirksomhetSykefraværsstatistikkDto(
     override val muligeDagsverk: BigDecimal,
     @Serializable(with = BigDecimalSerializer::class)
     val tapteDagsverkGradert: BigDecimal,
+    @Serializable(with = TapteDagsverkPerVarighetListSerializer::class)
     val tapteDagsverkPerVarighet: List<TapteDagsverkPerVarighetDto>,
     @Serializable(with = BigDecimalSerializer::class)
     override val antallPersoner: BigDecimal,
@@ -156,6 +161,18 @@ internal object BigDecimalSerializer : KSerializer<BigDecimal> {
             is JsonEncoder -> encoder.encodeJsonElement(JsonUnquotedLiteral(value.toPlainString()))
             else -> encoder.encodeString(value.toPlainString())
         }
+}
+
+internal object TapteDagsverkPerVarighetListSerializer : KSerializer<List<TapteDagsverkPerVarighetDto>> {
+    private val listSerializer = ListSerializer(TapteDagsverkPerVarighetDto.serializer())
+    override val descriptor: SerialDescriptor = listSerializer.descriptor
+
+    override fun serialize(encoder: Encoder, value: List<TapteDagsverkPerVarighetDto>) =
+        listSerializer.serialize(encoder, value.filter { it.tapteDagsverk != null })
+
+    override fun deserialize(decoder: Decoder): List<TapteDagsverkPerVarighetDto> {
+        return decoder.decodeSerializableValue(listSerializer)
+    }
 }
 
 object SykefraværsstatistikkDtoSerializer : JsonContentPolymorphicSerializer<SykefraværsstatistikkDto>(SykefraværsstatistikkDto::class) {

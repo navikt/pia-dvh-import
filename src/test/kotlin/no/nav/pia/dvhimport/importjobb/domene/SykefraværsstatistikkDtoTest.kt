@@ -1,6 +1,13 @@
 package no.nav.pia.dvhimport.importjobb.domene
 
+import io.kotest.assertions.json.shouldBeValidJson
+import io.kotest.assertions.json.shouldContainJsonKey
+import io.kotest.assertions.json.shouldContainJsonKeyValue
+import io.kotest.assertions.json.shouldNotContainJsonKeyValue
 import io.kotest.matchers.shouldBe
+import io.kotest.matchers.string.shouldNotContain
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
 import kotlin.test.Test
 
 
@@ -242,5 +249,63 @@ class SykefraværsstatistikkDtoTest {
         dto.muligeDagsverk shouldBe 77.8716.toBigDecimal()
 
         dto.antallPersoner shouldBe 40.456.toBigDecimal()
+    }
+
+    @Test
+    fun `Skal ignorere varighet med null-verdier ved serialisering`() {
+        val json = """
+            [{
+                "orgnr": "999888777",
+                "årstall": "2024",
+                "kvartal": "1",
+                "prosent": 19.2,
+                "tapteDagsverk": 352.386985,
+                "muligeDagsverk": 1832.599301,
+                "antallPersoner": 40,
+                "rectype": "2",
+                "tapteDagsverkGradert": 90.034285,
+                "tapteDagsverkPerVarighet": [
+                  {
+                    "varighet": "B",
+                    "tapteDagsverk": null
+                  },
+                  {
+                    "varighet": "C",
+                    "tapteDagsverk": null
+                  },
+                  {
+                    "varighet": "D",
+                    "tapteDagsverk": 148.534285
+                  },
+                  {
+                    "varighet": "F",
+                    "tapteDagsverk": 0
+                  }
+                ]
+              }]
+        """.trimIndent()
+        val dto = json.tilGeneriskStatistikk().toSykefraværsstatistikkDto<VirksomhetSykefraværsstatistikkDto>().first()
+
+        dto.årstall shouldBe 2024
+        dto.kvartal shouldBe 1
+        dto.orgnr shouldBe "999888777"
+        dto.prosent shouldBe 19.2.toBigDecimal()
+        dto.tapteDagsverk shouldBe 352.386985.toBigDecimal()
+        dto.muligeDagsverk shouldBe 1832.599301.toBigDecimal()
+        dto.tapteDagsverkGradert shouldBe 90.034285.toBigDecimal()
+        dto.antallPersoner shouldBe 40.toBigDecimal()
+        dto.tapteDagsverkPerVarighet.size shouldBe 4
+        dto.tapteDagsverkPerVarighet[0].varighet shouldBe "B"
+        dto.tapteDagsverkPerVarighet[0].tapteDagsverk shouldBe null
+
+        val serialisertDto = Json.encodeToString(dto)
+
+        serialisertDto.shouldBeValidJson()
+        serialisertDto shouldNotContain "null"
+        serialisertDto shouldContainJsonKey "tapteDagsverkPerVarighet"
+        serialisertDto shouldContainJsonKey "$.tapteDagsverkPerVarighet[0].varighet"
+        serialisertDto.shouldNotContainJsonKeyValue("$.tapteDagsverkPerVarighet[0].varighet", "B")
+        serialisertDto.shouldContainJsonKeyValue("$.tapteDagsverkPerVarighet[0].varighet", "D")
+        serialisertDto.shouldContainJsonKeyValue("$.tapteDagsverkPerVarighet[0].tapteDagsverk", 148.534285.toBigDecimal())
     }
 }
