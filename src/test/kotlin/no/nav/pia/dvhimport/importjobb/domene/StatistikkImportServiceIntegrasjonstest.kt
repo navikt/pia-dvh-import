@@ -26,6 +26,9 @@ class StatistikkImportServiceIntegrasjonstest {
     private val eksportertVirksomhetStatistikkKonsument =
         kafkaContainer.nyKonsument(topic = KafkaTopics.KVARTALSVIS_SYKEFRAVARSSTATISTIKK_VIRKSOMHET)
 
+    private val eksportertVirksomhetMetadataKonsument =
+        kafkaContainer.nyKonsument(topic = KafkaTopics.KVARTALSVIS_SYKEFRAVARSSTATISTIKK_VIRKSOMHET_METADATA)
+
     @BeforeTest
     fun setup() {
         gcsContainer.opprettTestBucketHvisIkkeFunnet()
@@ -35,6 +38,7 @@ class StatistikkImportServiceIntegrasjonstest {
         */
         eksportertStatistikkKonsument.subscribe(mutableListOf(KafkaTopics.KVARTALSVIS_SYKEFRAVARSSTATISTIKK_ØVRIGE_KATEGORIER.navnMedNamespace))
         eksportertVirksomhetStatistikkKonsument.subscribe(mutableListOf(KafkaTopics.KVARTALSVIS_SYKEFRAVARSSTATISTIKK_VIRKSOMHET.navnMedNamespace))
+        eksportertVirksomhetMetadataKonsument.subscribe(mutableListOf(KafkaTopics.KVARTALSVIS_SYKEFRAVARSSTATISTIKK_VIRKSOMHET_METADATA.navnMedNamespace))
     }
 
     @AfterTest
@@ -44,6 +48,9 @@ class StatistikkImportServiceIntegrasjonstest {
 
         eksportertVirksomhetStatistikkKonsument.unsubscribe()
         eksportertVirksomhetStatistikkKonsument.close()
+
+        eksportertVirksomhetMetadataKonsument.unsubscribe()
+        eksportertVirksomhetMetadataKonsument.close()
     }
 
 
@@ -265,7 +272,7 @@ class StatistikkImportServiceIntegrasjonstest {
                 deserialiserteSvar.filter { it.orgnr == "987654321" }.forAtLeastOne { virksomhetStatistikk ->
                     virksomhetStatistikk.orgnr shouldBe "987654321"
                     virksomhetStatistikk.årstall shouldBe 2024
-                    virksomhetStatistikk.kvartal shouldBe 3
+                    virksomhetStatistikk.kvartal shouldBe 1
                     virksomhetStatistikk.prosent shouldBe 26.0.toBigDecimal()
                     virksomhetStatistikk.tapteDagsverk shouldBe 20.23.toBigDecimal()
                     virksomhetStatistikk.muligeDagsverk shouldBe 77.8716.toBigDecimal()
@@ -289,6 +296,30 @@ class StatistikkImportServiceIntegrasjonstest {
         dvhImportApplikasjon shouldContainLog "Starter import av virksomhet metadata".toRegex()
         dvhImportApplikasjon shouldContainLog "Importert metadata for '1' virksomhet-er".toRegex()
         dvhImportApplikasjon shouldContainLog "Jobb 'virksomhetMetadataSykefraværsstatistikkDvhImport' ferdig".toRegex()
+
+        val nøkkel = """{"kvartal":"2024K1","meldingType":"METADATA_FOR_VIRKSOMHET"}"""
+        runBlocking {
+            kafkaContainer.ventOgKonsumerKafkaMeldinger(
+                key = nøkkel,
+                konsument = eksportertVirksomhetMetadataKonsument
+            ) { meldinger ->
+                val deserialiserteSvar = meldinger.map {
+                    Json.decodeFromString<VirksomhetMetadataDto>(it)
+
+                }
+                
+                deserialiserteSvar shouldHaveAtLeastSize 1
+                deserialiserteSvar.filter { it.orgnr == "987654321" }.forAtLeastOne { virksomhetMetadataStatistikk ->
+                    virksomhetMetadataStatistikk.orgnr shouldBe "987654321"
+                    virksomhetMetadataStatistikk.årstall shouldBe 2024
+                    virksomhetMetadataStatistikk.kvartal shouldBe 1
+                    virksomhetMetadataStatistikk.sektor shouldBe "2"
+                    virksomhetMetadataStatistikk.primærnæring shouldBe "88"
+                    virksomhetMetadataStatistikk.primærnæringskode shouldBe "88911"
+                    virksomhetMetadataStatistikk.rectype shouldBe "1"
+                }
+            }
+        }
     }
 
     @Test
@@ -480,7 +511,7 @@ class StatistikkImportServiceIntegrasjonstest {
             bytes = """
             [{
               "årstall": 2024,
-              "kvartal": 3,
+              "kvartal": 1,
               "orgnr": "987654321",
               "prosent": "26.0",
               "tapteDagsverk": "20.23",
@@ -529,11 +560,11 @@ class StatistikkImportServiceIntegrasjonstest {
             bytes = """
             [{
               "årstall": 2024,
-              "kvartal": 3,
+              "kvartal": 1,
               "orgnr": "987654321",
               "sektor": "2",
               "primærnæring": "88",
-              "primærnæringskode": "88.911",
+              "primærnæringskode": "88911",
               "rectype": "1"
             }]
             """.trimIndent().encodeToByteArray()

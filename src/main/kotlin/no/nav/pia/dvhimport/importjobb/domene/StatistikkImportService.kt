@@ -8,6 +8,7 @@ import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import java.math.BigDecimal
 import java.math.RoundingMode
+import no.nav.pia.dvhimport.importjobb.kafka.EksportProdusent.VirksomhetMetadataMelding
 
 
 class StatistikkImportService(
@@ -67,16 +68,25 @@ class StatistikkImportService(
 
             Statistikkategori.NÆRINGSKODE -> {
                 val statistikk = import<NæringskodeSykefraværsstatistikkDto>(Statistikkategori.NÆRINGSKODE, path)
-                sendTilKafka(kvartal = kvartal, statistikkategori = Statistikkategori.NÆRINGSKODE, statistikk = statistikk)
+                sendTilKafka(
+                    kvartal = kvartal,
+                    statistikkategori = Statistikkategori.NÆRINGSKODE,
+                    statistikk = statistikk
+                )
             }
 
             Statistikkategori.VIRKSOMHET -> {
                 val statistikk = import<VirksomhetSykefraværsstatistikkDto>(Statistikkategori.VIRKSOMHET, path)
-                sendTilKafka(kvartal = kvartal, statistikkategori = Statistikkategori.VIRKSOMHET, statistikk = statistikk)
+                sendTilKafka(
+                    kvartal = kvartal,
+                    statistikkategori = Statistikkategori.VIRKSOMHET,
+                    statistikk = statistikk
+                )
             }
 
             Statistikkategori.VIRKSOMHET_METADATA -> {
-                importViksomhetMetadata()
+                val metadata = importViksomhetMetadata()
+                sendMetadataTilKafka(kvartal = kvartal, metadata = metadata)
             }
         }
     }
@@ -86,7 +96,7 @@ class StatistikkImportService(
         Pair("2024", "K1")        // TODO: hent kvartal som skal importeres fra en eller annen tjeneste
 
 
-    private fun importViksomhetMetadata() {
+    private fun importViksomhetMetadata(): List<VirksomhetMetadataDto> {
         logger.info("Starter import av virksomhet metadata")
         val kvartal = hentÅrstallOgKvartal()
         val path = if (brukÅrOgKvartalIPathTilFilene) "${kvartal.first}/${kvartal.second}" else ""
@@ -95,20 +105,19 @@ class StatistikkImportService(
             path = path,
             fileName = Statistikkategori.VIRKSOMHET_METADATA.tilFilnavn()
         )
-
-        try {
+        return try {
             val statistikk = hentStatistikk(
                 path = path,
                 kategori = Statistikkategori.VIRKSOMHET_METADATA,
             )
             val virksomhetMetadataDtoList: List<VirksomhetMetadataDto> =
                 statistikk.toVirksomhetMetadataDto()
-            // kontroll
             logger.info("Importert metadata for '${virksomhetMetadataDtoList.size}' virksomhet-er")
+            virksomhetMetadataDtoList
         } catch (e: Exception) {
             logger.warn("Fikk exception i import prosess med melding '${e.message}'", e)
+            emptyList()
         }
-
     }
 
     private inline fun <reified T : Sykefraværsstatistikk> import(
@@ -156,7 +165,7 @@ class StatistikkImportService(
         return result
     }
 
-    fun sendTilKafka(
+    private fun sendTilKafka(
         kvartal: String,
         statistikkategori: Statistikkategori,
         statistikk: List<SykefraværsstatistikkDto>
@@ -172,6 +181,19 @@ class StatistikkImportService(
         }
     }
 
+    private fun sendMetadataTilKafka(
+        kvartal: String,
+        metadata: List<VirksomhetMetadataDto>
+    ) {
+        metadata.forEach {
+            eksportProdusent.sendMelding(
+                melding = VirksomhetMetadataMelding(
+                    kvartal = kvartal,
+                    virksomhetMetadata = it
+                )
+            )
+        }
+    }
 
     companion object {
         fun kalkulerSykefraværsprosent(statistikk: List<Sykefraværsstatistikk>): BigDecimal {

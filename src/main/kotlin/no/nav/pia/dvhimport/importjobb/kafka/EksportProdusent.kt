@@ -77,7 +77,7 @@ class EksportProdusent(kafkaConfig: KafkaConfig) {
     ) {
         fun tilNøkkel() =
             Json.encodeToString(
-                SykefraværsstatistikkNøkkel(
+                Nøkkel(
                     kvartal,
                     if (ekstraNøkkel.isNotEmpty()) {
                         this.meldingType.name + "-" + this.ekstraNøkkel
@@ -102,7 +102,7 @@ class EksportProdusent(kafkaConfig: KafkaConfig) {
     }
 
     @Serializable
-    data class SykefraværsstatistikkNøkkel(
+    data class Nøkkel(
         val kvartal: String,
         val meldingType: String,
     )
