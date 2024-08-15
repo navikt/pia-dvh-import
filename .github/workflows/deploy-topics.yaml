@@ -28,5 +28,6 @@ jobs:
           RESOURCE: "\
             .nais/topics/kvartalsvis-sykefravarsstatistikk-ovrige-kategorier-topic.yaml,\
             .nais/topics/kvartalsvis-sykefravarsstatistikk-virksomhet-topic.yaml,\
-            .nais/topics/kvartalsvis-sykefravarsstatistikk-virksomhet-metadata-topic.yaml"
+            .nais/topics/kvartalsvis-sykefravarsstatistikk-virksomhet-metadata-topic.yaml, \
+            .nais/topics/kvartalsvis-sykefravarsstatistikk-publiseringsdato-topic.yaml"
           VARS: .nais/${{ matrix.cluster }}.yaml

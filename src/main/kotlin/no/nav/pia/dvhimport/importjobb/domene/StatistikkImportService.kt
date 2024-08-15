@@ -91,6 +91,10 @@ class StatistikkImportService(
         }
     }
 
+    fun importPubliseringsdato() {
+        logger.info("Starter import av publiseringsdato")
+    }
+
 
     private fun hentÅrstallOgKvartal() =
         Pair("2024", "K1")        // TODO: hent kvartal som skal importeres fra en eller annen tjeneste

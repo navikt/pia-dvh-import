@@ -4,7 +4,7 @@ val logbackVersion = "1.5.3"
 val prometeusVersion = "1.12.4"
 val googleCloudStorageVersion = "2.30.1"
 val gcsNioVersion = "0.127.15"
-val iaFellesVersion = "1.3.0"
+val iaFellesVersion = "1.4.0"
 val kotestVersion = "5.8.1"
 val testcontainersVersion = "1.19.7"
 
