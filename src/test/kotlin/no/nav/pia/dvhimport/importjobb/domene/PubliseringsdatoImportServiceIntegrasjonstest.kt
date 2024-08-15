@@ -1,6 +1,8 @@
 package no.nav.pia.dvhimport.importjobb.domene
 
 import ia.felles.integrasjoner.jobbsender.Jobb
+import io.kotest.inspectors.forAtLeastOne
+import io.kotest.matchers.collections.shouldHaveAtLeastSize
 import io.kotest.matchers.shouldBe
 import no.nav.pia.dvhimport.helper.TestContainerHelper
 import no.nav.pia.dvhimport.helper.TestContainerHelper.Companion.dvhImportApplikasjon
@@ -9,6 +11,8 @@ import no.nav.pia.dvhimport.konfigurasjon.KafkaTopics
 import kotlin.test.AfterTest
 import kotlin.test.BeforeTest
 import kotlin.test.Test
+import kotlinx.coroutines.runBlocking
+import kotlinx.serialization.json.Json
 
 
 class PubliseringsdatoImportServiceIntegrasjonstest {
@@ -40,28 +44,21 @@ class PubliseringsdatoImportServiceIntegrasjonstest {
         dvhImportApplikasjon shouldContainLog "Starter import av publiseringsdato".toRegex()
         dvhImportApplikasjon shouldContainLog "Jobb 'publiseringsdatoDvhImport' ferdig".toRegex()
 
-        /*
         runBlocking {
             kafkaContainer.ventOgKonsumerKafkaMeldinger(
-                key = """{"kvartal":"2024K1","meldingType":"PUBLISERINGSDATO"}""",
+                key = """{"kvartal":"2024","meldingType":"PUBLISERINGSDATO"}""",
                 konsument = eksportertPubliseringsdatoKonsument
             ) { meldinger ->
                 val deserialiserteSvar = meldinger.map {
-                    Json.decodeFromString<Publiseringsdato>(it)
+                    Json.decodeFromString<PubliseringsdatoDto>(it)
                 }
                 deserialiserteSvar shouldHaveAtLeastSize 1
                 deserialiserteSvar.forAtLeastOne { publiseringsdato ->
                     publiseringsdato.rapportPeriode shouldBe "202401"
                 }
             }
-        }*/
+        }
     }
-
-    data class Publiseringsdato(
-        val rapportPeriode: String,
-        val offentligDato: String,
-        val oppdatertIDvh: String,
-    )
 
     fun lagreTestDataITestBucket() {
         val json = """
@@ -85,7 +82,7 @@ class PubliseringsdatoImportServiceIntegrasjonstest {
                 "rapport_periode": "202304",
                 "offentlig_dato": "2024-02-29, 08:00:00",  
                 "oppdatert_i_dvh": "2023-10-20"
-               },
+               }
             ]
         """.trimIndent()
 

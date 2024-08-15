@@ -27,7 +27,7 @@ class SykefraværsstatistikkDtoTest {
               "antallPersoner": 3124427
             }]
         """.trimIndent()
-        val dto = json.tilGeneriskStatistikk().toSykefraværsstatistikkDto<LandSykefraværsstatistikkDto>().first()
+        val dto = json.tilListe().toSykefraværsstatistikkDto<LandSykefraværsstatistikkDto>().first()
 
         dto.land shouldBe "NO"
         dto.årstall shouldBe 2024
@@ -78,7 +78,7 @@ class SykefraværsstatistikkDtoTest {
               "antallPersoner": 3124427
             }]
         """.trimIndent()
-        val dto = json.tilGeneriskStatistikk().toSykefraværsstatistikkDto<NæringSykefraværsstatistikkDto>().first()
+        val dto = json.tilListe().toSykefraværsstatistikkDto<NæringSykefraværsstatistikkDto>().first()
 
         dto.næring shouldBe "22"
         dto.årstall shouldBe 2024
@@ -135,7 +135,7 @@ class SykefraværsstatistikkDtoTest {
                 ]
               }]
         """.trimIndent()
-        val dto = json.tilGeneriskStatistikk().toSykefraværsstatistikkDto<VirksomhetSykefraværsstatistikkDto>().first()
+        val dto = json.tilListe().toSykefraværsstatistikkDto<VirksomhetSykefraværsstatistikkDto>().first()
 
         dto.årstall shouldBe 2024
         dto.kvartal shouldBe 1
@@ -191,7 +191,7 @@ class SykefraværsstatistikkDtoTest {
               "rectype": "1"
             }]
         """.trimIndent()
-        val dto = json.tilGeneriskStatistikk().toSykefraværsstatistikkDto<VirksomhetSykefraværsstatistikkDto>().first()
+        val dto = json.tilListe().toSykefraværsstatistikkDto<VirksomhetSykefraværsstatistikkDto>().first()
 
         dto.årstall shouldBe 2024
         dto.kvartal shouldBe 3
@@ -239,7 +239,7 @@ class SykefraværsstatistikkDtoTest {
               "rectype": "1"
             }]
         """.trimIndent()
-        val dto = json.tilGeneriskStatistikk().toSykefraværsstatistikkDto<VirksomhetSykefraværsstatistikkDto>().first()
+        val dto = json.tilListe().toSykefraværsstatistikkDto<VirksomhetSykefraværsstatistikkDto>().first()
 
         dto.årstall shouldBe 2024
         dto.kvartal shouldBe 3
@@ -284,7 +284,7 @@ class SykefraværsstatistikkDtoTest {
                 ]
               }]
         """.trimIndent()
-        val dto = json.tilGeneriskStatistikk().toSykefraværsstatistikkDto<VirksomhetSykefraværsstatistikkDto>().first()
+        val dto = json.tilListe().toSykefraværsstatistikkDto<VirksomhetSykefraværsstatistikkDto>().first()
 
         dto.årstall shouldBe 2024
         dto.kvartal shouldBe 1

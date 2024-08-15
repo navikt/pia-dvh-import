@@ -193,7 +193,7 @@ object SykefraværsstatistikkDtoSerializer : JsonContentPolymorphicSerializer<Sy
     }
 }
 
-fun String.tilGeneriskStatistikk(): List<String> =
+fun String.tilListe(): List<String> =
     Json.decodeFromString<JsonArray>(this).map {
         it.toString()
     }.toList()

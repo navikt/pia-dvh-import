@@ -14,7 +14,7 @@ class StatistikkImportServiceUnitTest{
                 [
                   {"testField": "should fail"}
                 ]
-            """.trimIndent().tilGeneriskStatistikk()
+            """.trimIndent().tilListe()
 
         result.size shouldBe 1
     }

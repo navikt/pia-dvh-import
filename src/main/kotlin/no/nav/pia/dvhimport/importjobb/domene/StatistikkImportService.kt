@@ -8,6 +8,7 @@ import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import java.math.BigDecimal
 import java.math.RoundingMode
+import no.nav.pia.dvhimport.importjobb.kafka.EksportProdusent.PubliseringsdatoMelding
 import no.nav.pia.dvhimport.importjobb.kafka.EksportProdusent.VirksomhetMetadataMelding
 
 
@@ -91,8 +92,39 @@ class StatistikkImportService(
         }
     }
 
-    fun importPubliseringsdato() {
+    fun importOgEksportPubliseringsdato() {
+        val publiseringsdatoer = importPubliseringsdato()
+        publiseringsdatoer.forEach {
+            eksportProdusent.sendMelding(
+                melding = PubliseringsdatoMelding(
+                    kvartal = "2024",
+                    publiseringsdato = it
+                )
+            )
+        }
+    }
+
+    fun importPubliseringsdato(): List<PubliseringsdatoDto> {
         logger.info("Starter import av publiseringsdato")
+        val år = 2024
+        val path = if (brukÅrOgKvartalIPathTilFilene) "$år" else ""
+
+        bucketKlient.ensureFileExists(
+            path = path,
+            fileName = Metadata.PUBLISERINGSDATO.tilFilnavn()
+        )
+
+        return try {
+            val publiseringsdatoer = hentInnhold(
+                path = path,
+                kilde = Metadata.PUBLISERINGSDATO
+            )
+            logger.info("Antall rader med publiseringsdatoer: ${publiseringsdatoer.size}")
+            publiseringsdatoer.tilPubliseringsdatoDto()
+        } catch (e: Exception) {
+            logger.warn("Fikk exception i import prosess med melding '${e.message}'", e)
+            emptyList()
+        }
     }
 
 
@@ -110,12 +142,12 @@ class StatistikkImportService(
             fileName = Statistikkategori.VIRKSOMHET_METADATA.tilFilnavn()
         )
         return try {
-            val statistikk = hentStatistikk(
+            val statistikk = hentInnhold(
                 path = path,
-                kategori = Statistikkategori.VIRKSOMHET_METADATA,
+                kilde = Statistikkategori.VIRKSOMHET_METADATA,
             )
             val virksomhetMetadataDtoList: List<VirksomhetMetadataDto> =
-                statistikk.toVirksomhetMetadataDto()
+                statistikk.tilVirksomhetMetadataDto()
             logger.info("Importert metadata for '${virksomhetMetadataDtoList.size}' virksomhet-er")
             virksomhetMetadataDtoList
         } catch (e: Exception) {
@@ -131,9 +163,9 @@ class StatistikkImportService(
         bucketKlient.ensureFileExists(path, kategori.tilFilnavn())
 
         try {
-            val statistikk = hentStatistikk(
+            val statistikk = hentInnhold(
                 path = path,
-                kategori = kategori,
+                kilde = kategori,
             )
             val sykefraværsstatistikkDtoList: List<T> =
                 statistikk.toSykefraværsstatistikkDto<T>()
@@ -148,20 +180,20 @@ class StatistikkImportService(
         }
     }
 
-    private fun hentStatistikk(path: String, kategori: Statistikkategori): List<String> {
+    private fun hentInnhold(path: String, kilde: DvhDatakilde): List<String> {
         val result: List<String> = try {
-            val fileName = kategori.tilFilnavn()
-            val dvhStatistikk = bucketKlient.getFromFile(
+            val fileName = kilde.tilFilnavn()
+            val innhold = bucketKlient.getFromFile(
                 path = path,
                 fileName = fileName
             )
-            if (dvhStatistikk.isNullOrEmpty())
+            if (innhold.isNullOrEmpty())
                 return emptyList()
 
-            val statistikk: List<String> =
-                dvhStatistikk.tilGeneriskStatistikk()
-            logger.info("Antall rader med statistikk for kategori '$kategori' og path '$path': ${statistikk.size}")
-            statistikk
+            val data: List<String> =
+                innhold.tilListe()
+            logger.info("Antall rader med data for kilde '$kilde' og path '$path': ${data.size}")
+            data
         } catch (e: Exception) {
             logger.warn("Fikk exception med melding '${e.message}'", e)
             emptyList()
@@ -207,16 +239,6 @@ class StatistikkImportService(
                 StatistikkUtils.kalkulerSykefraværsprosent(sumAntallTapteDagsverk, sumAntallMuligeDagsverk)
             return sykefraværsprosentLand.setScale(1, RoundingMode.HALF_UP)
         }
-
-        fun Statistikkategori.tilFilnavn(): String =
-            when (this) {
-                Statistikkategori.LAND -> "land.json"
-                Statistikkategori.SEKTOR -> "sektor.json"
-                Statistikkategori.NÆRING -> "naering.json"
-                Statistikkategori.NÆRINGSKODE -> "naeringskode.json"
-                Statistikkategori.VIRKSOMHET -> "virksomhet.json"
-                Statistikkategori.VIRKSOMHET_METADATA -> "virksomhet_metadata.json"
-            }
 
         private fun sanityzeOrgnr(jsonElement: String): String =
             jsonElement.replace("[0-9]{9}".toRegex(), "*********")

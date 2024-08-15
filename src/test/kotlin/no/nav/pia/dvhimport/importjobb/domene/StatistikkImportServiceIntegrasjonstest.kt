@@ -9,7 +9,6 @@ import kotlinx.serialization.json.Json
 import no.nav.pia.dvhimport.helper.TestContainerHelper
 import no.nav.pia.dvhimport.helper.TestContainerHelper.Companion.dvhImportApplikasjon
 import no.nav.pia.dvhimport.helper.TestContainerHelper.Companion.shouldContainLog
-import no.nav.pia.dvhimport.importjobb.domene.StatistikkImportService.Companion.tilFilnavn
 import no.nav.pia.dvhimport.konfigurasjon.KafkaTopics
 import java.math.BigDecimal
 import kotlin.test.AfterTest

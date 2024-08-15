@@ -3,6 +3,7 @@ package no.nav.pia.dvhimport.importjobb.kafka
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
+import no.nav.pia.dvhimport.importjobb.domene.PubliseringsdatoDto
 import no.nav.pia.dvhimport.importjobb.domene.Statistikkategori
 import no.nav.pia.dvhimport.importjobb.domene.SykefraværsstatistikkDto
 import no.nav.pia.dvhimport.importjobb.domene.VirksomhetMetadataDto
@@ -28,7 +29,7 @@ class EksportProdusent(kafkaConfig: KafkaConfig) {
                 KafkaTopics.KVARTALSVIS_SYKEFRAVARSSTATISTIKK_VIRKSOMHET.navnMedNamespace
             }
             is VirksomhetMetadataMelding -> KafkaTopics.KVARTALSVIS_SYKEFRAVARSSTATISTIKK_VIRKSOMHET_METADATA.navnMedNamespace
-            is PubliseringsdatoMelding -> "Not yet implemented" //TODO: Implement
+            is PubliseringsdatoMelding -> KafkaTopics.KVARTALSVIS_SYKEFRAVARSSTATISTIKK_PUBLISERINGSDATO.navnMedNamespace
         }
         producer.send(
             ProducerRecord(
@@ -61,11 +62,11 @@ class EksportProdusent(kafkaConfig: KafkaConfig) {
 
     class PubliseringsdatoMelding(
         kvartal: String,
-        toBeDefined: String,
-    ) : EksportMelding<String>(
+        publiseringsdato: PubliseringsdatoDto,
+    ) : EksportMelding<PubliseringsdatoDto>(
         kvartal = kvartal,
         meldingType = MeldingType.PUBLISERINGSDATO,
-        data = toBeDefined
+        data = publiseringsdato
     )
 
     @Serializable
@@ -91,7 +92,7 @@ class EksportProdusent(kafkaConfig: KafkaConfig) {
             when (this) {
                 is SykefraværsstatistikkMelding -> Json.encodeToString<SykefraværsstatistikkDto>(data)
                 is VirksomhetMetadataMelding -> Json.encodeToString<VirksomhetMetadataDto>(data)
-                is PubliseringsdatoMelding -> Json.encodeToString<String>(data)
+                is PubliseringsdatoMelding -> Json.encodeToString<PubliseringsdatoDto>(data)
             }
     }
 

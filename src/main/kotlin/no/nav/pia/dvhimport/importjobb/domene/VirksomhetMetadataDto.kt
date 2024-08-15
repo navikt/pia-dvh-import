@@ -15,8 +15,8 @@ data class VirksomhetMetadataDto(
     val rectype: String,
 )
 
-fun List<String>.toVirksomhetMetadataDto(): List<VirksomhetMetadataDto> =
-    this.map { it.serializeToVirksomhetMetadataDto() }
+fun List<String>.tilVirksomhetMetadataDto(): List<VirksomhetMetadataDto> =
+    this.map { it.tilVirksomhetMetadataDto() }
 
-fun String.serializeToVirksomhetMetadataDto(): VirksomhetMetadataDto =
+fun String.tilVirksomhetMetadataDto(): VirksomhetMetadataDto =
     Json.decodeFromString<VirksomhetMetadataDto>(this)

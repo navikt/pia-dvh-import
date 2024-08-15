@@ -74,7 +74,7 @@ class Jobblytter(val statistikkImportService: StatistikkImportService) : Corouti
                                         statistikkImportService.importForKategori(Statistikkategori.VIRKSOMHET_METADATA)
                                     }
                                     publiseringsdatoDvhImport -> {
-                                        statistikkImportService.importPubliseringsdato()
+                                        statistikkImportService.importOgEksportPubliseringsdato()
                                     }
                                     else -> {
                                         logger.info("Jobb '${jobbInfo.jobb}' ignorert")
