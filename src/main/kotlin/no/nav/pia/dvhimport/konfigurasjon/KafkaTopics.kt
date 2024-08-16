@@ -19,8 +19,3 @@ enum class KafkaTopics(
     val navnMedNamespace
         get() = "${prefix}.${navn}"
 }
-
-/*
-  Andre topics:
-        kvartalsvis-sykefravarsstatistikk-publiseringsdato
- */
