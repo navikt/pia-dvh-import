@@ -17,6 +17,6 @@ spec:
     path: /metrics
   env:
     - name: GCS_SYKEFRAVARSSTATISTIKK_BUCKET_NAME  # GCS: Google Cloud Storage
-      value: "syfra-ia-agg-data-bucket"
+      value: {{bucketName}}
     - name: GCS_URL
       value: "https://storage.googleapis.com"
