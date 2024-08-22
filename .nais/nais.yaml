@@ -11,8 +11,8 @@ spec:
     requests:
       cpu: 100m
     limits:
-      memory: 1Gi
-      cpu: 500m
+      memory: 2048Mi
+      cpu: 1000m
   kafka:
     pool: {{kafkaPool}}
   prometheus:
