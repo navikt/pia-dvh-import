@@ -49,7 +49,7 @@ class BucketKlientTest {
         )
         val bucketKlient = BucketKlient(storage, "test-in-memory-bucket")
 
-        val innhold = bucketKlient.getFromFile(path = "2024K1", fileName = "statistikk_not_found.json")
+        val innhold = bucketKlient.getFromFile(path = "2024K1", fileName = "denne_filen_finnes_ikke.json")
 
         innhold shouldBe null
     }

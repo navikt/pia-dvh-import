@@ -1,7 +1,6 @@
 package no.nav.pia.dvhimport.importjobb.domene
 
 import ia.felles.integrasjoner.jobbsender.Jobb
-import io.kotest.inspectors.forAtLeastOne
 import io.kotest.matchers.collections.shouldHaveAtLeastSize
 import io.kotest.matchers.shouldBe
 import no.nav.pia.dvhimport.helper.TestContainerHelper
@@ -12,6 +11,9 @@ import kotlin.test.AfterTest
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlinx.coroutines.runBlocking
+import kotlinx.datetime.LocalDate
+import kotlinx.datetime.LocalDateTime
+import kotlinx.datetime.LocalTime
 import kotlinx.serialization.json.Json
 
 
@@ -53,9 +55,14 @@ class PubliseringsdatoImportServiceIntegrasjonstest {
                     Json.decodeFromString<PubliseringsdatoDto>(it)
                 }
                 deserialiserteSvar shouldHaveAtLeastSize 1
-                deserialiserteSvar.forAtLeastOne { publiseringsdato ->
-                    publiseringsdato.rapportPeriode shouldBe "202401"
+                val publiseringTredjeKvartal = deserialiserteSvar.first { publiseringsdato ->
+                    publiseringsdato.rapportPeriode == "202403"
                 }
+
+                publiseringTredjeKvartal.rapportPeriode shouldBe "202403"
+                publiseringTredjeKvartal.offentligDato shouldBe LocalDateTime.parse("2024-11-28T08:00:00")
+                publiseringTredjeKvartal.offentligDato.time shouldBe LocalTime.parse("08:00:00")
+                publiseringTredjeKvartal.oppdatertIDvh shouldBe LocalDate.parse("2023-10-20")
             }
         }
     }

@@ -1,5 +1,5 @@
 val ktorVersion = "2.3.9"
-val kotlinVersion = "1.9.23"
+val kotlinVersion = "2.0.20"
 val logbackVersion = "1.5.3"
 val prometeusVersion = "1.12.4"
 val googleCloudStorageVersion = "2.30.1"
@@ -9,8 +9,8 @@ val kotestVersion = "5.8.1"
 val testcontainersVersion = "1.19.7"
 
 plugins {
-    kotlin("jvm") version "1.9.23"
-    kotlin("plugin.serialization") version "1.9.23"
+    kotlin("jvm") version "2.0.20"
+    kotlin("plugin.serialization") version "2.0.20"
     id("com.github.johnrengelman.shadow") version "8.1.1"
 }
 
@@ -35,7 +35,7 @@ dependencies {
     implementation("io.ktor:ktor-server-status-pages-jvm:$ktorVersion")
     implementation("ch.qos.logback:logback-classic:$logbackVersion")
     implementation("net.logstash.logback:logstash-logback-encoder:7.4")
-    implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.5.0")
+    implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.6.1")
     // Google Cloud Storage
     implementation("com.google.cloud:google-cloud-storage:${googleCloudStorageVersion}")
     // Kafka

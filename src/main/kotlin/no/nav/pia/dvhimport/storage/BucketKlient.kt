@@ -47,12 +47,12 @@ class BucketKlient(
         val fil = if (path.isNotEmpty()) "$path/$fileName" else fileName
         logger.info("Fetch data i bucket '$bucketName' fra fil i path '$path' med filnavn '$fileName'")
 
-        val blob: Blob = try {
+        val blob: Blob? = try {
             gcpStorage.get(bucketName, fil)
         } catch (npe: NullPointerException) {
             logger.error("Finner ikke fil '$fil' fra bucket '$bucketName'")
-            return null
+            null
         }
-        return blob.getContent().decodeToString()
+        return blob?.getContent()?.decodeToString()
     }
 }
