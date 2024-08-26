@@ -11,7 +11,6 @@ import kotlin.test.AfterTest
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlinx.coroutines.runBlocking
-import kotlinx.datetime.LocalDate
 import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.LocalTime
 import kotlinx.serialization.json.Json
@@ -62,7 +61,7 @@ class PubliseringsdatoImportServiceIntegrasjonstest {
                 publiseringTredjeKvartal.rapportPeriode shouldBe "202403"
                 publiseringTredjeKvartal.offentligDato shouldBe LocalDateTime.parse("2024-11-28T08:00:00")
                 publiseringTredjeKvartal.offentligDato.time shouldBe LocalTime.parse("08:00:00")
-                publiseringTredjeKvartal.oppdatertIDvh shouldBe LocalDate.parse("2023-10-20")
+                publiseringTredjeKvartal.oppdatertIDvh shouldBe LocalDateTime.parse("2023-10-20T08:00:00")
             }
         }
     }
@@ -73,22 +72,22 @@ class PubliseringsdatoImportServiceIntegrasjonstest {
               {
                 "rapport_periode": "202403",
                 "offentlig_dato": "2024-11-28, 08:00:00",  
-                "oppdatert_i_dvh": "2023-10-20"
+                "oppdatert_i_dvh": "2023-10-20, 08:00:00"
                },
               {
                 "rapport_periode": "202402",
                 "offentlig_dato": "2024-09-05, 08:00:00",  
-                "oppdatert_i_dvh": "2023-10-20"
+                "oppdatert_i_dvh": "2023-10-20, 08:00:00"
                },
               {
                 "rapport_periode": "202401",
                 "offentlig_dato": "2024-05-30, 08:00:00",  
-                "oppdatert_i_dvh": "2023-10-20"
+                "oppdatert_i_dvh": "2023-10-20, 08:00:00"
                },
                  {
                 "rapport_periode": "202304",
                 "offentlig_dato": "2024-02-29, 08:00:00",  
-                "oppdatert_i_dvh": "2023-10-20"
+                "oppdatert_i_dvh": "2023-10-20, 08:00:00"
                }
             ]
         """.trimIndent()

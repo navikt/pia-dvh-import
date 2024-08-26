@@ -18,16 +18,17 @@ data class PubliseringsdatoDto(
     @SerialName("rapport_periode")
     val rapportPeriode: String,
     @SerialName("offentlig_dato")
-    @Serializable(with = LocalDateTimeSerializer::class)
+    @Serializable(with = DvhDatoMedTidSerializer::class)
     val offentligDato: LocalDateTime,
     @SerialName("oppdatert_i_dvh")
-    val oppdatertIDvh: LocalDate,
+    @Serializable(with = DvhDatoMedTidSerializer::class)
+    val oppdatertIDvh: LocalDateTime,
 )
 
-internal object LocalDateTimeSerializer : KSerializer<LocalDateTime> {
+internal object DvhDatoMedTidSerializer : KSerializer<LocalDateTime> {
     override val descriptor = PrimitiveSerialDescriptor("LocalDateTime", PrimitiveKind.STRING)
 
-    val customFormat = LocalDateTime.Format {
+    val dvhTidsformat = LocalDateTime.Format {
         date(LocalDate.Formats.ISO)
         char(',')
         char(' ')
@@ -35,11 +36,11 @@ internal object LocalDateTimeSerializer : KSerializer<LocalDateTime> {
     }
 
     override fun serialize(encoder: Encoder, value: LocalDateTime) {
-        encoder.encodeString(value.format(customFormat))
+        encoder.encodeString(value.format(dvhTidsformat))
     }
 
     override fun deserialize(decoder: Decoder): LocalDateTime {
-        return LocalDateTime.parse(decoder.decodeString(), customFormat)
+        return LocalDateTime.parse(decoder.decodeString(), dvhTidsformat)
     }
 }
 

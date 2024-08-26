@@ -11,7 +11,7 @@ class PubliseringsdatoDtoUnitTest {
               {
                 "rapport_periode": "202403",
                 "offentlig_dato": "2024-11-28, 08:00:00",  
-                "oppdatert_i_dvh": "2023-10-20"
+                "oppdatert_i_dvh": "2023-10-20, 08:00:00"
                }
         """.trimIndent()
 
