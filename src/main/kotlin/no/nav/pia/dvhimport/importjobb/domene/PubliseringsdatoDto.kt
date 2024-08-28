@@ -36,7 +36,7 @@ internal object DvhDatoMedTidSerializer : KSerializer<LocalDateTime> {
     }
 
     override fun serialize(encoder: Encoder, value: LocalDateTime) {
-        encoder.encodeString(value.format(dvhTidsformat))
+        encoder.encodeString(value.format(LocalDateTime.Formats.ISO) )
     }
 
     override fun deserialize(decoder: Decoder): LocalDateTime {

@@ -13,6 +13,8 @@ import kotlin.test.Test
 import kotlinx.coroutines.runBlocking
 import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.LocalTime
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
 
 
@@ -51,7 +53,7 @@ class PubliseringsdatoImportServiceIntegrasjonstest {
                 konsument = eksportertPubliseringsdatoKonsument
             ) { meldinger ->
                 val deserialiserteSvar = meldinger.map {
-                    Json.decodeFromString<PubliseringsdatoDto>(it)
+                    Json.decodeFromString<MottattPubliseringsdatoDto>(it)
                 }
                 deserialiserteSvar shouldHaveAtLeastSize 1
                 val publiseringTredjeKvartal = deserialiserteSvar.first { publiseringsdato ->
@@ -102,4 +104,14 @@ class PubliseringsdatoImportServiceIntegrasjonstest {
         verifiserBlobFinnes shouldBe true
 
     }
+
+    @Serializable
+    data class MottattPubliseringsdatoDto(
+        @SerialName("rapport_periode")
+        val rapportPeriode: String,
+        @SerialName("offentlig_dato")
+        val offentligDato: LocalDateTime,
+        @SerialName("oppdatert_i_dvh")
+        val oppdatertIDvh: LocalDateTime,
+    )
 }

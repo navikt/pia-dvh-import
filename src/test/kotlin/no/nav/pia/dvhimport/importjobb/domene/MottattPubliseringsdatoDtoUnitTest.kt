@@ -3,7 +3,7 @@ package no.nav.pia.dvhimport.importjobb.domene
 import kotlin.test.Test
 
 
-class PubliseringsdatoDtoUnitTest {
+class MottattPubliseringsdatoDtoUnitTest {
 
     @Test
     fun `Publiseringsdato har riktig datoformat`() {
