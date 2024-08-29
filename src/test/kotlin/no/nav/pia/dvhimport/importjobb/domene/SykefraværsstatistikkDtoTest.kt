@@ -35,7 +35,7 @@ class SykefraværsstatistikkDtoTest {
         dto.prosent shouldBe 6.2.toBigDecimal()
         dto.tapteDagsverk shouldBe 8894426.768373.toBigDecimal()
         dto.muligeDagsverk shouldBe 143458496.063556.toBigDecimal()
-        dto.antallPersoner shouldBe 3124427.toBigDecimal()
+        dto.antallPersoner shouldBe 3124427
     }
 
     @Test
@@ -90,7 +90,7 @@ class SykefraværsstatistikkDtoTest {
         dto.tapteDagsverkPerVarighet.size shouldBe 6
         dto.tapteDagsverkPerVarighet[0].varighet shouldBe "A"
         dto.tapteDagsverkPerVarighet[0].tapteDagsverk shouldBe 12.1527.toBigDecimal()
-        dto.antallPersoner shouldBe 3124427.toBigDecimal()
+        dto.antallPersoner shouldBe 3124427
     }
 
 
@@ -144,14 +144,14 @@ class SykefraværsstatistikkDtoTest {
         dto.tapteDagsverk shouldBe 352.386985.toBigDecimal()
         dto.muligeDagsverk shouldBe 1832.599301.toBigDecimal()
         dto.tapteDagsverkGradert shouldBe 90.034285.toBigDecimal()
-        dto.antallPersoner shouldBe 40.toBigDecimal()
+        dto.antallPersoner shouldBe 40
         dto.tapteDagsverkPerVarighet.size shouldBe 6
         dto.tapteDagsverkPerVarighet[0].varighet shouldBe "A"
         dto.tapteDagsverkPerVarighet[0].tapteDagsverk shouldBe 12.1527.toBigDecimal()
     }
 
     @Test
-    fun `Skal kunne parse en JSON String til VirksomhetSykefraværsstatistikkDto (med BigDecimal verdier som String)`() {
+    fun `Skal kunne parse en JSON String til VirksomhetSykefraværsstatistikkDto (med BigDecimal eller Int verdier som String)`() {
         val json = """
             [{
               "årstall": 2024,
@@ -187,7 +187,7 @@ class SykefraværsstatistikkDtoTest {
                   "tapteDagsverk": 31.4
                 }
               ],
-              "antallPersoner": "40.456",
+              "antallPersoner": "46",
               "rectype": "1"
             }]
         """.trimIndent()
@@ -199,7 +199,7 @@ class SykefraværsstatistikkDtoTest {
         dto.prosent shouldBe 68.9876.toBigDecimal()
         dto.tapteDagsverk shouldBe 120.23.toBigDecimal()
         dto.muligeDagsverk shouldBe 77.8716.toBigDecimal()
-        dto.antallPersoner shouldBe 40.456.toBigDecimal()
+        dto.antallPersoner shouldBe 46
     }
 
     @Test
@@ -235,7 +235,7 @@ class SykefraværsstatistikkDtoTest {
                   "tapteDagsverk": null
                 }
               ],
-              "antallPersoner": "40.456",
+              "antallPersoner": 46,
               "rectype": "1"
             }]
         """.trimIndent()
@@ -248,7 +248,7 @@ class SykefraværsstatistikkDtoTest {
         dto.tapteDagsverk shouldBe 120.23.toBigDecimal()
         dto.muligeDagsverk shouldBe 77.8716.toBigDecimal()
 
-        dto.antallPersoner shouldBe 40.456.toBigDecimal()
+        dto.antallPersoner shouldBe 46
     }
 
     @Test
@@ -293,7 +293,7 @@ class SykefraværsstatistikkDtoTest {
         dto.tapteDagsverk shouldBe 352.386985.toBigDecimal()
         dto.muligeDagsverk shouldBe 1832.599301.toBigDecimal()
         dto.tapteDagsverkGradert shouldBe 90.034285.toBigDecimal()
-        dto.antallPersoner shouldBe 40.toBigDecimal()
+        dto.antallPersoner shouldBe 40
         dto.tapteDagsverkPerVarighet.size shouldBe 4
         dto.tapteDagsverkPerVarighet[0].varighet shouldBe "B"
         dto.tapteDagsverkPerVarighet[0].tapteDagsverk shouldBe null

@@ -28,7 +28,7 @@ sealed interface Sykefraværsstatistikk {
     val prosent: BigDecimal
     val tapteDagsverk: BigDecimal
     val muligeDagsverk: BigDecimal
-    val antallPersoner: BigDecimal
+    val antallPersoner: Int
 }
 
 @Serializable(with = SykefraværsstatistikkDtoSerializer::class)
@@ -38,7 +38,7 @@ sealed class SykefraværsstatistikkDto: Sykefraværsstatistikk {
     override abstract val prosent: BigDecimal
     override abstract val tapteDagsverk: BigDecimal
     override abstract val muligeDagsverk: BigDecimal
-    override abstract val antallPersoner: BigDecimal
+    override abstract val antallPersoner: Int
 }
 
 @Serializable
@@ -52,8 +52,7 @@ data class LandSykefraværsstatistikkDto(
     override val tapteDagsverk: BigDecimal,
     @Serializable(with = BigDecimalSerializer::class)
     override val muligeDagsverk: BigDecimal,
-    @Serializable(with = BigDecimalSerializer::class)
-    override val antallPersoner: BigDecimal,
+    override val antallPersoner: Int,
 ): SykefraværsstatistikkDto()
 
 @Serializable
@@ -67,8 +66,7 @@ data class SektorSykefraværsstatistikkDto(
     override val tapteDagsverk: BigDecimal,
     @Serializable(with = BigDecimalSerializer::class)
     override val muligeDagsverk: BigDecimal,
-    @Serializable(with = BigDecimalSerializer::class)
-    override val antallPersoner: BigDecimal,
+    override val antallPersoner: Int,
 ) : SykefraværsstatistikkDto()
 
 @Serializable
@@ -86,8 +84,7 @@ data class NæringSykefraværsstatistikkDto(
     val tapteDagsverkGradert: BigDecimal,
     @Serializable(with = TapteDagsverkPerVarighetListSerializer::class)
     val tapteDagsverkPerVarighet: List<TapteDagsverkPerVarighetDto>,
-    @Serializable(with = BigDecimalSerializer::class)
-    override val antallPersoner: BigDecimal,
+    override val antallPersoner: Int,
 ) : SykefraværsstatistikkDto()
 
 @Serializable
@@ -105,8 +102,7 @@ data class NæringskodeSykefraværsstatistikkDto(
     val tapteDagsverkGradert: BigDecimal,
     @Serializable(with = TapteDagsverkPerVarighetListSerializer::class)
     val tapteDagsverkPerVarighet: List<TapteDagsverkPerVarighetDto>,
-    @Serializable(with = BigDecimalSerializer::class)
-    override val antallPersoner: BigDecimal,
+    override val antallPersoner: Int,
 ) : SykefraværsstatistikkDto()
 
 @Serializable
@@ -124,8 +120,7 @@ data class VirksomhetSykefraværsstatistikkDto(
     val tapteDagsverkGradert: BigDecimal,
     @Serializable(with = TapteDagsverkPerVarighetListSerializer::class)
     val tapteDagsverkPerVarighet: List<TapteDagsverkPerVarighetDto>,
-    @Serializable(with = BigDecimalSerializer::class)
-    override val antallPersoner: BigDecimal,
+    override val antallPersoner: Int,
     val rectype: String,
 ) : SykefraværsstatistikkDto()
 

@@ -105,7 +105,7 @@ class StatistikkImportServiceIntegrasjonstest {
                     landStatistikk.kvartal shouldBe 1
                     landStatistikk.tapteDagsverk shouldBe 8894426.768373.toBigDecimal()
                     landStatistikk.muligeDagsverk shouldBe 143458496.063556.toBigDecimal()
-                    landStatistikk.antallPersoner shouldBe 3124427.toBigDecimal()
+                    landStatistikk.antallPersoner shouldBe 3124427
                     landStatistikk.prosent shouldBe 6.2.toBigDecimal()
 
                 }
@@ -140,7 +140,7 @@ class StatistikkImportServiceIntegrasjonstest {
                     sektorStatistikk.prosent shouldBe 2.7.toBigDecimal()
                     sektorStatistikk.tapteDagsverk shouldBe 94426.768373.toBigDecimal()
                     sektorStatistikk.muligeDagsverk shouldBe 3458496.063556.toBigDecimal()
-                    sektorStatistikk.antallPersoner shouldBe 24427.toBigDecimal()
+                    sektorStatistikk.antallPersoner shouldBe 24427
                 }
                 deserialiserteSvar.filter { it.sektor == "2" }.forAtLeastOne { sektorStatistikk ->
                     sektorStatistikk.sektor shouldBe "2"
@@ -149,7 +149,7 @@ class StatistikkImportServiceIntegrasjonstest {
                     sektorStatistikk.prosent shouldBe 6.2.toBigDecimal()
                     sektorStatistikk.tapteDagsverk shouldBe 88944.768373.toBigDecimal()
                     sektorStatistikk.muligeDagsverk shouldBe 1434584.063556.toBigDecimal()
-                    sektorStatistikk.antallPersoner shouldBe 3124427.toBigDecimal()
+                    sektorStatistikk.antallPersoner shouldBe 3124427
                 }
             }
         }
@@ -182,7 +182,7 @@ class StatistikkImportServiceIntegrasjonstest {
                     næringStatistikk.prosent shouldBe 2.7.toBigDecimal()
                     næringStatistikk.tapteDagsverk shouldBe 94426.768373.toBigDecimal()
                     næringStatistikk.muligeDagsverk shouldBe 3458496.063556.toBigDecimal()
-                    næringStatistikk.antallPersoner shouldBe 24427.toBigDecimal()
+                    næringStatistikk.antallPersoner shouldBe 24427
                 }
                 deserialiserteSvar.filter { it.næring == "02" }.forAtLeastOne { næringStatistikk ->
                     næringStatistikk.næring shouldBe "02"
@@ -191,7 +191,7 @@ class StatistikkImportServiceIntegrasjonstest {
                     næringStatistikk.prosent shouldBe 6.2.toBigDecimal()
                     næringStatistikk.tapteDagsverk shouldBe 88944.768373.toBigDecimal()
                     næringStatistikk.muligeDagsverk shouldBe 1434584.063556.toBigDecimal()
-                    næringStatistikk.antallPersoner shouldBe 3124427.toBigDecimal()
+                    næringStatistikk.antallPersoner shouldBe 3124427
                 }
             }
         }
@@ -229,7 +229,7 @@ class StatistikkImportServiceIntegrasjonstest {
                     næringskodeStatistikk.tapteDagsverkPerVarighet.size shouldBe 1
                     næringskodeStatistikk.tapteDagsverkPerVarighet[0].varighet shouldBe "D"
                     næringskodeStatistikk.tapteDagsverkPerVarighet[0].tapteDagsverk shouldBe 148.534285.toBigDecimal()
-                    næringskodeStatistikk.antallPersoner shouldBe 24427.toBigDecimal()
+                    næringskodeStatistikk.antallPersoner shouldBe 24427
                 }
                 deserialiserteSvar.filter { it.næringskode == "02300" }.forAtLeastOne { næringskodeStatistikk ->
                     næringskodeStatistikk.næringskode shouldBe "02300"
@@ -242,7 +242,7 @@ class StatistikkImportServiceIntegrasjonstest {
                     næringskodeStatistikk.tapteDagsverkPerVarighet.size shouldBe 1
                     næringskodeStatistikk.tapteDagsverkPerVarighet[0].varighet shouldBe "D"
                     næringskodeStatistikk.tapteDagsverkPerVarighet[0].tapteDagsverk shouldBe 148.534285.toBigDecimal()
-                    næringskodeStatistikk.antallPersoner shouldBe 3124427.toBigDecimal()
+                    næringskodeStatistikk.antallPersoner shouldBe 3124427
                 }
             }
         }
@@ -279,7 +279,7 @@ class StatistikkImportServiceIntegrasjonstest {
                     virksomhetStatistikk.tapteDagsverkPerVarighet.size shouldBe 6
                     virksomhetStatistikk.tapteDagsverkPerVarighet[0].varighet shouldBe "A"
                     virksomhetStatistikk.tapteDagsverkPerVarighet[0].tapteDagsverk shouldBe 12.1527.toBigDecimal()
-                    virksomhetStatistikk.antallPersoner shouldBe 40.456.toBigDecimal()
+                    virksomhetStatistikk.antallPersoner shouldBe 40
                     virksomhetStatistikk.rectype shouldBe "1"
                 }
             }
@@ -349,7 +349,7 @@ class StatistikkImportServiceIntegrasjonstest {
         prosent: BigDecimal = 6.2.toBigDecimal(),
         tapteDagsverk: BigDecimal = 8894426.768373.toBigDecimal(),
         muligeDagsverk: BigDecimal = 143458496.063556.toBigDecimal(),
-        antallPersoner: BigDecimal = 3124427.toBigDecimal(),
+        antallPersoner: Int = 3124427,
     ): LandSykefraværsstatistikkDto {
         return LandSykefraværsstatistikkDto(
             land = land,
@@ -542,7 +542,7 @@ class StatistikkImportServiceIntegrasjonstest {
                   "tapteDagsverk": 31.4
                 }
               ],
-              "antallPersoner": "40.456", 
+              "antallPersoner": "40", 
               "rectype": "1"
             }]
             """.trimIndent().encodeToByteArray()
