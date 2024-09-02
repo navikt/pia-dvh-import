@@ -15,7 +15,7 @@ jobs:
   deploy:
     strategy:
       matrix:
-        cluster: [dev]
+        cluster: [dev, prod]
     name: Deploy topics to ${{ matrix.cluster }}
     if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
