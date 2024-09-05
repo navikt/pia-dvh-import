@@ -105,9 +105,9 @@ class StatistikkImportService(
         val publiseringsDatoErIDag = sjekkPubliseringErIDag(publiseringsdatoer, iDag)
         if (publiseringsDatoErIDag != null) {
             logger.info(
-                "Publiseringsdato er i dag ${publiseringsDatoErIDag}, " +
+                "Publiseringsdato er i dag ${publiseringsDatoErIDag.offentligDato}, " +
                         "og kvartal som skal importeres er: " +
-                        "${publiseringsDatoErIDag.tilPubliseringsdato().årstall}/${publiseringsDatoErIDag.tilPubliseringsdato().årstall}"
+                        "${publiseringsDatoErIDag.tilPubliseringsdato().årstall}/${publiseringsDatoErIDag.tilPubliseringsdato().kvartal}"
             )
         }
 
