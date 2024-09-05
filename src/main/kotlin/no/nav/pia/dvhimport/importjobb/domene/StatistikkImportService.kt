@@ -1,15 +1,21 @@
 package no.nav.pia.dvhimport.importjobb.domene
 
+import kotlinx.datetime.Clock
+import kotlinx.datetime.toLocalDateTime
+import no.nav.pia.dvhimport.importjobb.domene.Publiseringsdato.Companion.antallDagerTilPubliseringsdato
+import no.nav.pia.dvhimport.importjobb.domene.Publiseringsdato.Companion.erFørPubliseringsdato
+import no.nav.pia.dvhimport.importjobb.domene.Publiseringsdato.Companion.sjekkPubliseringErIDag
+import no.nav.pia.dvhimport.importjobb.domene.Publiseringsdato.Companion.timeZone
 import no.nav.pia.dvhimport.importjobb.kafka.EksportProdusent
+import no.nav.pia.dvhimport.importjobb.kafka.EksportProdusent.PubliseringsdatoMelding
 import no.nav.pia.dvhimport.importjobb.kafka.EksportProdusent.SykefraværsstatistikkMelding
-import no.nav.pia.dvhimport.storage.BucketKlient
+import no.nav.pia.dvhimport.importjobb.kafka.EksportProdusent.VirksomhetMetadataMelding
 import no.nav.pia.dvhimport.konfigurasjon.KafkaConfig
+import no.nav.pia.dvhimport.storage.BucketKlient
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import java.math.BigDecimal
 import java.math.RoundingMode
-import no.nav.pia.dvhimport.importjobb.kafka.EksportProdusent.PubliseringsdatoMelding
-import no.nav.pia.dvhimport.importjobb.kafka.EksportProdusent.VirksomhetMetadataMelding
 
 
 class StatistikkImportService(
@@ -93,7 +99,28 @@ class StatistikkImportService(
     }
 
     fun importOgEksportPubliseringsdato() {
+        val iDag = Clock.System.now().toLocalDateTime(timeZone)
         val publiseringsdatoer = importPubliseringsdato()
+
+        val publiseringsDatoErIDag = sjekkPubliseringErIDag(publiseringsdatoer, iDag)
+        if (publiseringsDatoErIDag != null) {
+            logger.info(
+                "Publiseringsdato er i dag ${publiseringsDatoErIDag}, " +
+                        "og kvartal som skal importeres er: " +
+                        "${publiseringsDatoErIDag.tilPubliseringsdato().årstall}/${publiseringsDatoErIDag.tilPubliseringsdato().årstall}"
+            )
+        }
+
+        val nestePubliseringsdato = nestePubliseringsdato(
+            publiseringsdatoer,
+            iDag
+        )
+
+        logger.info(
+            "Neste publiseringsdato er ${nestePubliseringsdato?.dato}, " +
+                    "og neste importert kvartal blir ${nestePubliseringsdato?.årstall}/${nestePubliseringsdato?.kvartal}"
+        )
+
         publiseringsdatoer.forEach {
             eksportProdusent.sendMelding(
                 melding = PubliseringsdatoMelding(
@@ -130,7 +157,6 @@ class StatistikkImportService(
 
     private fun hentÅrstallOgKvartal() =
         Pair("2024", "K1")        // TODO: hent kvartal som skal importeres fra en eller annen tjeneste
-
 
     private fun importViksomhetMetadata(): List<VirksomhetMetadataDto> {
         logger.info("Starter import av virksomhet metadata")
@@ -239,6 +265,26 @@ class StatistikkImportService(
                 StatistikkUtils.kalkulerSykefraværsprosent(sumAntallTapteDagsverk, sumAntallMuligeDagsverk)
             return sykefraværsprosentLand.setScale(1, RoundingMode.HALF_UP)
         }
+
+        fun nestePubliseringsdato(
+            publiseringsdatoer: List<PubliseringsdatoDto>,
+            fraDato: kotlinx.datetime.LocalDateTime
+        ): NestePubliseringsdato? {
+            val nestPubliseringsdato = publiseringsdatoer.map { it.tilPubliseringsdato() }
+                .filter { fraDato.erFørPubliseringsdato(it) }
+                .sortedWith(compareBy { fraDato.antallDagerTilPubliseringsdato(it) }).firstOrNull()
+
+            if (nestPubliseringsdato != null) {
+                return NestePubliseringsdato(
+                    årstall = nestPubliseringsdato.årstall,
+                    kvartal = nestPubliseringsdato.kvartal,
+                    dato = nestPubliseringsdato.offentligDato
+                )
+            } else {
+                return null
+            }
+        }
+
 
         private fun sanityzeOrgnr(jsonElement: String): String =
             jsonElement.replace("[0-9]{9}".toRegex(), "*********")
