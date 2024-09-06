@@ -155,9 +155,6 @@ class StatistikkImportService(
     }
 
 
-    private fun hentÅrstallOgKvartal() =
-        Pair("2024", "K1")        // TODO: hent kvartal som skal importeres fra en eller annen tjeneste
-
     private fun importViksomhetMetadata(): List<VirksomhetMetadataDto> {
         logger.info("Starter import av virksomhet metadata")
         val kvartal = hentÅrstallOgKvartal()
@@ -258,6 +255,9 @@ class StatistikkImportService(
     }
 
     companion object {
+        fun hentÅrstallOgKvartal() =
+            Pair("2024", "K2")        // TODO: hent kvartal som skal importeres fra en eller annen tjeneste
+
         fun kalkulerSykefraværsprosent(statistikk: List<Sykefraværsstatistikk>): BigDecimal {
             val sumAntallTapteDagsverk = statistikk.sumOf { statistikkDto -> statistikkDto.tapteDagsverk }
             val sumAntallMuligeDagsverk = statistikk.sumOf { statistikkDto -> statistikkDto.muligeDagsverk }

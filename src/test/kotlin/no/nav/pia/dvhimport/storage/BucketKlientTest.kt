@@ -15,6 +15,7 @@ import kotlin.test.Test
 
 class BucketKlientTest {
     private val storage = LocalStorageHelper.getOptions().service
+    private val gjeldendeÅrstallOgKvartal = "2024K2"
 
     @Test
     fun `skal kunne lese statistikk fra bucket`() {
@@ -23,7 +24,7 @@ class BucketKlientTest {
         val statistikk = listOf(statistikk1, statistikk2)
         val statistikkJson = Json.encodeToString(statistikk)
         lagreTestBlobInMemory(
-            blobNavn = "2024K1/statistikk.json",
+            blobNavn = "$gjeldendeÅrstallOgKvartal/statistikk.json",
             bucketName = "test-in-memory-bucket",
             storage = storage,
             contentType = MediaType.JSON_UTF_8,
@@ -33,14 +34,14 @@ class BucketKlientTest {
 
         val bucketKlient = BucketKlient(storage, "test-in-memory-bucket")
 
-        val results = bucketKlient.getFromFile(path = "2024K1", fileName = "statistikk.json")
+        val results = bucketKlient.getFromFile(path = gjeldendeÅrstallOgKvartal, fileName = "statistikk.json")
         results shouldBe statistikkJson
     }
 
     @Test
     fun `returnerer null hvis filen ikke finnes`() {
         lagreTestBlobInMemory(
-            blobNavn = "2024K1/statistikk.json",
+            blobNavn = "$gjeldendeÅrstallOgKvartal/statistikk.json",
             bucketName = "test-in-memory-bucket",
             storage = storage,
             contentType = MediaType.JSON_UTF_8,
@@ -49,7 +50,7 @@ class BucketKlientTest {
         )
         val bucketKlient = BucketKlient(storage, "test-in-memory-bucket")
 
-        val innhold = bucketKlient.getFromFile(path = "2024K1", fileName = "denne_filen_finnes_ikke.json")
+        val innhold = bucketKlient.getFromFile(path = gjeldendeÅrstallOgKvartal, fileName = "denne_filen_finnes_ikke.json")
 
         innhold shouldBe null
     }

@@ -28,6 +28,8 @@ class StatistikkImportServiceIntegrasjonstest {
     private val eksportertVirksomhetMetadataKonsument =
         kafkaContainer.nyKonsument(topic = KafkaTopics.KVARTALSVIS_SYKEFRAVARSSTATISTIKK_VIRKSOMHET_METADATA)
 
+    private val gjeldendeÅrstallOgKvartal = "2024K2"
+
     @BeforeTest
     fun setup() {
         gcsContainer.opprettTestBucketHvisIkkeFunnet()
@@ -92,7 +94,7 @@ class StatistikkImportServiceIntegrasjonstest {
 
         runBlocking {
             kafkaContainer.ventOgKonsumerKafkaMeldinger(
-                key = """{"kvartal":"2024K1","meldingType":"SYKEFRAVÆRSSTATISTIKK-LAND"}""",
+                key = """{"kvartal":"$gjeldendeÅrstallOgKvartal","meldingType":"SYKEFRAVÆRSSTATISTIKK-LAND"}""",
                 konsument = eksportertStatistikkKonsument
             ) { meldinger ->
                 val deserialiserteSvar = meldinger.map {
@@ -123,7 +125,7 @@ class StatistikkImportServiceIntegrasjonstest {
         dvhImportApplikasjon shouldContainLog "Sykefraværsprosent -snitt- for kategori SEKTOR er: '3.7'".toRegex()
         dvhImportApplikasjon shouldContainLog "Jobb 'sektorSykefraværsstatistikkDvhImport' ferdig".toRegex()
 
-        val nøkkel = """{"kvartal":"2024K1","meldingType":"SYKEFRAVÆRSSTATISTIKK-SEKTOR"}"""
+        val nøkkel = """{"kvartal":"$gjeldendeÅrstallOgKvartal","meldingType":"SYKEFRAVÆRSSTATISTIKK-SEKTOR"}"""
         runBlocking {
             kafkaContainer.ventOgKonsumerKafkaMeldinger(
                 key = nøkkel,
@@ -165,7 +167,7 @@ class StatistikkImportServiceIntegrasjonstest {
         dvhImportApplikasjon shouldContainLog "Sykefraværsprosent -snitt- for kategori NÆRING er: '3.7'".toRegex()
         dvhImportApplikasjon shouldContainLog "Jobb 'næringSykefraværsstatistikkDvhImport' ferdig".toRegex()
 
-        val nøkkel = """{"kvartal":"2024K1","meldingType":"SYKEFRAVÆRSSTATISTIKK-NÆRING"}"""
+        val nøkkel = """{"kvartal":"$gjeldendeÅrstallOgKvartal","meldingType":"SYKEFRAVÆRSSTATISTIKK-NÆRING"}"""
         runBlocking {
             kafkaContainer.ventOgKonsumerKafkaMeldinger(
                 key = nøkkel,
@@ -208,7 +210,7 @@ class StatistikkImportServiceIntegrasjonstest {
         dvhImportApplikasjon shouldContainLog "Sykefraværsprosent -snitt- for kategori NÆRINGSKODE er: '3.7'".toRegex()
         dvhImportApplikasjon shouldContainLog "Jobb 'næringskodeSykefraværsstatistikkDvhImport' ferdig".toRegex()
 
-        val nøkkel = """{"kvartal":"2024K1","meldingType":"SYKEFRAVÆRSSTATISTIKK-NÆRINGSKODE"}"""
+        val nøkkel = """{"kvartal":"$gjeldendeÅrstallOgKvartal","meldingType":"SYKEFRAVÆRSSTATISTIKK-NÆRINGSKODE"}"""
         runBlocking {
             kafkaContainer.ventOgKonsumerKafkaMeldinger(
                 key = nøkkel,
@@ -258,7 +260,7 @@ class StatistikkImportServiceIntegrasjonstest {
         dvhImportApplikasjon shouldContainLog "Sykefraværsprosent -snitt- for kategori VIRKSOMHET er: '26.0'".toRegex()
         dvhImportApplikasjon shouldContainLog "Jobb 'virksomhetSykefraværsstatistikkDvhImport' ferdig".toRegex()
 
-        val nøkkel = """{"kvartal":"2024K1","meldingType":"SYKEFRAVÆRSSTATISTIKK-VIRKSOMHET"}"""
+        val nøkkel = """{"kvartal":"$gjeldendeÅrstallOgKvartal","meldingType":"SYKEFRAVÆRSSTATISTIKK-VIRKSOMHET"}"""
         runBlocking {
             kafkaContainer.ventOgKonsumerKafkaMeldinger(
                 key = nøkkel,
@@ -296,7 +298,7 @@ class StatistikkImportServiceIntegrasjonstest {
         dvhImportApplikasjon shouldContainLog "Importert metadata for '1' virksomhet-er".toRegex()
         dvhImportApplikasjon shouldContainLog "Jobb 'virksomhetMetadataSykefraværsstatistikkDvhImport' ferdig".toRegex()
 
-        val nøkkel = """{"kvartal":"2024K1","meldingType":"METADATA_FOR_VIRKSOMHET"}"""
+        val nøkkel = """{"kvartal":"$gjeldendeÅrstallOgKvartal","meldingType":"METADATA_FOR_VIRKSOMHET"}"""
         runBlocking {
             kafkaContainer.ventOgKonsumerKafkaMeldinger(
                 key = nøkkel,
