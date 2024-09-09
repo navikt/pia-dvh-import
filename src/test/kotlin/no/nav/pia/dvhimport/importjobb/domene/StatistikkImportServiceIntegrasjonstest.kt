@@ -324,6 +324,41 @@ class StatistikkImportServiceIntegrasjonstest {
     }
 
     @Test
+    fun `primærnæring og primærnæringskode i VIRKSOMHET_METADATA kan være null`() {
+        lagTestDataForVirksomhetMetadataMedNullVerdier()
+
+        kafkaContainer.sendJobbMelding(Jobb.virksomhetMetadataSykefraværsstatistikkDvhImport)
+
+        dvhImportApplikasjon shouldContainLog "Starter import av virksomhet metadata".toRegex()
+        dvhImportApplikasjon shouldContainLog "Importert metadata for '1' virksomhet-er".toRegex()
+        dvhImportApplikasjon shouldContainLog "Jobb 'virksomhetMetadataSykefraværsstatistikkDvhImport' ferdig".toRegex()
+
+        val nøkkel = """{"kvartal":"$gjeldendeÅrstallOgKvartal","meldingType":"METADATA_FOR_VIRKSOMHET"}"""
+        runBlocking {
+            kafkaContainer.ventOgKonsumerKafkaMeldinger(
+                key = nøkkel,
+                konsument = eksportertVirksomhetMetadataKonsument
+            ) { meldinger ->
+                val deserialiserteSvar = meldinger.map {
+                    Json.decodeFromString<VirksomhetMetadataDto>(it)
+
+                }
+
+                deserialiserteSvar shouldHaveAtLeastSize 1
+                deserialiserteSvar.filter { it.orgnr == "987654321" }.forAtLeastOne { virksomhetMetadataStatistikk ->
+                    virksomhetMetadataStatistikk.orgnr shouldBe "987654321"
+                    virksomhetMetadataStatistikk.årstall shouldBe 2024
+                    virksomhetMetadataStatistikk.kvartal shouldBe 1
+                    virksomhetMetadataStatistikk.sektor shouldBe "2"
+                    virksomhetMetadataStatistikk.primærnæring shouldBe null
+                    virksomhetMetadataStatistikk.primærnæringskode shouldBe "45420"
+                    virksomhetMetadataStatistikk.rectype shouldBe "1"
+                }
+            }
+        }
+    }
+
+    @Test
     fun `import statistikk for alle kategorier`() {
         lagTestDataForLand().lagreITestBucket(kategori = Statistikkategori.LAND, nøkkel = "land", verdi = "NO")
         lagTestDataForSektor()
@@ -566,6 +601,27 @@ class StatistikkImportServiceIntegrasjonstest {
               "sektor": "2",
               "primærnæring": "88",
               "primærnæringskode": "88911",
+              "rectype": "1"
+            }]
+            """.trimIndent().encodeToByteArray()
+        )
+
+        val verifiserBlobFinnes = gcsContainer.verifiserBlobFinnes(blobNavn = filnavn)
+        verifiserBlobFinnes shouldBe true
+    }
+
+    private fun lagTestDataForVirksomhetMetadataMedNullVerdier() {
+        val filnavn = Statistikkategori.VIRKSOMHET_METADATA.tilFilnavn()
+        gcsContainer.lagreTestBlob(
+            blobNavn = filnavn,
+            bytes = """
+            [{
+              "årstall": 2024,
+              "kvartal": 1,
+              "orgnr": "987654321",
+              "sektor": "2",
+              "primærnæring": null,
+              "primærnæringskode": "45420",
               "rectype": "1"
             }]
             """.trimIndent().encodeToByteArray()

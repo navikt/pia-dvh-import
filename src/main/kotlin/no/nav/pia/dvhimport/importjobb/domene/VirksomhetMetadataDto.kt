@@ -10,8 +10,8 @@ data class VirksomhetMetadataDto(
     val årstall: Int,
     val kvartal: Int,
     val sektor: String,
-    val primærnæring: String,
-    val primærnæringskode: String,
+    val primærnæring: String?,
+    val primærnæringskode: String?,
     val rectype: String,
 )
 
