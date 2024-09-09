@@ -18,9 +18,6 @@ spec:
     - team: pia
       application: pia-dvh-import
       access: readwrite   # read, write, readwrite
-    - team: arbeidsgiver
-      application: sykefravarsstatistikk-api
-      access: read
     - team: pia
       application: pia-devops
       access: read
