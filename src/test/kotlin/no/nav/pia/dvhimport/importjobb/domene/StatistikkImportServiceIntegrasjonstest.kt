@@ -308,7 +308,7 @@ class StatistikkImportServiceIntegrasjonstest {
                     Json.decodeFromString<VirksomhetMetadataDto>(it)
 
                 }
-                
+
                 deserialiserteSvar shouldHaveAtLeastSize 1
                 deserialiserteSvar.filter { it.orgnr == "987654321" }.forAtLeastOne { virksomhetMetadataStatistikk ->
                     virksomhetMetadataStatistikk.orgnr shouldBe "987654321"
@@ -325,7 +325,7 @@ class StatistikkImportServiceIntegrasjonstest {
 
     @Test
     fun `primærnæring og primærnæringskode i VIRKSOMHET_METADATA kan være null`() {
-        lagTestDataForVirksomhetMetadataMedNullVerdier()
+        lagTestDataForVirksomhetMetadata(primærnæring = null, primærnæringskode = null)
 
         kafkaContainer.sendJobbMelding(Jobb.virksomhetMetadataSykefraværsstatistikkDvhImport)
 
@@ -351,7 +351,7 @@ class StatistikkImportServiceIntegrasjonstest {
                     virksomhetMetadataStatistikk.kvartal shouldBe 1
                     virksomhetMetadataStatistikk.sektor shouldBe "2"
                     virksomhetMetadataStatistikk.primærnæring shouldBe null
-                    virksomhetMetadataStatistikk.primærnæringskode shouldBe "45420"
+                    virksomhetMetadataStatistikk.primærnæringskode shouldBe null
                     virksomhetMetadataStatistikk.rectype shouldBe "1"
                 }
             }
@@ -589,7 +589,10 @@ class StatistikkImportServiceIntegrasjonstest {
         verifiserBlobFinnes shouldBe true
     }
 
-    private fun lagTestDataForVirksomhetMetadata() {
+    private fun lagTestDataForVirksomhetMetadata(
+        primærnæring: String? = "88",
+        primærnæringskode: String? = "88911"
+    ) {
         val filnavn = Statistikkategori.VIRKSOMHET_METADATA.tilFilnavn()
         gcsContainer.lagreTestBlob(
             blobNavn = filnavn,
@@ -599,8 +602,8 @@ class StatistikkImportServiceIntegrasjonstest {
               "kvartal": 1,
               "orgnr": "987654321",
               "sektor": "2",
-              "primærnæring": "88",
-              "primærnæringskode": "88911",
+              "primærnæring": ${nullOrStringWithQuotes(primærnæring)},
+              "primærnæringskode": ${nullOrStringWithQuotes(primærnæringskode)},
               "rectype": "1"
             }]
             """.trimIndent().encodeToByteArray()
@@ -610,24 +613,7 @@ class StatistikkImportServiceIntegrasjonstest {
         verifiserBlobFinnes shouldBe true
     }
 
-    private fun lagTestDataForVirksomhetMetadataMedNullVerdier() {
-        val filnavn = Statistikkategori.VIRKSOMHET_METADATA.tilFilnavn()
-        gcsContainer.lagreTestBlob(
-            blobNavn = filnavn,
-            bytes = """
-            [{
-              "årstall": 2024,
-              "kvartal": 1,
-              "orgnr": "987654321",
-              "sektor": "2",
-              "primærnæring": null,
-              "primærnæringskode": "45420",
-              "rectype": "1"
-            }]
-            """.trimIndent().encodeToByteArray()
-        )
+    private fun nullOrStringWithQuotes(value: String?): String? =
+        if (value == null) value else """"$value""""
 
-        val verifiserBlobFinnes = gcsContainer.verifiserBlobFinnes(blobNavn = filnavn)
-        verifiserBlobFinnes shouldBe true
-    }
 }
