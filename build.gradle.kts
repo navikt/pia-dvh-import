@@ -1,12 +1,15 @@
-val ktorVersion = "2.3.12"
-val kotlinVersion = "2.0.20"
-val logbackVersion = "1.5.8"
-val prometeusVersion = "1.12.4"
-val googleCloudStorageVersion = "2.30.1"
 val gcsNioVersion = "0.127.24"
+val googleCloudStorageVersion = "2.43.1"
 val iaFellesVersion = "1.4.0"
+val kafkaClientsVersion = "3.8.0"
 val kotestVersion = "5.8.1"
-val testcontainersVersion = "1.19.7"
+val kotlinVersion = "2.0.20"
+val ktorVersion = "2.3.12"
+val logbackVersion = "1.5.8"
+val logstashLogbackEncoderVersion = "8.0"
+val prometeusVersion = "1.13.5"
+val testcontainersVersion = "1.20.2"
+val wiremockStandaloneVersion = "3.9.1"
 
 plugins {
     kotlin("jvm") version "2.0.20"
@@ -34,12 +37,12 @@ dependencies {
     implementation("io.ktor:ktor-server-netty-jvm:$ktorVersion")
     implementation("io.ktor:ktor-server-status-pages-jvm:$ktorVersion")
     implementation("ch.qos.logback:logback-classic:$logbackVersion")
-    implementation("net.logstash.logback:logstash-logback-encoder:7.4")
+    implementation("net.logstash.logback:logstash-logback-encoder:$logstashLogbackEncoderVersion")
     implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.6.1")
     // Google Cloud Storage
     implementation("com.google.cloud:google-cloud-storage:${googleCloudStorageVersion}")
     // Kafka
-    implementation("org.apache.kafka:kafka-clients:3.7.0")
+    implementation("org.apache.kafka:kafka-clients:$kafkaClientsVersion")
     // Felles definisjoner for IA-domenet
     implementation("com.github.navikt:ia-felles:$iaFellesVersion")
 
@@ -50,7 +53,7 @@ dependencies {
     testImplementation("org.testcontainers:testcontainers:$testcontainersVersion")
     testImplementation("org.testcontainers:kafka:$testcontainersVersion")
     testImplementation("io.aiven:testcontainers-fake-gcs-server:0.2.0")
-    testImplementation("org.wiremock:wiremock-standalone:3.4.2")
+    testImplementation("org.wiremock:wiremock-standalone:$wiremockStandaloneVersion")
     // Mock-oauth2-server
     testImplementation("no.nav.security:mock-oauth2-server:2.1.9")
     // In-memory google cloud storage bucket
@@ -72,7 +75,7 @@ dependencies {
         }
         testImplementation("org.apache.commons:commons-compress") {
             version {
-                require("1.26.1")
+                require("1.27.1")
             }
             because("testcontainers har sårbar versjon")
         }
