@@ -1,9 +1,9 @@
-val ktorVersion = "2.3.9"
+val ktorVersion = "2.3.12"
 val kotlinVersion = "2.0.20"
-val logbackVersion = "1.5.3"
+val logbackVersion = "1.5.8"
 val prometeusVersion = "1.12.4"
 val googleCloudStorageVersion = "2.30.1"
-val gcsNioVersion = "0.127.15"
+val gcsNioVersion = "0.127.24"
 val iaFellesVersion = "1.4.0"
 val kotestVersion = "5.8.1"
 val testcontainersVersion = "1.19.7"
@@ -52,7 +52,7 @@ dependencies {
     testImplementation("io.aiven:testcontainers-fake-gcs-server:0.2.0")
     testImplementation("org.wiremock:wiremock-standalone:3.4.2")
     // Mock-oauth2-server
-    testImplementation("no.nav.security:mock-oauth2-server:2.1.8")
+    testImplementation("no.nav.security:mock-oauth2-server:2.1.9")
     // In-memory google cloud storage bucket
     testImplementation("com.google.cloud:google-cloud-nio:$gcsNioVersion")
 
@@ -66,7 +66,7 @@ dependencies {
         }
         implementation("io.netty:netty-codec-http2") {
             version {
-                require("4.1.108.Final")
+                require("4.1.114.Final")
             }
             because("From Ktor version: 2.3.5 -> io.netty:netty-codec-http2 vulnerable to HTTP/2 Rapid Reset Attack")
         }
