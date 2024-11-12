@@ -3,8 +3,8 @@ val googleCloudStorageVersion = "2.43.1"
 val iaFellesVersion = "1.4.0"
 val kafkaClientsVersion = "3.8.0"
 val kotestVersion = "5.8.1"
-val kotlinVersion = "2.0.20"
-val ktorVersion = "2.3.12"
+val kotlinVersion = "2.0.21"
+val ktorVersion = "3.0.1"
 val logbackVersion = "1.5.8"
 val logstashLogbackEncoderVersion = "8.0"
 val prometeusVersion = "1.13.5"
@@ -12,8 +12,8 @@ val testcontainersVersion = "1.20.2"
 val wiremockStandaloneVersion = "3.9.1"
 
 plugins {
-    kotlin("jvm") version "2.0.20"
-    kotlin("plugin.serialization") version "2.0.20"
+    kotlin("jvm") version "2.0.21"
+    kotlin("plugin.serialization") version "2.0.21"
     id("com.github.johnrengelman.shadow") version "8.1.1"
 }
 
@@ -48,7 +48,6 @@ dependencies {
 
     testImplementation("io.kotest:kotest-assertions-core:$kotestVersion")
     testImplementation("io.kotest:kotest-assertions-json:$kotestVersion")
-    testImplementation("io.ktor:ktor-server-tests-jvm:$ktorVersion")
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit:$kotlinVersion")
     testImplementation("org.testcontainers:testcontainers:$testcontainersVersion")
     testImplementation("org.testcontainers:kafka:$testcontainersVersion")
