@@ -17,10 +17,9 @@ import org.slf4j.LoggerFactory
 import java.math.BigDecimal
 import java.math.RoundingMode
 
-
 class StatistikkImportService(
     private val bucketKlient: BucketKlient,
-    private val brukÅrOgKvartalIPathTilFilene: Boolean
+    private val brukÅrOgKvartalIPathTilFilene: Boolean,
 ) {
     private val logger: Logger = LoggerFactory.getLogger(this::class.java)
     private val eksportProdusent by lazy {
@@ -31,7 +30,6 @@ class StatistikkImportService(
         logger.info("Starter import av sykefraværsstatistikk for alle statistikkkategorier")
         val årstallOgKvartal = hentÅrstallOgKvartal()
         val path = if (brukÅrOgKvartalIPathTilFilene) "${årstallOgKvartal.first}/${årstallOgKvartal.second}" else ""
-
 
         if (!bucketKlient.sjekkBucketExists()) {
             logger.error("Bucket ikke funnet, avbryter import for alle kategorier")
@@ -46,10 +44,10 @@ class StatistikkImportService(
     }
 
     fun importForKategori(kategori: Statistikkategori) {
-        logger.info("Starter import av sykefraværsstatistikk for kategori '${kategori}'")
+        logger.info("Starter import av sykefraværsstatistikk for kategori '$kategori'")
 
         if (!bucketKlient.sjekkBucketExists()) {
-            logger.error("Bucket ikke funnet, avbryter import for kategori '${kategori}'")
+            logger.error("Bucket ikke funnet, avbryter import for kategori '$kategori'")
             return
         }
 
@@ -78,7 +76,7 @@ class StatistikkImportService(
                 sendTilKafka(
                     kvartal = kvartal,
                     statistikkategori = Statistikkategori.NÆRINGSKODE,
-                    statistikk = statistikk
+                    statistikk = statistikk,
                 )
             }
 
@@ -87,7 +85,7 @@ class StatistikkImportService(
                 sendTilKafka(
                     kvartal = kvartal,
                     statistikkategori = Statistikkategori.VIRKSOMHET,
-                    statistikk = statistikk
+                    statistikk = statistikk,
                 )
             }
 
@@ -106,27 +104,27 @@ class StatistikkImportService(
         if (publiseringsDatoErIDag != null) {
             logger.info(
                 "Publiseringsdato er i dag ${publiseringsDatoErIDag.offentligDato}, " +
-                        "og kvartal som skal importeres er: " +
-                        "${publiseringsDatoErIDag.tilPubliseringsdato().årstall}/${publiseringsDatoErIDag.tilPubliseringsdato().kvartal}"
+                    "og kvartal som skal importeres er: " +
+                    "${publiseringsDatoErIDag.tilPubliseringsdato().årstall}/${publiseringsDatoErIDag.tilPubliseringsdato().kvartal}",
             )
         }
 
         val nestePubliseringsdato = nestePubliseringsdato(
             publiseringsdatoer,
-            iDag
+            iDag,
         )
 
         logger.info(
             "Neste publiseringsdato er ${nestePubliseringsdato?.dato}, " +
-                    "og neste importert kvartal blir ${nestePubliseringsdato?.årstall}/${nestePubliseringsdato?.kvartal}"
+                "og neste importert kvartal blir ${nestePubliseringsdato?.årstall}/${nestePubliseringsdato?.kvartal}",
         )
 
         publiseringsdatoer.forEach {
             eksportProdusent.sendMelding(
                 melding = PubliseringsdatoMelding(
                     kvartal = "2024",
-                    publiseringsdato = it
-                )
+                    publiseringsdato = it,
+                ),
             )
         }
     }
@@ -138,13 +136,13 @@ class StatistikkImportService(
 
         bucketKlient.ensureFileExists(
             path = path,
-            fileName = Metadata.PUBLISERINGSDATO.tilFilnavn()
+            fileName = Metadata.PUBLISERINGSDATO.tilFilnavn(),
         )
 
         return try {
             val publiseringsdatoer = hentInnhold(
                 path = path,
-                kilde = Metadata.PUBLISERINGSDATO
+                kilde = Metadata.PUBLISERINGSDATO,
             )
             logger.info("Antall rader med publiseringsdatoer: ${publiseringsdatoer.size}")
             publiseringsdatoer.tilPubliseringsdatoDto()
@@ -154,7 +152,6 @@ class StatistikkImportService(
         }
     }
 
-
     private fun importViksomhetMetadata(): List<VirksomhetMetadataDto> {
         logger.info("Starter import av virksomhet metadata")
         val kvartal = hentÅrstallOgKvartal()
@@ -162,7 +159,7 @@ class StatistikkImportService(
 
         bucketKlient.ensureFileExists(
             path = path,
-            fileName = Statistikkategori.VIRKSOMHET_METADATA.tilFilnavn()
+            fileName = Statistikkategori.VIRKSOMHET_METADATA.tilFilnavn(),
         )
         return try {
             val statistikk = hentInnhold(
@@ -181,7 +178,7 @@ class StatistikkImportService(
 
     private inline fun <reified T : Sykefraværsstatistikk> import(
         kategori: Statistikkategori,
-        path: String
+        path: String,
     ): List<T> {
         bucketKlient.ensureFileExists(path, kategori.tilFilnavn())
 
@@ -203,15 +200,19 @@ class StatistikkImportService(
         }
     }
 
-    private fun hentInnhold(path: String, kilde: DvhDatakilde): List<String> {
+    private fun hentInnhold(
+        path: String,
+        kilde: DvhDatakilde,
+    ): List<String> {
         val result: List<String> = try {
             val fileName = kilde.tilFilnavn()
             val innhold = bucketKlient.getFromFile(
                 path = path,
-                fileName = fileName
+                fileName = fileName,
             )
-            if (innhold.isNullOrEmpty())
+            if (innhold.isNullOrEmpty()) {
                 return emptyList()
+            }
 
             val data: List<String> =
                 innhold.tilListe()
@@ -227,36 +228,35 @@ class StatistikkImportService(
     private fun sendTilKafka(
         kvartal: String,
         statistikkategori: Statistikkategori,
-        statistikk: List<SykefraværsstatistikkDto>
+        statistikk: List<SykefraværsstatistikkDto>,
     ) {
         statistikk.forEach {
             eksportProdusent.sendMelding(
                 melding = SykefraværsstatistikkMelding(
                     kvartal = kvartal,
                     statistikkategori = statistikkategori,
-                    sykefraværsstatistikk = it
-                )
+                    sykefraværsstatistikk = it,
+                ),
             )
         }
     }
 
     private fun sendMetadataTilKafka(
         kvartal: String,
-        metadata: List<VirksomhetMetadataDto>
+        metadata: List<VirksomhetMetadataDto>,
     ) {
         metadata.forEach {
             eksportProdusent.sendMelding(
                 melding = VirksomhetMetadataMelding(
                     kvartal = kvartal,
-                    virksomhetMetadata = it
-                )
+                    virksomhetMetadata = it,
+                ),
             )
         }
     }
 
     companion object {
-        fun hentÅrstallOgKvartal() =
-            Pair("2024", "K2")        // TODO: hent kvartal som skal importeres fra en eller annen tjeneste
+        fun hentÅrstallOgKvartal() = Pair("2024", "K2") // TODO: hent kvartal som skal importeres fra en eller annen tjeneste
 
         fun kalkulerSykefraværsprosent(statistikk: List<Sykefraværsstatistikk>): BigDecimal {
             val sumAntallTapteDagsverk = statistikk.sumOf { statistikkDto -> statistikkDto.tapteDagsverk }
@@ -268,7 +268,7 @@ class StatistikkImportService(
 
         fun nestePubliseringsdato(
             publiseringsdatoer: List<PubliseringsdatoDto>,
-            fraDato: kotlinx.datetime.LocalDateTime
+            fraDato: kotlinx.datetime.LocalDateTime,
         ): NestePubliseringsdato? {
             val nestPubliseringsdato = publiseringsdatoer.map { it.tilPubliseringsdato() }
                 .filter { fraDato.erFørPubliseringsdato(it) }
@@ -278,15 +278,13 @@ class StatistikkImportService(
                 return NestePubliseringsdato(
                     årstall = nestPubliseringsdato.årstall,
                     kvartal = nestPubliseringsdato.kvartal,
-                    dato = nestPubliseringsdato.offentligDato
+                    dato = nestPubliseringsdato.offentligDato,
                 )
             } else {
                 return null
             }
         }
 
-
-        private fun sanityzeOrgnr(jsonElement: String): String =
-            jsonElement.replace("[0-9]{9}".toRegex(), "*********")
+        private fun sanityzeOrgnr(jsonElement: String): String = jsonElement.replace("[0-9]{9}".toRegex(), "*********")
     }
 }

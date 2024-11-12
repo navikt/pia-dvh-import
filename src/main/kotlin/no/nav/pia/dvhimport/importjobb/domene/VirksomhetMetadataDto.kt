@@ -3,7 +3,6 @@ package no.nav.pia.dvhimport.importjobb.domene
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
 
-
 @Serializable
 data class VirksomhetMetadataDto(
     val orgnr: String,
@@ -15,8 +14,6 @@ data class VirksomhetMetadataDto(
     val rectype: String,
 )
 
-fun List<String>.tilVirksomhetMetadataDto(): List<VirksomhetMetadataDto> =
-    this.map { it.tilVirksomhetMetadataDto() }
+fun List<String>.tilVirksomhetMetadataDto(): List<VirksomhetMetadataDto> = this.map { it.tilVirksomhetMetadataDto() }
 
-fun String.tilVirksomhetMetadataDto(): VirksomhetMetadataDto =
-    Json.decodeFromString<VirksomhetMetadataDto>(this)
+fun String.tilVirksomhetMetadataDto(): VirksomhetMetadataDto = Json.decodeFromString<VirksomhetMetadataDto>(this)

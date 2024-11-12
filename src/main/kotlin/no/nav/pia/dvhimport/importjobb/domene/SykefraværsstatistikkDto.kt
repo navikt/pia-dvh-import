@@ -21,7 +21,6 @@ import kotlinx.serialization.json.jsonObject
 import kotlinx.serialization.json.jsonPrimitive
 import java.math.BigDecimal
 
-
 sealed interface Sykefraværsstatistikk {
     val årstall: Int
     val kvartal: Int
@@ -32,13 +31,13 @@ sealed interface Sykefraværsstatistikk {
 }
 
 @Serializable(with = SykefraværsstatistikkDtoSerializer::class)
-sealed class SykefraværsstatistikkDto: Sykefraværsstatistikk {
-    override abstract val årstall: Int
-    override abstract val kvartal: Int
-    override abstract val prosent: BigDecimal
-    override abstract val tapteDagsverk: BigDecimal
-    override abstract val muligeDagsverk: BigDecimal
-    override abstract val antallPersoner: Int
+sealed class SykefraværsstatistikkDto : Sykefraværsstatistikk {
+    abstract override val årstall: Int
+    abstract override val kvartal: Int
+    abstract override val prosent: BigDecimal
+    abstract override val tapteDagsverk: BigDecimal
+    abstract override val muligeDagsverk: BigDecimal
+    abstract override val antallPersoner: Int
 }
 
 @Serializable
@@ -53,7 +52,7 @@ data class LandSykefraværsstatistikkDto(
     @Serializable(with = BigDecimalSerializer::class)
     override val muligeDagsverk: BigDecimal,
     override val antallPersoner: Int,
-): SykefraværsstatistikkDto()
+) : SykefraværsstatistikkDto()
 
 @Serializable
 data class SektorSykefraværsstatistikkDto(
@@ -125,16 +124,14 @@ data class VirksomhetSykefraværsstatistikkDto(
 ) : SykefraværsstatistikkDto()
 
 @Serializable
-data class TapteDagsverkPerVarighetDto (
+data class TapteDagsverkPerVarighetDto(
     val varighet: String,
     @Serializable(with = BigDecimalSerializer::class)
     val tapteDagsverk: BigDecimal? = null,
 )
 
-
 @OptIn(ExperimentalSerializationApi::class)
 internal object BigDecimalSerializer : KSerializer<BigDecimal> {
-
     override val descriptor = PrimitiveSerialDescriptor("java.math.BigDecimal", PrimitiveKind.DOUBLE)
 
     /**
@@ -151,28 +148,30 @@ internal object BigDecimalSerializer : KSerializer<BigDecimal> {
      * Bruk av [JsonUnquotedLiteral] for å produsere en [BigDecimal] verdi uten ""
      *  eller, produserer en [value] med "" ved å bruke [Encoder.encodeString].
      */
-    override fun serialize(encoder: Encoder, value: BigDecimal) =
-        when (encoder) {
-            is JsonEncoder -> encoder.encodeJsonElement(JsonUnquotedLiteral(value.toPlainString()))
-            else -> encoder.encodeString(value.toPlainString())
-        }
+    override fun serialize(
+        encoder: Encoder,
+        value: BigDecimal,
+    ) = when (encoder) {
+        is JsonEncoder -> encoder.encodeJsonElement(JsonUnquotedLiteral(value.toPlainString()))
+        else -> encoder.encodeString(value.toPlainString())
+    }
 }
 
 internal object TapteDagsverkPerVarighetListSerializer : KSerializer<List<TapteDagsverkPerVarighetDto>> {
     private val listSerializer = ListSerializer(TapteDagsverkPerVarighetDto.serializer())
     override val descriptor: SerialDescriptor = listSerializer.descriptor
 
-    override fun serialize(encoder: Encoder, value: List<TapteDagsverkPerVarighetDto>) =
-        listSerializer.serialize(encoder, value.filter { it.tapteDagsverk != null })
+    override fun serialize(
+        encoder: Encoder,
+        value: List<TapteDagsverkPerVarighetDto>,
+    ) = listSerializer.serialize(encoder, value.filter { it.tapteDagsverk != null })
 
-    override fun deserialize(decoder: Decoder): List<TapteDagsverkPerVarighetDto> {
-        return decoder.decodeSerializableValue(listSerializer)
-    }
+    override fun deserialize(decoder: Decoder): List<TapteDagsverkPerVarighetDto> = decoder.decodeSerializableValue(listSerializer)
 }
 
 object SykefraværsstatistikkDtoSerializer : JsonContentPolymorphicSerializer<SykefraværsstatistikkDto>(SykefraværsstatistikkDto::class) {
-    override fun selectDeserializer(element: JsonElement): DeserializationStrategy<SykefraværsstatistikkDto> {
-        return if (element.jsonObject["land"]?.jsonPrimitive?.content.equals("NO")) {
+    override fun selectDeserializer(element: JsonElement): DeserializationStrategy<SykefraværsstatistikkDto> =
+        if (element.jsonObject["land"]?.jsonPrimitive?.content.equals("NO")) {
             LandSykefraværsstatistikkDto.serializer()
         } else if (element.jsonObject["sektor"]?.jsonPrimitive?.isString == true) {
             SektorSykefraværsstatistikkDto.serializer()
@@ -185,7 +184,6 @@ object SykefraværsstatistikkDtoSerializer : JsonContentPolymorphicSerializer<Sy
         } else {
             throw Exception("Ukjent kategori for statistikk")
         }
-    }
 }
 
 fun String.tilListe(): List<String> =
@@ -193,8 +191,7 @@ fun String.tilListe(): List<String> =
         it.toString()
     }.toList()
 
-
-inline fun <reified T: Sykefraværsstatistikk> List<String>.toSykefraværsstatistikkDto(): List<T> =
+inline fun <reified T : Sykefraværsstatistikk> List<String>.toSykefraværsstatistikkDto(): List<T> =
     this.map { it.serializeToSykefraværsstatistikkDto() }.mapAsInstance<T>()
 
 inline fun <reified R> Iterable<*>.mapAsInstance() = map { it.apply { check(this is R) } as R }

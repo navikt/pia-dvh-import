@@ -29,8 +29,7 @@ import org.testcontainers.containers.wait.strategy.HostPortWaitStrategy
 import org.testcontainers.kafka.ConfluentKafkaContainer
 import org.testcontainers.utility.DockerImageName
 import java.time.Duration
-import java.util.*
-
+import java.util.TimeZone
 
 class KafkaContainerHelper(
     network: Network = Network.newNetwork(),
@@ -41,7 +40,7 @@ class KafkaContainerHelper(
     private var kafkaProducer: KafkaProducer<String, String>
 
     val kafkaContainer = ConfluentKafkaContainer(
-        DockerImageName.parse("confluentinc/cp-kafka:7.4.3")
+        DockerImageName.parse("confluentinc/cp-kafka:7.4.3"),
     )
         .withNetwork(network)
         .withNetworkAliases(kafkaNetworkAlias)
@@ -51,8 +50,8 @@ class KafkaContainerHelper(
                 "KAFKA_LOG4J_LOGGERS" to "org.apache.kafka.image.loader.MetadataLoader=WARN",
                 "KAFKA_AUTO_LEADER_REBALANCE_ENABLE" to "false",
                 "KAFKA_GROUP_INITIAL_REBALANCE_DELAY_MS" to "1",
-                "TZ" to TimeZone.getDefault().id
-            )
+                "TZ" to TimeZone.getDefault().id,
+            ),
         )
         .withCreateContainerCmdModifier { cmd -> cmd.withName("$kafkaNetworkAlias-${System.currentTimeMillis()}") }
         .waitingFor(HostPortWaitStrategy())
@@ -96,12 +95,13 @@ class KafkaContainerHelper(
         }
     }
 
-    fun envVars() = mapOf(
-        "KAFKA_BROKERS" to "BROKER://$kafkaNetworkAlias:9093,PLAINTEXT://$kafkaNetworkAlias:9093",
-        "KAFKA_TRUSTSTORE_PATH" to "",
-        "KAFKA_KEYSTORE_PATH" to "",
-        "KAFKA_CREDSTORE_PASSWORD" to "",
-    )
+    fun envVars() =
+        mapOf(
+            "KAFKA_BROKERS" to "BROKER://$kafkaNetworkAlias:9093,PLAINTEXT://$kafkaNetworkAlias:9093",
+            "KAFKA_TRUSTSTORE_PATH" to "",
+            "KAFKA_KEYSTORE_PATH" to "",
+            "KAFKA_CREDSTORE_PASSWORD" to "",
+        )
 
     private fun createTopics() {
         adminClient.createTopics(
@@ -111,7 +111,7 @@ class KafkaContainerHelper(
                 NewTopic(KafkaTopics.KVARTALSVIS_SYKEFRAVARSSTATISTIKK_VIRKSOMHET.navn, 1, 1.toShort()),
                 NewTopic(KafkaTopics.KVARTALSVIS_SYKEFRAVARSSTATISTIKK_VIRKSOMHET_METADATA.navn, 1, 1.toShort()),
                 NewTopic(KafkaTopics.KVARTALSVIS_SYKEFRAVARSSTATISTIKK_PUBLISERINGSDATO.navn, 1, 1.toShort()),
-            )
+            ),
         )
     }
 
@@ -125,55 +125,61 @@ class KafkaContainerHelper(
                 ProducerConfig.LINGER_MS_CONFIG to "0",
                 ProducerConfig.RETRIES_CONFIG to "0",
                 ProducerConfig.BATCH_SIZE_CONFIG to "0",
-                SaslConfigs.SASL_MECHANISM to "PLAIN"
+                SaslConfigs.SASL_MECHANISM to "PLAIN",
             ),
             StringSerializer(),
-            StringSerializer()
+            StringSerializer(),
         )
 
-    fun sendOgVentTilKonsumert(nøkkel: String, melding: String, topic: KafkaTopics) {
+    fun sendOgVentTilKonsumert(
+        nøkkel: String,
+        melding: String,
+        topic: KafkaTopics,
+    ) {
         runBlocking {
             val sendtMelding = kafkaProducer.send(ProducerRecord(topic.navnMedNamespace, nøkkel, melding)).get()
             ventTilKonsumert(
                 konsumentGruppeId = topic.konsumentGruppe,
-                recordMetadata = sendtMelding
+                recordMetadata = sendtMelding,
             )
         }
     }
 
-
     fun sendJobbMelding(jobb: Jobb) {
         sendOgVentTilKonsumert(
             nøkkel = jobb.name,
-            melding = """{
-                "jobb": "${jobb.name}",
-                "tidspunkt": "2023-01-01T00:00:00.000Z",
-                "applikasjon": "pia-dvh-import",
-                "parameter": null
-            }""".trimIndent(),
+            melding =
+                """
+                {
+                    "jobb": "${jobb.name}",
+                    "tidspunkt": "2023-01-01T00:00:00.000Z",
+                    "applikasjon": "pia-dvh-import",
+                    "parameter": null
+                }
+                """.trimIndent(),
             topic = KafkaTopics.PIA_JOBBLYTTER,
         )
     }
 
     private suspend fun ventTilKonsumert(
         konsumentGruppeId: String,
-        recordMetadata: RecordMetadata
-    ) =
-        withTimeoutOrNull(Duration.ofSeconds(5)) {
-            do {
-                delay(timeMillis = 1L)
-            } while (consumerSinOffset(
-                    consumerGroup = konsumentGruppeId,
-                    topic = recordMetadata.topic()
-                ) <= recordMetadata.offset()
-            )
-        }
+        recordMetadata: RecordMetadata,
+    ) = withTimeoutOrNull(Duration.ofSeconds(5)) {
+        do {
+            delay(timeMillis = 1L)
+        } while (consumerSinOffset(
+                consumerGroup = konsumentGruppeId,
+                topic = recordMetadata.topic(),
+            ) <= recordMetadata.offset()
+        )
+    }
 
-
-    private fun consumerSinOffset(consumerGroup: String, topic: String): Long {
+    private fun consumerSinOffset(
+        consumerGroup: String,
+        topic: String,
+    ): Long {
         val offsetMetadata = adminClient.listConsumerGroupOffsets(consumerGroup)
             .partitionsToOffsetAndMetadata().get()
         return offsetMetadata[offsetMetadata.keys.firstOrNull { it.topic().contains(topic) }]?.offset() ?: -1
     }
-
 }

@@ -26,7 +26,10 @@ class BucketKlient(
         return erBucketFunnet
     }
 
-    fun ensureFileExists(path: String, fileName: String): Boolean {
+    fun ensureFileExists(
+        path: String,
+        fileName: String,
+    ): Boolean {
         val fil = if (path.isNotEmpty()) "$path/$fileName" else fileName
         logger.info("Sjekker at filen '$fileName', i path '$path' finnes i bucket '$bucketName' (søk på fil: '$fil')")
 
@@ -43,7 +46,10 @@ class BucketKlient(
         return false
     }
 
-    fun getFromFile(path: String, fileName: String): String? {
+    fun getFromFile(
+        path: String,
+        fileName: String,
+    ): String? {
         val fil = if (path.isNotEmpty()) "$path/$fileName" else fileName
         logger.info("Fetch data i bucket '$bucketName' fra fil i path '$path' med filnavn '$fileName'")
 

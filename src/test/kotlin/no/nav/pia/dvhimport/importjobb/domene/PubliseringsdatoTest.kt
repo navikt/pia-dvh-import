@@ -5,37 +5,36 @@ import kotlinx.datetime.LocalDateTime
 import no.nav.pia.dvhimport.importjobb.domene.Publiseringsdato.Companion.antallDagerTilPubliseringsdato
 import kotlin.test.Test
 
-
 class PubliseringsdatoTest {
-    val IDAG = LocalDateTime.parse("2024-05-30T08:00:00")
-    val PUBLISERINGSDATO_I_FREMTIDEN = Publiseringsdato(
+    val iDag = LocalDateTime.parse("2024-05-30T08:00:00")
+    val publiseringsdatoIFremtiden = Publiseringsdato(
         årstall = 2024,
         kvartal = 3,
-        offentligDato = LocalDateTime.parse("2024-11-28T08:00:00")
+        offentligDato = LocalDateTime.parse("2024-11-28T08:00:00"),
     )
-    val PUBLISERINGSDATO_ER_IDAG = Publiseringsdato(
+    val publiseringsdatoErIDag = Publiseringsdato(
         årstall = 2024,
         kvartal = 1,
-        offentligDato = IDAG
+        offentligDato = iDag,
     )
-    val PUBLISERINGSDATO_ER_PASSERT = Publiseringsdato(
+    val publiseringsdatoErPassert = Publiseringsdato(
         årstall = 2023,
         kvartal = 4,
-        offentligDato = LocalDateTime.parse("2024-02-29T08:00:00")
+        offentligDato = LocalDateTime.parse("2024-02-29T08:00:00"),
     )
 
     @Test
     fun `kalkuler antall dager fra dato til neste publisertdato -- samme dag`() {
-        IDAG.antallDagerTilPubliseringsdato(PUBLISERINGSDATO_ER_IDAG) shouldBe 0
+        iDag.antallDagerTilPubliseringsdato(publiseringsdatoErIDag) shouldBe 0
     }
 
     @Test
     fun `kalkuler antall dager fra dato til neste publisertdato -- dato i fremtiden`() {
-        IDAG.antallDagerTilPubliseringsdato(PUBLISERINGSDATO_I_FREMTIDEN) shouldBe 182
+        iDag.antallDagerTilPubliseringsdato(publiseringsdatoIFremtiden) shouldBe 182
     }
 
     @Test
     fun `kalkuler antall dager fra dato til neste publisertdato -- publiseringsdato er passert`() {
-        IDAG.antallDagerTilPubliseringsdato(PUBLISERINGSDATO_ER_PASSERT) shouldBe -91
+        iDag.antallDagerTilPubliseringsdato(publiseringsdatoErPassert) shouldBe -91
     }
 }

@@ -40,7 +40,7 @@ dependencies {
     implementation("net.logstash.logback:logstash-logback-encoder:$logstashLogbackEncoderVersion")
     implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.6.1")
     // Google Cloud Storage
-    implementation("com.google.cloud:google-cloud-storage:${googleCloudStorageVersion}")
+    implementation("com.google.cloud:google-cloud-storage:$googleCloudStorageVersion")
     // Kafka
     implementation("org.apache.kafka:kafka-clients:$kafkaClientsVersion")
     // Felles definisjoner for IA-domenet
@@ -56,13 +56,14 @@ dependencies {
     // In-memory google cloud storage bucket
     testImplementation("com.google.cloud:google-cloud-nio:$gcsNioVersion")
 
-
     constraints {
         implementation("net.minidev:json-smart") {
             version {
                 require("2.5.1")
             }
-            because("From Kotlin version: 1.7.20 -> Earlier versions of json-smart package are vulnerable to Denial of Service (DoS) due to a StackOverflowError when parsing a deeply nested JSON array or object.")
+            because(
+                "From Kotlin version: 1.7.20 -> Earlier versions of json-smart package are vulnerable to Denial of Service (DoS) due to a StackOverflowError when parsing a deeply nested JSON array or object.",
+            )
         }
         implementation("io.netty:netty-codec-http2") {
             version {
@@ -84,7 +85,7 @@ dependencies {
                 """
                 json-path v2.8.0 was discovered to contain a stack overflow via the Criteria.parse() method.
                 introdusert gjennom io.kotest:kotest-assertions-json:5.8.0
-                """.trimIndent()
+                """.trimIndent(),
             )
         }
     }

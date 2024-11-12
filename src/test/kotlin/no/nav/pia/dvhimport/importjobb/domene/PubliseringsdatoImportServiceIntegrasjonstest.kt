@@ -3,6 +3,12 @@ package no.nav.pia.dvhimport.importjobb.domene
 import ia.felles.integrasjoner.jobbsender.Jobb
 import io.kotest.matchers.collections.shouldHaveAtLeastSize
 import io.kotest.matchers.shouldBe
+import kotlinx.coroutines.runBlocking
+import kotlinx.datetime.LocalDateTime
+import kotlinx.datetime.LocalTime
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
+import kotlinx.serialization.json.Json
 import no.nav.pia.dvhimport.helper.TestContainerHelper
 import no.nav.pia.dvhimport.helper.TestContainerHelper.Companion.dvhImportApplikasjon
 import no.nav.pia.dvhimport.helper.TestContainerHelper.Companion.shouldContainLog
@@ -10,13 +16,6 @@ import no.nav.pia.dvhimport.konfigurasjon.KafkaTopics
 import kotlin.test.AfterTest
 import kotlin.test.BeforeTest
 import kotlin.test.Test
-import kotlinx.coroutines.runBlocking
-import kotlinx.datetime.LocalDateTime
-import kotlinx.datetime.LocalTime
-import kotlinx.serialization.SerialName
-import kotlinx.serialization.Serializable
-import kotlinx.serialization.json.Json
-
 
 class PubliseringsdatoImportServiceIntegrasjonstest {
     private val gcsContainer = TestContainerHelper.googleCloudStorage
@@ -24,11 +23,12 @@ class PubliseringsdatoImportServiceIntegrasjonstest {
     private val eksportertPubliseringsdatoKonsument =
         kafkaContainer.nyKonsument(topic = KafkaTopics.KVARTALSVIS_SYKEFRAVARSSTATISTIKK_PUBLISERINGSDATO)
 
-
     @BeforeTest
     fun setup() {
         gcsContainer.opprettTestBucketHvisIkkeFunnet()
-        eksportertPubliseringsdatoKonsument.subscribe(mutableListOf(KafkaTopics.KVARTALSVIS_SYKEFRAVARSSTATISTIKK_PUBLISERINGSDATO.navnMedNamespace))
+        eksportertPubliseringsdatoKonsument.subscribe(
+            mutableListOf(KafkaTopics.KVARTALSVIS_SYKEFRAVARSSTATISTIKK_PUBLISERINGSDATO.navnMedNamespace),
+        )
     }
 
     @AfterTest
@@ -36,7 +36,6 @@ class PubliseringsdatoImportServiceIntegrasjonstest {
         eksportertPubliseringsdatoKonsument.unsubscribe()
         eksportertPubliseringsdatoKonsument.close()
     }
-
 
     @Test
     fun `import publiseringsdato og send melding til Kafka`() {
@@ -50,7 +49,7 @@ class PubliseringsdatoImportServiceIntegrasjonstest {
         runBlocking {
             kafkaContainer.ventOgKonsumerKafkaMeldinger(
                 key = """{"kvartal":"2024","meldingType":"PUBLISERINGSDATO"}""",
-                konsument = eksportertPubliseringsdatoKonsument
+                konsument = eksportertPubliseringsdatoKonsument,
             ) { meldinger ->
                 val deserialiserteSvar = meldinger.map {
                     Json.decodeFromString<MottattPubliseringsdatoDto>(it)
@@ -69,7 +68,8 @@ class PubliseringsdatoImportServiceIntegrasjonstest {
     }
 
     fun lagreTestDataITestBucket() {
-        val json = """
+        val json =
+            """
             [
               {
                 "rapport_periode": "202403",
@@ -92,17 +92,16 @@ class PubliseringsdatoImportServiceIntegrasjonstest {
                 "oppdatert_i_dvh": "2023-10-20, 08:00:00"
                }
             ]
-        """.trimIndent()
+            """.trimIndent()
 
         val filnavn = "publiseringsdato.json"
         gcsContainer.lagreTestBlob(
             blobNavn = filnavn,
-            bytes = json.encodeToByteArray()
+            bytes = json.encodeToByteArray(),
         )
 
         val verifiserBlobFinnes = gcsContainer.verifiserBlobFinnes(blobNavn = filnavn)
         verifiserBlobFinnes shouldBe true
-
     }
 
     @Serializable

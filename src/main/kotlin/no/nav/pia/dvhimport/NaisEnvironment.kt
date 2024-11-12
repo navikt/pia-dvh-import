@@ -5,8 +5,9 @@ class NaisEnvironment(
     val statistikkBucketName: String = getEnvVar("GCS_SYKEFRAVARSSTATISTIKK_BUCKET_NAME"),
 ) {
     companion object {
-        fun getEnvVar(varName: String, defaultValue: String? = null) =
-            System.getenv(varName) ?: defaultValue ?: throw RuntimeException("Missing required variable $varName")
+        fun getEnvVar(
+            varName: String,
+            defaultValue: String? = null,
+        ) = System.getenv(varName) ?: defaultValue ?: throw RuntimeException("Missing required variable $varName")
     }
 }
-

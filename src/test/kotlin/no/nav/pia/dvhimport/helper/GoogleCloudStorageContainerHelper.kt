@@ -17,13 +17,12 @@ import org.testcontainers.containers.Network
 import org.testcontainers.containers.output.Slf4jLogConsumer
 import org.testcontainers.containers.wait.strategy.HostPortWaitStrategy
 
+private val DEFAULT_GCS_BUCKET_I_TESTCONTAINER = "fake-gcs-bucket-in-container"
 
 class GoogleCloudStorageContainerHelper(
     network: Network = Network.newNetwork(),
     log: Logger = LoggerFactory.getLogger(GoogleCloudStorageContainerHelper::class.java),
 ) {
-
-    private val DEFAULT_GCS_BUCKET_I_TESTCONTAINER = "fake-gcs-bucket-in-container"
     private val gcsNetworkAlias = "gcsContainer"
     private val defaultport = 4443
     private val baseUrl = "http://$gcsNetworkAlias:$defaultport"
@@ -45,16 +44,13 @@ class GoogleCloudStorageContainerHelper(
             Testcontainers.exposeHostPorts(firstMappedPort, 4443)
         }
 
-    fun envVars(): Map<String, String> {
-        return mapOf(
+    fun envVars(): Map<String, String> =
+        mapOf(
             "GCS_URL" to baseUrl,
             "GCS_SYKEFRAVARSSTATISTIKK_BUCKET_NAME" to DEFAULT_GCS_BUCKET_I_TESTCONTAINER,
         )
-    }
 
-    fun opprettTestBucketHvisIkkeFunnet(
-        bucketName: String = DEFAULT_GCS_BUCKET_I_TESTCONTAINER
-    ) {
+    fun opprettTestBucketHvisIkkeFunnet(bucketName: String = DEFAULT_GCS_BUCKET_I_TESTCONTAINER) {
         try {
             val bucket = storage.get(bucketName)
             if (!bucket.exists() || bucket.asBucketInfo().name != bucketName) {
@@ -63,17 +59,15 @@ class GoogleCloudStorageContainerHelper(
         } catch (ex: Exception) {
             when (ex) {
                 is UninitializedPropertyAccessException,
-                is StorageException ->
+                is StorageException,
+                ->
                     this.storage = createBucketAndGetStorage(bucketName = DEFAULT_GCS_BUCKET_I_TESTCONTAINER)
                 else -> throw ex
             }
         }
     }
 
-
-    fun createBucketAndGetStorage(
-        bucketName: String = DEFAULT_GCS_BUCKET_I_TESTCONTAINER
-    ): Storage {
+    fun createBucketAndGetStorage(bucketName: String = DEFAULT_GCS_BUCKET_I_TESTCONTAINER): Storage {
         val projectId = "fake-google-cloud-storage-container-project"
         val url = container.url()
         val storage = StorageOptions.newBuilder()
@@ -87,7 +81,6 @@ class GoogleCloudStorageContainerHelper(
         localLogger.info("Opprettet bucket $bucketName")
         return storage
     }
-
 
     fun lagreTestBlob(
         blobNavn: String,

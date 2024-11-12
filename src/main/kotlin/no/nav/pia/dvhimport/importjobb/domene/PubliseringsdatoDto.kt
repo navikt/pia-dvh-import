@@ -30,11 +30,13 @@ data class PubliseringsdatoDto(
 )
 
 data class Publiseringsdato(
-    val årstall: Int, val kvartal: Int, val offentligDato: LocalDateTime
+    val årstall: Int,
+    val kvartal: Int,
+    val offentligDato: LocalDateTime,
 ) {
-
     companion object {
         val timeZone = TimeZone.of("Europe/Oslo")
+
         fun LocalDateTime.antallDagerTilPubliseringsdato(publiseringsdato: Publiseringsdato): Int {
             val fraInstant = this.toInstant(timeZone)
             val tilInstant = publiseringsdato.offentligDato.toInstant(timeZone)
@@ -48,7 +50,7 @@ data class Publiseringsdato(
 
         fun sjekkPubliseringErIDag(
             publiseringsdatoer: List<PubliseringsdatoDto>,
-            iDag: LocalDateTime
+            iDag: LocalDateTime,
         ): PubliseringsdatoDto? =
             publiseringsdatoer.find {
                 it.offentligDato.toJavaLocalDateTime().toLocalDate()
@@ -57,14 +59,17 @@ data class Publiseringsdato(
     }
 }
 
-fun PubliseringsdatoDto.tilPubliseringsdato(): Publiseringsdato = Publiseringsdato(
-    årstall = this.rapportPeriode.subSequence(0, 4).toString().toInt(),
-    kvartal = this.rapportPeriode.subSequence(5, 6).toString().toInt(),
-    offentligDato = offentligDato
-)
+fun PubliseringsdatoDto.tilPubliseringsdato(): Publiseringsdato =
+    Publiseringsdato(
+        årstall = this.rapportPeriode.subSequence(0, 4).toString().toInt(),
+        kvartal = this.rapportPeriode.subSequence(5, 6).toString().toInt(),
+        offentligDato = offentligDato,
+    )
 
 data class NestePubliseringsdato(
-    val kvartal: Int, val årstall: Int, val dato: LocalDateTime
+    val kvartal: Int,
+    val årstall: Int,
+    val dato: LocalDateTime,
 )
 
 internal object DvhDatoMedTidSerializer : KSerializer<LocalDateTime> {
@@ -74,16 +79,21 @@ internal object DvhDatoMedTidSerializer : KSerializer<LocalDateTime> {
         date(LocalDate.Formats.ISO)
         char(',')
         char(' ')
-        hour(); char(':'); minute(); char(':'); second()
+        hour()
+        char(':')
+        minute()
+        char(':')
+        second()
     }
 
-    override fun serialize(encoder: Encoder, value: LocalDateTime) {
+    override fun serialize(
+        encoder: Encoder,
+        value: LocalDateTime,
+    ) {
         encoder.encodeString(value.format(LocalDateTime.Formats.ISO))
     }
 
-    override fun deserialize(decoder: Decoder): LocalDateTime {
-        return LocalDateTime.parse(decoder.decodeString(), dvhTidsformat)
-    }
+    override fun deserialize(decoder: Decoder): LocalDateTime = LocalDateTime.parse(decoder.decodeString(), dvhTidsformat)
 }
 
 fun List<String>.tilPubliseringsdatoDto(): List<PubliseringsdatoDto> = this.map { it.tilPubliseringsdatoDto() }

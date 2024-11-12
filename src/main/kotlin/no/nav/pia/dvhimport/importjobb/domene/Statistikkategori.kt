@@ -2,46 +2,31 @@ package no.nav.pia.dvhimport.importjobb.domene
 
 enum class Statistikkategori : DvhDatakilde {
     LAND {
-        override fun tilFilnavn(): String {
-            return "land.json"
-        }
+        override fun tilFilnavn(): String = "land.json"
     },
     SEKTOR {
-        override fun tilFilnavn(): String {
-            return "sektor.json"
-        }
+        override fun tilFilnavn(): String = "sektor.json"
     },
     NÆRING {
-        override fun tilFilnavn(): String {
-            return "naering.json"
-        }
+        override fun tilFilnavn(): String = "naering.json"
     },
     NÆRINGSKODE {
-        override fun tilFilnavn(): String {
-            return "naeringskode.json"
-        }
+        override fun tilFilnavn(): String = "naeringskode.json"
     },
     VIRKSOMHET {
-        override fun tilFilnavn(): String {
-            return "virksomhet.json"
-        }
+        override fun tilFilnavn(): String = "virksomhet.json"
     },
     VIRKSOMHET_METADATA {
-        override fun tilFilnavn(): String {
-            return "virksomhet_metadata.json"
-        }
+        override fun tilFilnavn(): String = "virksomhet_metadata.json"
     },
 }
 
 enum class Metadata : DvhDatakilde {
     PUBLISERINGSDATO {
-        override fun tilFilnavn(): String {
-            return "publiseringsdato.json"
-        }
+        override fun tilFilnavn(): String = "publiseringsdato.json"
     },
 }
 
 interface DvhDatakilde {
     fun tilFilnavn(): String
 }
-

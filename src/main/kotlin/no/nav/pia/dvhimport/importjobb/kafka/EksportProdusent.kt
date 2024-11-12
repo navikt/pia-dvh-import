@@ -12,13 +12,17 @@ import no.nav.pia.dvhimport.konfigurasjon.KafkaTopics
 import org.apache.kafka.clients.producer.KafkaProducer
 import org.apache.kafka.clients.producer.ProducerRecord
 
-class EksportProdusent(kafkaConfig: KafkaConfig) {
+class EksportProdusent(
+    kafkaConfig: KafkaConfig,
+) {
     private val producer: KafkaProducer<String, String> = KafkaProducer(kafkaConfig.producerProperties())
 
     init {
-        Runtime.getRuntime().addShutdownHook(Thread {
-            producer.close()
-        })
+        Runtime.getRuntime().addShutdownHook(
+            Thread {
+                producer.close()
+            },
+        )
     }
 
     fun <T> sendMelding(melding: EksportMelding<T>) {
@@ -35,8 +39,8 @@ class EksportProdusent(kafkaConfig: KafkaConfig) {
             ProducerRecord(
                 topic,
                 melding.tilNøkkel(),
-                melding.tilMelding()
-            )
+                melding.tilMelding(),
+            ),
         )
     }
 
@@ -44,30 +48,30 @@ class EksportProdusent(kafkaConfig: KafkaConfig) {
         kvartal: String,
         virksomhetMetadata: VirksomhetMetadataDto,
     ) : EksportMelding<VirksomhetMetadataDto>(
-        kvartal = kvartal,
-        meldingType = MeldingType.METADATA_FOR_VIRKSOMHET,
-        data = virksomhetMetadata,
-    )
+            kvartal = kvartal,
+            meldingType = MeldingType.METADATA_FOR_VIRKSOMHET,
+            data = virksomhetMetadata,
+        )
 
     class SykefraværsstatistikkMelding(
         kvartal: String,
         statistikkategori: Statistikkategori,
         sykefraværsstatistikk: SykefraværsstatistikkDto,
     ) : EksportMelding<SykefraværsstatistikkDto>(
-        kvartal = kvartal,
-        meldingType = MeldingType.SYKEFRAVÆRSSTATISTIKK,
-        ekstraNøkkel = statistikkategori.name,
-        data = sykefraværsstatistikk,
-    )
+            kvartal = kvartal,
+            meldingType = MeldingType.SYKEFRAVÆRSSTATISTIKK,
+            ekstraNøkkel = statistikkategori.name,
+            data = sykefraværsstatistikk,
+        )
 
     class PubliseringsdatoMelding(
         kvartal: String,
         publiseringsdato: PubliseringsdatoDto,
     ) : EksportMelding<PubliseringsdatoDto>(
-        kvartal = kvartal,
-        meldingType = MeldingType.PUBLISERINGSDATO,
-        data = publiseringsdato
-    )
+            kvartal = kvartal,
+            meldingType = MeldingType.PUBLISERINGSDATO,
+            data = publiseringsdato,
+        )
 
     @Serializable
     sealed class EksportMelding<T>(
@@ -84,8 +88,8 @@ class EksportProdusent(kafkaConfig: KafkaConfig) {
                         this.meldingType.name + "-" + this.ekstraNøkkel
                     } else {
                         this.meldingType.name
-                    }
-                )
+                    },
+                ),
             )
 
         fun tilMelding() =

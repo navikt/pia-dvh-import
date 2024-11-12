@@ -7,7 +7,6 @@ import no.nav.pia.dvhimport.helper.TestContainerHelper.Companion.dvhImportApplik
 import no.nav.pia.dvhimport.helper.TestContainerHelper.Companion.shouldContainLog
 import kotlin.test.Test
 
-
 class JobblytterTest {
     private val kafkaContainer = TestContainerHelper.kafka
 

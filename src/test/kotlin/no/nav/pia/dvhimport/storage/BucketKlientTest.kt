@@ -12,7 +12,6 @@ import no.nav.pia.dvhimport.importjobb.domene.VirksomhetSykefraværsstatistikkDt
 import java.math.BigDecimal
 import kotlin.test.Test
 
-
 class BucketKlientTest {
     private val storage = LocalStorageHelper.getOptions().service
     private val gjeldendeÅrstallOgKvartal = "2024K2"
@@ -29,7 +28,7 @@ class BucketKlientTest {
             storage = storage,
             contentType = MediaType.JSON_UTF_8,
             metadata = emptyMap(),
-            bytes = statistikkJson.encodeToByteArray()
+            bytes = statistikkJson.encodeToByteArray(),
         )
 
         val bucketKlient = BucketKlient(storage, "test-in-memory-bucket")
@@ -46,7 +45,7 @@ class BucketKlientTest {
             storage = storage,
             contentType = MediaType.JSON_UTF_8,
             metadata = emptyMap(),
-            bytes = "nothing here".encodeToByteArray()
+            bytes = "nothing here".encodeToByteArray(),
         )
         val bucketKlient = BucketKlient(storage, "test-in-memory-bucket")
 
@@ -54,7 +53,6 @@ class BucketKlientTest {
 
         innhold shouldBe null
     }
-
 
     private fun lagreTestBlobInMemory(
         blobNavn: String,
@@ -75,7 +73,7 @@ class BucketKlientTest {
         orgnr: String,
         prosent: BigDecimal,
         tapteDagsverk: BigDecimal,
-        muligeDagsverk: BigDecimal
+        muligeDagsverk: BigDecimal,
     ) = VirksomhetSykefraværsstatistikkDto(
         orgnr = orgnr,
         årstall = 2024,

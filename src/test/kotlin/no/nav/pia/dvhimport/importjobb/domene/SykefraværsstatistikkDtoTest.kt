@@ -10,13 +10,11 @@ import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import kotlin.test.Test
 
-
 class SykefraværsstatistikkDtoTest {
-
-
     @Test
     fun `Skal kunne parse en JSON String til LandSykefraværsstatistikkDto`() {
-        val json = """
+        val json =
+            """
             [{
               "land": "NO",
               "årstall": 2024,
@@ -26,7 +24,7 @@ class SykefraværsstatistikkDtoTest {
               "muligeDagsverk": 143458496.063556,
               "antallPersoner": 3124427
             }]
-        """.trimIndent()
+            """.trimIndent()
         val dto = json.tilListe().toSykefraværsstatistikkDto<LandSykefraværsstatistikkDto>().first()
 
         dto.land shouldBe "NO"
@@ -40,7 +38,8 @@ class SykefraværsstatistikkDtoTest {
 
     @Test
     fun `Skal kunne parse en JSON String til NæringSykefraværsstatistikkDto`() {
-        val json = """
+        val json =
+            """
             [{
               "næring": "22",
               "årstall": 2024,
@@ -77,7 +76,7 @@ class SykefraværsstatistikkDtoTest {
               ],
               "antallPersoner": 3124427
             }]
-        """.trimIndent()
+            """.trimIndent()
         val dto = json.tilListe().toSykefraværsstatistikkDto<NæringSykefraværsstatistikkDto>().first()
 
         dto.næring shouldBe "22"
@@ -93,10 +92,10 @@ class SykefraværsstatistikkDtoTest {
         dto.antallPersoner shouldBe 3124427
     }
 
-
     @Test
     fun `Skal kunne parse en JSON String til VirksomhetSykefraværsstatistikkDto`() {
-        val json = """
+        val json =
+            """
             [{
                 "orgnr": "999888777",
                 "årstall": "2024",
@@ -134,7 +133,7 @@ class SykefraværsstatistikkDtoTest {
                   }
                 ]
               }]
-        """.trimIndent()
+            """.trimIndent()
         val dto = json.tilListe().toSykefraværsstatistikkDto<VirksomhetSykefraværsstatistikkDto>().first()
 
         dto.årstall shouldBe 2024
@@ -152,7 +151,8 @@ class SykefraværsstatistikkDtoTest {
 
     @Test
     fun `Skal kunne parse en JSON String til VirksomhetSykefraværsstatistikkDto (med BigDecimal eller Int verdier som String)`() {
-        val json = """
+        val json =
+            """
             [{
               "årstall": 2024,
               "kvartal": 3,
@@ -190,7 +190,7 @@ class SykefraværsstatistikkDtoTest {
               "antallPersoner": "46",
               "rectype": "1"
             }]
-        """.trimIndent()
+            """.trimIndent()
         val dto = json.tilListe().toSykefraværsstatistikkDto<VirksomhetSykefraværsstatistikkDto>().first()
 
         dto.årstall shouldBe 2024
@@ -204,7 +204,8 @@ class SykefraværsstatistikkDtoTest {
 
     @Test
     fun `Skal kunne parse en JSON String til VirksomhetSykefraværsstatistikkDto med null-verdier for varighet`() {
-        val json = """
+        val json =
+            """
             [{
               "årstall": 2024,
               "kvartal": 3,
@@ -238,7 +239,7 @@ class SykefraværsstatistikkDtoTest {
               "antallPersoner": 46,
               "rectype": "1"
             }]
-        """.trimIndent()
+            """.trimIndent()
         val dto = json.tilListe().toSykefraværsstatistikkDto<VirksomhetSykefraværsstatistikkDto>().first()
 
         dto.årstall shouldBe 2024
@@ -253,7 +254,8 @@ class SykefraværsstatistikkDtoTest {
 
     @Test
     fun `Skal ignorere varighet med null-verdier ved serialisering`() {
-        val json = """
+        val json =
+            """
             [{
                 "orgnr": "999888777",
                 "årstall": "2024",
@@ -283,7 +285,7 @@ class SykefraværsstatistikkDtoTest {
                   }
                 ]
               }]
-        """.trimIndent()
+            """.trimIndent()
         val dto = json.tilListe().toSykefraværsstatistikkDto<VirksomhetSykefraværsstatistikkDto>().first()
 
         dto.årstall shouldBe 2024

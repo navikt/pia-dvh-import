@@ -1,9 +1,21 @@
 package no.nav.pia.dvhimport.importjobb.kafka
 
 import ia.felles.integrasjoner.jobbsender.Jobb
-import ia.felles.integrasjoner.jobbsender.Jobb.*
+import ia.felles.integrasjoner.jobbsender.Jobb.alleKategorierSykefraværsstatistikkDvhImport
+import ia.felles.integrasjoner.jobbsender.Jobb.landSykefraværsstatistikkDvhImport
+import ia.felles.integrasjoner.jobbsender.Jobb.næringSykefraværsstatistikkDvhImport
+import ia.felles.integrasjoner.jobbsender.Jobb.næringskodeSykefraværsstatistikkDvhImport
+import ia.felles.integrasjoner.jobbsender.Jobb.publiseringsdatoDvhImport
+import ia.felles.integrasjoner.jobbsender.Jobb.sektorSykefraværsstatistikkDvhImport
+import ia.felles.integrasjoner.jobbsender.Jobb.virksomhetMetadataSykefraværsstatistikkDvhImport
+import ia.felles.integrasjoner.jobbsender.Jobb.virksomhetSykefraværsstatistikkDvhImport
 import ia.felles.integrasjoner.jobbsender.JobbInfo
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.cancelAndJoin
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
 import no.nav.pia.dvhimport.importjobb.domene.StatistikkImportService
@@ -19,14 +31,16 @@ import org.slf4j.LoggerFactory
 import java.time.Duration
 import kotlin.coroutines.CoroutineContext
 
-class Jobblytter(val statistikkImportService: StatistikkImportService) : CoroutineScope {
+class Jobblytter(
+    val statistikkImportService: StatistikkImportService,
+) : CoroutineScope {
     private val logger: Logger = LoggerFactory.getLogger(this::class.java)
     private val job: Job = Job()
     private val topic = KafkaTopics.PIA_JOBBLYTTER
     private val kafkaConsumer = KafkaConsumer(
         KafkaConfig().consumerProperties(konsumentGruppe = topic.konsumentGruppe),
         StringDeserializer(),
-        StringDeserializer()
+        StringDeserializer(),
     )
 
     override val coroutineContext: CoroutineContext
@@ -35,7 +49,6 @@ class Jobblytter(val statistikkImportService: StatistikkImportService) : Corouti
     init {
         Runtime.getRuntime().addShutdownHook(Thread(this::cancel))
     }
-
 
     fun run() {
         launch {
@@ -47,9 +60,11 @@ class Jobblytter(val statistikkImportService: StatistikkImportService) : Corouti
                         val records = consumer.poll(Duration.ofSeconds(1))
                         records.forEach {
                             val jobbInfo = Json.decodeFromString<SerializableJobbInfo>(it.value())
-                            if (jobbInfo.jobb.name != it.key())
-                                logger.warn("Received record with key ${it.key()} and value ${it.value()} from topic ${it.topic()} but jobInfo.job is ${jobbInfo.jobb}")
-                            else {
+                            if (jobbInfo.jobb.name != it.key()) {
+                                logger.warn(
+                                    "Received record with key ${it.key()} and value ${it.value()} from topic ${it.topic()} but jobInfo.job is ${jobbInfo.jobb}",
+                                )
+                            } else {
                                 logger.info("Starter jobb ${jobbInfo.jobb}")
                                 when (jobbInfo.jobb) {
                                     alleKategorierSykefraværsstatistikkDvhImport -> {
@@ -102,14 +117,14 @@ class Jobblytter(val statistikkImportService: StatistikkImportService) : Corouti
         override val jobb: Jobb,
         override val tidspunkt: String,
         override val applikasjon: String,
-        override val parameter: String?
-    ): JobbInfo
+        override val parameter: String?,
+    ) : JobbInfo
 
-
-    private fun cancel() = runBlocking {
-        logger.info("Stopping kafka consumer job for ${topic.navn}")
-        kafkaConsumer.wakeup()
-        job.cancelAndJoin()
-        logger.info("Stopped kafka consumer job for ${topic.navn}")
-    }
+    private fun cancel() =
+        runBlocking {
+            logger.info("Stopping kafka consumer job for ${topic.navn}")
+            kafkaConsumer.wakeup()
+            job.cancelAndJoin()
+            logger.info("Stopped kafka consumer job for ${topic.navn}")
+        }
 }

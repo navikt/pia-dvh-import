@@ -7,15 +7,14 @@ import no.nav.pia.dvhimport.importjobb.domene.StatistikkImportService.Companion.
 import java.math.BigDecimal
 import kotlin.test.Test
 
-
 class StatistikkImportServiceUnitTest {
-
     @Test
     fun `mapper JsonArray til array of strings`() {
-        val result = """
-                [
-                  {"testField": "should fail"}
-                ]
+        val result =
+            """
+            [
+              {"testField": "should fail"}
+            ]
             """.trimIndent().tilListe()
 
         result.size shouldBe 1
@@ -47,13 +46,12 @@ class StatistikkImportServiceUnitTest {
                 tapteDagsverkPerVarighet = emptyList(),
                 antallPersoner = 4,
                 rectype = "1",
-            )
+            ),
         )
         val prosent = kalkulerSykefraværsprosent(statistikk)
 
         prosent shouldBe 10.5.toBigDecimal()
     }
-
 
     @Test
     fun `finner ut neste publiseringsdato`() {
@@ -61,7 +59,7 @@ class StatistikkImportServiceUnitTest {
         nestePubliseringsdato(publiseringsdatoDtoList(), iDag) shouldBe NestePubliseringsdato(
             årstall = 2023,
             kvartal = 4,
-            dato = LocalDateTime.parse("2024-02-29T08:00:00")
+            dato = LocalDateTime.parse("2024-02-29T08:00:00"),
         )
     }
 
@@ -71,7 +69,7 @@ class StatistikkImportServiceUnitTest {
         nestePubliseringsdato(publiseringsdatoDtoList(), iDag) shouldBe NestePubliseringsdato(
             årstall = 2024,
             kvartal = 3,
-            dato = LocalDateTime.parse("2024-11-28T08:00:00")
+            dato = LocalDateTime.parse("2024-11-28T08:00:00"),
         )
     }
 
@@ -81,7 +79,7 @@ class StatistikkImportServiceUnitTest {
         nestePubliseringsdato(publiseringsdatoDtoList(), iDag) shouldBe NestePubliseringsdato(
             årstall = 2024,
             kvartal = 2,
-            dato = LocalDateTime.parse("2024-09-05T08:00:00")
+            dato = LocalDateTime.parse("2024-09-05T08:00:00"),
         )
     }
 
@@ -96,23 +94,23 @@ class StatistikkImportServiceUnitTest {
             PubliseringsdatoDto(
                 rapportPeriode = "202304",
                 offentligDato = LocalDateTime.parse("2024-02-29T08:00:00"),
-                oppdatertIDvh = LocalDateTime.parse("2023-10-20T11:57:40")
+                oppdatertIDvh = LocalDateTime.parse("2023-10-20T11:57:40"),
             ),
             PubliseringsdatoDto(
                 rapportPeriode = "202401",
                 offentligDato = LocalDateTime.parse("2024-05-30T08:00:00"),
-                oppdatertIDvh = LocalDateTime.parse("2023-10-20T11:57:40")
+                oppdatertIDvh = LocalDateTime.parse("2023-10-20T11:57:40"),
             ),
             PubliseringsdatoDto(
                 rapportPeriode = "202402",
                 offentligDato = LocalDateTime.parse("2024-09-05T08:00:00"),
-                oppdatertIDvh = LocalDateTime.parse("2023-10-20T11:57:40")
+                oppdatertIDvh = LocalDateTime.parse("2023-10-20T11:57:40"),
             ),
             PubliseringsdatoDto(
                 rapportPeriode = "202403",
                 offentligDato = LocalDateTime.parse("2024-11-28T08:00:00"),
-                oppdatertIDvh = LocalDateTime.parse("2023-10-20T11:57:40")
-            )
+                oppdatertIDvh = LocalDateTime.parse("2023-10-20T11:57:40"),
+            ),
         )
         return publiseringsdatoer
     }
