@@ -102,6 +102,7 @@ class Jobblytter(val statistikkImportService: StatistikkImportService) : Corouti
         override val jobb: Jobb,
         override val tidspunkt: String,
         override val applikasjon: String,
+        override val parameter: String?
     ): JobbInfo
 
 

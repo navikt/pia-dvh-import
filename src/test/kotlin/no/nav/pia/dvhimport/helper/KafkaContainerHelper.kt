@@ -23,10 +23,10 @@ import org.apache.kafka.common.serialization.StringDeserializer
 import org.apache.kafka.common.serialization.StringSerializer
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
-import org.testcontainers.containers.KafkaContainer
 import org.testcontainers.containers.Network
 import org.testcontainers.containers.output.Slf4jLogConsumer
 import org.testcontainers.containers.wait.strategy.HostPortWaitStrategy
+import org.testcontainers.kafka.ConfluentKafkaContainer
 import org.testcontainers.utility.DockerImageName
 import java.time.Duration
 import java.util.*
@@ -40,10 +40,9 @@ class KafkaContainerHelper(
     private var adminClient: AdminClient
     private var kafkaProducer: KafkaProducer<String, String>
 
-    val kafkaContainer = KafkaContainer(
+    val kafkaContainer = ConfluentKafkaContainer(
         DockerImageName.parse("confluentinc/cp-kafka:7.4.3")
     )
-        .withKraft()
         .withNetwork(network)
         .withNetworkAliases(kafkaNetworkAlias)
         .withLogConsumer(Slf4jLogConsumer(log).withPrefix(kafkaNetworkAlias).withSeparateOutputStreams())
@@ -98,7 +97,7 @@ class KafkaContainerHelper(
     }
 
     fun envVars() = mapOf(
-        "KAFKA_BROKERS" to "BROKER://$kafkaNetworkAlias:9092,PLAINTEXT://$kafkaNetworkAlias:9092",
+        "KAFKA_BROKERS" to "BROKER://$kafkaNetworkAlias:9093,PLAINTEXT://$kafkaNetworkAlias:9093",
         "KAFKA_TRUSTSTORE_PATH" to "",
         "KAFKA_KEYSTORE_PATH" to "",
         "KAFKA_CREDSTORE_PASSWORD" to "",
@@ -116,7 +115,7 @@ class KafkaContainerHelper(
         )
     }
 
-    private fun KafkaContainer.producer(): KafkaProducer<String, String> =
+    private fun ConfluentKafkaContainer.producer(): KafkaProducer<String, String> =
         KafkaProducer(
             mapOf(
                 CommonClientConfigs.BOOTSTRAP_SERVERS_CONFIG to this.bootstrapServers,
@@ -149,7 +148,8 @@ class KafkaContainerHelper(
             melding = """{
                 "jobb": "${jobb.name}",
                 "tidspunkt": "2023-01-01T00:00:00.000Z",
-                "applikasjon": "pia-dvh-import"
+                "applikasjon": "pia-dvh-import",
+                "parameter": null
             }""".trimIndent(),
             topic = KafkaTopics.PIA_JOBBLYTTER,
         )

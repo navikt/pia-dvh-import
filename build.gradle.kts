@@ -1,15 +1,15 @@
-val gcsNioVersion = "0.127.24"
-val googleCloudStorageVersion = "2.43.1"
-val iaFellesVersion = "1.4.0"
-val kafkaClientsVersion = "3.8.0"
+val gcsNioVersion = "0.127.26"
+val googleCloudStorageVersion = "2.44.1"
+val iaFellesVersion = "1.7.1"
+val kafkaClientsVersion = "3.9.0"
 val kotestVersion = "5.8.1"
 val kotlinVersion = "2.0.21"
 val ktorVersion = "3.0.1"
-val logbackVersion = "1.5.8"
+val logbackVersion = "1.5.12"
 val logstashLogbackEncoderVersion = "8.0"
-val prometeusVersion = "1.13.5"
-val testcontainersVersion = "1.20.2"
-val wiremockStandaloneVersion = "3.9.1"
+val prometeusVersion = "1.14.0"
+val testcontainersVersion = "1.20.3"
+val wiremockStandaloneVersion = "3.9.2"
 
 plugins {
     kotlin("jvm") version "2.0.21"
@@ -53,8 +53,6 @@ dependencies {
     testImplementation("org.testcontainers:kafka:$testcontainersVersion")
     testImplementation("io.aiven:testcontainers-fake-gcs-server:0.2.0")
     testImplementation("org.wiremock:wiremock-standalone:$wiremockStandaloneVersion")
-    // Mock-oauth2-server
-    testImplementation("no.nav.security:mock-oauth2-server:2.1.9")
     // In-memory google cloud storage bucket
     testImplementation("com.google.cloud:google-cloud-nio:$gcsNioVersion")
 
