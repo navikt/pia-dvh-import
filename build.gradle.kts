@@ -1,19 +1,19 @@
 val gcsNioVersion = "0.127.27"
-val googleCloudStorageVersion = "2.44.1"
+val googleCloudStorageVersion = "2.45.0"
 val iaFellesVersion = "1.7.1"
 val kafkaClientsVersion = "3.9.0"
 val kotestVersion = "5.8.1"
-val kotlinVersion = "2.0.21"
+val kotlinVersion = "2.1.0"
 val ktorVersion = "3.0.1"
 val logbackVersion = "1.5.12"
 val logstashLogbackEncoderVersion = "8.0"
 val prometeusVersion = "1.14.1"
 val testcontainersVersion = "1.20.4"
-val wiremockStandaloneVersion = "3.9.2"
+val wiremockStandaloneVersion = "3.10.0"
 
 plugins {
-    kotlin("jvm") version "2.0.21"
-    kotlin("plugin.serialization") version "2.0.21"
+    kotlin("jvm") version "2.1.0"
+    kotlin("plugin.serialization") version "2.1.0"
     id("com.github.johnrengelman.shadow") version "8.1.1"
 }
 
