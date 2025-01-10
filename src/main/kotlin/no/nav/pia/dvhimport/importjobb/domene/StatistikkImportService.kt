@@ -12,6 +12,7 @@ import no.nav.pia.dvhimport.importjobb.kafka.EksportProdusent.Sykefraværsstatis
 import no.nav.pia.dvhimport.importjobb.kafka.EksportProdusent.VirksomhetMetadataMelding
 import no.nav.pia.dvhimport.konfigurasjon.KafkaConfig
 import no.nav.pia.dvhimport.storage.BucketKlient
+import no.nav.pia.dvhimport.storage.Mappestruktur
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import java.math.BigDecimal
@@ -28,22 +29,22 @@ class StatistikkImportService(
 
     fun importAlleKategorier() {
         logger.info("Starter import av sykefraværsstatistikk for alle statistikkkategorier")
-        val årstallOgKvartal = hentÅrstallOgKvartal()
-        val path = if (brukÅrOgKvartalIPathTilFilene) "${årstallOgKvartal.first}/${årstallOgKvartal.second}" else ""
+        val mappeStruktur = hentMappestruktur()
+        val path = if (brukÅrOgKvartalIPathTilFilene) "${mappeStruktur.publiseringsÅr}/${mappeStruktur.sistePubliserteKvartal}" else ""
 
         if (!bucketKlient.sjekkBucketExists()) {
             logger.error("Bucket ikke funnet, avbryter import for alle kategorier")
             return
         }
-        import<LandSykefraværsstatistikkDto>(Statistikkategori.LAND, path)
-        import<SektorSykefraværsstatistikkDto>(Statistikkategori.SEKTOR, path)
-        import<NæringSykefraværsstatistikkDto>(Statistikkategori.NÆRING, path)
-        import<NæringskodeSykefraværsstatistikkDto>(Statistikkategori.NÆRINGSKODE, path)
-        import<VirksomhetSykefraværsstatistikkDto>(Statistikkategori.VIRKSOMHET, path)
+        import<LandSykefraværsstatistikkDto>(DvhStatistikkKategori.LAND, path)
+        import<SektorSykefraværsstatistikkDto>(DvhStatistikkKategori.SEKTOR, path)
+        import<NæringSykefraværsstatistikkDto>(DvhStatistikkKategori.NÆRING, path)
+        import<NæringskodeSykefraværsstatistikkDto>(DvhStatistikkKategori.NÆRINGSKODE, path)
+        import<VirksomhetSykefraværsstatistikkDto>(DvhStatistikkKategori.VIRKSOMHET, path)
         importViksomhetMetadata()
     }
 
-    fun importForKategori(kategori: Statistikkategori) {
+    fun importForKategori(kategori: DvhStatistikkKategori) {
         logger.info("Starter import av sykefraværsstatistikk for kategori '$kategori'")
 
         if (!bucketKlient.sjekkBucketExists()) {
@@ -51,52 +52,69 @@ class StatistikkImportService(
             return
         }
 
-        val årstallOgKvartal = hentÅrstallOgKvartal()
-        val kvartal = "${årstallOgKvartal.first}${årstallOgKvartal.second}"
-        val path = if (brukÅrOgKvartalIPathTilFilene) "${årstallOgKvartal.first}/${årstallOgKvartal.second}" else ""
+        val mappeStruktur = hentMappestruktur()
+        val årstallOgKvartal = mappeStruktur.gjeldendeÅrstallOgKvartal()
+        val path = if (brukÅrOgKvartalIPathTilFilene) "${mappeStruktur.publiseringsÅr}/${mappeStruktur.sistePubliserteKvartal}" else ""
 
         when (kategori) {
-            Statistikkategori.LAND -> {
-                val statistikk = import<LandSykefraværsstatistikkDto>(Statistikkategori.LAND, path)
-                sendTilKafka(kvartal = kvartal, statistikkategori = Statistikkategori.LAND, statistikk = statistikk)
-            }
-
-            Statistikkategori.SEKTOR -> {
-                val statistikk = import<SektorSykefraværsstatistikkDto>(Statistikkategori.SEKTOR, path)
-                sendTilKafka(kvartal = kvartal, statistikkategori = Statistikkategori.SEKTOR, statistikk = statistikk)
-            }
-
-            Statistikkategori.NÆRING -> {
-                val statistikk = import<NæringSykefraværsstatistikkDto>(Statistikkategori.NÆRING, path)
-                sendTilKafka(kvartal = kvartal, statistikkategori = Statistikkategori.NÆRING, statistikk = statistikk)
-            }
-
-            Statistikkategori.NÆRINGSKODE -> {
-                val statistikk = import<NæringskodeSykefraværsstatistikkDto>(Statistikkategori.NÆRINGSKODE, path)
+            DvhStatistikkKategori.LAND -> {
+                val statistikk = import<LandSykefraværsstatistikkDto>(DvhStatistikkKategori.LAND, path)
                 sendTilKafka(
-                    kvartal = kvartal,
-                    statistikkategori = Statistikkategori.NÆRINGSKODE,
+                    årstall = årstallOgKvartal.årstall,
+                    kvartal = årstallOgKvartal.kvartal,
                     statistikk = statistikk,
                 )
             }
 
-            Statistikkategori.VIRKSOMHET -> {
-                val statistikk = import<VirksomhetSykefraværsstatistikkDto>(Statistikkategori.VIRKSOMHET, path)
+            DvhStatistikkKategori.SEKTOR -> {
+                val statistikk = import<SektorSykefraværsstatistikkDto>(DvhStatistikkKategori.SEKTOR, path)
                 sendTilKafka(
-                    kvartal = kvartal,
-                    statistikkategori = Statistikkategori.VIRKSOMHET,
+                    årstall = årstallOgKvartal.årstall,
+                    kvartal = årstallOgKvartal.kvartal,
                     statistikk = statistikk,
                 )
             }
 
-            Statistikkategori.VIRKSOMHET_METADATA -> {
+            DvhStatistikkKategori.NÆRING -> {
+                val statistikk = import<NæringSykefraværsstatistikkDto>(DvhStatistikkKategori.NÆRING, path)
+                sendTilKafka(
+                    årstall = årstallOgKvartal.årstall,
+                    kvartal = årstallOgKvartal.kvartal,
+                    statistikk = statistikk,
+                )
+            }
+
+            DvhStatistikkKategori.NÆRINGSKODE -> {
+                val statistikk = import<NæringskodeSykefraværsstatistikkDto>(DvhStatistikkKategori.NÆRINGSKODE, path)
+                sendTilKafka(
+                    årstall = årstallOgKvartal.årstall,
+                    kvartal = årstallOgKvartal.kvartal,
+                    statistikk = statistikk,
+                )
+            }
+
+            DvhStatistikkKategori.VIRKSOMHET -> {
+                val statistikk = import<VirksomhetSykefraværsstatistikkDto>(DvhStatistikkKategori.VIRKSOMHET, path)
+                sendTilKafka(
+                    årstall = årstallOgKvartal.årstall,
+                    kvartal = årstallOgKvartal.kvartal,
+                    statistikk = statistikk,
+                )
+            }
+
+            DvhStatistikkKategori.VIRKSOMHET_METADATA -> {
                 val metadata = importViksomhetMetadata()
-                sendMetadataTilKafka(kvartal = kvartal, metadata = metadata)
+                sendMetadataTilKafka(
+                    årstall = årstallOgKvartal.årstall,
+                    kvartal = årstallOgKvartal.kvartal,
+                    metadata = metadata,
+                )
             }
         }
     }
 
     fun importOgEksportPubliseringsdato() {
+        val årstallOgKvartal = hentMappestruktur().gjeldendeÅrstallOgKvartal()
         val iDag = Clock.System.now().toLocalDateTime(timeZone)
         val publiseringsdatoer = importPubliseringsdato()
 
@@ -122,7 +140,8 @@ class StatistikkImportService(
         publiseringsdatoer.forEach {
             eksportProdusent.sendMelding(
                 melding = PubliseringsdatoMelding(
-                    kvartal = "2024",
+                    årstall = årstallOgKvartal.årstall,
+                    kvartal = årstallOgKvartal.kvartal,
                     publiseringsdato = it,
                 ),
             )
@@ -136,13 +155,13 @@ class StatistikkImportService(
 
         bucketKlient.ensureFileExists(
             path = path,
-            fileName = Metadata.PUBLISERINGSDATO.tilFilnavn(),
+            fileName = DvhMetadata.PUBLISERINGSDATO.tilFilnavn(),
         )
 
         return try {
             val publiseringsdatoer = hentInnhold(
                 path = path,
-                kilde = Metadata.PUBLISERINGSDATO,
+                kilde = DvhMetadata.PUBLISERINGSDATO,
             )
             logger.info("Antall rader med publiseringsdatoer: ${publiseringsdatoer.size}")
             publiseringsdatoer.tilPubliseringsdatoDto()
@@ -154,17 +173,17 @@ class StatistikkImportService(
 
     private fun importViksomhetMetadata(): List<VirksomhetMetadataDto> {
         logger.info("Starter import av virksomhet metadata")
-        val kvartal = hentÅrstallOgKvartal()
-        val path = if (brukÅrOgKvartalIPathTilFilene) "${kvartal.first}/${kvartal.second}" else ""
+        val mappestruktur = hentMappestruktur()
+        val path = if (brukÅrOgKvartalIPathTilFilene) "${mappestruktur.publiseringsÅr}/${mappestruktur.sistePubliserteKvartal}" else ""
 
         bucketKlient.ensureFileExists(
             path = path,
-            fileName = Statistikkategori.VIRKSOMHET_METADATA.tilFilnavn(),
+            fileName = DvhStatistikkKategori.VIRKSOMHET_METADATA.tilFilnavn(),
         )
         return try {
             val statistikk = hentInnhold(
                 path = path,
-                kilde = Statistikkategori.VIRKSOMHET_METADATA,
+                kilde = DvhStatistikkKategori.VIRKSOMHET_METADATA,
             )
             val virksomhetMetadataDtoList: List<VirksomhetMetadataDto> =
                 statistikk.tilVirksomhetMetadataDto()
@@ -177,7 +196,7 @@ class StatistikkImportService(
     }
 
     private inline fun <reified T : Sykefraværsstatistikk> import(
-        kategori: Statistikkategori,
+        kategori: DvhStatistikkKategori,
         path: String,
     ): List<T> {
         bucketKlient.ensureFileExists(path, kategori.tilFilnavn())
@@ -226,15 +245,15 @@ class StatistikkImportService(
     }
 
     private fun sendTilKafka(
-        kvartal: String,
-        statistikkategori: Statistikkategori,
+        årstall: Int,
+        kvartal: Int,
         statistikk: List<SykefraværsstatistikkDto>,
     ) {
         statistikk.forEach {
             eksportProdusent.sendMelding(
                 melding = SykefraværsstatistikkMelding(
+                    årstall = årstall,
                     kvartal = kvartal,
-                    statistikkategori = statistikkategori,
                     sykefraværsstatistikk = it,
                 ),
             )
@@ -242,21 +261,28 @@ class StatistikkImportService(
     }
 
     private fun sendMetadataTilKafka(
-        kvartal: String,
+        årstall: Int,
+        kvartal: Int,
         metadata: List<VirksomhetMetadataDto>,
     ) {
         metadata.forEach {
+            val metadataMelding = VirksomhetMetadataMelding(
+                årstall = årstall,
+                kvartal = kvartal,
+                virksomhetMetadata = it,
+            )
             eksportProdusent.sendMelding(
-                melding = VirksomhetMetadataMelding(
-                    kvartal = kvartal,
-                    virksomhetMetadata = it,
-                ),
+                melding = metadataMelding,
             )
         }
     }
 
     companion object {
-        fun hentÅrstallOgKvartal() = Pair("2024", "K2") // TODO: hent kvartal som skal importeres fra en eller annen tjeneste
+        fun hentMappestruktur() =
+            Mappestruktur(
+                publiseringsÅr = "2024",
+                sistePubliserteKvartal = "K2",
+            ) // TODO: les mappestruktur fra GCP bucket
 
         fun kalkulerSykefraværsprosent(statistikk: List<Sykefraværsstatistikk>): BigDecimal {
             val sumAntallTapteDagsverk = statistikk.sumOf { statistikkDto -> statistikkDto.tapteDagsverk }
