@@ -1,11 +1,30 @@
-package no.nav.pia.dvhimport.importjobb.domene
+package no.nav.pia.dvhimport.importjobb
 
 import kotlinx.datetime.Clock
 import kotlinx.datetime.toLocalDateTime
+import no.nav.pia.dvhimport.importjobb.domene.DvhDatakilde
+import no.nav.pia.dvhimport.importjobb.domene.DvhMetadata
+import no.nav.pia.dvhimport.importjobb.domene.DvhStatistikkKategori
+import no.nav.pia.dvhimport.importjobb.domene.LandSykefraværsstatistikkDto
+import no.nav.pia.dvhimport.importjobb.domene.NestePubliseringsdato
+import no.nav.pia.dvhimport.importjobb.domene.NæringSykefraværsstatistikkDto
+import no.nav.pia.dvhimport.importjobb.domene.NæringskodeSykefraværsstatistikkDto
 import no.nav.pia.dvhimport.importjobb.domene.Publiseringsdato.Companion.antallDagerTilPubliseringsdato
 import no.nav.pia.dvhimport.importjobb.domene.Publiseringsdato.Companion.erFørPubliseringsdato
 import no.nav.pia.dvhimport.importjobb.domene.Publiseringsdato.Companion.sjekkPubliseringErIDag
 import no.nav.pia.dvhimport.importjobb.domene.Publiseringsdato.Companion.timeZone
+import no.nav.pia.dvhimport.importjobb.domene.PubliseringsdatoDto
+import no.nav.pia.dvhimport.importjobb.domene.SektorSykefraværsstatistikkDto
+import no.nav.pia.dvhimport.importjobb.domene.StatistikkUtils
+import no.nav.pia.dvhimport.importjobb.domene.Sykefraværsstatistikk
+import no.nav.pia.dvhimport.importjobb.domene.SykefraværsstatistikkDto
+import no.nav.pia.dvhimport.importjobb.domene.VirksomhetMetadataDto
+import no.nav.pia.dvhimport.importjobb.domene.VirksomhetSykefraværsstatistikkDto
+import no.nav.pia.dvhimport.importjobb.domene.tilListe
+import no.nav.pia.dvhimport.importjobb.domene.tilPubliseringsdato
+import no.nav.pia.dvhimport.importjobb.domene.tilPubliseringsdatoDto
+import no.nav.pia.dvhimport.importjobb.domene.tilVirksomhetMetadataDto
+import no.nav.pia.dvhimport.importjobb.domene.toSykefraværsstatistikkDto
 import no.nav.pia.dvhimport.importjobb.kafka.EksportProdusent
 import no.nav.pia.dvhimport.importjobb.kafka.EksportProdusent.PubliseringsdatoMelding
 import no.nav.pia.dvhimport.importjobb.kafka.EksportProdusent.SykefraværsstatistikkMelding
@@ -18,7 +37,7 @@ import org.slf4j.LoggerFactory
 import java.math.BigDecimal
 import java.math.RoundingMode
 
-class StatistikkImportService(
+class ImportService(
     private val bucketKlient: BucketKlient,
     private val brukÅrOgKvartalIPathTilFilene: Boolean,
 ) {
@@ -27,7 +46,7 @@ class StatistikkImportService(
         EksportProdusent(kafkaConfig = KafkaConfig())
     }
 
-    fun importAlleKategorier() {
+    fun importAlleStatistikkKategorier() {
         logger.info("Starter import av sykefraværsstatistikk for alle statistikkkategorier")
         val mappeStruktur = hentMappestruktur()
         val path = if (brukÅrOgKvartalIPathTilFilene) "${mappeStruktur.publiseringsÅr}/${mappeStruktur.sistePubliserteKvartal}" else ""
@@ -44,7 +63,7 @@ class StatistikkImportService(
         importViksomhetMetadata()
     }
 
-    fun importForKategori(kategori: DvhStatistikkKategori) {
+    fun importForStatistikkKategori(kategori: DvhStatistikkKategori) {
         logger.info("Starter import av sykefraværsstatistikk for kategori '$kategori'")
 
         if (!bucketKlient.sjekkBucketExists()) {
@@ -101,8 +120,22 @@ class StatistikkImportService(
                     statistikk = statistikk,
                 )
             }
+        }
+    }
 
-            DvhStatistikkKategori.VIRKSOMHET_METADATA -> {
+    fun importMetadata(kategori: DvhMetadata) {
+        logger.info("Starter import av metadata for kategori '$kategori'")
+
+        if (!bucketKlient.sjekkBucketExists()) {
+            logger.error("Bucket ikke funnet, avbryter import for kategori '$kategori'")
+            return
+        }
+
+        val mappeStruktur = hentMappestruktur()
+        val årstallOgKvartal = mappeStruktur.gjeldendeÅrstallOgKvartal()
+
+        when (kategori) {
+            DvhMetadata.VIRKSOMHET_METADATA -> {
                 val metadata = importViksomhetMetadata()
                 sendMetadataTilKafka(
                     årstall = årstallOgKvartal.årstall,
@@ -110,10 +143,14 @@ class StatistikkImportService(
                     metadata = metadata,
                 )
             }
+
+            DvhMetadata.PUBLISERINGSDATO -> {
+                importOgEksportPubliseringsdato()
+            }
         }
     }
 
-    fun importOgEksportPubliseringsdato() {
+    private fun importOgEksportPubliseringsdato() {
         val årstallOgKvartal = hentMappestruktur().gjeldendeÅrstallOgKvartal()
         val iDag = Clock.System.now().toLocalDateTime(timeZone)
         val publiseringsdatoer = importPubliseringsdato()
@@ -148,7 +185,7 @@ class StatistikkImportService(
         }
     }
 
-    fun importPubliseringsdato(): List<PubliseringsdatoDto> {
+    private fun importPubliseringsdato(): List<PubliseringsdatoDto> {
         logger.info("Starter import av publiseringsdato")
         val år = 2024
         val path = if (brukÅrOgKvartalIPathTilFilene) "$år" else ""
@@ -178,12 +215,12 @@ class StatistikkImportService(
 
         bucketKlient.ensureFileExists(
             path = path,
-            fileName = DvhStatistikkKategori.VIRKSOMHET_METADATA.tilFilnavn(),
+            fileName = DvhMetadata.VIRKSOMHET_METADATA.tilFilnavn(),
         )
         return try {
             val statistikk = hentInnhold(
                 path = path,
-                kilde = DvhStatistikkKategori.VIRKSOMHET_METADATA,
+                kilde = DvhMetadata.VIRKSOMHET_METADATA,
             )
             val virksomhetMetadataDtoList: List<VirksomhetMetadataDto> =
                 statistikk.tilVirksomhetMetadataDto()

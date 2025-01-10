@@ -6,7 +6,7 @@ import com.google.cloud.storage.StorageOptions
 import io.ktor.server.application.Application
 import io.ktor.server.engine.embeddedServer
 import io.ktor.server.netty.Netty
-import no.nav.pia.dvhimport.importjobb.domene.StatistikkImportService
+import no.nav.pia.dvhimport.importjobb.ImportService
 import no.nav.pia.dvhimport.importjobb.kafka.Jobblytter
 import no.nav.pia.dvhimport.konfigurasjon.plugins.configureMonitoring
 import no.nav.pia.dvhimport.konfigurasjon.plugins.configureRouting
@@ -34,7 +34,7 @@ fun main() {
     }
 
     Jobblytter(
-        statistikkImportService = StatistikkImportService(
+        importService = ImportService(
             bucketKlient = BucketKlient(gcpStorage = storage, bucketName = naisEnvironment.statistikkBucketName),
             brukÅrOgKvartalIPathTilFilene = brukÅrOgKvartalIPathTilFilene,
         ),

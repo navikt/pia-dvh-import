@@ -2,12 +2,12 @@ package no.nav.pia.dvhimport.importjobb.domene
 
 import io.kotest.matchers.shouldBe
 import kotlinx.datetime.LocalDateTime
-import no.nav.pia.dvhimport.importjobb.domene.StatistikkImportService.Companion.kalkulerSykefraværsprosent
-import no.nav.pia.dvhimport.importjobb.domene.StatistikkImportService.Companion.nestePubliseringsdato
+import no.nav.pia.dvhimport.importjobb.ImportService.Companion.kalkulerSykefraværsprosent
+import no.nav.pia.dvhimport.importjobb.ImportService.Companion.nestePubliseringsdato
 import java.math.BigDecimal
 import kotlin.test.Test
 
-class StatistikkImportServiceUnitTest {
+class ImportServiceUnitTest {
     @Test
     fun `mapper JsonArray til array of strings`() {
         val result =
