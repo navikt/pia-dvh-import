@@ -23,7 +23,7 @@ import kotlin.test.AfterTest
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 
-class StatistikkImportServiceIntegrasjonstest {
+class ImportServiceIntegrasjonstest {
     private val gcsContainer = TestContainerHelper.googleCloudStorage
     private val kafkaContainer = TestContainerHelper.kafka
     private val eksportertStatistikkKonsument =
@@ -34,8 +34,6 @@ class StatistikkImportServiceIntegrasjonstest {
 
     private val eksportertVirksomhetMetadataKonsument =
         kafkaContainer.nyKonsument(topic = KafkaTopics.KVARTALSVIS_SYKEFRAVARSSTATISTIKK_VIRKSOMHET_METADATA)
-
-    private val gjeldendeÅrstallOgKvartal = "2024K2"
 
     @BeforeTest
     fun setup() {
@@ -323,7 +321,13 @@ class StatistikkImportServiceIntegrasjonstest {
         dvhImportApplikasjon shouldContainLog "Importert metadata for '1' virksomhet-er".toRegex()
         dvhImportApplikasjon shouldContainLog "Jobb 'virksomhetMetadataSykefraværsstatistikkDvhImport' ferdig".toRegex()
 
-        val nøkkel = """{"kvartal":"$gjeldendeÅrstallOgKvartal","meldingType":"METADATA_FOR_VIRKSOMHET"}"""
+        val nøkkel = Json.encodeToString(
+            EksportProdusent.VirksomhetMetadataNøkkel(
+                årstall = 2024,
+                kvartal = 2,
+                orgnr = "987654321",
+            ),
+        )
         runBlocking {
             kafkaContainer.ventOgKonsumerKafkaMeldinger(
                 nøkkel = nøkkel,
@@ -337,7 +341,7 @@ class StatistikkImportServiceIntegrasjonstest {
                 deserialiserteSvar.filter { it.orgnr == "987654321" }.forAtLeastOne { virksomhetMetadataStatistikk ->
                     virksomhetMetadataStatistikk.orgnr shouldBe "987654321"
                     virksomhetMetadataStatistikk.årstall shouldBe 2024
-                    virksomhetMetadataStatistikk.kvartal shouldBe 1
+                    virksomhetMetadataStatistikk.kvartal shouldBe 2
                     virksomhetMetadataStatistikk.sektor shouldBe "2"
                     virksomhetMetadataStatistikk.primærnæring shouldBe "88"
                     virksomhetMetadataStatistikk.primærnæringskode shouldBe "88911"
@@ -640,7 +644,7 @@ class StatistikkImportServiceIntegrasjonstest {
         primærnæring: String? = "88",
         primærnæringskode: String? = "88911",
     ) {
-        val filnavn = DvhStatistikkKategori.VIRKSOMHET_METADATA.tilFilnavn()
+        val filnavn = DvhMetadata.VIRKSOMHET_METADATA.tilFilnavn()
         gcsContainer.lagreTestBlob(
             blobNavn = filnavn,
             bytes =

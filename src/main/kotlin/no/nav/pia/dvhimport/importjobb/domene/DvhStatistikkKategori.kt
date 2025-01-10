@@ -16,11 +16,6 @@ enum class DvhStatistikkKategori : DvhDatakilde {
     VIRKSOMHET {
         override fun tilFilnavn(): String = "virksomhet.json"
     },
-
-    @Deprecated("bruk DvhMetadata.VIRKSOMHET_METADATA")
-    VIRKSOMHET_METADATA {
-        override fun tilFilnavn(): String = "virksomhet_metadata.json"
-    },
 }
 
 enum class DvhMetadata : DvhDatakilde {

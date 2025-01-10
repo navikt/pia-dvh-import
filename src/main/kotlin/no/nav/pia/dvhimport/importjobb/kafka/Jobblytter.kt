@@ -18,8 +18,9 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
+import no.nav.pia.dvhimport.importjobb.ImportService
+import no.nav.pia.dvhimport.importjobb.domene.DvhMetadata
 import no.nav.pia.dvhimport.importjobb.domene.DvhStatistikkKategori
-import no.nav.pia.dvhimport.importjobb.domene.StatistikkImportService
 import no.nav.pia.dvhimport.konfigurasjon.KafkaConfig
 import no.nav.pia.dvhimport.konfigurasjon.KafkaTopics
 import org.apache.kafka.clients.consumer.KafkaConsumer
@@ -32,7 +33,7 @@ import java.time.Duration
 import kotlin.coroutines.CoroutineContext
 
 class Jobblytter(
-    val statistikkImportService: StatistikkImportService,
+    val importService: ImportService,
 ) : CoroutineScope {
     private val logger: Logger = LoggerFactory.getLogger(this::class.java)
     private val job: Job = Job()
@@ -68,28 +69,28 @@ class Jobblytter(
                                 logger.info("Starter jobb ${jobbInfo.jobb}")
                                 when (jobbInfo.jobb) {
                                     alleKategorierSykefraværsstatistikkDvhImport -> {
-                                        statistikkImportService.importAlleKategorier()
+                                        importService.importAlleStatistikkKategorier()
                                     }
                                     landSykefraværsstatistikkDvhImport -> {
-                                        statistikkImportService.importForKategori(DvhStatistikkKategori.LAND)
+                                        importService.importForStatistikkKategori(DvhStatistikkKategori.LAND)
                                     }
                                     sektorSykefraværsstatistikkDvhImport -> {
-                                        statistikkImportService.importForKategori(DvhStatistikkKategori.SEKTOR)
+                                        importService.importForStatistikkKategori(DvhStatistikkKategori.SEKTOR)
                                     }
                                     næringSykefraværsstatistikkDvhImport -> {
-                                        statistikkImportService.importForKategori(DvhStatistikkKategori.NÆRING)
+                                        importService.importForStatistikkKategori(DvhStatistikkKategori.NÆRING)
                                     }
                                     næringskodeSykefraværsstatistikkDvhImport -> {
-                                        statistikkImportService.importForKategori(DvhStatistikkKategori.NÆRINGSKODE)
+                                        importService.importForStatistikkKategori(DvhStatistikkKategori.NÆRINGSKODE)
                                     }
                                     virksomhetSykefraværsstatistikkDvhImport -> {
-                                        statistikkImportService.importForKategori(DvhStatistikkKategori.VIRKSOMHET)
+                                        importService.importForStatistikkKategori(DvhStatistikkKategori.VIRKSOMHET)
                                     }
                                     virksomhetMetadataSykefraværsstatistikkDvhImport -> {
-                                        statistikkImportService.importForKategori(DvhStatistikkKategori.VIRKSOMHET_METADATA)
+                                        importService.importMetadata(DvhMetadata.VIRKSOMHET_METADATA)
                                     }
                                     publiseringsdatoDvhImport -> {
-                                        statistikkImportService.importOgEksportPubliseringsdato()
+                                        importService.importMetadata(DvhMetadata.PUBLISERINGSDATO)
                                     }
                                     else -> {
                                         logger.info("Jobb '${jobbInfo.jobb}' ignorert")
