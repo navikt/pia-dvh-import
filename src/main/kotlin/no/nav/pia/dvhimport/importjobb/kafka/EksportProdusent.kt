@@ -3,10 +3,23 @@ package no.nav.pia.dvhimport.importjobb.kafka
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
+import no.nav.pia.dvhimport.importjobb.domene.DvhStatistikkKategori
+import no.nav.pia.dvhimport.importjobb.domene.DvhStatistikkKategori.LAND
+import no.nav.pia.dvhimport.importjobb.domene.DvhStatistikkKategori.NÆRING
+import no.nav.pia.dvhimport.importjobb.domene.DvhStatistikkKategori.NÆRINGSKODE
+import no.nav.pia.dvhimport.importjobb.domene.DvhStatistikkKategori.SEKTOR
+import no.nav.pia.dvhimport.importjobb.domene.DvhStatistikkKategori.VIRKSOMHET
+import no.nav.pia.dvhimport.importjobb.domene.LandSykefraværsstatistikkDto
+import no.nav.pia.dvhimport.importjobb.domene.NæringSykefraværsstatistikkDto
+import no.nav.pia.dvhimport.importjobb.domene.NæringskodeSykefraværsstatistikkDto
 import no.nav.pia.dvhimport.importjobb.domene.PubliseringsdatoDto
-import no.nav.pia.dvhimport.importjobb.domene.Statistikkategori
+import no.nav.pia.dvhimport.importjobb.domene.SektorSykefraværsstatistikkDto
 import no.nav.pia.dvhimport.importjobb.domene.SykefraværsstatistikkDto
 import no.nav.pia.dvhimport.importjobb.domene.VirksomhetMetadataDto
+import no.nav.pia.dvhimport.importjobb.domene.VirksomhetSykefraværsstatistikkDto
+import no.nav.pia.dvhimport.importjobb.kafka.EksportProdusent.MeldingType.METADATA_FOR_VIRKSOMHET
+import no.nav.pia.dvhimport.importjobb.kafka.EksportProdusent.MeldingType.PUBLISERINGSDATO
+import no.nav.pia.dvhimport.importjobb.kafka.EksportProdusent.MeldingType.SYKEFRAVÆRSSTATISTIKK
 import no.nav.pia.dvhimport.konfigurasjon.KafkaConfig
 import no.nav.pia.dvhimport.konfigurasjon.KafkaTopics
 import org.apache.kafka.clients.producer.KafkaProducer
@@ -27,11 +40,12 @@ class EksportProdusent(
 
     fun <T> sendMelding(melding: EksportMelding<T>) {
         val topic = when (melding) {
-            is SykefraværsstatistikkMelding -> if (melding.ekstraNøkkel != Statistikkategori.VIRKSOMHET.name) {
-                KafkaTopics.KVARTALSVIS_SYKEFRAVARSSTATISTIKK_ØVRIGE_KATEGORIER.navnMedNamespace
-            } else {
+            is SykefraværsstatistikkMelding -> if (melding.isViksomhetStatistikk()) {
                 KafkaTopics.KVARTALSVIS_SYKEFRAVARSSTATISTIKK_VIRKSOMHET.navnMedNamespace
+            } else {
+                KafkaTopics.KVARTALSVIS_SYKEFRAVARSSTATISTIKK_ØVRIGE_KATEGORIER.navnMedNamespace
             }
+
             is VirksomhetMetadataMelding -> KafkaTopics.KVARTALSVIS_SYKEFRAVARSSTATISTIKK_VIRKSOMHET_METADATA.navnMedNamespace
             is PubliseringsdatoMelding -> KafkaTopics.KVARTALSVIS_SYKEFRAVARSSTATISTIKK_PUBLISERINGSDATO.navnMedNamespace
         }
@@ -45,52 +59,115 @@ class EksportProdusent(
     }
 
     class VirksomhetMetadataMelding(
-        kvartal: String,
+        årstall: Int,
+        kvartal: Int,
         virksomhetMetadata: VirksomhetMetadataDto,
     ) : EksportMelding<VirksomhetMetadataDto>(
+            årstall = årstall,
             kvartal = kvartal,
-            meldingType = MeldingType.METADATA_FOR_VIRKSOMHET,
+            meldingType = METADATA_FOR_VIRKSOMHET,
             data = virksomhetMetadata,
         )
 
     class SykefraværsstatistikkMelding(
-        kvartal: String,
-        statistikkategori: Statistikkategori,
+        årstall: Int,
+        kvartal: Int,
         sykefraværsstatistikk: SykefraværsstatistikkDto,
     ) : EksportMelding<SykefraværsstatistikkDto>(
+            årstall = årstall,
             kvartal = kvartal,
-            meldingType = MeldingType.SYKEFRAVÆRSSTATISTIKK,
-            ekstraNøkkel = statistikkategori.name,
+            meldingType = SYKEFRAVÆRSSTATISTIKK,
             data = sykefraværsstatistikk,
         )
 
     class PubliseringsdatoMelding(
-        kvartal: String,
+        årstall: Int,
+        kvartal: Int,
         publiseringsdato: PubliseringsdatoDto,
     ) : EksportMelding<PubliseringsdatoDto>(
+            årstall = årstall,
             kvartal = kvartal,
-            meldingType = MeldingType.PUBLISERINGSDATO,
+            meldingType = PUBLISERINGSDATO,
             data = publiseringsdato,
         )
 
     @Serializable
     sealed class EksportMelding<T>(
-        val kvartal: String,
+        val årstall: Int,
+        val kvartal: Int,
         val meldingType: MeldingType,
-        val ekstraNøkkel: String = "",
         val data: T,
     ) {
+        fun isViksomhetStatistikk(): Boolean =
+            when (data) {
+                is SykefraværsstatistikkDto -> data.kategori() == VIRKSOMHET
+                else -> {
+                    false
+                }
+            }
+
+        private fun SykefraværsstatistikkDto.tilStatistikkSpesifikkVerdi() =
+            when (this) {
+                is LandSykefraværsstatistikkDto -> this.land
+                is NæringSykefraværsstatistikkDto -> this.næring
+                is NæringskodeSykefraværsstatistikkDto -> this.næringskode
+                is SektorSykefraværsstatistikkDto -> this.sektor
+                is VirksomhetSykefraværsstatistikkDto -> this.orgnr
+            }
+
+        private fun SykefraværsstatistikkDto.kategori(): DvhStatistikkKategori =
+            when (this) {
+                is LandSykefraværsstatistikkDto -> LAND
+                is NæringSykefraværsstatistikkDto -> NÆRING
+                is NæringskodeSykefraværsstatistikkDto -> NÆRINGSKODE
+                is SektorSykefraværsstatistikkDto -> SEKTOR
+                is VirksomhetSykefraværsstatistikkDto -> VIRKSOMHET
+            }
+
+        private fun tilNøkkelverdi(): String =
+            when (data) {
+                is SykefraværsstatistikkDto -> data.tilStatistikkSpesifikkVerdi()
+                is VirksomhetMetadataDto -> data.orgnr
+                is PubliseringsdatoDto -> data.rapportPeriode
+                else -> {
+                    throw RuntimeException("Kunne ikke hente kode verdi for '${data!!::class.java.name}'")
+                }
+            }
+
+        private fun statistikkKategori(): DvhStatistikkKategori =
+            when (data) {
+                is SykefraværsstatistikkDto -> data.kategori()
+                else -> {
+                    throw RuntimeException("Kan ikke hente statistikk kategori for '${data!!::class.java.name}'")
+                }
+            }
+
         fun tilNøkkel() =
-            Json.encodeToString(
-                Nøkkel(
-                    kvartal,
-                    if (ekstraNøkkel.isNotEmpty()) {
-                        this.meldingType.name + "-" + this.ekstraNøkkel
-                    } else {
-                        this.meldingType.name
-                    },
-                ),
-            )
+            when (meldingType) {
+                SYKEFRAVÆRSSTATISTIKK -> Json.encodeToString<SykefraværsstatistikkNøkkel>(
+                    SykefraværsstatistikkNøkkel(
+                        årstall = this.årstall,
+                        kvartal = this.kvartal,
+                        kategori = statistikkKategori(),
+                        kode = tilNøkkelverdi(),
+                    ),
+                )
+
+                METADATA_FOR_VIRKSOMHET -> Json.encodeToString<VirksomhetMetadataNøkkel>(
+                    VirksomhetMetadataNøkkel(
+                        årstall = this.årstall,
+                        kvartal = this.kvartal,
+                        orgnr = tilNøkkelverdi(),
+                    ),
+                )
+
+                PUBLISERINGSDATO -> Json.encodeToString<PubliseringsdatoNøkkel>(
+                    PubliseringsdatoNøkkel(
+                        årstall = this.årstall,
+                        rapportPeriode = tilNøkkelverdi(),
+                    ),
+                )
+            }
 
         fun tilMelding() =
             when (this) {
@@ -107,8 +184,23 @@ class EksportProdusent(
     }
 
     @Serializable
-    data class Nøkkel(
-        val kvartal: String,
-        val meldingType: String,
+    data class SykefraværsstatistikkNøkkel(
+        val årstall: Int,
+        val kvartal: Int,
+        val kategori: DvhStatistikkKategori,
+        val kode: String,
+    )
+
+    @Serializable
+    data class VirksomhetMetadataNøkkel(
+        val årstall: Int,
+        val kvartal: Int,
+        val orgnr: String,
+    )
+
+    @Serializable
+    data class PubliseringsdatoNøkkel(
+        val årstall: Int,
+        val rapportPeriode: String,
     )
 }

@@ -8,10 +8,12 @@ import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.LocalTime
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import no.nav.pia.dvhimport.helper.TestContainerHelper
 import no.nav.pia.dvhimport.helper.TestContainerHelper.Companion.dvhImportApplikasjon
 import no.nav.pia.dvhimport.helper.TestContainerHelper.Companion.shouldContainLog
+import no.nav.pia.dvhimport.importjobb.kafka.EksportProdusent.PubliseringsdatoNøkkel
 import no.nav.pia.dvhimport.konfigurasjon.KafkaTopics
 import kotlin.test.AfterTest
 import kotlin.test.BeforeTest
@@ -48,7 +50,12 @@ class PubliseringsdatoImportServiceIntegrasjonstest {
 
         runBlocking {
             kafkaContainer.ventOgKonsumerKafkaMeldinger(
-                key = """{"kvartal":"2024","meldingType":"PUBLISERINGSDATO"}""",
+                nøkkel = Json.encodeToString(
+                    PubliseringsdatoNøkkel(
+                        årstall = 2024,
+                        rapportPeriode = "202403",
+                    ),
+                ),
                 konsument = eksportertPubliseringsdatoKonsument,
             ) { meldinger ->
                 val deserialiserteSvar = meldinger.map {

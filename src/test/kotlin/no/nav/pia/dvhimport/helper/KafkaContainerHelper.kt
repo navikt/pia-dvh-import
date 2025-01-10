@@ -7,6 +7,9 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.time.withTimeout
 import kotlinx.coroutines.time.withTimeoutOrNull
+import kotlinx.serialization.json.Json
+import no.nav.pia.dvhimport.importjobb.domene.DvhStatistikkKategori
+import no.nav.pia.dvhimport.importjobb.kafka.EksportProdusent.SykefraværsstatistikkNøkkel
 import no.nav.pia.dvhimport.konfigurasjon.KafkaConfig
 import no.nav.pia.dvhimport.konfigurasjon.KafkaTopics
 import org.apache.kafka.clients.CommonClientConfigs
@@ -75,7 +78,7 @@ class KafkaContainerHelper(
             }
 
     suspend fun ventOgKonsumerKafkaMeldinger(
-        key: String,
+        nøkkel: String,
         konsument: KafkaConsumer<String, String>,
         block: (meldinger: List<String>) -> Unit,
     ) {
@@ -84,7 +87,31 @@ class KafkaContainerHelper(
                 while (this.isActive) {
                     val records = konsument.poll(Duration.ofMillis(50))
                     val meldinger = records
-                        .filter { it.key() == key }
+                        .filter { it.key() == nøkkel }
+                        .map { it.value() }
+                    if (meldinger.isNotEmpty()) {
+                        block(meldinger)
+                        break
+                    }
+                }
+            }
+        }
+    }
+
+    suspend fun ventOgKonsumerKafkaMeldinger(
+        filtreringsnøkkel: DvhStatistikkKategori,
+        konsument: KafkaConsumer<String, String>,
+        block: (meldinger: List<String>) -> Unit,
+    ) {
+        withTimeout(Duration.ofSeconds(5)) {
+            launch {
+                while (this.isActive) {
+                    val records = konsument.poll(Duration.ofMillis(50))
+                    val meldinger = records
+                        .filter {
+                            val nøkkel = Json.decodeFromString<SykefraværsstatistikkNøkkel>(it.key())
+                            nøkkel.kategori == filtreringsnøkkel
+                        }
                         .map { it.value() }
                     if (meldinger.isNotEmpty()) {
                         block(meldinger)

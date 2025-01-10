@@ -1,6 +1,6 @@
 package no.nav.pia.dvhimport.importjobb.domene
 
-enum class Statistikkategori : DvhDatakilde {
+enum class DvhStatistikkKategori : DvhDatakilde {
     LAND {
         override fun tilFilnavn(): String = "land.json"
     },
@@ -16,14 +16,19 @@ enum class Statistikkategori : DvhDatakilde {
     VIRKSOMHET {
         override fun tilFilnavn(): String = "virksomhet.json"
     },
+
+    @Deprecated("bruk DvhMetadata.VIRKSOMHET_METADATA")
     VIRKSOMHET_METADATA {
         override fun tilFilnavn(): String = "virksomhet_metadata.json"
     },
 }
 
-enum class Metadata : DvhDatakilde {
+enum class DvhMetadata : DvhDatakilde {
     PUBLISERINGSDATO {
         override fun tilFilnavn(): String = "publiseringsdato.json"
+    },
+    VIRKSOMHET_METADATA {
+        override fun tilFilnavn(): String = "virksomhet_metadata.json"
     },
 }
 
