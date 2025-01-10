@@ -1,13 +1,13 @@
-val gcsNioVersion = "0.127.27"
-val googleCloudStorageVersion = "2.45.0"
+val gcsNioVersion = "0.127.29"
+val googleCloudStorageVersion = "2.46.0"
 val iaFellesVersion = "1.7.1"
 val kafkaClientsVersion = "3.9.0"
 val kotestVersion = "5.8.1"
 val kotlinVersion = "2.1.0"
-val ktorVersion = "3.0.1"
-val logbackVersion = "1.5.12"
+val ktorVersion = "3.0.3"
+val logbackVersion = "1.5.15"
 val logstashLogbackEncoderVersion = "8.0"
-val prometeusVersion = "1.14.1"
+val prometheusVersion = "1.14.2"
 val testcontainersVersion = "1.20.4"
 val wiremockStandaloneVersion = "3.10.0"
 
@@ -27,7 +27,7 @@ repositories {
 dependencies {
     implementation("io.ktor:ktor-server-core-jvm:$ktorVersion")
     implementation("io.ktor:ktor-server-metrics-micrometer-jvm:$ktorVersion")
-    implementation("io.micrometer:micrometer-registry-prometheus:$prometeusVersion")
+    implementation("io.micrometer:micrometer-registry-prometheus:$prometheusVersion")
     implementation("io.ktor:ktor-server-content-negotiation-jvm:$ktorVersion")
     implementation("io.ktor:ktor-serialization-kotlinx-json-jvm:$ktorVersion")
     implementation("io.ktor:ktor-server-auth-jvm:$ktorVersion")
@@ -67,7 +67,7 @@ dependencies {
         }
         implementation("io.netty:netty-codec-http2") {
             version {
-                require("4.1.115.Final")
+                require("4.1.116.Final")
             }
             because("From Ktor version: 2.3.5 -> io.netty:netty-codec-http2 vulnerable to HTTP/2 Rapid Reset Attack")
         }
