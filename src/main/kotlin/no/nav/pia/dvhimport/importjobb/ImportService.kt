@@ -25,6 +25,7 @@ import no.nav.pia.dvhimport.importjobb.domene.tilPubliseringsdato
 import no.nav.pia.dvhimport.importjobb.domene.tilPubliseringsdatoDto
 import no.nav.pia.dvhimport.importjobb.domene.tilVirksomhetMetadataDto
 import no.nav.pia.dvhimport.importjobb.domene.toSykefraværsstatistikkDto
+import no.nav.pia.dvhimport.importjobb.domene.ÅrstallOgKvartal
 import no.nav.pia.dvhimport.importjobb.kafka.EksportProdusent
 import no.nav.pia.dvhimport.importjobb.kafka.EksportProdusent.PubliseringsdatoMelding
 import no.nav.pia.dvhimport.importjobb.kafka.EksportProdusent.SykefraværsstatistikkMelding
@@ -79,8 +80,7 @@ class ImportService(
             DvhStatistikkKategori.LAND -> {
                 val statistikk = import<LandSykefraværsstatistikkDto>(DvhStatistikkKategori.LAND, path)
                 sendTilKafka(
-                    årstall = årstallOgKvartal.årstall,
-                    kvartal = årstallOgKvartal.kvartal,
+                    årstallOgKvartal = årstallOgKvartal,
                     statistikk = statistikk,
                 )
             }
@@ -88,8 +88,7 @@ class ImportService(
             DvhStatistikkKategori.SEKTOR -> {
                 val statistikk = import<SektorSykefraværsstatistikkDto>(DvhStatistikkKategori.SEKTOR, path)
                 sendTilKafka(
-                    årstall = årstallOgKvartal.årstall,
-                    kvartal = årstallOgKvartal.kvartal,
+                    årstallOgKvartal = årstallOgKvartal,
                     statistikk = statistikk,
                 )
             }
@@ -97,8 +96,7 @@ class ImportService(
             DvhStatistikkKategori.NÆRING -> {
                 val statistikk = import<NæringSykefraværsstatistikkDto>(DvhStatistikkKategori.NÆRING, path)
                 sendTilKafka(
-                    årstall = årstallOgKvartal.årstall,
-                    kvartal = årstallOgKvartal.kvartal,
+                    årstallOgKvartal = årstallOgKvartal,
                     statistikk = statistikk,
                 )
             }
@@ -106,8 +104,7 @@ class ImportService(
             DvhStatistikkKategori.NÆRINGSKODE -> {
                 val statistikk = import<NæringskodeSykefraværsstatistikkDto>(DvhStatistikkKategori.NÆRINGSKODE, path)
                 sendTilKafka(
-                    årstall = årstallOgKvartal.årstall,
-                    kvartal = årstallOgKvartal.kvartal,
+                    årstallOgKvartal = årstallOgKvartal,
                     statistikk = statistikk,
                 )
             }
@@ -115,8 +112,7 @@ class ImportService(
             DvhStatistikkKategori.VIRKSOMHET -> {
                 val statistikk = import<VirksomhetSykefraværsstatistikkDto>(DvhStatistikkKategori.VIRKSOMHET, path)
                 sendTilKafka(
-                    årstall = årstallOgKvartal.årstall,
-                    kvartal = årstallOgKvartal.kvartal,
+                    årstallOgKvartal = årstallOgKvartal,
                     statistikk = statistikk,
                 )
             }
@@ -282,15 +278,14 @@ class ImportService(
     }
 
     private fun sendTilKafka(
-        årstall: Int,
-        kvartal: Int,
+        årstallOgKvartal: ÅrstallOgKvartal,
         statistikk: List<SykefraværsstatistikkDto>,
     ) {
         statistikk.forEach {
             eksportProdusent.sendMelding(
                 melding = SykefraværsstatistikkMelding(
-                    årstall = årstall,
-                    kvartal = kvartal,
+                    årstall = årstallOgKvartal.årstall,
+                    kvartal = årstallOgKvartal.kvartal,
                     sykefraværsstatistikk = it,
                 ),
             )
