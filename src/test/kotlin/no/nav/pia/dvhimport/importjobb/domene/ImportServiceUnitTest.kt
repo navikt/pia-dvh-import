@@ -1,9 +1,15 @@
 package no.nav.pia.dvhimport.importjobb.domene
 
+import ia.felles.definisjoner.bransjer.Bransje
 import io.kotest.matchers.shouldBe
 import kotlinx.datetime.LocalDateTime
+import no.nav.pia.dvhimport.helper.TestDataGenerator.Companion.RUTEBILTRANSPORT_NÆRINGSKODE
+import no.nav.pia.dvhimport.helper.TestDataGenerator.Companion.TURBILTRANSPORT_NÆRINGSKODE
+import no.nav.pia.dvhimport.importjobb.ImportService.Companion.aggreger
 import no.nav.pia.dvhimport.importjobb.ImportService.Companion.kalkulerSykefraværsprosent
+import no.nav.pia.dvhimport.importjobb.ImportService.Companion.leggTil
 import no.nav.pia.dvhimport.importjobb.ImportService.Companion.nestePubliseringsdato
+import no.nav.pia.dvhimport.importjobb.ImportService.Companion.utleddBransjeStatistikk
 import java.math.BigDecimal
 import kotlin.test.Test
 
@@ -18,6 +24,193 @@ class ImportServiceUnitTest {
             """.trimIndent().tilListe()
 
         result.size shouldBe 1
+    }
+
+    @Test
+    fun `kan summere ett TapteDagsverkPerVarighetDto i en liste av TapteDagsverkPerVarighetDto`() {
+        val tapteDagsverkPerVarighetListe = mutableListOf(
+            TapteDagsverkPerVarighetDto(
+                varighet = "A",
+                tapteDagsverk = 10.2.toBigDecimal(),
+            ),
+            TapteDagsverkPerVarighetDto(
+                varighet = "D",
+                tapteDagsverk = 5.2.toBigDecimal(),
+            ),
+        )
+
+        val result = tapteDagsverkPerVarighetListe.leggTil(
+            TapteDagsverkPerVarighetDto(
+                varighet = "A",
+                tapteDagsverk = 5.3.toBigDecimal(),
+            ),
+        )
+        result shouldBe listOf(
+            TapteDagsverkPerVarighetDto(
+                varighet = "A",
+                tapteDagsverk = 15.5.toBigDecimal(),
+            ),
+            TapteDagsverkPerVarighetDto(
+                varighet = "D",
+                tapteDagsverk = 5.2.toBigDecimal(),
+            ),
+        )
+    }
+
+    @Test
+    fun `kan legge et TapteDagsverkPerVarighetDto til en liste av TapteDagsverkPerVarighetDto`() {
+        val tapteDagsverkPerVarighet = mutableListOf(
+            TapteDagsverkPerVarighetDto(
+                varighet = "A",
+                tapteDagsverk = 10.2.toBigDecimal(),
+            ),
+            TapteDagsverkPerVarighetDto(
+                varighet = "D",
+                tapteDagsverk = 5.2.toBigDecimal(),
+            ),
+        )
+
+        val result = tapteDagsverkPerVarighet.leggTil(
+            TapteDagsverkPerVarighetDto(
+                varighet = "C",
+                tapteDagsverk = 5.3.toBigDecimal(),
+            ),
+        )
+
+        result shouldBe listOf(
+            TapteDagsverkPerVarighetDto(
+                varighet = "A",
+                tapteDagsverk = 10.2.toBigDecimal(),
+            ),
+            TapteDagsverkPerVarighetDto(
+                varighet = "C",
+                tapteDagsverk = 5.3.toBigDecimal(),
+            ),
+            TapteDagsverkPerVarighetDto(
+                varighet = "D",
+                tapteDagsverk = 5.2.toBigDecimal(),
+            ),
+        )
+    }
+
+    @Test
+    fun `kan aggregere to lister av TapteDagsverkPerVarighetDto`() {
+        val tapteDagsverkPerVarighet = mutableListOf(
+            TapteDagsverkPerVarighetDto(
+                varighet = "A",
+                tapteDagsverk = 110.5.toBigDecimal(),
+            ),
+            TapteDagsverkPerVarighetDto(
+                varighet = "D",
+                tapteDagsverk = 5.2.toBigDecimal(),
+            ),
+        )
+
+        val result = tapteDagsverkPerVarighet.aggreger(
+            listOf(
+                TapteDagsverkPerVarighetDto(
+                    varighet = "A",
+                    tapteDagsverk = 10.2.toBigDecimal(),
+                ),
+                TapteDagsverkPerVarighetDto(
+                    varighet = "B",
+                    tapteDagsverk = 3.2.toBigDecimal(),
+                ),
+            ),
+        )
+        result shouldBe listOf(
+            TapteDagsverkPerVarighetDto(
+                varighet = "A",
+                tapteDagsverk = 120.7.toBigDecimal(),
+            ),
+            TapteDagsverkPerVarighetDto(
+                varighet = "B",
+                tapteDagsverk = 3.2.toBigDecimal(),
+            ),
+            TapteDagsverkPerVarighetDto(
+                varighet = "D",
+                tapteDagsverk = 5.2.toBigDecimal(),
+            ),
+        )
+    }
+
+    @Test
+    fun `kan regne ut bransje statistikk ut av en liste av statistikk for næringskoder`() {
+        val næringskodeStatistikk: List<NæringskodeSykefraværsstatistikkDto> = listOf(
+            NæringskodeSykefraværsstatistikkDto(
+                næringskode = RUTEBILTRANSPORT_NÆRINGSKODE,
+                årstall = 2024,
+                kvartal = 4,
+                prosent = 10.0.toBigDecimal(),
+                tapteDagsverk = 300.00.toBigDecimal(),
+                muligeDagsverk = 3000.00.toBigDecimal(),
+                tapteDagsverkGradert = 150.00.toBigDecimal(),
+                tapteDagsverkPerVarighet = listOf(
+                    TapteDagsverkPerVarighetDto(
+                        varighet = "A",
+                        tapteDagsverk = 12.3.toBigDecimal(),
+                    ),
+                    TapteDagsverkPerVarighetDto(
+                        varighet = "D",
+                        tapteDagsverk = 5.2.toBigDecimal(),
+                    ),
+                ),
+                antallPersoner = 2000,
+            ),
+            NæringskodeSykefraværsstatistikkDto(
+                næringskode = TURBILTRANSPORT_NÆRINGSKODE,
+                årstall = 2024,
+                kvartal = 4,
+                prosent = 5.0.toBigDecimal(),
+                tapteDagsverk = 100.00.toBigDecimal(),
+                muligeDagsverk = 2000.00.toBigDecimal(),
+                tapteDagsverkGradert = 120.00.toBigDecimal(),
+                tapteDagsverkPerVarighet = listOf(
+                    TapteDagsverkPerVarighetDto(
+                        varighet = "A",
+                        tapteDagsverk = 10.0.toBigDecimal(),
+                    ),
+                    TapteDagsverkPerVarighetDto(
+                        varighet = "B",
+                        tapteDagsverk = 2.5.toBigDecimal(),
+                    ),
+                    TapteDagsverkPerVarighetDto(
+                        varighet = "D",
+                        tapteDagsverk = 5.2.toBigDecimal(),
+                    ),
+                ),
+                antallPersoner = 4500,
+            ),
+        )
+
+        næringskodeStatistikk.utleddBransjeStatistikk(
+            bransje = Bransje.TRANSPORT,
+            årstall = 2024,
+            kvartal = 4,
+        ) shouldBe BransjeSykefraværsstatistikkDto(
+            bransje = Bransje.TRANSPORT.navn,
+            årstall = 2024,
+            kvartal = 4,
+            prosent = 8.0.toBigDecimal(),
+            tapteDagsverk = 400.00.toBigDecimal(),
+            muligeDagsverk = 5000.00.toBigDecimal(),
+            tapteDagsverkGradert = 270.00.toBigDecimal(),
+            tapteDagsverkPerVarighet = listOf(
+                TapteDagsverkPerVarighetDto(
+                    varighet = "A",
+                    tapteDagsverk = 22.3.toBigDecimal(),
+                ),
+                TapteDagsverkPerVarighetDto(
+                    varighet = "B",
+                    tapteDagsverk = 2.5.toBigDecimal(),
+                ),
+                TapteDagsverkPerVarighetDto(
+                    varighet = "D",
+                    tapteDagsverk = 10.4.toBigDecimal(),
+                ),
+            ),
+            antallPersoner = 6500,
+        )
     }
 
     @Test

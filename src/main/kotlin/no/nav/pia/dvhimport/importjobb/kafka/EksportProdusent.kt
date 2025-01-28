@@ -3,17 +3,19 @@ package no.nav.pia.dvhimport.importjobb.kafka
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
-import no.nav.pia.dvhimport.importjobb.domene.DvhStatistikkKategori
-import no.nav.pia.dvhimport.importjobb.domene.DvhStatistikkKategori.LAND
-import no.nav.pia.dvhimport.importjobb.domene.DvhStatistikkKategori.NÆRING
-import no.nav.pia.dvhimport.importjobb.domene.DvhStatistikkKategori.NÆRINGSKODE
-import no.nav.pia.dvhimport.importjobb.domene.DvhStatistikkKategori.SEKTOR
-import no.nav.pia.dvhimport.importjobb.domene.DvhStatistikkKategori.VIRKSOMHET
+import no.nav.pia.dvhimport.importjobb.domene.BransjeSykefraværsstatistikkDto
 import no.nav.pia.dvhimport.importjobb.domene.LandSykefraværsstatistikkDto
 import no.nav.pia.dvhimport.importjobb.domene.NæringSykefraværsstatistikkDto
 import no.nav.pia.dvhimport.importjobb.domene.NæringskodeSykefraværsstatistikkDto
 import no.nav.pia.dvhimport.importjobb.domene.PubliseringsdatoDto
 import no.nav.pia.dvhimport.importjobb.domene.SektorSykefraværsstatistikkDto
+import no.nav.pia.dvhimport.importjobb.domene.StatistikkKategori
+import no.nav.pia.dvhimport.importjobb.domene.StatistikkKategori.BRANSJE
+import no.nav.pia.dvhimport.importjobb.domene.StatistikkKategori.LAND
+import no.nav.pia.dvhimport.importjobb.domene.StatistikkKategori.NÆRING
+import no.nav.pia.dvhimport.importjobb.domene.StatistikkKategori.NÆRINGSKODE
+import no.nav.pia.dvhimport.importjobb.domene.StatistikkKategori.SEKTOR
+import no.nav.pia.dvhimport.importjobb.domene.StatistikkKategori.VIRKSOMHET
 import no.nav.pia.dvhimport.importjobb.domene.SykefraværsstatistikkDto
 import no.nav.pia.dvhimport.importjobb.domene.VirksomhetMetadataDto
 import no.nav.pia.dvhimport.importjobb.domene.VirksomhetSykefraværsstatistikkDto
@@ -49,11 +51,14 @@ class EksportProdusent(
             is VirksomhetMetadataMelding -> KafkaTopics.KVARTALSVIS_SYKEFRAVARSSTATISTIKK_VIRKSOMHET_METADATA.navnMedNamespace
             is PubliseringsdatoMelding -> KafkaTopics.KVARTALSVIS_SYKEFRAVARSSTATISTIKK_PUBLISERINGSDATO.navnMedNamespace
         }
+        val nøkkel = melding.tilNøkkel()
+        val content = melding.tilMelding()
+
         producer.send(
             ProducerRecord(
                 topic,
-                melding.tilNøkkel(),
-                melding.tilMelding(),
+                nøkkel,
+                content,
             ),
         )
     }
@@ -109,18 +114,20 @@ class EksportProdusent(
         private fun SykefraværsstatistikkDto.tilStatistikkSpesifikkVerdi() =
             when (this) {
                 is LandSykefraværsstatistikkDto -> this.land
+                is SektorSykefraværsstatistikkDto -> this.sektor
                 is NæringSykefraværsstatistikkDto -> this.næring
                 is NæringskodeSykefraværsstatistikkDto -> this.næringskode
-                is SektorSykefraværsstatistikkDto -> this.sektor
+                is BransjeSykefraværsstatistikkDto -> this.bransje
                 is VirksomhetSykefraværsstatistikkDto -> this.orgnr
             }
 
-        private fun SykefraværsstatistikkDto.kategori(): DvhStatistikkKategori =
+        private fun SykefraværsstatistikkDto.kategori(): StatistikkKategori =
             when (this) {
                 is LandSykefraværsstatistikkDto -> LAND
+                is SektorSykefraværsstatistikkDto -> SEKTOR
                 is NæringSykefraværsstatistikkDto -> NÆRING
                 is NæringskodeSykefraværsstatistikkDto -> NÆRINGSKODE
-                is SektorSykefraværsstatistikkDto -> SEKTOR
+                is BransjeSykefraværsstatistikkDto -> BRANSJE
                 is VirksomhetSykefraværsstatistikkDto -> VIRKSOMHET
             }
 
@@ -134,7 +141,7 @@ class EksportProdusent(
                 }
             }
 
-        private fun statistikkKategori(): DvhStatistikkKategori =
+        private fun statistikkKategori(): StatistikkKategori =
             when (data) {
                 is SykefraværsstatistikkDto -> data.kategori()
                 else -> {
@@ -187,7 +194,7 @@ class EksportProdusent(
     data class SykefraværsstatistikkNøkkel(
         val årstall: Int,
         val kvartal: Int,
-        val kategori: DvhStatistikkKategori,
+        val kategori: StatistikkKategori,
         val kode: String,
     )
 
