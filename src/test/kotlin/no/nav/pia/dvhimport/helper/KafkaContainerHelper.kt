@@ -8,7 +8,7 @@ import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.time.withTimeout
 import kotlinx.coroutines.time.withTimeoutOrNull
 import kotlinx.serialization.json.Json
-import no.nav.pia.dvhimport.importjobb.domene.DvhStatistikkKategori
+import no.nav.pia.dvhimport.importjobb.domene.StatistikkKategori
 import no.nav.pia.dvhimport.importjobb.kafka.EksportProdusent.SykefraværsstatistikkNøkkel
 import no.nav.pia.dvhimport.konfigurasjon.KafkaConfig
 import no.nav.pia.dvhimport.konfigurasjon.KafkaTopics
@@ -86,6 +86,9 @@ class KafkaContainerHelper(
             launch {
                 while (this.isActive) {
                     val records = konsument.poll(Duration.ofMillis(50))
+                    records.forEach { record ->
+                        println("[DEBUG][Tests] melding = '$record'")
+                    }
                     val meldinger = records
                         .filter { it.key() == nøkkel }
                         .map { it.value() }
@@ -99,7 +102,7 @@ class KafkaContainerHelper(
     }
 
     suspend fun ventOgKonsumerKafkaMeldinger(
-        filtreringsnøkkel: DvhStatistikkKategori,
+        filtreringsnøkkel: StatistikkKategori,
         konsument: KafkaConsumer<String, String>,
         block: (meldinger: List<String>) -> Unit,
     ) {

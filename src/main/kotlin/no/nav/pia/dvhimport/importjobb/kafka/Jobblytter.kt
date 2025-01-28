@@ -2,6 +2,7 @@ package no.nav.pia.dvhimport.importjobb.kafka
 
 import ia.felles.integrasjoner.jobbsender.Jobb
 import ia.felles.integrasjoner.jobbsender.Jobb.alleKategorierSykefraværsstatistikkDvhImport
+import ia.felles.integrasjoner.jobbsender.Jobb.bransjeSykefraværsstatistikkDvhImport
 import ia.felles.integrasjoner.jobbsender.Jobb.landSykefraværsstatistikkDvhImport
 import ia.felles.integrasjoner.jobbsender.Jobb.næringSykefraværsstatistikkDvhImport
 import ia.felles.integrasjoner.jobbsender.Jobb.næringskodeSykefraværsstatistikkDvhImport
@@ -20,7 +21,7 @@ import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
 import no.nav.pia.dvhimport.importjobb.ImportService
 import no.nav.pia.dvhimport.importjobb.domene.DvhMetadata
-import no.nav.pia.dvhimport.importjobb.domene.DvhStatistikkKategori
+import no.nav.pia.dvhimport.importjobb.domene.StatistikkKategori
 import no.nav.pia.dvhimport.konfigurasjon.KafkaConfig
 import no.nav.pia.dvhimport.konfigurasjon.KafkaTopics
 import org.apache.kafka.clients.consumer.KafkaConsumer
@@ -72,19 +73,22 @@ class Jobblytter(
                                         importService.importAlleStatistikkKategorier()
                                     }
                                     landSykefraværsstatistikkDvhImport -> {
-                                        importService.importForStatistikkKategori(DvhStatistikkKategori.LAND)
+                                        importService.importForStatistikkKategori(StatistikkKategori.LAND)
                                     }
                                     sektorSykefraværsstatistikkDvhImport -> {
-                                        importService.importForStatistikkKategori(DvhStatistikkKategori.SEKTOR)
+                                        importService.importForStatistikkKategori(StatistikkKategori.SEKTOR)
                                     }
                                     næringSykefraværsstatistikkDvhImport -> {
-                                        importService.importForStatistikkKategori(DvhStatistikkKategori.NÆRING)
+                                        importService.importForStatistikkKategori(StatistikkKategori.NÆRING)
                                     }
                                     næringskodeSykefraværsstatistikkDvhImport -> {
-                                        importService.importForStatistikkKategori(DvhStatistikkKategori.NÆRINGSKODE)
+                                        importService.importForStatistikkKategori(StatistikkKategori.NÆRINGSKODE)
+                                    }
+                                    bransjeSykefraværsstatistikkDvhImport -> {
+                                        importService.importForStatistikkKategori(StatistikkKategori.BRANSJE)
                                     }
                                     virksomhetSykefraværsstatistikkDvhImport -> {
-                                        importService.importForStatistikkKategori(DvhStatistikkKategori.VIRKSOMHET)
+                                        importService.importForStatistikkKategori(StatistikkKategori.VIRKSOMHET)
                                     }
                                     virksomhetMetadataSykefraværsstatistikkDvhImport -> {
                                         importService.importMetadata(DvhMetadata.VIRKSOMHET_METADATA)

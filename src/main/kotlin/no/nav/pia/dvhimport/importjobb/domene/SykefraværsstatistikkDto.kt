@@ -105,6 +105,24 @@ data class NæringskodeSykefraværsstatistikkDto(
 ) : SykefraværsstatistikkDto()
 
 @Serializable
+data class BransjeSykefraværsstatistikkDto(
+    val bransje: String,
+    override val årstall: Int,
+    override val kvartal: Int,
+    @Serializable(with = BigDecimalSerializer::class)
+    override val prosent: BigDecimal,
+    @Serializable(with = BigDecimalSerializer::class)
+    override val tapteDagsverk: BigDecimal,
+    @Serializable(with = BigDecimalSerializer::class)
+    override val muligeDagsverk: BigDecimal,
+    @Serializable(with = BigDecimalSerializer::class)
+    val tapteDagsverkGradert: BigDecimal,
+    @Serializable(with = TapteDagsverkPerVarighetListSerializer::class)
+    val tapteDagsverkPerVarighet: List<TapteDagsverkPerVarighetDto>,
+    override val antallPersoner: Int,
+) : SykefraværsstatistikkDto()
+
+@Serializable
 data class VirksomhetSykefraværsstatistikkDto(
     val orgnr: String,
     override val årstall: Int,

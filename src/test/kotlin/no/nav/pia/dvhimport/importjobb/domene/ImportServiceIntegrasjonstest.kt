@@ -10,15 +10,16 @@ import kotlinx.serialization.json.Json
 import no.nav.pia.dvhimport.helper.TestContainerHelper
 import no.nav.pia.dvhimport.helper.TestContainerHelper.Companion.dvhImportApplikasjon
 import no.nav.pia.dvhimport.helper.TestContainerHelper.Companion.shouldContainLog
-import no.nav.pia.dvhimport.importjobb.domene.DvhStatistikkKategori.LAND
-import no.nav.pia.dvhimport.importjobb.domene.DvhStatistikkKategori.NÆRING
-import no.nav.pia.dvhimport.importjobb.domene.DvhStatistikkKategori.NÆRINGSKODE
-import no.nav.pia.dvhimport.importjobb.domene.DvhStatistikkKategori.SEKTOR
-import no.nav.pia.dvhimport.importjobb.domene.DvhStatistikkKategori.VIRKSOMHET
+import no.nav.pia.dvhimport.helper.TestDataGenerator.Companion.lagTestDataForLand
+import no.nav.pia.dvhimport.helper.TestDataGenerator.Companion.lagTestDataForNæring
+import no.nav.pia.dvhimport.helper.TestDataGenerator.Companion.lagTestDataForNæringskode
+import no.nav.pia.dvhimport.helper.TestDataGenerator.Companion.lagTestDataForSektor
+import no.nav.pia.dvhimport.helper.TestDataGenerator.Companion.lagTestDataForVirksomhet
+import no.nav.pia.dvhimport.helper.TestDataGenerator.Companion.lagTestDataForVirksomhetMetadata
+import no.nav.pia.dvhimport.helper.TestDataGenerator.Companion.lagreITestBucket
 import no.nav.pia.dvhimport.importjobb.kafka.EksportProdusent
 import no.nav.pia.dvhimport.importjobb.kafka.EksportProdusent.SykefraværsstatistikkNøkkel
 import no.nav.pia.dvhimport.konfigurasjon.KafkaTopics
-import java.math.BigDecimal
 import kotlin.test.AfterTest
 import kotlin.test.BeforeTest
 import kotlin.test.Test
@@ -94,7 +95,12 @@ class ImportServiceIntegrasjonstest {
 
     @Test
     fun `import statistikk LAND og send statistikk til Kafka`() {
-        lagTestDataForLand().lagreITestBucket(kategori = LAND, nøkkel = "land", verdi = "NO")
+        lagTestDataForLand().lagreITestBucket(
+            gcsContainer = gcsContainer,
+            kategori = StatistikkKategori.LAND,
+            nøkkel = "land",
+            verdi = "NO",
+        )
 
         kafkaContainer.sendJobbMelding(Jobb.landSykefraværsstatistikkDvhImport)
 
@@ -108,7 +114,7 @@ class ImportServiceIntegrasjonstest {
                     SykefraværsstatistikkNøkkel(
                         årstall = 2024,
                         kvartal = 2,
-                        kategori = LAND,
+                        kategori = StatistikkKategori.LAND,
                         kode = "NO",
                     ),
                 ),
@@ -133,7 +139,7 @@ class ImportServiceIntegrasjonstest {
 
     @Test
     fun `import statistikk SEKTOR og send statistikk til Kafka`() {
-        lagTestDataForSektor(årstall = 2024, kvartal = 2)
+        lagTestDataForSektor(gcsContainer = gcsContainer, årstall = 2024, kvartal = 2)
 
         kafkaContainer.sendJobbMelding(Jobb.sektorSykefraværsstatistikkDvhImport)
 
@@ -141,7 +147,7 @@ class ImportServiceIntegrasjonstest {
         dvhImportApplikasjon shouldContainLog "Sykefraværsprosent -snitt- for kategori SEKTOR er: '3.7'".toRegex()
         dvhImportApplikasjon shouldContainLog "Jobb 'sektorSykefraværsstatistikkDvhImport' ferdig".toRegex()
 
-        val nøkkel: DvhStatistikkKategori = SEKTOR
+        val nøkkel: StatistikkKategori = StatistikkKategori.SEKTOR
 
         runBlocking {
             kafkaContainer.ventOgKonsumerKafkaMeldinger(
@@ -176,7 +182,7 @@ class ImportServiceIntegrasjonstest {
 
     @Test
     fun `import statistikk NÆRING og send statistikk til Kafka`() {
-        lagTestDataForNæring(årstall = 2024, kvartal = 2)
+        lagTestDataForNæring(gcsContainer = gcsContainer, årstall = 2024, kvartal = 2, næring = "02")
 
         kafkaContainer.sendJobbMelding(Jobb.næringSykefraværsstatistikkDvhImport)
 
@@ -184,7 +190,7 @@ class ImportServiceIntegrasjonstest {
         dvhImportApplikasjon shouldContainLog "Sykefraværsprosent -snitt- for kategori NÆRING er: '3.7'".toRegex()
         dvhImportApplikasjon shouldContainLog "Jobb 'næringSykefraværsstatistikkDvhImport' ferdig".toRegex()
 
-        val nøkkel = NÆRING
+        val nøkkel = StatistikkKategori.NÆRING
 
         runBlocking {
             kafkaContainer.ventOgKonsumerKafkaMeldinger(
@@ -219,7 +225,7 @@ class ImportServiceIntegrasjonstest {
 
     @Test
     fun `import statistikk NÆRINGSKODE`() {
-        lagTestDataForNæringskode(årstall = 2024, kvartal = 2)
+        lagTestDataForNæringskode(gcsContainer = gcsContainer, årstall = 2024, kvartal = 2)
 
         kafkaContainer.sendJobbMelding(Jobb.næringskodeSykefraværsstatistikkDvhImport)
 
@@ -227,7 +233,7 @@ class ImportServiceIntegrasjonstest {
         dvhImportApplikasjon shouldContainLog "Sykefraværsprosent -snitt- for kategori NÆRINGSKODE er: '3.7'".toRegex()
         dvhImportApplikasjon shouldContainLog "Jobb 'næringskodeSykefraværsstatistikkDvhImport' ferdig".toRegex()
 
-        val nøkkel = NÆRINGSKODE
+        val nøkkel = StatistikkKategori.NÆRINGSKODE
         runBlocking {
             kafkaContainer.ventOgKonsumerKafkaMeldinger(
                 filtreringsnøkkel = nøkkel,
@@ -269,7 +275,7 @@ class ImportServiceIntegrasjonstest {
 
     @Test
     fun `import statistikk VIRKSOMHET`() {
-        lagTestDataForVirksomhet("987654321", 2024, 2)
+        lagTestDataForVirksomhet(gcsContainer = gcsContainer, "987654321", 2024, 2)
 
         kafkaContainer.sendJobbMelding(Jobb.virksomhetSykefraværsstatistikkDvhImport)
 
@@ -283,7 +289,7 @@ class ImportServiceIntegrasjonstest {
                     SykefraværsstatistikkNøkkel(
                         årstall = 2024,
                         kvartal = 2,
-                        kategori = VIRKSOMHET,
+                        kategori = StatistikkKategori.VIRKSOMHET,
                         kode = "987654321",
                     ),
                 ),
@@ -313,7 +319,7 @@ class ImportServiceIntegrasjonstest {
 
     @Test
     fun `import statistikk VIRKSOMHET_METADATA`() {
-        lagTestDataForVirksomhetMetadata()
+        lagTestDataForVirksomhetMetadata(gcsContainer = gcsContainer)
 
         kafkaContainer.sendJobbMelding(Jobb.virksomhetMetadataSykefraværsstatistikkDvhImport)
 
@@ -353,7 +359,7 @@ class ImportServiceIntegrasjonstest {
 
     @Test
     fun `primærnæring og primærnæringskode i VIRKSOMHET_METADATA kan være null`() {
-        lagTestDataForVirksomhetMetadata(primærnæring = null, primærnæringskode = null)
+        lagTestDataForVirksomhetMetadata(gcsContainer = gcsContainer, primærnæring = null, primærnæringskode = null)
 
         kafkaContainer.sendJobbMelding(Jobb.virksomhetMetadataSykefraværsstatistikkDvhImport)
 
@@ -393,12 +399,17 @@ class ImportServiceIntegrasjonstest {
 
     @Test
     fun `import statistikk for alle kategorier`() {
-        lagTestDataForLand().lagreITestBucket(kategori = LAND, nøkkel = "land", verdi = "NO")
-        lagTestDataForSektor()
-        lagTestDataForNæring(2024)
-        lagTestDataForNæringskode()
-        lagTestDataForVirksomhet("987654321", 2024, 2)
-        lagTestDataForVirksomhetMetadata()
+        lagTestDataForLand().lagreITestBucket(
+            gcsContainer = gcsContainer,
+            kategori = StatistikkKategori.LAND,
+            nøkkel = "land",
+            verdi = "NO",
+        )
+        lagTestDataForSektor(gcsContainer = gcsContainer)
+        lagTestDataForNæring(gcsContainer = gcsContainer, årstall = 2024, næring = "02")
+        lagTestDataForNæringskode(gcsContainer = gcsContainer)
+        lagTestDataForVirksomhet(gcsContainer = gcsContainer, orgnr = "987654321", årstall = 2024, kvartal = 2)
+        lagTestDataForVirksomhetMetadata(gcsContainer = gcsContainer)
 
         kafkaContainer.sendJobbMelding(Jobb.alleKategorierSykefraværsstatistikkDvhImport)
 
@@ -411,259 +422,4 @@ class ImportServiceIntegrasjonstest {
         dvhImportApplikasjon shouldContainLog "Importert metadata for '1' virksomhet-er".toRegex()
         dvhImportApplikasjon shouldContainLog "Jobb 'alleKategorierSykefraværsstatistikkDvhImport' ferdig".toRegex()
     }
-
-    private fun lagTestDataForLand(
-        land: String = "NO",
-        årstall: Int = 2024,
-        kvartal: Int = 2,
-        prosent: BigDecimal = 6.2.toBigDecimal(),
-        tapteDagsverk: BigDecimal = 8894426.768373.toBigDecimal(),
-        muligeDagsverk: BigDecimal = 143458496.063556.toBigDecimal(),
-        antallPersoner: Int = 3124427,
-    ): LandSykefraværsstatistikkDto =
-        LandSykefraværsstatistikkDto(
-            land = land,
-            årstall = årstall,
-            kvartal = kvartal,
-            prosent = prosent,
-            tapteDagsverk = tapteDagsverk,
-            muligeDagsverk = muligeDagsverk,
-            antallPersoner = antallPersoner,
-        )
-
-    private fun SykefraværsstatistikkDto.lagreITestBucket(
-        kategori: DvhStatistikkKategori,
-        nøkkel: String,
-        verdi: String,
-    ) {
-        val filnavn = kategori.tilFilnavn()
-        gcsContainer.lagreTestBlob(
-            blobNavn = filnavn,
-            bytes =
-                """
-                [{
-                  "årstall": ${this.årstall},
-                  "kvartal": ${this.kvartal},
-                  "$nøkkel": "$verdi",
-                  "prosent": "${this.prosent}",
-                  "tapteDagsverk": "${this.tapteDagsverk}",
-                  "muligeDagsverk": "${this.muligeDagsverk}",
-                  "antallPersoner": "${this.antallPersoner}"
-                }]
-                """.trimIndent().encodeToByteArray(),
-        )
-
-        val verifiserBlobFinnes = gcsContainer.verifiserBlobFinnes(blobNavn = filnavn)
-        verifiserBlobFinnes shouldBe true
-    }
-
-    private fun lagTestDataForSektor(
-        årstall: Int = 2024,
-        kvartal: Int = 2,
-    ) {
-        val filnavn = SEKTOR.tilFilnavn()
-        gcsContainer.lagreTestBlob(
-            blobNavn = filnavn,
-            bytes =
-                """
-                [{
-                  "årstall": $årstall,
-                  "kvartal": $kvartal,
-                  "sektor": "2",
-                  "prosent": "6.2",
-                  "tapteDagsverk": "88944.768373",
-                  "muligeDagsverk": "1434584.063556",
-                  "antallPersoner": "3124427"
-                },
-                {
-                 "årstall": $årstall,
-                 "kvartal": $kvartal,
-                 "sektor": "3",
-                 "prosent": "2.7",
-                 "tapteDagsverk": "94426.768373",
-                 "muligeDagsverk": "3458496.063556",
-                 "antallPersoner": "24427"
-                }]
-                """.trimIndent().encodeToByteArray(),
-        )
-
-        val verifiserBlobFinnes = gcsContainer.verifiserBlobFinnes(blobNavn = filnavn)
-        verifiserBlobFinnes shouldBe true
-    }
-
-    private fun lagTestDataForNæring(
-        årstall: Int = 2024,
-        kvartal: Int = 2,
-    ) {
-        val filnavn = NÆRING.tilFilnavn()
-        gcsContainer.lagreTestBlob(
-            blobNavn = filnavn,
-            bytes =
-                """
-                [{
-                  "årstall": $årstall,
-                  "kvartal": $kvartal,
-                  "næring": "02",
-                  "prosent": "6.2",
-                  "tapteDagsverk": "88944.768373",
-                  "muligeDagsverk": "1434584.063556",
-                  "tapteDagsverkGradert": 90.034285,
-                  "tapteDagsverkPerVarighet": [
-                    {
-                      "varighet": "D",
-                      "tapteDagsverk": 148.534285
-                    }
-                  ],
-                  "antallPersoner": "3124427"
-                },
-                {
-                 "årstall": $årstall,
-                 "kvartal": $kvartal,
-                 "næring": "88",
-                 "prosent": "2.7",
-                 "tapteDagsverk": "94426.768373",
-                 "muligeDagsverk": "3458496.063556",
-                 "tapteDagsverkGradert": 90.034285,
-                 "tapteDagsverkPerVarighet": [
-                   {
-                     "varighet": "D",
-                     "tapteDagsverk": 148.534285
-                   }
-                 ],
-                 "antallPersoner": "24427"
-                }]
-                """.trimIndent().encodeToByteArray(),
-        )
-    }
-
-    private fun lagTestDataForNæringskode(
-        årstall: Int = 2024,
-        kvartal: Int = 2,
-    ) {
-        val filnavn = NÆRINGSKODE.tilFilnavn()
-        gcsContainer.lagreTestBlob(
-            blobNavn = filnavn,
-            bytes =
-                """
-                [{
-                  "årstall": $årstall,
-                  "kvartal": $kvartal,
-                  "næringskode": "02300",
-                  "prosent": "6.2",
-                  "tapteDagsverk": "88944.768373",
-                  "muligeDagsverk": "1434584.063556",
-                  "tapteDagsverkGradert": 90.034285,
-                  "tapteDagsverkPerVarighet": [
-                    {
-                      "varighet": "D",
-                      "tapteDagsverk": 148.534285
-                    }
-                  ],
-                  "antallPersoner": "3124427"
-                },
-                {
-                 "årstall": $årstall,
-                 "kvartal": $kvartal,
-                 "næringskode": "88911",
-                 "prosent": "2.7",
-                 "tapteDagsverk": "94426.768373",
-                 "muligeDagsverk": "3458496.063556",
-                 "tapteDagsverkGradert": 90.034285,
-                 "tapteDagsverkPerVarighet": [
-                   {
-                     "varighet": "D",
-                     "tapteDagsverk": 148.534285
-                   }
-                 ],
-                 "antallPersoner": "24427"
-                }]
-                """.trimIndent().encodeToByteArray(),
-        )
-
-        val verifiserBlobFinnes = gcsContainer.verifiserBlobFinnes(blobNavn = filnavn)
-        verifiserBlobFinnes shouldBe true
-    }
-
-    private fun lagTestDataForVirksomhet(
-        orgnr: String,
-        årstall: Int,
-        kvartal: Int,
-    ) {
-        val filnavn = VIRKSOMHET.tilFilnavn()
-        gcsContainer.lagreTestBlob(
-            blobNavn = filnavn,
-            bytes =
-                """
-                [{
-                  "årstall": $årstall,
-                  "kvartal": $kvartal,
-                  "orgnr": "$orgnr",
-                  "prosent": "26.0",
-                  "tapteDagsverk": "20.23",
-                  "muligeDagsverk": "77.8716",
-                  "tapteDagsverkGradert": 90.034285,
-                  "tapteDagsverkPerVarighet": [
-                    {
-                      "varighet": "A",
-                      "tapteDagsverk": 12.1527
-                    },
-                    {
-                      "varighet": "B",
-                      "tapteDagsverk": 2.7
-                    },
-                    {
-                      "varighet": "C",
-                      "tapteDagsverk": 15
-                    },
-                    {
-                      "varighet": "D",
-                      "tapteDagsverk": 148.534285
-                    },
-                    {
-                      "varighet": "E",
-                      "tapteDagsverk": 142.6
-                    },
-                    {
-                      "varighet": "F",
-                      "tapteDagsverk": 31.4
-                    }
-                  ],
-                  "antallPersoner": "40", 
-                  "rectype": "1"
-                }]
-                """.trimIndent().encodeToByteArray(),
-        )
-
-        val verifiserBlobFinnes = gcsContainer.verifiserBlobFinnes(blobNavn = filnavn)
-        verifiserBlobFinnes shouldBe true
-    }
-
-    private fun lagTestDataForVirksomhetMetadata(
-        årstall: Int = 2024,
-        kvartal: Int = 2,
-        primærnæring: String? = "88",
-        primærnæringskode: String? = "88911",
-    ) {
-        val filnavn = DvhMetadata.VIRKSOMHET_METADATA.tilFilnavn()
-        gcsContainer.lagreTestBlob(
-            blobNavn = filnavn,
-            bytes =
-                """
-                [{
-                  "årstall": $årstall,
-                  "kvartal": $kvartal,
-                  "orgnr": "987654321",
-                  "sektor": "2",
-                  "primærnæring": ${nullOrStringWithQuotes(primærnæring)},
-                  "primærnæringskode": ${nullOrStringWithQuotes(primærnæringskode)},
-                  "rectype": "1"
-                }]
-                """.trimIndent().encodeToByteArray(),
-        )
-
-        val verifiserBlobFinnes = gcsContainer.verifiserBlobFinnes(blobNavn = filnavn)
-        verifiserBlobFinnes shouldBe true
-    }
-
-    private fun nullOrStringWithQuotes(value: String?): String? = if (value == null) value else """"$value""""
 }

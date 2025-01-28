@@ -1,10 +1,11 @@
 package no.nav.pia.dvhimport.importjobb
 
+import ia.felles.definisjoner.bransjer.Bransje
+import ia.felles.definisjoner.bransjer.BransjeId
 import kotlinx.datetime.Clock
 import kotlinx.datetime.toLocalDateTime
-import no.nav.pia.dvhimport.importjobb.domene.DvhDatakilde
+import no.nav.pia.dvhimport.importjobb.domene.BransjeSykefraværsstatistikkDto
 import no.nav.pia.dvhimport.importjobb.domene.DvhMetadata
-import no.nav.pia.dvhimport.importjobb.domene.DvhStatistikkKategori
 import no.nav.pia.dvhimport.importjobb.domene.LandSykefraværsstatistikkDto
 import no.nav.pia.dvhimport.importjobb.domene.NestePubliseringsdato
 import no.nav.pia.dvhimport.importjobb.domene.NæringSykefraværsstatistikkDto
@@ -15,9 +16,11 @@ import no.nav.pia.dvhimport.importjobb.domene.Publiseringsdato.Companion.sjekkPu
 import no.nav.pia.dvhimport.importjobb.domene.Publiseringsdato.Companion.timeZone
 import no.nav.pia.dvhimport.importjobb.domene.PubliseringsdatoDto
 import no.nav.pia.dvhimport.importjobb.domene.SektorSykefraværsstatistikkDto
+import no.nav.pia.dvhimport.importjobb.domene.StatistikkKategori
 import no.nav.pia.dvhimport.importjobb.domene.StatistikkUtils
 import no.nav.pia.dvhimport.importjobb.domene.Sykefraværsstatistikk
 import no.nav.pia.dvhimport.importjobb.domene.SykefraværsstatistikkDto
+import no.nav.pia.dvhimport.importjobb.domene.TapteDagsverkPerVarighetDto
 import no.nav.pia.dvhimport.importjobb.domene.VirksomhetMetadataDto
 import no.nav.pia.dvhimport.importjobb.domene.VirksomhetSykefraværsstatistikkDto
 import no.nav.pia.dvhimport.importjobb.domene.tilListe
@@ -50,21 +53,22 @@ class ImportService(
     fun importAlleStatistikkKategorier() {
         logger.info("Starter import av sykefraværsstatistikk for alle statistikkkategorier")
         val mappeStruktur = hentMappestruktur()
-        val path = if (brukÅrOgKvartalIPathTilFilene) "${mappeStruktur.publiseringsÅr}/${mappeStruktur.sistePubliserteKvartal}" else ""
+        val path =
+            if (brukÅrOgKvartalIPathTilFilene) "${mappeStruktur.publiseringsÅr}/${mappeStruktur.sistePubliserteKvartal}" else ""
 
         if (!bucketKlient.sjekkBucketExists()) {
             logger.error("Bucket ikke funnet, avbryter import for alle kategorier")
             return
         }
-        import<LandSykefraværsstatistikkDto>(DvhStatistikkKategori.LAND, path)
-        import<SektorSykefraværsstatistikkDto>(DvhStatistikkKategori.SEKTOR, path)
-        import<NæringSykefraværsstatistikkDto>(DvhStatistikkKategori.NÆRING, path)
-        import<NæringskodeSykefraværsstatistikkDto>(DvhStatistikkKategori.NÆRINGSKODE, path)
-        import<VirksomhetSykefraværsstatistikkDto>(DvhStatistikkKategori.VIRKSOMHET, path)
+        import<LandSykefraværsstatistikkDto>(StatistikkKategori.LAND, path)
+        import<SektorSykefraværsstatistikkDto>(StatistikkKategori.SEKTOR, path)
+        import<NæringSykefraværsstatistikkDto>(StatistikkKategori.NÆRING, path)
+        import<NæringskodeSykefraværsstatistikkDto>(StatistikkKategori.NÆRINGSKODE, path)
+        import<VirksomhetSykefraværsstatistikkDto>(StatistikkKategori.VIRKSOMHET, path)
         importViksomhetMetadata()
     }
 
-    fun importForStatistikkKategori(kategori: DvhStatistikkKategori) {
+    fun importForStatistikkKategori(kategori: StatistikkKategori) {
         logger.info("Starter import av sykefraværsstatistikk for kategori '$kategori'")
 
         if (!bucketKlient.sjekkBucketExists()) {
@@ -74,43 +78,52 @@ class ImportService(
 
         val mappeStruktur = hentMappestruktur()
         val årstallOgKvartal = mappeStruktur.gjeldendeÅrstallOgKvartal()
-        val path = if (brukÅrOgKvartalIPathTilFilene) "${mappeStruktur.publiseringsÅr}/${mappeStruktur.sistePubliserteKvartal}" else ""
+        val path =
+            if (brukÅrOgKvartalIPathTilFilene) "${mappeStruktur.publiseringsÅr}/${mappeStruktur.sistePubliserteKvartal}" else ""
 
         when (kategori) {
-            DvhStatistikkKategori.LAND -> {
-                val statistikk = import<LandSykefraværsstatistikkDto>(DvhStatistikkKategori.LAND, path)
+            StatistikkKategori.LAND -> {
+                val statistikk = import<LandSykefraværsstatistikkDto>(StatistikkKategori.LAND, path)
                 sendTilKafka(
                     årstallOgKvartal = årstallOgKvartal,
                     statistikk = statistikk,
                 )
             }
 
-            DvhStatistikkKategori.SEKTOR -> {
-                val statistikk = import<SektorSykefraværsstatistikkDto>(DvhStatistikkKategori.SEKTOR, path)
+            StatistikkKategori.SEKTOR -> {
+                val statistikk = import<SektorSykefraværsstatistikkDto>(StatistikkKategori.SEKTOR, path)
                 sendTilKafka(
                     årstallOgKvartal = årstallOgKvartal,
                     statistikk = statistikk,
                 )
             }
 
-            DvhStatistikkKategori.NÆRING -> {
-                val statistikk = import<NæringSykefraværsstatistikkDto>(DvhStatistikkKategori.NÆRING, path)
+            StatistikkKategori.NÆRING -> {
+                val statistikk = import<NæringSykefraværsstatistikkDto>(StatistikkKategori.NÆRING, path)
                 sendTilKafka(
                     årstallOgKvartal = årstallOgKvartal,
                     statistikk = statistikk,
                 )
             }
 
-            DvhStatistikkKategori.NÆRINGSKODE -> {
-                val statistikk = import<NæringskodeSykefraværsstatistikkDto>(DvhStatistikkKategori.NÆRINGSKODE, path)
+            StatistikkKategori.NÆRINGSKODE -> {
+                val statistikk = import<NæringskodeSykefraværsstatistikkDto>(StatistikkKategori.NÆRINGSKODE, path)
                 sendTilKafka(
                     årstallOgKvartal = årstallOgKvartal,
                     statistikk = statistikk,
                 )
             }
 
-            DvhStatistikkKategori.VIRKSOMHET -> {
-                val statistikk = import<VirksomhetSykefraværsstatistikkDto>(DvhStatistikkKategori.VIRKSOMHET, path)
+            StatistikkKategori.BRANSJE -> {
+                val statistikk = importBransje(path = path, årstallOgKvartal = årstallOgKvartal)
+                sendTilKafka(
+                    årstallOgKvartal = årstallOgKvartal,
+                    statistikk = statistikk,
+                )
+            }
+
+            StatistikkKategori.VIRKSOMHET -> {
+                val statistikk = import<VirksomhetSykefraværsstatistikkDto>(StatistikkKategori.VIRKSOMHET, path)
                 sendTilKafka(
                     årstallOgKvartal = årstallOgKvartal,
                     statistikk = statistikk,
@@ -154,8 +167,7 @@ class ImportService(
         val publiseringsDatoErIDag = sjekkPubliseringErIDag(publiseringsdatoer, iDag)
         if (publiseringsDatoErIDag != null) {
             logger.info(
-                "Publiseringsdato er i dag ${publiseringsDatoErIDag.offentligDato}, " +
-                    "og kvartal som skal importeres er: " +
+                "Publiseringsdato er i dag ${publiseringsDatoErIDag.offentligDato}, " + "og kvartal som skal importeres er: " +
                     "${publiseringsDatoErIDag.tilPubliseringsdato().årstall}/${publiseringsDatoErIDag.tilPubliseringsdato().kvartal}",
             )
         }
@@ -188,11 +200,11 @@ class ImportService(
 
         bucketKlient.ensureFileExists(
             path = path,
-            fileName = DvhMetadata.PUBLISERINGSDATO.tilFilnavn(),
+            fileName = tilFilNavn(DvhMetadata.PUBLISERINGSDATO),
         )
 
         return try {
-            val publiseringsdatoer = hentInnhold(
+            val publiseringsdatoer = hentInnholdForMetadata(
                 path = path,
                 kilde = DvhMetadata.PUBLISERINGSDATO,
             )
@@ -207,19 +219,19 @@ class ImportService(
     private fun importViksomhetMetadata(): List<VirksomhetMetadataDto> {
         logger.info("Starter import av virksomhet metadata")
         val mappestruktur = hentMappestruktur()
-        val path = if (brukÅrOgKvartalIPathTilFilene) "${mappestruktur.publiseringsÅr}/${mappestruktur.sistePubliserteKvartal}" else ""
+        val path =
+            if (brukÅrOgKvartalIPathTilFilene) "${mappestruktur.publiseringsÅr}/${mappestruktur.sistePubliserteKvartal}" else ""
 
         bucketKlient.ensureFileExists(
             path = path,
-            fileName = DvhMetadata.VIRKSOMHET_METADATA.tilFilnavn(),
+            fileName = tilFilNavn(DvhMetadata.VIRKSOMHET_METADATA),
         )
         return try {
-            val statistikk = hentInnhold(
+            val statistikk = hentInnholdForMetadata(
                 path = path,
                 kilde = DvhMetadata.VIRKSOMHET_METADATA,
             )
-            val virksomhetMetadataDtoList: List<VirksomhetMetadataDto> =
-                statistikk.tilVirksomhetMetadataDto()
+            val virksomhetMetadataDtoList: List<VirksomhetMetadataDto> = statistikk.tilVirksomhetMetadataDto()
             logger.info("Importert metadata for '${virksomhetMetadataDtoList.size}' virksomhet-er")
             virksomhetMetadataDtoList
         } catch (e: Exception) {
@@ -229,18 +241,17 @@ class ImportService(
     }
 
     private inline fun <reified T : Sykefraværsstatistikk> import(
-        kategori: DvhStatistikkKategori,
+        kategori: StatistikkKategori,
         path: String,
     ): List<T> {
-        bucketKlient.ensureFileExists(path, kategori.tilFilnavn())
+        bucketKlient.ensureFileExists(path, tilFilNavn(kategori))
 
         try {
-            val statistikk = hentInnhold(
+            val statistikk = hentInnholdForStatistikk(
                 path = path,
                 kilde = kategori,
             )
-            val sykefraværsstatistikkDtoList: List<T> =
-                statistikk.toSykefraværsstatistikkDto<T>()
+            val sykefraværsstatistikkDtoList: List<T> = statistikk.toSykefraværsstatistikkDto<T>()
 
             // kontroll
             val sykefraværsprosentForKategori = kalkulerSykefraværsprosent(sykefraværsstatistikkDtoList)
@@ -252,22 +263,89 @@ class ImportService(
         }
     }
 
+    private fun importBransje(
+        path: String,
+        årstallOgKvartal: ÅrstallOgKvartal,
+    ): List<BransjeSykefraværsstatistikkDto> {
+        bucketKlient.ensureFileExists(path, tilFilNavn(StatistikkKategori.NÆRING))
+
+        try {
+            val statistikkNæring = hentInnholdForStatistikk(
+                path = path,
+                kilde = StatistikkKategori.NÆRING,
+            )
+            val sykefraværsstatistikkNæringDtoList: List<NæringSykefraværsstatistikkDto> =
+                statistikkNæring.toSykefraværsstatistikkDto<NæringSykefraværsstatistikkDto>()
+            val statistikkNæringskode = hentInnholdForStatistikk(
+                path = path,
+                kilde = StatistikkKategori.NÆRINGSKODE,
+            )
+            val sykefraværsstatistikkNæringskodeDtoList: List<NæringskodeSykefraværsstatistikkDto> =
+                statistikkNæringskode.toSykefraværsstatistikkDto<NæringskodeSykefraværsstatistikkDto>()
+
+            val sykefraværsstatistikkDtoList: List<BransjeSykefraværsstatistikkDto?> = Bransje.entries.map { bransje ->
+                when (bransje.bransjeId) {
+                    is BransjeId.Næring -> sykefraværsstatistikkNæringDtoList.filter { dto ->
+                        dto.næring == (bransje.bransjeId as BransjeId.Næring).næring
+                    }.firstOrNull()?.let {
+                        BransjeSykefraværsstatistikkDto(
+                            bransje = bransje.navn,
+                            årstall = årstallOgKvartal.årstall,
+                            kvartal = årstallOgKvartal.kvartal,
+                            prosent = it.prosent,
+                            tapteDagsverk = it.tapteDagsverk,
+                            muligeDagsverk = it.muligeDagsverk,
+                            tapteDagsverkGradert = it.tapteDagsverkGradert,
+                            tapteDagsverkPerVarighet = it.tapteDagsverkPerVarighet,
+                            antallPersoner = it.antallPersoner,
+                        )
+                    }
+
+                    is BransjeId.Næringskoder -> sykefraværsstatistikkNæringskodeDtoList.filter { dto ->
+                        (bransje.bransjeId as BransjeId.Næringskoder).næringskoder.contains(dto.næringskode)
+                    }.utleddBransjeStatistikk(
+                        årstall = årstallOgKvartal.årstall,
+                        kvartal = årstallOgKvartal.kvartal,
+                        bransje = bransje,
+                    )
+                }
+            }
+
+            // kontroll
+            val sykefraværsprosentForKategori = kalkulerSykefraværsprosent(sykefraværsstatistikkDtoList)
+            logger.info("Sykefraværsprosent -snitt- for kategori $?????? er: '$sykefraværsprosentForKategori'")
+            return sykefraværsstatistikkDtoList.filterNotNull()
+        } catch (e: Exception) {
+            logger.warn("Fikk exception i import prosess med melding '${e.message}'", e)
+            return emptyList()
+        }
+    }
+
+    private fun hentInnholdForMetadata(
+        path: String,
+        kilde: DvhMetadata,
+    ): List<String> = hentInnhold(path = path, kilde = kilde.name, filnavn = tilFilNavn(kilde))
+
+    private fun hentInnholdForStatistikk(
+        path: String,
+        kilde: StatistikkKategori,
+    ): List<String> = hentInnhold(path = path, kilde = kilde.name, filnavn = tilFilNavn(kilde))
+
     private fun hentInnhold(
         path: String,
-        kilde: DvhDatakilde,
+        kilde: String,
+        filnavn: String,
     ): List<String> {
         val result: List<String> = try {
-            val fileName = kilde.tilFilnavn()
             val innhold = bucketKlient.getFromFile(
                 path = path,
-                fileName = fileName,
+                fileName = filnavn,
             )
             if (innhold.isNullOrEmpty()) {
                 return emptyList()
             }
 
-            val data: List<String> =
-                innhold.tilListe()
+            val data: List<String> = innhold.tilListe()
             logger.info("Antall rader med data for kilde '$kilde' og path '$path': ${data.size}")
             data
         } catch (e: Exception) {
@@ -310,15 +388,36 @@ class ImportService(
     }
 
     companion object {
+        const val ANTALL_SIFRE_I_UTREGNING = 3
+        const val ANTALL_SIFRE_I_RESULTAT = 1
+
+        fun tilFilNavn(metadata: DvhMetadata) =
+            when (metadata) {
+                DvhMetadata.PUBLISERINGSDATO -> "publiseringsdato.json"
+                DvhMetadata.VIRKSOMHET_METADATA -> "virksomhet_metadata.json"
+            }
+
+        fun tilFilNavn(kategori: StatistikkKategori) =
+            when (kategori) {
+                StatistikkKategori.LAND -> "land.json"
+                StatistikkKategori.SEKTOR -> "sektor.json"
+                StatistikkKategori.NÆRING -> "naering.json"
+                StatistikkKategori.NÆRINGSKODE -> "naeringskode.json"
+                StatistikkKategori.VIRKSOMHET -> "virksomhet.json"
+                else -> throw NoSuchElementException("Ingen fil tilgjengelig for kategori '$kategori'")
+            }
+
         fun hentMappestruktur() =
             Mappestruktur(
                 publiseringsÅr = "2024",
                 sistePubliserteKvartal = "K2",
             ) // TODO: les mappestruktur fra GCP bucket
 
-        fun kalkulerSykefraværsprosent(statistikk: List<Sykefraværsstatistikk>): BigDecimal {
-            val sumAntallTapteDagsverk = statistikk.sumOf { statistikkDto -> statistikkDto.tapteDagsverk }
-            val sumAntallMuligeDagsverk = statistikk.sumOf { statistikkDto -> statistikkDto.muligeDagsverk }
+        fun kalkulerSykefraværsprosent(statistikk: List<Sykefraværsstatistikk?>): BigDecimal {
+            val sumAntallTapteDagsverk =
+                statistikk.filterNotNull().sumOf { statistikkDto -> statistikkDto.tapteDagsverk }
+            val sumAntallMuligeDagsverk =
+                statistikk.filterNotNull().sumOf { statistikkDto -> statistikkDto.muligeDagsverk }
             val sykefraværsprosentLand =
                 StatistikkUtils.kalkulerSykefraværsprosent(sumAntallTapteDagsverk, sumAntallMuligeDagsverk)
             return sykefraværsprosentLand.setScale(1, RoundingMode.HALF_UP)
@@ -328,9 +427,9 @@ class ImportService(
             publiseringsdatoer: List<PubliseringsdatoDto>,
             fraDato: kotlinx.datetime.LocalDateTime,
         ): NestePubliseringsdato? {
-            val nestPubliseringsdato = publiseringsdatoer.map { it.tilPubliseringsdato() }
-                .filter { fraDato.erFørPubliseringsdato(it) }
-                .sortedWith(compareBy { fraDato.antallDagerTilPubliseringsdato(it) }).firstOrNull()
+            val nestPubliseringsdato =
+                publiseringsdatoer.map { it.tilPubliseringsdato() }.filter { fraDato.erFørPubliseringsdato(it) }
+                    .sortedWith(compareBy { fraDato.antallDagerTilPubliseringsdato(it) }).firstOrNull()
 
             if (nestPubliseringsdato != null) {
                 return NestePubliseringsdato(
@@ -341,6 +440,67 @@ class ImportService(
             } else {
                 return null
             }
+        }
+
+        fun List<NæringskodeSykefraværsstatistikkDto>.utleddBransjeStatistikk(
+            årstall: Int,
+            kvartal: Int,
+            bransje: Bransje,
+        ): BransjeSykefraværsstatistikkDto? {
+            if (this.isEmpty()) {
+                return null
+            }
+
+            val tapteDagsverk = this.sumOf { it.tapteDagsverk }
+            val muligeDagsverk = this.sumOf { it.muligeDagsverk }
+            val tapteDagsverkGradert = this.sumOf { it.tapteDagsverkGradert }
+            val antallPersoner = this.sumOf { it.antallPersoner }
+
+            var tapteDagsverkPerVarighet = mutableListOf<TapteDagsverkPerVarighetDto>()
+            this.forEach {
+                tapteDagsverkPerVarighet = tapteDagsverkPerVarighet.aggreger(it.tapteDagsverkPerVarighet)
+            }
+
+            return BransjeSykefraværsstatistikkDto(
+                bransje = bransje.navn, // Vi sender melding med Bransje.navn, dvs "Barnehager" og IKKE "BARNEHAGER"
+                årstall = årstall,
+                kvartal = kvartal,
+                prosent = tapteDagsverk.divide(muligeDagsverk, ANTALL_SIFRE_I_UTREGNING, RoundingMode.HALF_UP)
+                    .multiply(BigDecimal(100)).setScale(ANTALL_SIFRE_I_RESULTAT, RoundingMode.HALF_UP),
+                tapteDagsverk = tapteDagsverk,
+                muligeDagsverk = muligeDagsverk,
+                tapteDagsverkGradert = tapteDagsverkGradert,
+                tapteDagsverkPerVarighet = tapteDagsverkPerVarighet,
+                antallPersoner = antallPersoner,
+            )
+        }
+
+        fun MutableList<TapteDagsverkPerVarighetDto>.aggreger(
+            items: List<TapteDagsverkPerVarighetDto>,
+        ): MutableList<TapteDagsverkPerVarighetDto> {
+            items.forEach { item ->
+                this.leggTil(item)
+            }
+            return this.sortedBy { it.varighet }.toMutableList()
+        }
+
+        fun MutableList<TapteDagsverkPerVarighetDto>.leggTil(item: TapteDagsverkPerVarighetDto): List<TapteDagsverkPerVarighetDto> {
+            var updated = false
+            this.let {
+                forEachIndexed { i, value ->
+                    if (value.varighet == item.varighet && item.tapteDagsverk != null) {
+                        it[i] = TapteDagsverkPerVarighetDto(
+                            varighet = item.varighet,
+                            tapteDagsverk = value.tapteDagsverk?.plus(item.tapteDagsverk) ?: item.tapteDagsverk,
+                        )
+                        updated = true
+                    }
+                }
+            }
+            if (!updated) {
+                this.add(item)
+            }
+            return this.sortedBy { it.varighet }.toList()
         }
 
         private fun sanityzeOrgnr(jsonElement: String): String = jsonElement.replace("[0-9]{9}".toRegex(), "*********")
