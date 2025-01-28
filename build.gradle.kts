@@ -1,6 +1,6 @@
 val gcsNioVersion = "0.127.29"
 val googleCloudStorageVersion = "2.46.0"
-val iaFellesVersion = "1.7.1"
+val iaFellesVersion = "1.10.2"
 val kafkaClientsVersion = "3.9.0"
 val kotestVersion = "5.8.1"
 val kotlinVersion = "2.1.0"

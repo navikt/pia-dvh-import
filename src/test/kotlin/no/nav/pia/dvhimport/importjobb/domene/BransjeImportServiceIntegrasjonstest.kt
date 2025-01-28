@@ -50,10 +50,10 @@ class BransjeImportServiceIntegrasjonstest {
         )
         lagTestDataForNæringskode(gcsContainer = gcsContainer) // inneholder BARNEHAGER
 
-        kafkaContainer.sendJobbMelding(Jobb.engangsJobb)
+        kafkaContainer.sendJobbMelding(Jobb.bransjeSykefraværsstatistikkDvhImport)
 
         dvhImportApplikasjon shouldContainLog "Starter import av sykefraværsstatistikk for kategori 'BRANSJE'".toRegex()
-        dvhImportApplikasjon shouldContainLog "Jobb 'engangsJobb' ferdig".toRegex()
+        dvhImportApplikasjon shouldContainLog "Jobb 'bransjeSykefraværsstatistikkDvhImport' ferdig".toRegex()
 
         runBlocking {
             kafkaContainer.ventOgKonsumerKafkaMeldinger(

@@ -2,7 +2,7 @@ package no.nav.pia.dvhimport.importjobb.kafka
 
 import ia.felles.integrasjoner.jobbsender.Jobb
 import ia.felles.integrasjoner.jobbsender.Jobb.alleKategorierSykefraværsstatistikkDvhImport
-import ia.felles.integrasjoner.jobbsender.Jobb.engangsJobb
+import ia.felles.integrasjoner.jobbsender.Jobb.bransjeSykefraværsstatistikkDvhImport
 import ia.felles.integrasjoner.jobbsender.Jobb.landSykefraværsstatistikkDvhImport
 import ia.felles.integrasjoner.jobbsender.Jobb.næringSykefraværsstatistikkDvhImport
 import ia.felles.integrasjoner.jobbsender.Jobb.næringskodeSykefraværsstatistikkDvhImport
@@ -84,7 +84,7 @@ class Jobblytter(
                                     næringskodeSykefraværsstatistikkDvhImport -> {
                                         importService.importForStatistikkKategori(StatistikkKategori.NÆRINGSKODE)
                                     }
-                                    engangsJobb -> { // TODO: opprett en ny jobb for BRANSJE
+                                    bransjeSykefraværsstatistikkDvhImport -> {
                                         importService.importForStatistikkKategori(StatistikkKategori.BRANSJE)
                                     }
                                     virksomhetSykefraværsstatistikkDvhImport -> {
