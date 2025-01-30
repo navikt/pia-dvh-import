@@ -39,6 +39,7 @@ import no.nav.pia.dvhimport.storage.Mappestruktur
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import java.math.BigDecimal
+import java.math.BigDecimal.ZERO
 import java.math.RoundingMode
 
 class ImportService(
@@ -415,12 +416,12 @@ class ImportService(
 
         fun kalkulerSykefraværsprosent(statistikk: List<Sykefraværsstatistikk?>): BigDecimal {
             val sumAntallTapteDagsverk =
-                statistikk.filterNotNull().sumOf { statistikkDto -> statistikkDto.tapteDagsverk }
+                statistikk.sumOf { it?.tapteDagsverk ?: ZERO }
             val sumAntallMuligeDagsverk =
-                statistikk.filterNotNull().sumOf { statistikkDto -> statistikkDto.muligeDagsverk }
-            val sykefraværsprosentLand =
+                statistikk.sumOf { it?.muligeDagsverk ?: ZERO }
+            val sykefraværsprosentForKategori =
                 StatistikkUtils.kalkulerSykefraværsprosent(sumAntallTapteDagsverk, sumAntallMuligeDagsverk)
-            return sykefraværsprosentLand.setScale(1, RoundingMode.HALF_UP)
+            return sykefraværsprosentForKategori.setScale(1, RoundingMode.HALF_UP)
         }
 
         fun nestePubliseringsdato(
