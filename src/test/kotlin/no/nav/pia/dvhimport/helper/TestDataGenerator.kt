@@ -193,6 +193,85 @@ class TestDataGenerator {
             verifiserBlobFinnes shouldBe true
         }
 
+        fun lagTestDataForNæringskodeSykehjem(
+            gcsContainer: GoogleCloudStorageContainerHelper,
+            årstall: Int = 2024,
+            kvartal: Int = 2,
+        ) {
+            // Sykehjem: "87101" og "87102"
+            // vi legger til "87103" for å teste at denne ikke blir plukket ut
+            val filnavn = tilFilNavn(StatistikkKategori.NÆRINGSKODE)
+            gcsContainer.lagreTestBlob(
+                blobNavn = filnavn,
+                bytes =
+                    """
+                    [{
+                      "årstall": $årstall,
+                      "kvartal": $kvartal,
+                      "næringskode": "87101",
+                      "prosent": 6.2,
+                      "tapteDagsverk": 200.5,
+                      "muligeDagsverk": 1010.3,
+                      "tapteDagsverkGradert": 30.2,
+                      "tapteDagsverkPerVarighet": [
+                        {
+                          "varighet": "D",
+                          "tapteDagsverk": 8.66
+                        }
+                      ],
+                      "antallPersoner": "399"
+                    },
+                    {
+                     "årstall": $årstall,
+                     "kvartal": $kvartal,
+                     "næringskode": "87102",
+                     "prosent": 3.5,
+                     "tapteDagsverk": 100.5,
+                     "muligeDagsverk": 2010.7,
+                     "tapteDagsverkGradert": 70.8,
+                     "tapteDagsverkPerVarighet": [
+                       {
+                         "varighet": "B",
+                         "tapteDagsverk": 3.54444
+                       },                     
+                       {
+                         "varighet": "D",
+                         "tapteDagsverk": 10.44
+                       }
+                     ],
+                     "antallPersoner": "201"
+                    },
+                    {
+                     "årstall": $årstall,
+                     "kvartal": $kvartal,
+                     "næringskode": "87103",
+                     "prosent": 23.5,
+                     "tapteDagsverk": 23.5,
+                     "muligeDagsverk": 100,
+                     "tapteDagsverkGradert": 3,
+                     "tapteDagsverkPerVarighet": [
+                       {
+                         "varighet": "C",
+                         "tapteDagsverk": 8.88844
+                       },                     
+                       {
+                         "varighet": "D",
+                         "tapteDagsverk": 1000.11
+                       },
+                       {
+                         "varighet": "E",
+                         "tapteDagsverk": 11.41
+                       }
+                     ],
+                     "antallPersoner": "999"
+                    }]
+                    """.trimIndent().encodeToByteArray(),
+            )
+
+            val verifiserBlobFinnes = gcsContainer.verifiserBlobFinnes(blobNavn = filnavn)
+            verifiserBlobFinnes shouldBe true
+        }
+
         fun lagTestDataForVirksomhet(
             gcsContainer: GoogleCloudStorageContainerHelper,
             orgnr: String,
