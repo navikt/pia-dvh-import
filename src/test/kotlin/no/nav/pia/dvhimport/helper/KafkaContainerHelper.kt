@@ -175,7 +175,10 @@ class KafkaContainerHelper(
         }
     }
 
-    fun sendJobbMelding(jobb: Jobb) {
+    fun sendJobbMelding(
+        jobb: Jobb,
+        parameter: String? = null,
+    ) {
         sendOgVentTilKonsumert(
             nøkkel = jobb.name,
             melding =
@@ -184,7 +187,7 @@ class KafkaContainerHelper(
                     "jobb": "${jobb.name}",
                     "tidspunkt": "2023-01-01T00:00:00.000Z",
                     "applikasjon": "pia-dvh-import",
-                    "parameter": null
+                    "parameter": ${parameter?.let {"\"$it\""} ?: "null"}
                 }
                 """.trimIndent(),
             topic = KafkaTopics.PIA_JOBBLYTTER,

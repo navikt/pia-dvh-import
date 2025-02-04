@@ -22,6 +22,7 @@ import kotlinx.serialization.json.Json
 import no.nav.pia.dvhimport.importjobb.ImportService
 import no.nav.pia.dvhimport.importjobb.domene.DvhMetadata
 import no.nav.pia.dvhimport.importjobb.domene.StatistikkKategori
+import no.nav.pia.dvhimport.importjobb.domene.ÅrstallOgKvartal
 import no.nav.pia.dvhimport.konfigurasjon.KafkaConfig
 import no.nav.pia.dvhimport.konfigurasjon.KafkaTopics
 import org.apache.kafka.clients.consumer.KafkaConsumer
@@ -67,34 +68,37 @@ class Jobblytter(
                                     "Received record with key ${it.key()} and value ${it.value()} from topic ${it.topic()} but jobInfo.job is ${jobbInfo.jobb}",
                                 )
                             } else {
-                                logger.info("Starter jobb ${jobbInfo.jobb}")
+                                val årstallOgKvartal = jobbInfo.tilÅrstallOgKvartal() ?: ÅrstallOgKvartal(2024, 2)
+                                logger.info(
+                                    "Starter jobb ${jobbInfo.jobb} for $årstallOgKvartal",
+                                )
                                 when (jobbInfo.jobb) {
                                     alleKategorierSykefraværsstatistikkDvhImport -> {
-                                        importService.importAlleStatistikkKategorier()
+                                        importService.importAlleStatistikkKategorier(årstallOgKvartal)
                                     }
                                     landSykefraværsstatistikkDvhImport -> {
-                                        importService.importForStatistikkKategori(StatistikkKategori.LAND)
+                                        importService.importForStatistikkKategori(StatistikkKategori.LAND, årstallOgKvartal)
                                     }
                                     sektorSykefraværsstatistikkDvhImport -> {
-                                        importService.importForStatistikkKategori(StatistikkKategori.SEKTOR)
+                                        importService.importForStatistikkKategori(StatistikkKategori.SEKTOR, årstallOgKvartal)
                                     }
                                     næringSykefraværsstatistikkDvhImport -> {
-                                        importService.importForStatistikkKategori(StatistikkKategori.NÆRING)
+                                        importService.importForStatistikkKategori(StatistikkKategori.NÆRING, årstallOgKvartal)
                                     }
                                     næringskodeSykefraværsstatistikkDvhImport -> {
-                                        importService.importForStatistikkKategori(StatistikkKategori.NÆRINGSKODE)
+                                        importService.importForStatistikkKategori(StatistikkKategori.NÆRINGSKODE, årstallOgKvartal)
                                     }
                                     bransjeSykefraværsstatistikkDvhImport -> {
-                                        importService.importForStatistikkKategori(StatistikkKategori.BRANSJE)
+                                        importService.importForStatistikkKategori(StatistikkKategori.BRANSJE, årstallOgKvartal)
                                     }
                                     virksomhetSykefraværsstatistikkDvhImport -> {
-                                        importService.importForStatistikkKategori(StatistikkKategori.VIRKSOMHET)
+                                        importService.importForStatistikkKategori(StatistikkKategori.VIRKSOMHET, årstallOgKvartal)
                                     }
                                     virksomhetMetadataSykefraværsstatistikkDvhImport -> {
-                                        importService.importMetadata(DvhMetadata.VIRKSOMHET_METADATA)
+                                        importService.importMetadata(DvhMetadata.VIRKSOMHET_METADATA, årstallOgKvartal)
                                     }
                                     publiseringsdatoDvhImport -> {
-                                        importService.importMetadata(DvhMetadata.PUBLISERINGSDATO)
+                                        importService.importMetadata(DvhMetadata.PUBLISERINGSDATO, årstallOgKvartal)
                                     }
                                     else -> {
                                         logger.info("Jobb '${jobbInfo.jobb}' ignorert")
@@ -131,5 +135,20 @@ class Jobblytter(
             kafkaConsumer.wakeup()
             job.cancelAndJoin()
             logger.info("Stopped kafka consumer job for ${topic.navn}")
+        }
+
+    private fun SerializableJobbInfo.tilÅrstallOgKvartal() =
+        try {
+            this.parameter?.split("-")?.let {
+                val årstall = it.first().toInt()
+                val kvartal = it.last().toInt()
+                ÅrstallOgKvartal(
+                    årstall = årstall,
+                    kvartal = kvartal,
+                )
+            }
+        } catch (e: Exception) {
+            logger.error("Kunne ikke parse årstall og kvartal fra parameter: '$parameter'", e)
+            throw e
         }
 }

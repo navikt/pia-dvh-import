@@ -54,9 +54,9 @@ class ImportService(
         EksportProdusent(kafkaConfig = KafkaConfig())
     }
 
-    fun importAlleStatistikkKategorier() {
+    fun importAlleStatistikkKategorier(årstallOgKvartal: ÅrstallOgKvartal) {
         logger.info("Starter import av sykefraværsstatistikk for alle statistikkkategorier")
-        val mappeStruktur = hentMappestruktur()
+        val mappeStruktur = årstallOgKvartal.hentMappestruktur()
         val path =
             if (brukÅrOgKvartalIPathTilFilene) "${mappeStruktur.publiseringsÅr}/${mappeStruktur.sistePubliserteKvartal}" else ""
 
@@ -69,10 +69,13 @@ class ImportService(
         import<NæringSykefraværsstatistikkDto>(StatistikkKategori.NÆRING, path)
         import<NæringskodeSykefraværsstatistikkDto>(StatistikkKategori.NÆRINGSKODE, path)
         import<VirksomhetSykefraværsstatistikkDto>(StatistikkKategori.VIRKSOMHET, path)
-        importViksomhetMetadata()
+        importViksomhetMetadata(årstallOgKvartal)
     }
 
-    fun importForStatistikkKategori(kategori: StatistikkKategori) {
+    fun importForStatistikkKategori(
+        kategori: StatistikkKategori,
+        årstallOgKvartal: ÅrstallOgKvartal,
+    ) {
         logger.info("Starter import av sykefraværsstatistikk for kategori '$kategori'")
 
         if (!bucketKlient.sjekkBucketExists()) {
@@ -80,7 +83,7 @@ class ImportService(
             return
         }
 
-        val mappeStruktur = hentMappestruktur()
+        val mappeStruktur = årstallOgKvartal.hentMappestruktur()
         val årstallOgKvartal = mappeStruktur.gjeldendeÅrstallOgKvartal()
         val path =
             if (brukÅrOgKvartalIPathTilFilene) "${mappeStruktur.publiseringsÅr}/${mappeStruktur.sistePubliserteKvartal}" else ""
@@ -171,7 +174,10 @@ class ImportService(
         }
     }
 
-    fun importMetadata(kategori: DvhMetadata) {
+    fun importMetadata(
+        kategori: DvhMetadata,
+        årstallOgKvartal: ÅrstallOgKvartal,
+    ) {
         logger.info("Starter import av metadata for kategori '$kategori'")
 
         if (!bucketKlient.sjekkBucketExists()) {
@@ -179,12 +185,9 @@ class ImportService(
             return
         }
 
-        val mappeStruktur = hentMappestruktur()
-        val årstallOgKvartal = mappeStruktur.gjeldendeÅrstallOgKvartal()
-
         when (kategori) {
             DvhMetadata.VIRKSOMHET_METADATA -> {
-                val metadata = importViksomhetMetadata()
+                val metadata = importViksomhetMetadata(årstallOgKvartal)
                 sendMetadataTilKafka(
                     årstall = årstallOgKvartal.årstall,
                     kvartal = årstallOgKvartal.kvartal,
@@ -193,15 +196,14 @@ class ImportService(
             }
 
             DvhMetadata.PUBLISERINGSDATO -> {
-                importOgEksportPubliseringsdato()
+                importOgEksportPubliseringsdato(årstallOgKvartal)
             }
         }
     }
 
-    private fun importOgEksportPubliseringsdato() {
-        val årstallOgKvartal = hentMappestruktur().gjeldendeÅrstallOgKvartal()
+    private fun importOgEksportPubliseringsdato(årstallOgKvartal: ÅrstallOgKvartal) {
         val iDag = Clock.System.now().toLocalDateTime(timeZone)
-        val publiseringsdatoer = importPubliseringsdato()
+        val publiseringsdatoer = importPubliseringsdato(årstallOgKvartal)
 
         val publiseringsDatoErIDag = sjekkPubliseringErIDag(publiseringsdatoer, iDag)
         if (publiseringsDatoErIDag != null) {
@@ -232,10 +234,9 @@ class ImportService(
         }
     }
 
-    private fun importPubliseringsdato(): List<PubliseringsdatoDto> {
+    private fun importPubliseringsdato(årstallOgKvartal: ÅrstallOgKvartal): List<PubliseringsdatoDto> {
         logger.info("Starter import av publiseringsdato")
-        val år = 2024
-        val path = if (brukÅrOgKvartalIPathTilFilene) "$år" else ""
+        val path = if (brukÅrOgKvartalIPathTilFilene) "${årstallOgKvartal.årstall}" else ""
 
         bucketKlient.ensureFileExists(
             path = path,
@@ -255,11 +256,10 @@ class ImportService(
         }
     }
 
-    private fun importViksomhetMetadata(): List<VirksomhetMetadataDto> {
+    private fun importViksomhetMetadata(årstallOgKvartal: ÅrstallOgKvartal): List<VirksomhetMetadataDto> {
         logger.info("Starter import av virksomhet metadata")
-        val mappestruktur = hentMappestruktur()
         val path =
-            if (brukÅrOgKvartalIPathTilFilene) "${mappestruktur.publiseringsÅr}/${mappestruktur.sistePubliserteKvartal}" else ""
+            if (brukÅrOgKvartalIPathTilFilene) "${årstallOgKvartal.årstall}/${årstallOgKvartal.kvartal}" else ""
 
         bucketKlient.ensureFileExists(
             path = path,
@@ -446,11 +446,11 @@ class ImportService(
                 else -> throw NoSuchElementException("Ingen fil tilgjengelig for kategori '$kategori'")
             }
 
-        fun hentMappestruktur() =
+        fun ÅrstallOgKvartal.hentMappestruktur() =
             Mappestruktur(
-                publiseringsÅr = "2024",
-                sistePubliserteKvartal = "K2",
-            ) // TODO: les mappestruktur fra GCP bucket
+                publiseringsÅr = "$årstall",
+                sistePubliserteKvartal = "K$kvartal",
+            )
 
         fun kalkulerSykefraværsprosent(statistikk: List<Sykefraværsstatistikk?>): BigDecimal {
             val sumAntallTapteDagsverk =
