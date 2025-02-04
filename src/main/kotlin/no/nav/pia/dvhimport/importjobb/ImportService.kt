@@ -35,12 +35,14 @@ import no.nav.pia.dvhimport.importjobb.kafka.EksportProdusent.Sykefraværsstatis
 import no.nav.pia.dvhimport.importjobb.kafka.EksportProdusent.VirksomhetMetadataMelding
 import no.nav.pia.dvhimport.konfigurasjon.KafkaConfig
 import no.nav.pia.dvhimport.storage.BucketKlient
+import no.nav.pia.dvhimport.storage.BucketKlient.Companion.prosesserIBiter
 import no.nav.pia.dvhimport.storage.Mappestruktur
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import java.math.BigDecimal
 import java.math.BigDecimal.ZERO
 import java.math.RoundingMode
+import java.util.concurrent.atomic.AtomicReference
 
 class ImportService(
     private val bucketKlient: BucketKlient,
@@ -124,13 +126,36 @@ class ImportService(
             }
 
             StatistikkKategori.VIRKSOMHET -> {
-                val statistikk = import<VirksomhetSykefraværsstatistikkDto>(StatistikkKategori.VIRKSOMHET, path)
-                sendTilKafka(
+                importVirksomheterOgSendTilKafka(
+                    path = path,
                     årstallOgKvartal = årstallOgKvartal,
-                    statistikk = statistikk,
                 )
             }
         }
+    }
+
+    fun importVirksomheterOgSendTilKafka(
+        path: String,
+        årstallOgKvartal: ÅrstallOgKvartal,
+    ) {
+        val sumAntallTapteDagsverk = AtomicReference(BigDecimal(0))
+        val sumAntallMuligeDagsverk = AtomicReference(BigDecimal(0))
+        val sequence = bucketKlient.getFromHugeFileAsSequence<VirksomhetSykefraværsstatistikkDto>(
+            path = path,
+            fileName = tilFilNavn(StatistikkKategori.VIRKSOMHET),
+        )
+        sequence.prosesserIBiter(størrelse = 100) { statistikk ->
+            logger.info("Sender ${statistikk.size} statistikk for virksomhet til Kafka")
+            sendTilKafka(
+                årstallOgKvartal = årstallOgKvartal,
+                statistikk,
+            )
+            sumAntallMuligeDagsverk.getAndAccumulate(statistikk.sumOf { it.muligeDagsverk }) { x, y -> x + y }
+            sumAntallTapteDagsverk.getAndAccumulate(statistikk.sumOf { it.tapteDagsverk }) { x, y -> x + y }
+        }
+        val sykefraværsprosentForKategori =
+            StatistikkUtils.kalkulerSykefraværsprosent(sumAntallTapteDagsverk.get(), sumAntallMuligeDagsverk.get())
+        logger.info("Sykefraværsprosent -snitt- for kategori ${StatistikkKategori.VIRKSOMHET.name} er: '$sykefraværsprosentForKategori'")
     }
 
     fun importMetadata(kategori: DvhMetadata) {
@@ -314,7 +339,7 @@ class ImportService(
 
             // kontroll
             val sykefraværsprosentForKategori = kalkulerSykefraværsprosent(sykefraværsstatistikkDtoList)
-            logger.info("Sykefraværsprosent -snitt- for kategori $?????? er: '$sykefraværsprosentForKategori'")
+            logger.info("Sykefraværsprosent -snitt- for kategori ${StatistikkKategori.BRANSJE.name} er: '$sykefraværsprosentForKategori'")
             return sykefraværsstatistikkDtoList.filterNotNull()
         } catch (e: Exception) {
             logger.warn("Fikk exception i import prosess med melding '${e.message}'", e)
@@ -421,7 +446,7 @@ class ImportService(
                 statistikk.sumOf { it?.muligeDagsverk ?: ZERO }
             val sykefraværsprosentForKategori =
                 StatistikkUtils.kalkulerSykefraværsprosent(sumAntallTapteDagsverk, sumAntallMuligeDagsverk)
-            return sykefraværsprosentForKategori.setScale(1, RoundingMode.HALF_UP)
+            return sykefraværsprosentForKategori
         }
 
         fun nestePubliseringsdato(

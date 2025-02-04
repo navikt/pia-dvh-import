@@ -4,7 +4,7 @@ with open('output/virksomhet.json', 'w') as virksomhet_fil:
     virksomhet_fil.write(f"[\n")
     counter = 1
     range_from = 300000000
-    nb_of_rows = 100 # veldig mange: 370000
+    nb_of_rows = 5000 # veldig mange: 370000
     range_to = range_from + nb_of_rows
     for orgnr in range(range_from, range_to):
         virksomhet_statistikk = {

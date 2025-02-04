@@ -2,8 +2,15 @@ package no.nav.pia.dvhimport.storage
 
 import com.google.cloud.storage.Blob
 import com.google.cloud.storage.Storage
+import kotlinx.serialization.ExperimentalSerializationApi
+import kotlinx.serialization.json.DecodeSequenceMode
+import kotlinx.serialization.json.Json
+import kotlinx.serialization.json.decodeToSequence
+import no.nav.pia.dvhimport.importjobb.domene.Sykefraværsstatistikk
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
+import java.io.InputStream
+import java.nio.channels.Channels
 
 class BucketKlient(
     val gcpStorage: Storage,
@@ -50,15 +57,88 @@ class BucketKlient(
         path: String,
         fileName: String,
     ): String? {
-        val fil = if (path.isNotEmpty()) "$path/$fileName" else fileName
-        logger.info("Fetch data i bucket '$bucketName' fra fil i path '$path' med filnavn '$fileName'")
-
-        val blob: Blob? = try {
-            gcpStorage.get(bucketName, fil)
-        } catch (npe: NullPointerException) {
-            logger.error("Finner ikke fil '$fil' fra bucket '$bucketName'")
-            null
-        }
+        val blob = getBlob(this, path = path, fileName = fileName)
         return blob?.getContent()?.decodeToString()
+    }
+
+    inline fun <reified T : Sykefraværsstatistikk> getFromHugeFileAsSequence(
+        path: String,
+        fileName: String,
+    ): Sequence<T> {
+        val blob = getBlob(this, path = path, fileName = fileName)
+        val readChannel = blob?.reader()
+        val inputStream: InputStream? = readChannel?.let { Channels.newInputStream(it) }
+
+        return getSequenceFromStream<T>(inputStream)
+    }
+
+    companion object {
+        fun getBlob(
+            bucketKlient: BucketKlient,
+            path: String,
+            fileName: String,
+        ): Blob? {
+            val fil = if (path.isNotEmpty()) "$path/$fileName" else fileName
+            bucketKlient.logger.info("Fetch data i bucket '${bucketKlient.bucketName}' fra fil i path '$path' med filnavn '$fileName'")
+
+            val blob: Blob? = try {
+                bucketKlient.gcpStorage.get(bucketKlient.bucketName, fil)
+            } catch (npe: NullPointerException) {
+                bucketKlient.logger.error("Finner ikke fil '$fil' fra bucket '${bucketKlient.bucketName}'")
+                null
+            }
+            return blob
+        }
+
+        @OptIn(ExperimentalSerializationApi::class)
+        inline fun <reified T : Sykefraværsstatistikk> getSequenceFromStream(inputStream: InputStream?): Sequence<T> {
+            val jsonParser = Json { ignoreUnknownKeys = true }
+            return inputStream?.use {
+                jsonParser.decodeToSequence<T>(
+                    stream = it,
+                    format = DecodeSequenceMode.ARRAY_WRAPPED,
+                )
+            } ?: emptySequence()
+        }
+
+        fun <T> Sequence<T>?.prosesserIBiter(
+            størrelse: Int,
+            block: (items: List<T>) -> Unit,
+        ) {
+            if (this == null) {
+                return
+            }
+            this.delIBiter(størrelse = størrelse).forEach { sequence ->
+                block(sequence.toList())
+            }
+        }
+
+        private fun <T> Sequence<T>.delIBiter(størrelse: Int): Sequence<Sequence<T>> =
+            sequence {
+                val iter = iterator()
+                while (iter.hasNext()) {
+                    val begrensetIterator = iter.begrense(til = størrelse)
+                    val sequenceAvGittStørrelse = begrensetIterator.asSequence()
+                    yield(sequenceAvGittStørrelse) // opprett en ny sequence av den begrenset iterator
+                    // må gå gjennom elementene av iterator for å unngå Exception og kunne kjøre videre
+                    begrensetIterator.forEach { _ -> }
+                }
+            }
+
+        private fun <T> Iterator<T>.begrense(til: Int): Iterator<T> =
+            object : Iterator<T> {
+                var left = til
+                val iterator by lazy { this@begrense }
+
+                override fun next(): T {
+                    if (left == 0) {
+                        throw NoSuchElementException()
+                    }
+                    left--
+                    return iterator.next()
+                }
+
+                override fun hasNext(): Boolean = left > 0 && iterator.hasNext()
+            }
     }
 }
