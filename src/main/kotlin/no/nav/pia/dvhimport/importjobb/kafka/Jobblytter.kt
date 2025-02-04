@@ -109,6 +109,9 @@ class Jobblytter(
                         }
                         consumer.commitSync()
                     }
+                } catch (e: ManglerJobbParameterException) {
+                    logger.warn("Mangler parameter årstallOgKvartal i jobb, commit og ignorer meldingen")
+                    consumer.commitSync()
                 } catch (e: WakeupException) {
                     logger.info("Jobblytter is shutting down")
                 } catch (e: RetriableException) {
@@ -149,6 +152,6 @@ class Jobblytter(
             }
         } catch (e: Exception) {
             logger.error("Kunne ikke parse årstall og kvartal fra parameter: '$parameter'", e)
-            throw e
+            throw ManglerJobbParameterException()
         }
 }

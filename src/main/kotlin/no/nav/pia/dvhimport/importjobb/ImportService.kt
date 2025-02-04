@@ -142,7 +142,7 @@ class ImportService(
         årstallOgKvartal: ÅrstallOgKvartal,
     ) {
         try {
-            val skalSendeTilKafka = brukÅrOgKvartalIPathTilFilene == false // TODO: DELETE ME etter load-test
+            val skalSendeTilKafka = !brukÅrOgKvartalIPathTilFilene // TODO: DELETE ME etter load-test
             val sumAntallTapteDagsverk = AtomicReference(BigDecimal(0))
             val sumAntallMuligeDagsverk = AtomicReference(BigDecimal(0))
             val sumAntallVirksomheter = AtomicReference(0)
