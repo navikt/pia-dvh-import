@@ -1,5 +1,6 @@
 package no.nav.pia.dvhimport.storage
 
+import com.google.cloud.ReadChannel
 import com.google.cloud.storage.Blob
 import com.google.cloud.storage.Storage
 import kotlinx.serialization.ExperimentalSerializationApi
@@ -16,7 +17,7 @@ class BucketKlient(
     val gcpStorage: Storage,
     val bucketName: String,
 ) {
-    private val logger: Logger = LoggerFactory.getLogger(this::class.java)
+    val logger: Logger = LoggerFactory.getLogger(this::class.java)
 
     init {
         logger.info("BucketKlient for bucket '$bucketName' er klar")
@@ -66,8 +67,14 @@ class BucketKlient(
         fileName: String,
     ): Sequence<T> {
         val blob = getBlob(this, path = path, fileName = fileName)
-        val readChannel = blob?.reader()
-        val inputStream: InputStream? = readChannel?.let { Channels.newInputStream(it) }
+        val readChannel: ReadChannel? = blob?.reader()
+
+        if (readChannel == null || !readChannel.isOpen) {
+            logger.info("Channel '$readChannel' is empty")
+            return emptySequence()
+        }
+
+        val inputStream: InputStream? = readChannel.let { Channels.newInputStream(it) }
 
         return getSequenceFromStream<T>(inputStream)
     }
