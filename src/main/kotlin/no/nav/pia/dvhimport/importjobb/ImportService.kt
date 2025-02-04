@@ -2,6 +2,7 @@ package no.nav.pia.dvhimport.importjobb
 
 import ia.felles.definisjoner.bransjer.Bransje
 import ia.felles.definisjoner.bransjer.BransjeId
+import kotlinx.coroutines.runBlocking
 import kotlinx.datetime.Clock
 import kotlinx.datetime.toLocalDateTime
 import no.nav.pia.dvhimport.importjobb.domene.BransjeSykefraværsstatistikkDto
@@ -142,27 +143,32 @@ class ImportService(
         val sumAntallTapteDagsverk = AtomicReference(BigDecimal(0))
         val sumAntallMuligeDagsverk = AtomicReference(BigDecimal(0))
         val sumAntallVirksomheter = AtomicReference(0)
-        val sequence = bucketKlient.getFromHugeFileAsSequence<VirksomhetSykefraværsstatistikkDto>(
-            path = path,
-            fileName = tilFilNavn(StatistikkKategori.VIRKSOMHET),
-        )
-        sequence.prosesserIBiter(størrelse = 100) { statistikk ->
-            logger.info("Sender ${statistikk.size} statistikk for virksomhet til Kafka")
-            if (skalSendeTilKafka) {
-                logger.info("Skal IKKE sende til kafka i load-test")
-                sendTilKafka(
-                    årstallOgKvartal = årstallOgKvartal,
-                    statistikk,
-                )
+
+        runBlocking {
+            val sequence = bucketKlient.getFromHugeFileAsSequence<VirksomhetSykefraværsstatistikkDto>(
+                path = path,
+                fileName = tilFilNavn(StatistikkKategori.VIRKSOMHET),
+            )
+            sequence.prosesserIBiter(størrelse = 100) { statistikk ->
+                logger.info("Sender ${statistikk.size} statistikk for virksomhet til Kafka")
+                if (skalSendeTilKafka) {
+                    logger.info("Skal IKKE sende til kafka i load-test")
+                    sendTilKafka(
+                        årstallOgKvartal = årstallOgKvartal,
+                        statistikk,
+                    )
+                }
+                sumAntallVirksomheter.getAndAccumulate(statistikk.size) { x, y -> x + y }
+                sumAntallMuligeDagsverk.getAndAccumulate(statistikk.sumOf { it.muligeDagsverk }) { x, y -> x + y }
+                sumAntallTapteDagsverk.getAndAccumulate(statistikk.sumOf { it.tapteDagsverk }) { x, y -> x + y }
             }
-            sumAntallVirksomheter.getAndAccumulate(statistikk.size) { x, y -> x + y }
-            sumAntallMuligeDagsverk.getAndAccumulate(statistikk.sumOf { it.muligeDagsverk }) { x, y -> x + y }
-            sumAntallTapteDagsverk.getAndAccumulate(statistikk.sumOf { it.tapteDagsverk }) { x, y -> x + y }
+            val sykefraværsprosentForKategori =
+                StatistikkUtils.kalkulerSykefraværsprosent(sumAntallTapteDagsverk.get(), sumAntallMuligeDagsverk.get())
+            logger.info("Antall statistikk prosessert for kategori ${StatistikkKategori.VIRKSOMHET.name} er: '$sumAntallVirksomheter'")
+            logger.info(
+                "Sykefraværsprosent -snitt- for kategori ${StatistikkKategori.VIRKSOMHET.name} er: '$sykefraværsprosentForKategori'",
+            )
         }
-        val sykefraværsprosentForKategori =
-            StatistikkUtils.kalkulerSykefraværsprosent(sumAntallTapteDagsverk.get(), sumAntallMuligeDagsverk.get())
-        logger.info("Antall statistikk prosessert for kategori ${StatistikkKategori.VIRKSOMHET.name} er: '$sumAntallVirksomheter'")
-        logger.info("Sykefraværsprosent -snitt- for kategori ${StatistikkKategori.VIRKSOMHET.name} er: '$sykefraværsprosentForKategori'")
     }
 
     fun importMetadata(kategori: DvhMetadata) {

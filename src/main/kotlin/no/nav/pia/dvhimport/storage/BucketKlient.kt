@@ -135,7 +135,7 @@ class BucketKlient(
         private fun <T> Iterator<T>.begrense(til: Int): Iterator<T> =
             object : Iterator<T> {
                 var left = til
-                val iterator by lazy { this@begrense }
+                val iterator = this@begrense
 
                 override fun next(): T {
                     if (left == 0) {
