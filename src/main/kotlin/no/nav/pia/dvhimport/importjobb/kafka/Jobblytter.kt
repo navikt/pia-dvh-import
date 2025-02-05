@@ -74,7 +74,7 @@ class Jobblytter(
                                 )
                                 when (jobbInfo.jobb) {
                                     alleKategorierSykefraværsstatistikkDvhImport -> {
-                                        importService.importAlleStatistikkKategorier(årstallOgKvartal)
+                                        importService.importStatistikkKategorier(årstallOgKvartal)
                                     }
                                     landSykefraværsstatistikkDvhImport -> {
                                         importService.importForStatistikkKategori(StatistikkKategori.LAND, årstallOgKvartal)

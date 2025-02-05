@@ -6,6 +6,7 @@ import com.google.cloud.storage.Storage
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.decodeFromStream
+import no.nav.pia.dvhimport.importjobb.domene.VirksomhetMetadataDto
 import no.nav.pia.dvhimport.importjobb.domene.VirksomhetSykefraværsstatistikkDto
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -96,10 +97,20 @@ class BucketKlient(
         }
 
         @OptIn(ExperimentalSerializationApi::class)
-        fun getListFromStream(inputStream: InputStream): List<VirksomhetSykefraværsstatistikkDto> {
+        fun streamVirksomhetSykefraværsstatistikk(inputStream: InputStream): List<VirksomhetSykefraværsstatistikkDto> {
             val jsonParser = Json { ignoreUnknownKeys = true }
             return inputStream.use {
                 jsonParser.decodeFromStream<List<VirksomhetSykefraværsstatistikkDto>>(
+                    stream = it,
+                )
+            }
+        }
+
+        @OptIn(ExperimentalSerializationApi::class)
+        fun streamVirksomhetMetadata(inputStream: InputStream): List<VirksomhetMetadataDto> {
+            val jsonParser = Json { ignoreUnknownKeys = true }
+            return inputStream.use {
+                jsonParser.decodeFromStream<List<VirksomhetMetadataDto>>(
                     stream = it,
                 )
             }

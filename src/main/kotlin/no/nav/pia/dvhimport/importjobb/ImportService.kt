@@ -27,7 +27,6 @@ import no.nav.pia.dvhimport.importjobb.domene.VirksomhetSykefraværsstatistikkDt
 import no.nav.pia.dvhimport.importjobb.domene.tilListe
 import no.nav.pia.dvhimport.importjobb.domene.tilPubliseringsdato
 import no.nav.pia.dvhimport.importjobb.domene.tilPubliseringsdatoDto
-import no.nav.pia.dvhimport.importjobb.domene.tilVirksomhetMetadataDto
 import no.nav.pia.dvhimport.importjobb.domene.toSykefraværsstatistikkDto
 import no.nav.pia.dvhimport.importjobb.domene.ÅrstallOgKvartal
 import no.nav.pia.dvhimport.importjobb.kafka.EksportProdusent
@@ -36,8 +35,9 @@ import no.nav.pia.dvhimport.importjobb.kafka.EksportProdusent.Sykefraværsstatis
 import no.nav.pia.dvhimport.importjobb.kafka.EksportProdusent.VirksomhetMetadataMelding
 import no.nav.pia.dvhimport.konfigurasjon.KafkaConfig
 import no.nav.pia.dvhimport.storage.BucketKlient
-import no.nav.pia.dvhimport.storage.BucketKlient.Companion.getListFromStream
 import no.nav.pia.dvhimport.storage.BucketKlient.Companion.prosesserIBiter
+import no.nav.pia.dvhimport.storage.BucketKlient.Companion.streamVirksomhetMetadata
+import no.nav.pia.dvhimport.storage.BucketKlient.Companion.streamVirksomhetSykefraværsstatistikk
 import no.nav.pia.dvhimport.storage.Mappestruktur
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -56,7 +56,8 @@ class ImportService(
         EksportProdusent(kafkaConfig = KafkaConfig())
     }
 
-    fun importAlleStatistikkKategorier(årstallOgKvartal: ÅrstallOgKvartal) {
+    @Deprecated("Ikke ta i bruk, denne leser bare og publiserer ingenting på Kafka")
+    fun importStatistikkKategorier(årstallOgKvartal: ÅrstallOgKvartal) {
         logger.info("Starter import av sykefraværsstatistikk for alle statistikkkategorier")
         val mappeStruktur = årstallOgKvartal.hentMappestruktur()
         val path =
@@ -70,8 +71,6 @@ class ImportService(
         import<SektorSykefraværsstatistikkDto>(StatistikkKategori.SEKTOR, path)
         import<NæringSykefraværsstatistikkDto>(StatistikkKategori.NÆRING, path)
         import<NæringskodeSykefraværsstatistikkDto>(StatistikkKategori.NÆRINGSKODE, path)
-        import<VirksomhetSykefraværsstatistikkDto>(StatistikkKategori.VIRKSOMHET, path)
-        importViksomhetMetadata(årstallOgKvartal)
     }
 
     fun importForStatistikkKategori(
@@ -131,7 +130,7 @@ class ImportService(
             }
 
             StatistikkKategori.VIRKSOMHET -> {
-                importVirksomheterOgSendTilKafka(
+                importStatistikkVirksomhetOgSendTilKafka(
                     path = path,
                     årstallOgKvartal = årstallOgKvartal,
                 )
@@ -139,7 +138,7 @@ class ImportService(
         }
     }
 
-    fun importVirksomheterOgSendTilKafka(
+    fun importStatistikkVirksomhetOgSendTilKafka(
         path: String,
         årstallOgKvartal: ÅrstallOgKvartal,
     ) {
@@ -152,9 +151,10 @@ class ImportService(
                     path = path,
                     fileName = tilFilNavn(StatistikkKategori.VIRKSOMHET),
                 )
-                val statistikkVirksomhet: List<VirksomhetSykefraværsstatistikkDto> = getListFromStream(inputStream)
+                val virksomhetSykefraværsstatistikk: List<VirksomhetSykefraværsstatistikkDto> =
+                    streamVirksomhetSykefraværsstatistikk(inputStream)
 
-                statistikkVirksomhet.prosesserIBiter(størrelse = 1000) { statistikk ->
+                virksomhetSykefraværsstatistikk.prosesserIBiter(størrelse = 1000) { statistikk ->
                     logger.info("Sender ${statistikk.size} statistikk for virksomhet til Kafka")
                     if (skalSendeTilKafka) {
                         sendTilKafka(
@@ -167,9 +167,45 @@ class ImportService(
                     sumAntallVirksomheter.getAndAccumulate(statistikk.size) { x, y -> x + y }
                 }
                 logger.info("Antall statistikk prosessert for kategori ${StatistikkKategori.VIRKSOMHET.name} er: '$sumAntallVirksomheter'")
-                kalkulerOgLoggSykefraværsprosent(StatistikkKategori.VIRKSOMHET, statistikkVirksomhet)
+                kalkulerOgLoggSykefraværsprosent(StatistikkKategori.VIRKSOMHET, virksomhetSykefraværsstatistikk)
 
                 inputStream.close()
+            }
+        } catch (ex: Exception) {
+            logger.warn("Fikk exception med melding ${ex.message}", ex)
+        }
+    }
+
+    private fun importVirksomhetMetadataOgSendTilKafka(
+        path: String,
+        årstallOgKvartal: ÅrstallOgKvartal,
+    ) {
+        logger.info("Starter import av virksomhet metadata")
+        try {
+            val skalSendeTilKafka = !brukÅrOgKvartalIPathTilFilene // TODO: DELETE ME etter load-test
+            val sumAntallMetadata = AtomicReference(0)
+
+            runBlocking {
+                val inputStream: InputStream = bucketKlient.getInputStream(
+                    path = path,
+                    fileName = tilFilNavn(DvhMetadata.VIRKSOMHET_METADATA),
+                )
+                val virksomhetMetadata: List<VirksomhetMetadataDto> = streamVirksomhetMetadata(inputStream)
+
+                virksomhetMetadata.prosesserIBiter(størrelse = 1000) { metadata ->
+                    logger.info("Sender ${metadata.size} virksomhetmetadata til Kafka")
+                    if (skalSendeTilKafka) {
+                        sendMetadataTilKafka(
+                            årstall = årstallOgKvartal.årstall,
+                            kvartal = årstallOgKvartal.kvartal,
+                            metadata,
+                        )
+                    } else {
+                        logger.info("Skal IKKE sende til kafka i load-test. Gjelder ${metadata.size} metadata")
+                    }
+                    sumAntallMetadata.getAndAccumulate(metadata.size) { x, y -> x + y }
+                }
+                logger.info("Antall metadata prosessert for kategori ${DvhMetadata.VIRKSOMHET_METADATA.name} er: '$sumAntallMetadata'")
             }
         } catch (ex: Exception) {
             logger.warn("Fikk exception med melding ${ex.message}", ex)
@@ -189,11 +225,11 @@ class ImportService(
 
         when (kategori) {
             DvhMetadata.VIRKSOMHET_METADATA -> {
-                val metadata = importViksomhetMetadata(årstallOgKvartal)
-                sendMetadataTilKafka(
-                    årstall = årstallOgKvartal.årstall,
-                    kvartal = årstallOgKvartal.kvartal,
-                    metadata = metadata,
+                val path =
+                    if (brukÅrOgKvartalIPathTilFilene) "${årstallOgKvartal.årstall}/${årstallOgKvartal.kvartal}" else ""
+                importVirksomhetMetadataOgSendTilKafka(
+                    path = path,
+                    årstallOgKvartal = årstallOgKvartal,
                 )
             }
 
@@ -252,29 +288,6 @@ class ImportService(
             )
             logger.info("Antall rader med publiseringsdatoer: ${publiseringsdatoer.size}")
             publiseringsdatoer.tilPubliseringsdatoDto()
-        } catch (e: Exception) {
-            logger.warn("Fikk exception i import prosess med melding '${e.message}'", e)
-            emptyList()
-        }
-    }
-
-    private fun importViksomhetMetadata(årstallOgKvartal: ÅrstallOgKvartal): List<VirksomhetMetadataDto> {
-        logger.info("Starter import av virksomhet metadata")
-        val path =
-            if (brukÅrOgKvartalIPathTilFilene) "${årstallOgKvartal.årstall}/${årstallOgKvartal.kvartal}" else ""
-
-        bucketKlient.ensureFileExists(
-            path = path,
-            fileName = tilFilNavn(DvhMetadata.VIRKSOMHET_METADATA),
-        )
-        return try {
-            val statistikk = hentInnholdForMetadata(
-                path = path,
-                kilde = DvhMetadata.VIRKSOMHET_METADATA,
-            )
-            val virksomhetMetadataDtoList: List<VirksomhetMetadataDto> = statistikk.tilVirksomhetMetadataDto()
-            logger.info("Importert metadata for '${virksomhetMetadataDtoList.size}' virksomhet-er")
-            virksomhetMetadataDtoList
         } catch (e: Exception) {
             logger.warn("Fikk exception i import prosess med melding '${e.message}'", e)
             emptyList()

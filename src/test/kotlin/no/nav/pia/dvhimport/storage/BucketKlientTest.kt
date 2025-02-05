@@ -9,8 +9,8 @@ import io.kotest.matchers.shouldBe
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import no.nav.pia.dvhimport.importjobb.domene.VirksomhetSykefraværsstatistikkDto
-import no.nav.pia.dvhimport.storage.BucketKlient.Companion.getListFromStream
 import no.nav.pia.dvhimport.storage.BucketKlient.Companion.prosesserIBiter
+import no.nav.pia.dvhimport.storage.BucketKlient.Companion.streamVirksomhetSykefraværsstatistikk
 import java.io.File
 import java.io.FileInputStream
 import java.math.BigDecimal
@@ -31,7 +31,7 @@ class BucketKlientTest {
 
         val fileInputStream = FileInputStream(initialFile)
         val resultList: List<VirksomhetSykefraværsstatistikkDto> =
-            getListFromStream(fileInputStream)
+            streamVirksomhetSykefraværsstatistikk(fileInputStream)
 
         resultList.size shouldBe 5000
         resultList.prosesserIBiter(100) { statistikk ->

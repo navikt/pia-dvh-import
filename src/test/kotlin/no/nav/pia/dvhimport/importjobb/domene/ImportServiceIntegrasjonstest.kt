@@ -324,7 +324,7 @@ class ImportServiceIntegrasjonstest {
         kafkaContainer.sendJobbMelding(Jobb.virksomhetMetadataSykefraværsstatistikkDvhImport)
 
         dvhImportApplikasjon shouldContainLog "Starter import av virksomhet metadata".toRegex()
-        dvhImportApplikasjon shouldContainLog "Importert metadata for '1' virksomhet-er".toRegex()
+        dvhImportApplikasjon shouldContainLog "Antall metadata prosessert for kategori VIRKSOMHET_METADATA er: '1'".toRegex()
         dvhImportApplikasjon shouldContainLog "Jobb 'virksomhetMetadataSykefraværsstatistikkDvhImport' ferdig".toRegex()
 
         val nøkkel = Json.encodeToString(
@@ -364,7 +364,7 @@ class ImportServiceIntegrasjonstest {
         kafkaContainer.sendJobbMelding(Jobb.virksomhetMetadataSykefraværsstatistikkDvhImport)
 
         dvhImportApplikasjon shouldContainLog "Starter import av virksomhet metadata".toRegex()
-        dvhImportApplikasjon shouldContainLog "Importert metadata for '1' virksomhet-er".toRegex()
+        dvhImportApplikasjon shouldContainLog "Antall metadata prosessert for kategori VIRKSOMHET_METADATA er: '1'".toRegex()
         dvhImportApplikasjon shouldContainLog "Jobb 'virksomhetMetadataSykefraværsstatistikkDvhImport' ferdig".toRegex()
 
         val nøkkel = Json.encodeToString(
@@ -419,7 +419,7 @@ class ImportServiceIntegrasjonstest {
         dvhImportApplikasjon shouldContainLog "Sykefraværsprosent -snitt- for kategori NÆRING er: '3.7'".toRegex()
         dvhImportApplikasjon shouldContainLog "Sykefraværsprosent -snitt- for kategori NÆRINGSKODE er: '3.7'".toRegex()
         dvhImportApplikasjon shouldContainLog "Sykefraværsprosent -snitt- for kategori VIRKSOMHET er: '26.0'".toRegex()
-        dvhImportApplikasjon shouldContainLog "Importert metadata for '1' virksomhet-er".toRegex()
+        dvhImportApplikasjon shouldContainLog "Antall metadata prosessert for kategori VIRKSOMHET_METADATA er: '1'".toRegex()
         dvhImportApplikasjon shouldContainLog "Jobb 'alleKategorierSykefraværsstatistikkDvhImport' ferdig".toRegex()
     }
 }
