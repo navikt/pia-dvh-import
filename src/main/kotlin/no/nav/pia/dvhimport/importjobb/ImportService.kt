@@ -177,8 +177,10 @@ class ImportService(
                     )
                 logger.info("Antall statistikk prosessert for kategori ${StatistikkKategori.VIRKSOMHET.name} er: '$sumAntallVirksomheter'")
                 logger.info(
-                    "Sykefraværsprosent -snitt- for kategori ${StatistikkKategori.VIRKSOMHET.name} er: '$sykefraværsprosentForKategori'",
+                    "Sykefraværsprosent -snitt- for kategori ${StatistikkKategori.VIRKSOMHET.name} er: '$sykefraværsprosentForKategori' (deprecated logg)",
                 )
+                kalkulerOgLoggSykefraværsprosent(StatistikkKategori.VIRKSOMHET, statistikkVirksomhet)
+
                 inputStream.close()
             }
         } catch (ex: Exception) {
@@ -305,8 +307,7 @@ class ImportService(
             val sykefraværsstatistikkDtoList: List<T> = statistikk.toSykefraværsstatistikkDto<T>()
 
             // kontroll
-            val sykefraværsprosentForKategori = kalkulerSykefraværsprosent(sykefraværsstatistikkDtoList)
-            logger.info("Sykefraværsprosent -snitt- for kategori $kategori er: '$sykefraværsprosentForKategori'")
+            kalkulerOgLoggSykefraværsprosent(kategori, sykefraværsstatistikkDtoList)
             return sykefraværsstatistikkDtoList
         } catch (e: Exception) {
             logger.warn("Fikk exception i import prosess med melding '${e.message}'", e)
@@ -363,8 +364,7 @@ class ImportService(
             }
 
             // kontroll
-            val sykefraværsprosentForKategori = kalkulerSykefraværsprosent(sykefraværsstatistikkDtoList)
-            logger.info("Sykefraværsprosent -snitt- for kategori ${StatistikkKategori.BRANSJE.name} er: '$sykefraværsprosentForKategori'")
+            kalkulerOgLoggSykefraværsprosent(StatistikkKategori.BRANSJE, sykefraværsstatistikkDtoList)
             return sykefraværsstatistikkDtoList.filterNotNull()
         } catch (e: Exception) {
             logger.warn("Fikk exception i import prosess med melding '${e.message}'", e)
@@ -442,6 +442,8 @@ class ImportService(
         const val ANTALL_SIFRE_I_UTREGNING = 3
         const val ANTALL_SIFRE_I_RESULTAT = 1
 
+        private val logger: Logger = LoggerFactory.getLogger(this::class.java)
+
         fun tilFilNavn(metadata: DvhMetadata) =
             when (metadata) {
                 DvhMetadata.PUBLISERINGSDATO -> "publiseringsdato.json"
@@ -464,13 +466,17 @@ class ImportService(
                 sistePubliserteKvartal = "K$kvartal",
             )
 
-        fun kalkulerSykefraværsprosent(statistikk: List<Sykefraværsstatistikk?>): BigDecimal {
+        fun kalkulerOgLoggSykefraværsprosent(
+            kategori: StatistikkKategori,
+            statistikk: List<Sykefraværsstatistikk?>,
+        ): BigDecimal {
             val sumAntallTapteDagsverk =
                 statistikk.sumOf { it?.tapteDagsverk ?: ZERO }
             val sumAntallMuligeDagsverk =
                 statistikk.sumOf { it?.muligeDagsverk ?: ZERO }
             val sykefraværsprosentForKategori =
                 StatistikkUtils.kalkulerSykefraværsprosent(sumAntallTapteDagsverk, sumAntallMuligeDagsverk)
+            logger.info("Sykefraværsprosent -snitt- for kategori ${kategori.name} er: '$sykefraværsprosentForKategori'")
             return sykefraværsprosentForKategori
         }
 

@@ -6,7 +6,7 @@ import kotlinx.datetime.LocalDateTime
 import no.nav.pia.dvhimport.helper.TestDataGenerator.Companion.RUTEBILTRANSPORT_NÆRINGSKODE
 import no.nav.pia.dvhimport.helper.TestDataGenerator.Companion.TURBILTRANSPORT_NÆRINGSKODE
 import no.nav.pia.dvhimport.importjobb.ImportService.Companion.aggreger
-import no.nav.pia.dvhimport.importjobb.ImportService.Companion.kalkulerSykefraværsprosent
+import no.nav.pia.dvhimport.importjobb.ImportService.Companion.kalkulerOgLoggSykefraværsprosent
 import no.nav.pia.dvhimport.importjobb.ImportService.Companion.leggTil
 import no.nav.pia.dvhimport.importjobb.ImportService.Companion.nestePubliseringsdato
 import no.nav.pia.dvhimport.importjobb.ImportService.Companion.utleddBransjeStatistikk
@@ -241,7 +241,7 @@ class ImportServiceUnitTest {
                 rectype = "1",
             ),
         )
-        val prosent = kalkulerSykefraværsprosent(statistikk)
+        val prosent = kalkulerOgLoggSykefraværsprosent(StatistikkKategori.VIRKSOMHET, statistikk)
 
         prosent shouldBe 10.5.toBigDecimal()
     }
