@@ -30,8 +30,8 @@ class Virksomhet:
         self.oppstartsdato = oppstartsdato
         self.antall_ansatte = antall_ansatte
 
-        self.sektor = "2"
-        self.rectype = "2"
+        self.sektor = "-1000"  # TODO
+        self.rectype = "-1000"  # TODO
 
     def __eq__(self, other):
         return self.orgnummer == other.orgnummer
