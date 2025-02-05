@@ -156,14 +156,15 @@ class ImportService(
                 )
                 val statistikkVirksomhet: List<VirksomhetSykefraværsstatistikkDto> = getListFromStream(inputStream)
 
-                statistikkVirksomhet.prosesserIBiter(størrelse = 100) { statistikk ->
+                statistikkVirksomhet.prosesserIBiter(størrelse = 1000) { statistikk ->
                     logger.info("Sender ${statistikk.size} statistikk for virksomhet til Kafka")
                     if (skalSendeTilKafka) {
-                        logger.info("Skal IKKE sende til kafka i load-test")
                         sendTilKafka(
                             årstallOgKvartal = årstallOgKvartal,
                             statistikk,
                         )
+                    } else {
+                        logger.info("Skal IKKE sende til kafka i load-test. Gjelder ${statistikk.size} statistikk")
                     }
                     sumAntallVirksomheter.getAndAccumulate(statistikk.size) { x, y -> x + y }
                     sumAntallMuligeDagsverk.getAndAccumulate(statistikk.sumOf { it.muligeDagsverk }) { x, y -> x + y }
