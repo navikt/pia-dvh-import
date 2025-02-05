@@ -4,11 +4,8 @@ import com.google.cloud.ReadChannel
 import com.google.cloud.storage.Blob
 import com.google.cloud.storage.Storage
 import kotlinx.serialization.ExperimentalSerializationApi
-import kotlinx.serialization.json.DecodeSequenceMode
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.decodeFromStream
-import kotlinx.serialization.json.decodeToSequence
-import no.nav.pia.dvhimport.importjobb.domene.Sykefraværsstatistikk
 import no.nav.pia.dvhimport.importjobb.domene.VirksomhetSykefraværsstatistikkDto
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -80,26 +77,6 @@ class BucketKlient(
         return inputStream
     }
 
-    @Deprecated("Use getSequenceFromStream() instead")
-    inline fun <reified T : Sykefraværsstatistikk> getFromHugeFileAsSequence(
-        path: String,
-        fileName: String,
-    ): Sequence<T> {
-        val inputStream: InputStream = getInputStream(path, fileName)
-        return getSequenceFromStream<T>(inputStream)
-    }
-
-    @OptIn(ExperimentalSerializationApi::class)
-    inline fun <reified T : Sykefraværsstatistikk> getSequenceFromStream(inputStream: InputStream): Sequence<T> {
-        val jsonParser = Json { ignoreUnknownKeys = true }
-        return inputStream.use {
-            jsonParser.decodeToSequence<T>(
-                stream = it,
-                format = DecodeSequenceMode.AUTO_DETECT,
-            )
-        }
-    }
-
     companion object {
         fun getBlob(
             bucketKlient: BucketKlient,
@@ -118,7 +95,6 @@ class BucketKlient(
             return blob
         }
 
-        // List
         @OptIn(ExperimentalSerializationApi::class)
         fun getListFromStream(inputStream: InputStream): List<VirksomhetSykefraværsstatistikkDto> {
             val jsonParser = Json { ignoreUnknownKeys = true }
@@ -140,57 +116,5 @@ class BucketKlient(
                 block(sublist)
             }
         }
-
-        // Sequences
-        @OptIn(ExperimentalSerializationApi::class)
-        inline fun <reified T : Sykefraværsstatistikk> getSequenceFromStream(inputStream: InputStream?): Sequence<T> {
-            val jsonParser = Json { ignoreUnknownKeys = true }
-            return inputStream?.use {
-                jsonParser.decodeToSequence<T>(
-                    stream = it,
-                    format = DecodeSequenceMode.ARRAY_WRAPPED,
-                )
-            } ?: emptySequence()
-        }
-
-        fun <T> Sequence<T>?.prosesserIBiter(
-            størrelse: Int,
-            block: (items: List<T>) -> Unit,
-        ) {
-            if (this == null) {
-                return
-            }
-            this.delIBiter(størrelse = størrelse).forEach { sequence ->
-                block(sequence.toList())
-            }
-        }
-
-        private fun <T> Sequence<T>.delIBiter(størrelse: Int): Sequence<Sequence<T>> =
-            sequence {
-                val iter = iterator()
-                while (iter.hasNext()) {
-                    val begrensetIterator = iter.begrense(til = størrelse)
-                    val sequenceAvGittStørrelse = begrensetIterator.asSequence()
-                    yield(sequenceAvGittStørrelse) // opprett en ny sequence av den begrenset iterator
-                    // må gå gjennom elementene av iterator for å unngå Exception og kunne kjøre videre
-                    begrensetIterator.forEach { _ -> }
-                }
-            }
-
-        private fun <T> Iterator<T>.begrense(til: Int): Iterator<T> =
-            object : Iterator<T> {
-                var left = til
-                val iterator = this@begrense
-
-                override fun next(): T {
-                    if (left == 0) {
-                        throw NoSuchElementException()
-                    }
-                    left--
-                    return iterator.next()
-                }
-
-                override fun hasNext(): Boolean = left > 0 && iterator.hasNext()
-            }
     }
 }

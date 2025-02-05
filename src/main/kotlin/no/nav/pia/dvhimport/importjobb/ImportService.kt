@@ -145,8 +145,6 @@ class ImportService(
     ) {
         try {
             val skalSendeTilKafka = !brukÅrOgKvartalIPathTilFilene // TODO: DELETE ME etter load-test
-            val sumAntallTapteDagsverk = AtomicReference(BigDecimal(0))
-            val sumAntallMuligeDagsverk = AtomicReference(BigDecimal(0))
             val sumAntallVirksomheter = AtomicReference(0)
 
             runBlocking {
@@ -167,18 +165,8 @@ class ImportService(
                         logger.info("Skal IKKE sende til kafka i load-test. Gjelder ${statistikk.size} statistikk")
                     }
                     sumAntallVirksomheter.getAndAccumulate(statistikk.size) { x, y -> x + y }
-                    sumAntallMuligeDagsverk.getAndAccumulate(statistikk.sumOf { it.muligeDagsverk }) { x, y -> x + y }
-                    sumAntallTapteDagsverk.getAndAccumulate(statistikk.sumOf { it.tapteDagsverk }) { x, y -> x + y }
                 }
-                val sykefraværsprosentForKategori =
-                    StatistikkUtils.kalkulerSykefraværsprosent(
-                        sumAntallTapteDagsverk.get(),
-                        sumAntallMuligeDagsverk.get(),
-                    )
                 logger.info("Antall statistikk prosessert for kategori ${StatistikkKategori.VIRKSOMHET.name} er: '$sumAntallVirksomheter'")
-                logger.info(
-                    "Sykefraværsprosent -snitt- for kategori ${StatistikkKategori.VIRKSOMHET.name} er: '$sykefraværsprosentForKategori' (deprecated logg)",
-                )
                 kalkulerOgLoggSykefraværsprosent(StatistikkKategori.VIRKSOMHET, statistikkVirksomhet)
 
                 inputStream.close()
