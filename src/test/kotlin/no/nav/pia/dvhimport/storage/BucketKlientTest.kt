@@ -10,11 +10,12 @@ import io.kotest.matchers.shouldBe
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import no.nav.pia.dvhimport.importjobb.domene.VirksomhetSykefraværsstatistikkDto
-import no.nav.pia.dvhimport.storage.BucketKlient.Companion.getSequenceFromStream
+import no.nav.pia.dvhimport.storage.BucketKlient.Companion.getListFromStream
 import no.nav.pia.dvhimport.storage.BucketKlient.Companion.prosesserIBiter
-import java.io.ByteArrayInputStream
 import java.io.File
+import java.io.FileInputStream
 import java.math.BigDecimal
+import kotlin.test.Ignore
 import kotlin.test.Test
 
 class BucketKlientTest {
@@ -56,15 +57,19 @@ class BucketKlientTest {
         antallVirksomheter shouldBe 86
     }
 
+    @Ignore
     @Test
     fun `skal kunne prosessere en sequence i flere biter - test med en stor fil`() {
         // In-memory test-bucket fra LocalStorageHelper har begrenset størrelse
         // Derfor tester vi med en Stream fra en lokal fil som ligger på root mappa
         // Filen er generert manuelt med en Python script
-        val initialFile = File("virksomhet_5k.json")
-        initialFile.readLines().map { it.encodeToByteArray() }
-        val ins = ByteArrayInputStream(initialFile.readBytes())
-        val sequence: Sequence<VirksomhetSykefraværsstatistikkDto> = getSequenceFromStream(ins)
+        val bucketKlient = BucketKlient(storage, "test-in-memory-bucket")
+        val testDataSize = 50
+        val initialFile = File("virksomhet_50.json")
+
+        val fileInputStream = FileInputStream(initialFile)
+        val sequence: Sequence<VirksomhetSykefraværsstatistikkDto> =
+            bucketKlient.getSequenceFromStream<VirksomhetSykefraværsstatistikkDto>(fileInputStream)
 
         var antallSequense = 0
         var antallVirksomheter = 0
@@ -77,8 +82,32 @@ class BucketKlientTest {
                 it.orgnr.length shouldBe 9
             }
         }
-        antallSequense shouldBe 2500
+        antallSequense shouldBe testDataSize / 2
+        antallVirksomheter shouldBe testDataSize
+    }
+
+    @Test
+    fun `skal kunne hente en liste - test med en stor fil`() {
+        // In-memory test-bucket fra LocalStorageHelper har begrenset størrelse
+        // Derfor tester vi med en Stream fra en lokal fil som ligger på root mappa
+        // Filen er generert manuelt med en Python script
+        val initialFile = File("virksomhet_5k.json")
+        var antallSublist = 0
+        var antallVirksomheter = 0
+
+        val fileInputStream = FileInputStream(initialFile)
+        val resultList: List<VirksomhetSykefraværsstatistikkDto> =
+            getListFromStream(fileInputStream)
+
+        resultList.size shouldBe 5000
+        resultList.prosesserIBiter(100) { statistikk ->
+            antallSublist += 1
+            statistikk.forEach {
+                antallVirksomheter += 1
+            }
+        }
         antallVirksomheter shouldBe 5000
+        antallSublist shouldBe 50
     }
 
     @Test

@@ -36,10 +36,12 @@ import no.nav.pia.dvhimport.importjobb.kafka.EksportProdusent.Sykefraværsstatis
 import no.nav.pia.dvhimport.importjobb.kafka.EksportProdusent.VirksomhetMetadataMelding
 import no.nav.pia.dvhimport.konfigurasjon.KafkaConfig
 import no.nav.pia.dvhimport.storage.BucketKlient
+import no.nav.pia.dvhimport.storage.BucketKlient.Companion.getListFromStream
 import no.nav.pia.dvhimport.storage.BucketKlient.Companion.prosesserIBiter
 import no.nav.pia.dvhimport.storage.Mappestruktur
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
+import java.io.InputStream
 import java.math.BigDecimal
 import java.math.BigDecimal.ZERO
 import java.math.RoundingMode
@@ -148,11 +150,13 @@ class ImportService(
             val sumAntallVirksomheter = AtomicReference(0)
 
             runBlocking {
-                val sequence = bucketKlient.getFromHugeFileAsSequence<VirksomhetSykefraværsstatistikkDto>(
+                val inputStream: InputStream = bucketKlient.getInputStream(
                     path = path,
                     fileName = tilFilNavn(StatistikkKategori.VIRKSOMHET),
                 )
-                sequence.prosesserIBiter(størrelse = 100) { statistikk ->
+                val statistikkVirksomhet: List<VirksomhetSykefraværsstatistikkDto> = getListFromStream(inputStream)
+
+                statistikkVirksomhet.prosesserIBiter(størrelse = 100) { statistikk ->
                     logger.info("Sender ${statistikk.size} statistikk for virksomhet til Kafka")
                     if (skalSendeTilKafka) {
                         logger.info("Skal IKKE sende til kafka i load-test")
@@ -174,6 +178,7 @@ class ImportService(
                 logger.info(
                     "Sykefraværsprosent -snitt- for kategori ${StatistikkKategori.VIRKSOMHET.name} er: '$sykefraværsprosentForKategori'",
                 )
+                inputStream.close()
             }
         } catch (ex: Exception) {
             logger.warn("Fikk exception med melding ${ex.message}", ex)

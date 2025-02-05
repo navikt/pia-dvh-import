@@ -6,8 +6,10 @@ import com.google.cloud.storage.Storage
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.json.DecodeSequenceMode
 import kotlinx.serialization.json.Json
+import kotlinx.serialization.json.decodeFromStream
 import kotlinx.serialization.json.decodeToSequence
 import no.nav.pia.dvhimport.importjobb.domene.Sykefraværsstatistikk
+import no.nav.pia.dvhimport.importjobb.domene.VirksomhetSykefraværsstatistikkDto
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import java.io.InputStream
@@ -62,21 +64,40 @@ class BucketKlient(
         return blob?.getContent()?.decodeToString()
     }
 
+    fun getInputStream(
+        path: String,
+        fileName: String,
+    ): InputStream {
+        val blob = getBlob(this, path = path, fileName = fileName)
+        val readChannel: ReadChannel? = blob?.reader()
+
+        if (readChannel == null) {
+            logger.info("ReadChannel er null")
+            return InputStream.nullInputStream()
+        }
+
+        val inputStream: InputStream = readChannel.let { Channels.newInputStream(it) }
+        return inputStream
+    }
+
+    @Deprecated("Use getSequenceFromStream() instead")
     inline fun <reified T : Sykefraværsstatistikk> getFromHugeFileAsSequence(
         path: String,
         fileName: String,
     ): Sequence<T> {
-        val blob = getBlob(this, path = path, fileName = fileName)
-        val readChannel: ReadChannel? = blob?.reader()
-
-        if (readChannel == null || !readChannel.isOpen) {
-            logger.info("Channel '$readChannel' is empty")
-            return emptySequence()
-        }
-
-        val inputStream: InputStream? = readChannel.let { Channels.newInputStream(it) }
-
+        val inputStream: InputStream = getInputStream(path, fileName)
         return getSequenceFromStream<T>(inputStream)
+    }
+
+    @OptIn(ExperimentalSerializationApi::class)
+    inline fun <reified T : Sykefraværsstatistikk> getSequenceFromStream(inputStream: InputStream): Sequence<T> {
+        val jsonParser = Json { ignoreUnknownKeys = true }
+        return inputStream.use {
+            jsonParser.decodeToSequence<T>(
+                stream = it,
+                format = DecodeSequenceMode.AUTO_DETECT,
+            )
+        }
     }
 
     companion object {
@@ -97,6 +118,30 @@ class BucketKlient(
             return blob
         }
 
+        // List
+        @OptIn(ExperimentalSerializationApi::class)
+        fun getListFromStream(inputStream: InputStream): List<VirksomhetSykefraværsstatistikkDto> {
+            val jsonParser = Json { ignoreUnknownKeys = true }
+            return inputStream.use {
+                jsonParser.decodeFromStream<List<VirksomhetSykefraværsstatistikkDto>>(
+                    stream = it,
+                )
+            }
+        }
+
+        fun <T> List<T>?.prosesserIBiter(
+            størrelse: Int,
+            block: (items: List<T>) -> Unit,
+        ) {
+            if (this == null) {
+                return
+            }
+            this.chunked(size = størrelse).forEach { sublist ->
+                block(sublist)
+            }
+        }
+
+        // Sequences
         @OptIn(ExperimentalSerializationApi::class)
         inline fun <reified T : Sykefraværsstatistikk> getSequenceFromStream(inputStream: InputStream?): Sequence<T> {
             val jsonParser = Json { ignoreUnknownKeys = true }
