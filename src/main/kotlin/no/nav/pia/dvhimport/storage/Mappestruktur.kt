@@ -10,10 +10,24 @@ import no.nav.pia.dvhimport.importjobb.domene.ÅrstallOgKvartal
 class Mappestruktur(
     val publiseringsÅr: String,
     val sistePubliserteKvartal: String,
+    val brukÅrOgKvartalIPathTilFilene: Boolean = true,
 ) {
+    companion object {
+        fun ÅrstallOgKvartal.tilMappestruktur(brukÅrOgKvartalIPathTilFilene: Boolean) =
+            Mappestruktur(
+                publiseringsÅr = "$årstall",
+                sistePubliserteKvartal = "K$kvartal",
+                brukÅrOgKvartalIPathTilFilene = brukÅrOgKvartalIPathTilFilene,
+            )
+    }
+
     fun gjeldendeÅrstallOgKvartal(): ÅrstallOgKvartal =
         ÅrstallOgKvartal(
             årstall = publiseringsÅr.toInt(),
             kvartal = sistePubliserteKvartal.subSequence(startIndex = 1, endIndex = 2).toString().toInt(),
         )
+
+    fun pathTilKvartalsvisData() = if (brukÅrOgKvartalIPathTilFilene) "${this.publiseringsÅr}/${this.sistePubliserteKvartal}" else ""
+
+    fun pathTilÅrsvisData() = if (brukÅrOgKvartalIPathTilFilene) this.publiseringsÅr else ""
 }

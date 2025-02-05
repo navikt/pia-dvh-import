@@ -74,11 +74,11 @@ class EksportProdusent(
             data = virksomhetMetadata,
         )
 
-    class SykefraværsstatistikkMelding(
+    class SykefraværsstatistikkMelding<T>(
         årstall: Int,
         kvartal: Int,
-        sykefraværsstatistikk: SykefraværsstatistikkDto,
-    ) : EksportMelding<SykefraværsstatistikkDto>(
+        sykefraværsstatistikk: T,
+    ) : EksportMelding<T>(
             årstall = årstall,
             kvartal = kvartal,
             meldingType = SYKEFRAVÆRSSTATISTIKK,
@@ -178,7 +178,7 @@ class EksportProdusent(
 
         fun tilMelding() =
             when (this) {
-                is SykefraværsstatistikkMelding -> Json.encodeToString<SykefraværsstatistikkDto>(data)
+                is SykefraværsstatistikkMelding -> Json.encodeToString<SykefraværsstatistikkDto>(data as SykefraværsstatistikkDto)
                 is VirksomhetMetadataMelding -> Json.encodeToString<VirksomhetMetadataDto>(data)
                 is PubliseringsdatoMelding -> Json.encodeToString<PubliseringsdatoDto>(data)
             }

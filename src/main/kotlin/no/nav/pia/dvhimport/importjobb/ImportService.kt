@@ -20,7 +20,6 @@ import no.nav.pia.dvhimport.importjobb.domene.SektorSykefraværsstatistikkDto
 import no.nav.pia.dvhimport.importjobb.domene.StatistikkKategori
 import no.nav.pia.dvhimport.importjobb.domene.StatistikkUtils
 import no.nav.pia.dvhimport.importjobb.domene.Sykefraværsstatistikk
-import no.nav.pia.dvhimport.importjobb.domene.SykefraværsstatistikkDto
 import no.nav.pia.dvhimport.importjobb.domene.TapteDagsverkPerVarighetDto
 import no.nav.pia.dvhimport.importjobb.domene.VirksomhetMetadataDto
 import no.nav.pia.dvhimport.importjobb.domene.VirksomhetSykefraværsstatistikkDto
@@ -38,7 +37,7 @@ import no.nav.pia.dvhimport.storage.BucketKlient
 import no.nav.pia.dvhimport.storage.BucketKlient.Companion.prosesserIBiter
 import no.nav.pia.dvhimport.storage.BucketKlient.Companion.streamVirksomhetMetadata
 import no.nav.pia.dvhimport.storage.BucketKlient.Companion.streamVirksomhetSykefraværsstatistikk
-import no.nav.pia.dvhimport.storage.Mappestruktur
+import no.nav.pia.dvhimport.storage.Mappestruktur.Companion.tilMappestruktur
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import java.io.InputStream
@@ -56,21 +55,43 @@ class ImportService(
         EksportProdusent(kafkaConfig = KafkaConfig())
     }
 
-    @Deprecated("Ikke ta i bruk, denne leser bare og publiserer ingenting på Kafka")
-    fun importStatistikkKategorier(årstallOgKvartal: ÅrstallOgKvartal) {
+    fun importAlleStatistikkKategorier(årstallOgKvartal: ÅrstallOgKvartal) {
         logger.info("Starter import av sykefraværsstatistikk for alle statistikkkategorier")
-        val mappeStruktur = årstallOgKvartal.hentMappestruktur()
-        val path =
-            if (brukÅrOgKvartalIPathTilFilene) "${mappeStruktur.publiseringsÅr}/${mappeStruktur.sistePubliserteKvartal}" else ""
 
         if (!bucketKlient.sjekkBucketExists()) {
             logger.error("Bucket ikke funnet, avbryter import for alle kategorier")
             return
         }
-        import<LandSykefraværsstatistikkDto>(StatistikkKategori.LAND, path)
-        import<SektorSykefraværsstatistikkDto>(StatistikkKategori.SEKTOR, path)
-        import<NæringSykefraværsstatistikkDto>(StatistikkKategori.NÆRING, path)
-        import<NæringskodeSykefraværsstatistikkDto>(StatistikkKategori.NÆRINGSKODE, path)
+
+        for (statistikkKategori in StatistikkKategori.entries) {
+            importForStatistikkKategori(kategori = statistikkKategori, årstallOgKvartal = årstallOgKvartal)
+        }
+    }
+
+    fun importMetadata(
+        kategori: DvhMetadata,
+        årstallOgKvartal: ÅrstallOgKvartal,
+    ) {
+        logger.info("Starter import av metadata for kategori '$kategori'")
+
+        if (!bucketKlient.sjekkBucketExists()) {
+            logger.error("Bucket ikke funnet, avbryter import for kategori '$kategori'")
+            return
+        }
+
+        when (kategori) {
+            DvhMetadata.VIRKSOMHET_METADATA -> {
+                val path = årstallOgKvartal.tilMappestruktur(brukÅrOgKvartalIPathTilFilene).pathTilKvartalsvisData()
+                importVirksomhetMetadataOgSendTilKafka(
+                    path = path,
+                    årstallOgKvartal = årstallOgKvartal,
+                )
+            }
+
+            DvhMetadata.PUBLISERINGSDATO -> {
+                importPubliseringsdatoOgSendTilKafka(årstallOgKvartal = årstallOgKvartal)
+            }
+        }
     }
 
     fun importForStatistikkKategori(
@@ -84,49 +105,64 @@ class ImportService(
             return
         }
 
-        val mappeStruktur = årstallOgKvartal.hentMappestruktur()
-        val path =
-            if (brukÅrOgKvartalIPathTilFilene) "${mappeStruktur.publiseringsÅr}/${mappeStruktur.sistePubliserteKvartal}" else ""
+        val path = årstallOgKvartal.tilMappestruktur(brukÅrOgKvartalIPathTilFilene).pathTilKvartalsvisData()
 
         when (kategori) {
             StatistikkKategori.LAND -> {
-                val statistikk = import<LandSykefraværsstatistikkDto>(StatistikkKategori.LAND, path)
-                sendTilKafka(
-                    årstallOgKvartal = årstallOgKvartal,
-                    statistikk = statistikk,
-                )
+                import<LandSykefraværsstatistikkDto>(
+                    kategori = StatistikkKategori.LAND,
+                    path = path,
+                ).also {
+                    sendTilKafka(
+                        årstallOgKvartal = årstallOgKvartal,
+                        statistikk = it,
+                    )
+                }
             }
 
             StatistikkKategori.SEKTOR -> {
-                val statistikk = import<SektorSykefraværsstatistikkDto>(StatistikkKategori.SEKTOR, path)
-                sendTilKafka(
-                    årstallOgKvartal = årstallOgKvartal,
-                    statistikk = statistikk,
-                )
+                import<SektorSykefraværsstatistikkDto>(
+                    kategori = StatistikkKategori.SEKTOR,
+                    path = path,
+                ).also {
+                    sendTilKafka(
+                        årstallOgKvartal = årstallOgKvartal,
+                        statistikk = it,
+                    )
+                }
             }
 
             StatistikkKategori.NÆRING -> {
-                val statistikk = import<NæringSykefraværsstatistikkDto>(StatistikkKategori.NÆRING, path)
-                sendTilKafka(
-                    årstallOgKvartal = årstallOgKvartal,
-                    statistikk = statistikk,
-                )
+                import<NæringSykefraværsstatistikkDto>(
+                    kategori = StatistikkKategori.NÆRING,
+                    path = path,
+                ).also {
+                    sendTilKafka(
+                        årstallOgKvartal = årstallOgKvartal,
+                        statistikk = it,
+                    )
+                }
             }
 
             StatistikkKategori.NÆRINGSKODE -> {
-                val statistikk = import<NæringskodeSykefraværsstatistikkDto>(StatistikkKategori.NÆRINGSKODE, path)
-                sendTilKafka(
-                    årstallOgKvartal = årstallOgKvartal,
-                    statistikk = statistikk,
-                )
+                import<NæringskodeSykefraværsstatistikkDto>(
+                    kategori = StatistikkKategori.NÆRINGSKODE,
+                    path = path,
+                ).also {
+                    sendTilKafka(
+                        årstallOgKvartal = årstallOgKvartal,
+                        statistikk = it,
+                    )
+                }
             }
 
             StatistikkKategori.BRANSJE -> {
-                val statistikk = importBransje(path = path, årstallOgKvartal = årstallOgKvartal)
-                sendTilKafka(
-                    årstallOgKvartal = årstallOgKvartal,
-                    statistikk = statistikk,
-                )
+                importBransje(path = path, årstallOgKvartal = årstallOgKvartal).also {
+                    sendTilKafka(
+                        årstallOgKvartal = årstallOgKvartal,
+                        statistikk = it,
+                    )
+                }
             }
 
             StatistikkKategori.VIRKSOMHET -> {
@@ -138,7 +174,7 @@ class ImportService(
         }
     }
 
-    fun importStatistikkVirksomhetOgSendTilKafka(
+    private fun importStatistikkVirksomhetOgSendTilKafka(
         path: String,
         årstallOgKvartal: ÅrstallOgKvartal,
     ) {
@@ -182,7 +218,6 @@ class ImportService(
     ) {
         logger.info("Starter import av virksomhet metadata")
         try {
-            val skalSendeTilKafka = !brukÅrOgKvartalIPathTilFilene // TODO: DELETE ME etter load-test
             val sumAntallMetadata = AtomicReference(0)
 
             runBlocking {
@@ -194,15 +229,11 @@ class ImportService(
 
                 virksomhetMetadata.prosesserIBiter(størrelse = 1000) { metadata ->
                     logger.info("Sender ${metadata.size} virksomhetmetadata til Kafka")
-                    if (skalSendeTilKafka) {
-                        sendMetadataTilKafka(
-                            årstall = årstallOgKvartal.årstall,
-                            kvartal = årstallOgKvartal.kvartal,
-                            metadata,
-                        )
-                    } else {
-                        logger.info("Skal IKKE sende til kafka i load-test. Gjelder ${metadata.size} metadata")
-                    }
+                    sendMetadataTilKafka(
+                        årstall = årstallOgKvartal.årstall,
+                        kvartal = årstallOgKvartal.kvartal,
+                        metadata,
+                    )
                     sumAntallMetadata.getAndAccumulate(metadata.size) { x, y -> x + y }
                 }
                 logger.info("Antall metadata prosessert for kategori ${DvhMetadata.VIRKSOMHET_METADATA.name} er: '$sumAntallMetadata'")
@@ -212,34 +243,7 @@ class ImportService(
         }
     }
 
-    fun importMetadata(
-        kategori: DvhMetadata,
-        årstallOgKvartal: ÅrstallOgKvartal,
-    ) {
-        logger.info("Starter import av metadata for kategori '$kategori'")
-
-        if (!bucketKlient.sjekkBucketExists()) {
-            logger.error("Bucket ikke funnet, avbryter import for kategori '$kategori'")
-            return
-        }
-
-        when (kategori) {
-            DvhMetadata.VIRKSOMHET_METADATA -> {
-                val path =
-                    if (brukÅrOgKvartalIPathTilFilene) "${årstallOgKvartal.årstall}/${årstallOgKvartal.kvartal}" else ""
-                importVirksomhetMetadataOgSendTilKafka(
-                    path = path,
-                    årstallOgKvartal = årstallOgKvartal,
-                )
-            }
-
-            DvhMetadata.PUBLISERINGSDATO -> {
-                importOgEksportPubliseringsdato(årstallOgKvartal)
-            }
-        }
-    }
-
-    private fun importOgEksportPubliseringsdato(årstallOgKvartal: ÅrstallOgKvartal) {
+    private fun importPubliseringsdatoOgSendTilKafka(årstallOgKvartal: ÅrstallOgKvartal) {
         val iDag = Clock.System.now().toLocalDateTime(timeZone)
         val publiseringsdatoer = importPubliseringsdato(årstallOgKvartal)
 
@@ -274,7 +278,7 @@ class ImportService(
 
     private fun importPubliseringsdato(årstallOgKvartal: ÅrstallOgKvartal): List<PubliseringsdatoDto> {
         logger.info("Starter import av publiseringsdato")
-        val path = if (brukÅrOgKvartalIPathTilFilene) "${årstallOgKvartal.årstall}" else ""
+        val path = årstallOgKvartal.tilMappestruktur(brukÅrOgKvartalIPathTilFilene).pathTilÅrsvisData()
 
         bucketKlient.ensureFileExists(
             path = path,
@@ -407,9 +411,9 @@ class ImportService(
         return result
     }
 
-    private fun sendTilKafka(
+    private fun <T> sendTilKafka(
         årstallOgKvartal: ÅrstallOgKvartal,
-        statistikk: List<SykefraværsstatistikkDto>,
+        statistikk: List<T>,
     ) {
         statistikk.forEach {
             eksportProdusent.sendMelding(
@@ -461,20 +465,12 @@ class ImportService(
                 else -> throw NoSuchElementException("Ingen fil tilgjengelig for kategori '$kategori'")
             }
 
-        fun ÅrstallOgKvartal.hentMappestruktur() =
-            Mappestruktur(
-                publiseringsÅr = "$årstall",
-                sistePubliserteKvartal = "K$kvartal",
-            )
-
         fun kalkulerOgLoggSykefraværsprosent(
             kategori: StatistikkKategori,
             statistikk: List<Sykefraværsstatistikk?>,
         ): BigDecimal {
-            val sumAntallTapteDagsverk =
-                statistikk.sumOf { it?.tapteDagsverk ?: ZERO }
-            val sumAntallMuligeDagsverk =
-                statistikk.sumOf { it?.muligeDagsverk ?: ZERO }
+            val sumAntallTapteDagsverk = statistikk.sumOf { it?.tapteDagsverk ?: ZERO }
+            val sumAntallMuligeDagsverk = statistikk.sumOf { it?.muligeDagsverk ?: ZERO }
             val sykefraværsprosentForKategori =
                 StatistikkUtils.kalkulerSykefraværsprosent(sumAntallTapteDagsverk, sumAntallMuligeDagsverk)
             logger.info("Sykefraværsprosent -snitt- for kategori ${kategori.name} er: '$sykefraværsprosentForKategori'")
@@ -560,7 +556,5 @@ class ImportService(
             }
             return this.sortedBy { it.varighet }.toList()
         }
-
-        private fun sanityzeOrgnr(jsonElement: String): String = jsonElement.replace("[0-9]{9}".toRegex(), "*********")
     }
 }
