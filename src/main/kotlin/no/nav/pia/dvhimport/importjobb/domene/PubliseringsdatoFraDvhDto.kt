@@ -18,7 +18,7 @@ import kotlinx.serialization.encoding.Encoder
 import kotlinx.serialization.json.Json
 
 @Serializable
-data class PubliseringsdatoDto(
+data class PubliseringsdatoFraDvhDto(
     @SerialName("rapport_periode")
     val rapportPeriode: String,
     @SerialName("offentlig_dato")
@@ -26,6 +26,13 @@ data class PubliseringsdatoDto(
     val offentligDato: LocalDateTime,
     @SerialName("oppdatert_i_dvh")
     @Serializable(with = DvhDatoMedTidSerializer::class)
+    val oppdatertIDvh: LocalDateTime,
+)
+
+@Serializable
+data class PubliseringsdatoDto(
+    val rapportPeriode: String,
+    val offentligDato: LocalDateTime,
     val oppdatertIDvh: LocalDateTime,
 )
 
@@ -49,9 +56,9 @@ data class Publiseringsdato(
                 .isBefore(publiseringsdato.offentligDato.toJavaLocalDateTime().toLocalDate())
 
         fun sjekkPubliseringErIDag(
-            publiseringsdatoer: List<PubliseringsdatoDto>,
+            publiseringsdatoer: List<PubliseringsdatoFraDvhDto>,
             iDag: LocalDateTime,
-        ): PubliseringsdatoDto? =
+        ): PubliseringsdatoFraDvhDto? =
             publiseringsdatoer.find {
                 it.offentligDato.toJavaLocalDateTime().toLocalDate()
                     .isEqual(iDag.toJavaLocalDateTime().toLocalDate())
@@ -59,7 +66,7 @@ data class Publiseringsdato(
     }
 }
 
-fun PubliseringsdatoDto.tilPubliseringsdato(): Publiseringsdato =
+fun PubliseringsdatoFraDvhDto.tilPubliseringsdato(): Publiseringsdato =
     Publiseringsdato(
         årstall = this.rapportPeriode.subSequence(0, 4).toString().toInt(),
         kvartal = this.rapportPeriode.subSequence(5, 6).toString().toInt(),
@@ -96,6 +103,13 @@ internal object DvhDatoMedTidSerializer : KSerializer<LocalDateTime> {
     override fun deserialize(decoder: Decoder): LocalDateTime = LocalDateTime.parse(decoder.decodeString(), dvhTidsformat)
 }
 
-fun List<String>.tilPubliseringsdatoDto(): List<PubliseringsdatoDto> = this.map { it.tilPubliseringsdatoDto() }
+fun PubliseringsdatoFraDvhDto.tilPubliseringsdatoDto(): PubliseringsdatoDto =
+    PubliseringsdatoDto(
+        rapportPeriode = this.rapportPeriode,
+        offentligDato = this.offentligDato,
+        oppdatertIDvh = this.oppdatertIDvh,
+    )
 
-fun String.tilPubliseringsdatoDto(): PubliseringsdatoDto = Json.decodeFromString<PubliseringsdatoDto>(this)
+fun List<String>.tilPubliseringsdatoFraDvhDto(): List<PubliseringsdatoFraDvhDto> = this.map { it.tilPubliseringsdatoFraDvhDto() }
+
+fun String.tilPubliseringsdatoFraDvhDto(): PubliseringsdatoFraDvhDto = Json.decodeFromString<PubliseringsdatoFraDvhDto>(this)

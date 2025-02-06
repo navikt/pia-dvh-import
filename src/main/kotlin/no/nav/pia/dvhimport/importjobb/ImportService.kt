@@ -15,7 +15,7 @@ import no.nav.pia.dvhimport.importjobb.domene.Publiseringsdato.Companion.antallD
 import no.nav.pia.dvhimport.importjobb.domene.Publiseringsdato.Companion.erFørPubliseringsdato
 import no.nav.pia.dvhimport.importjobb.domene.Publiseringsdato.Companion.sjekkPubliseringErIDag
 import no.nav.pia.dvhimport.importjobb.domene.Publiseringsdato.Companion.timeZone
-import no.nav.pia.dvhimport.importjobb.domene.PubliseringsdatoDto
+import no.nav.pia.dvhimport.importjobb.domene.PubliseringsdatoFraDvhDto
 import no.nav.pia.dvhimport.importjobb.domene.SektorSykefraværsstatistikkDto
 import no.nav.pia.dvhimport.importjobb.domene.StatistikkKategori
 import no.nav.pia.dvhimport.importjobb.domene.StatistikkUtils
@@ -26,6 +26,7 @@ import no.nav.pia.dvhimport.importjobb.domene.VirksomhetSykefraværsstatistikkDt
 import no.nav.pia.dvhimport.importjobb.domene.tilListe
 import no.nav.pia.dvhimport.importjobb.domene.tilPubliseringsdato
 import no.nav.pia.dvhimport.importjobb.domene.tilPubliseringsdatoDto
+import no.nav.pia.dvhimport.importjobb.domene.tilPubliseringsdatoFraDvhDto
 import no.nav.pia.dvhimport.importjobb.domene.toSykefraværsstatistikkDto
 import no.nav.pia.dvhimport.importjobb.domene.ÅrstallOgKvartal
 import no.nav.pia.dvhimport.importjobb.kafka.EksportProdusent
@@ -265,7 +266,9 @@ class ImportService(
                 "og neste importert kvartal blir ${nestePubliseringsdato?.årstall}/${nestePubliseringsdato?.kvartal}",
         )
 
-        publiseringsdatoer.forEach {
+        publiseringsdatoer.map(
+            transform = PubliseringsdatoFraDvhDto::tilPubliseringsdatoDto,
+        ).forEach {
             eksportProdusent.sendMelding(
                 melding = PubliseringsdatoMelding(
                     årstall = årstallOgKvartal.årstall,
@@ -276,7 +279,7 @@ class ImportService(
         }
     }
 
-    private fun importPubliseringsdato(årstallOgKvartal: ÅrstallOgKvartal): List<PubliseringsdatoDto> {
+    private fun importPubliseringsdato(årstallOgKvartal: ÅrstallOgKvartal): List<PubliseringsdatoFraDvhDto> {
         logger.info("Starter import av publiseringsdato")
         val path = årstallOgKvartal.tilMappestruktur(brukÅrOgKvartalIPathTilFilene).pathTilÅrsvisData()
 
@@ -291,7 +294,7 @@ class ImportService(
                 kilde = DvhMetadata.PUBLISERINGSDATO,
             )
             logger.info("Antall rader med publiseringsdatoer: ${publiseringsdatoer.size}")
-            publiseringsdatoer.tilPubliseringsdatoDto()
+            publiseringsdatoer.tilPubliseringsdatoFraDvhDto()
         } catch (e: Exception) {
             logger.warn("Fikk exception i import prosess med melding '${e.message}'", e)
             emptyList()
@@ -478,7 +481,7 @@ class ImportService(
         }
 
         fun nestePubliseringsdato(
-            publiseringsdatoer: List<PubliseringsdatoDto>,
+            publiseringsdatoer: List<PubliseringsdatoFraDvhDto>,
             fraDato: kotlinx.datetime.LocalDateTime,
         ): NestePubliseringsdato? {
             val nestPubliseringsdato =

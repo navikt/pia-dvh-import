@@ -1,13 +1,11 @@
 package no.nav.pia.dvhimport.importjobb.domene
 
 import ia.felles.integrasjoner.jobbsender.Jobb
-import io.kotest.matchers.collections.shouldHaveAtLeastSize
+import io.kotest.matchers.collections.shouldHaveSize
 import io.kotest.matchers.shouldBe
 import kotlinx.coroutines.runBlocking
 import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.LocalTime
-import kotlinx.serialization.SerialName
-import kotlinx.serialization.Serializable
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import no.nav.pia.dvhimport.helper.TestContainerHelper
@@ -59,17 +57,18 @@ class PubliseringsdatoImportServiceIntegrasjonstest {
                 konsument = eksportertPubliseringsdatoKonsument,
             ) { meldinger ->
                 val deserialiserteSvar = meldinger.map {
-                    Json.decodeFromString<MottattPubliseringsdatoDto>(it)
+                    Json.decodeFromString<PubliseringsdatoDto>(it)
                 }
-                deserialiserteSvar shouldHaveAtLeastSize 1
+                deserialiserteSvar shouldHaveSize 1
                 val publiseringTredjeKvartal = deserialiserteSvar.first { publiseringsdato ->
                     publiseringsdato.rapportPeriode == "202403"
                 }
 
                 publiseringTredjeKvartal.rapportPeriode shouldBe "202403"
                 publiseringTredjeKvartal.offentligDato shouldBe LocalDateTime.parse("2024-11-28T08:00:00")
+                publiseringTredjeKvartal.offentligDato shouldBe LocalDateTime.parse("2024-11-28T08:00") // legit ISO-8601 format
                 publiseringTredjeKvartal.offentligDato.time shouldBe LocalTime.parse("08:00:00")
-                publiseringTredjeKvartal.oppdatertIDvh shouldBe LocalDateTime.parse("2023-10-20T08:00:00")
+                publiseringTredjeKvartal.oppdatertIDvh shouldBe LocalDateTime.parse("2023-10-20T11:32:59")
             }
         }
     }
@@ -81,22 +80,22 @@ class PubliseringsdatoImportServiceIntegrasjonstest {
               {
                 "rapport_periode": "202403",
                 "offentlig_dato": "2024-11-28, 08:00:00",  
-                "oppdatert_i_dvh": "2023-10-20, 08:00:00"
+                "oppdatert_i_dvh": "2023-10-20, 11:32:59"
                },
               {
                 "rapport_periode": "202402",
                 "offentlig_dato": "2024-09-05, 08:00:00",  
-                "oppdatert_i_dvh": "2023-10-20, 08:00:00"
+                "oppdatert_i_dvh": "2023-10-20, 11:32:59"
                },
               {
                 "rapport_periode": "202401",
                 "offentlig_dato": "2024-05-30, 08:00:00",  
-                "oppdatert_i_dvh": "2023-10-20, 08:00:00"
+                "oppdatert_i_dvh": "2023-10-20, 11:32:59"
                },
                  {
                 "rapport_periode": "202304",
                 "offentlig_dato": "2024-02-29, 08:00:00",  
-                "oppdatert_i_dvh": "2023-10-20, 08:00:00"
+                "oppdatert_i_dvh": "2023-10-20, 11:32:59"
                }
             ]
             """.trimIndent()
@@ -110,14 +109,4 @@ class PubliseringsdatoImportServiceIntegrasjonstest {
         val verifiserBlobFinnes = gcsContainer.verifiserBlobFinnes(blobNavn = filnavn)
         verifiserBlobFinnes shouldBe true
     }
-
-    @Serializable
-    data class MottattPubliseringsdatoDto(
-        @SerialName("rapport_periode")
-        val rapportPeriode: String,
-        @SerialName("offentlig_dato")
-        val offentligDato: LocalDateTime,
-        @SerialName("oppdatert_i_dvh")
-        val oppdatertIDvh: LocalDateTime,
-    )
 }

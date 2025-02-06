@@ -282,24 +282,24 @@ class ImportServiceUnitTest {
         nestePubliseringsdato(publiseringsdatoDtoList(), iDag) shouldBe null
     }
 
-    private fun publiseringsdatoDtoList(): List<PubliseringsdatoDto> {
+    private fun publiseringsdatoDtoList(): List<PubliseringsdatoFraDvhDto> {
         val publiseringsdatoer = listOf(
-            PubliseringsdatoDto(
+            PubliseringsdatoFraDvhDto(
                 rapportPeriode = "202304",
                 offentligDato = LocalDateTime.parse("2024-02-29T08:00:00"),
                 oppdatertIDvh = LocalDateTime.parse("2023-10-20T11:57:40"),
             ),
-            PubliseringsdatoDto(
+            PubliseringsdatoFraDvhDto(
                 rapportPeriode = "202401",
                 offentligDato = LocalDateTime.parse("2024-05-30T08:00:00"),
                 oppdatertIDvh = LocalDateTime.parse("2023-10-20T11:57:40"),
             ),
-            PubliseringsdatoDto(
+            PubliseringsdatoFraDvhDto(
                 rapportPeriode = "202402",
                 offentligDato = LocalDateTime.parse("2024-09-05T08:00:00"),
                 oppdatertIDvh = LocalDateTime.parse("2023-10-20T11:57:40"),
             ),
-            PubliseringsdatoDto(
+            PubliseringsdatoFraDvhDto(
                 rapportPeriode = "202403",
                 offentligDato = LocalDateTime.parse("2024-11-28T08:00:00"),
                 oppdatertIDvh = LocalDateTime.parse("2023-10-20T11:57:40"),
