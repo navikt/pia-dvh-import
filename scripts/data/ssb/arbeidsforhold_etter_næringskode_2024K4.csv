@@ -1,0 +1,823 @@
+"13926: Lønnstakere og jobber, etter sektor, næring (SN2007), statistikkvariabel, kvartal og region"
+
+"sektor";"næring (SN2007)";"Antall jobber (arbeidsforhold) 2024K4 0 Hele landet"
+"Sum alle sektorer";"01.110 Dyrking av korn (unntatt ris), belgvekster og oljeholdige vekster";953
+"Sum alle sektorer";"01.120 Dyrking av ris";0
+"Sum alle sektorer";"01.130 Dyrking av grønnsaker, meloner, rot- og knollvekster";2735
+"Sum alle sektorer";"01.140 Dyrking av sukkerrør";0
+"Sum alle sektorer";"01.150 Dyrking av tobakk";3
+"Sum alle sektorer";"01.160 Dyrking av fibervekster";11
+"Sum alle sektorer";"01.190 Dyrking av ettårige vekster ellers";1489
+"Sum alle sektorer";"01.210 Dyrking av druer";3
+"Sum alle sektorer";"01.220 Dyrking av tropiske og subtropiske frukter";0
+"Sum alle sektorer";"01.230 Dyrking av sitrusfrukter";0
+"Sum alle sektorer";"01.240 Dyrking av kjernefrukter og steinfrukter";245
+"Sum alle sektorer";"01.250 Dyrking av annen frukt som vokser på trær eller busker samt nøtter";198
+"Sum alle sektorer";"01.260 Dyrking av oljeholdige frukter";0
+"Sum alle sektorer";"01.270 Dyrking av vekster for produksjon av drikkevarer";0
+"Sum alle sektorer";"01.280 Dyrking av krydder og aromatiske, medisinske og farmasøytiske vekster";34
+"Sum alle sektorer";"01.290 Dyrking av flerårige vekster ellers";54
+"Sum alle sektorer";"01.300 Planteformering";306
+"Sum alle sektorer";"01.410 Melkeproduksjon på storfe";2121
+"Sum alle sektorer";"01.420 Oppdrett av annet storfe";677
+"Sum alle sektorer";"01.430 Oppdrett av hester og andre dyr av hestefamilien";136
+"Sum alle sektorer";"01.440 Oppdrett av kameler og andre kameldyr";3
+"Sum alle sektorer";"01.451 Sauehold";927
+"Sum alle sektorer";"01.452 Geitehold";90
+"Sum alle sektorer";"01.460 Svinehold";608
+"Sum alle sektorer";"01.471 Hold av verpehøner for konsumeggproduksjon";265
+"Sum alle sektorer";"01.479 Annet fjørfehold";334
+"Sum alle sektorer";"01.490 Husdyrhold ellers";178
+"Sum alle sektorer";"01.500 Kombinert husdyrhold og planteproduksjon";579
+"Sum alle sektorer";"01.610 Tjenester tilknyttet planteproduksjon";1121
+"Sum alle sektorer";"01.620 Tjenester tilknyttet husdyrhold";9987
+"Sum alle sektorer";"01.630 Etterbehandling av vekster etter innhøsting";224
+"Sum alle sektorer";"01.640 Behandling av såfrø";18
+"Sum alle sektorer";"01.700 Jakt, viltstell og tjenester tilknyttet jakt og viltstell";13
+"Sum alle sektorer";"02.100 Skogskjøtsel og andre skogbruksaktiviteter";636
+"Sum alle sektorer";"02.200 Avvirkning";1330
+"Sum alle sektorer";"02.300 Innsamling av viltvoksende produkter av annet enn tre";0
+"Sum alle sektorer";"02.400 Tjenester tilknyttet skogbruk";1689
+"Sum alle sektorer";"03.111 Hav- og kystfiske";2146
+"Sum alle sektorer";"03.112 Hvalfangst";0
+"Sum alle sektorer";"03.120 Ferskvannsfiske";16
+"Sum alle sektorer";"03.211 Produksjon av matfisk, bløtdyr, krepsdyr og pigghuder i hav- og kystbasert akvakultur";8893
+"Sum alle sektorer";"03.212 Produksjon av yngel og settefisk i hav- og kystbasert akvakultur";862
+"Sum alle sektorer";"03.213 Tjenester tilknyttet hav- og kystbasert akvakultur";2572
+"Sum alle sektorer";"03.221 Produksjon av matfisk, bløtdyr og krepsdyr i ferskvannsbasert akvakultur";85
+"Sum alle sektorer";"03.222 Produksjon av yngel og settefisk i ferskvannsbasert akvakultur";1591
+"Sum alle sektorer";"03.223 Tjenester tilknyttet ferskvannsbasert akvakultur";88
+"Sum alle sektorer";"05.100 Bryting av steinkull";79
+"Sum alle sektorer";"05.200 Bryting av brunkull";0
+"Sum alle sektorer";"06.100 Utvinning av råolje";24856
+"Sum alle sektorer";"06.200 Utvinning av naturgass";2398
+"Sum alle sektorer";"07.100 Bryting av jernmalm";412
+"Sum alle sektorer";"07.210 Bryting av uran- og thoriummalm";0
+"Sum alle sektorer";"07.290 Bryting av ikke-jernholdig malm ellers";328
+"Sum alle sektorer";"08.111 Bryting av stein til bygge- og anleggsvirksomhet";889
+"Sum alle sektorer";"08.112 Bryting av kalkstein, gips og kritt";320
+"Sum alle sektorer";"08.113 Bryting av skifer";135
+"Sum alle sektorer";"08.120 Utvinning fra grus- og sandtak, og utvinning av leire og kaolin";2169
+"Sum alle sektorer";"08.910 Bryting og utvinning av kjemiske mineraler og gjødselsmineraler";128
+"Sum alle sektorer";"08.920 Stikking av torv";17
+"Sum alle sektorer";"08.930 Utvinning av salt";10
+"Sum alle sektorer";"08.990 Annen bryting og utvinning ikke nevnt annet sted";243
+"Sum alle sektorer";"09.101 Boretjenester tilknyttet utvinning av råolje og naturgass";11380
+"Sum alle sektorer";"09.109 Andre tjenester tilknyttet utvinning av råolje og naturgass";26704
+"Sum alle sektorer";"09.900 Tjenester tilknyttet annen bergverksdrift";77
+"Sum alle sektorer";"10.110 Bearbeiding og konservering av kjøtt";5230
+"Sum alle sektorer";"10.120 Bearbeiding og konservering av fjørfekjøtt";971
+"Sum alle sektorer";"10.130 Produksjon av kjøtt- og fjørfevarer";4183
+"Sum alle sektorer";"10.201 Produksjon av saltfisk, tørrfisk og klippfisk";1824
+"Sum alle sektorer";"10.202 Frysing av fisk, fiskefileter, skalldyr og bløtdyr";3388
+"Sum alle sektorer";"10.203 Produksjon av fiskehermetikk";114
+"Sum alle sektorer";"10.209 Slakting, bearbeiding og konservering av fisk og fiskevarer ellers";9483
+"Sum alle sektorer";"10.310 Bearbeiding og konservering av poteter";646
+"Sum alle sektorer";"10.320 Produksjon av juice av frukt og grønnsaker";149
+"Sum alle sektorer";"10.390 Bearbeiding og konservering av frukt og grønnsaker ellers";914
+"Sum alle sektorer";"10.411 Produksjon av rå fiskeoljer og fett";439
+"Sum alle sektorer";"10.412 Produksjon av andre uraffinerte oljer og fett";83
+"Sum alle sektorer";"10.413 Produksjon av raffinerte oljer og fett";171
+"Sum alle sektorer";"10.420 Produksjon av margarin og lignende spiselige fettstoffer";195
+"Sum alle sektorer";"10.510 Produksjon av meierivarer";5472
+"Sum alle sektorer";"10.520 Produksjon av iskrem";855
+"Sum alle sektorer";"10.610 Produksjon av kornvarer";719
+"Sum alle sektorer";"10.620 Produksjon av stivelse og stivelsesprodukter";58
+"Sum alle sektorer";"10.710 Produksjon av brød og ferske konditorvarer";9306
+"Sum alle sektorer";"10.720 Produksjon av kavringer, kjeks og konserverte konditorvarer";114
+"Sum alle sektorer";"10.730 Produksjon av makaroni, nudler, couscous og lignende pastavarer";0
+"Sum alle sektorer";"10.810 Produksjon av sukker";0
+"Sum alle sektorer";"10.820 Produksjon av kakao, sjokolade og sukkervarer";937
+"Sum alle sektorer";"10.830 Bearbeiding av te og kaffe";426
+"Sum alle sektorer";"10.840 Produksjon av smakstilsettingsstoffer og krydderier";156
+"Sum alle sektorer";"10.850 Produksjon av ferdigmat";1619
+"Sum alle sektorer";"10.860 Produksjon av homogeniserte matprodukter og diettmat";372
+"Sum alle sektorer";"10.890 Produksjon av næringsmidler ikke nevnt annet sted";1511
+"Sum alle sektorer";"10.910 Produksjon av fôrvarer til husdyrhold";2501
+"Sum alle sektorer";"10.920 Produksjon av fôrvarer til kjæledyr";132
+"Sum alle sektorer";"11.010 Destillering, rektifisering og blanding av sprit";202
+"Sum alle sektorer";"11.020 Produksjon av vin";3
+"Sum alle sektorer";"11.030 Produksjon av sider og annen fruktvin";26
+"Sum alle sektorer";"11.040 Produksjon av andre ikke-destillerte gjærede drikkevarer";6
+"Sum alle sektorer";"11.050 Produksjon av øl";2185
+"Sum alle sektorer";"11.060 Produksjon av malt";3
+"Sum alle sektorer";"11.070 Produksjon av mineralvann, leskedrikker og annet vann på flaske";1085
+"Sum alle sektorer";"12.000 Produksjon av tobakksvarer";13
+"Sum alle sektorer";"13.100 Bearbeiding og spinning av tekstilfibrer";251
+"Sum alle sektorer";"13.200 Veving av tekstiler";148
+"Sum alle sektorer";"13.300 Etterbehandling av tekstiler";149
+"Sum alle sektorer";"13.910 Produksjon av stoffer av trikotasje";0
+"Sum alle sektorer";"13.921 Produksjon av utstyrsvarer";270
+"Sum alle sektorer";"13.929 Produksjon av andre tekstilvarer, unntatt klær";869
+"Sum alle sektorer";"13.930 Produksjon av gulvtepper, -matter og -ryer";6
+"Sum alle sektorer";"13.940 Produksjon av tauverk og nett";1050
+"Sum alle sektorer";"13.950 Produksjon av ikke-vevde tekstiler og tekstilvarer, unntatt klær";51
+"Sum alle sektorer";"13.960 Produksjon av tekstiler til teknisk og industriell bruk";143
+"Sum alle sektorer";"13.990 Produksjon av tekstiler ikke nevnt annet sted";55
+"Sum alle sektorer";"14.110 Produksjon av klær av lær";7
+"Sum alle sektorer";"14.120 Produksjon av arbeidstøy";62
+"Sum alle sektorer";"14.130 Produksjon av annet yttertøy";471
+"Sum alle sektorer";"14.140 Produksjon av undertøy og innertøy";103
+"Sum alle sektorer";"14.190 Produksjon av klær og tilbehør ellers";632
+"Sum alle sektorer";"14.200 Produksjon av pelsvarer";3
+"Sum alle sektorer";"14.310 Produksjon av strømpevarer";0
+"Sum alle sektorer";"14.390 Produksjon av andre klær av trikotasje";144
+"Sum alle sektorer";"15.110 Beredning av lær, og beredning og farging av pelsskinn";50
+"Sum alle sektorer";"15.120 Produksjon av reiseeffekter og salmakerartikler";21
+"Sum alle sektorer";"15.200 Produksjon av skotøy";17
+"Sum alle sektorer";"16.100 Saging, høvling og impregnering av tre";3201
+"Sum alle sektorer";"16.210 Produksjon av finerplater og andre bygnings- og møbelplater av tre";1077
+"Sum alle sektorer";"16.220 Produksjon av sammensatte parkettstaver";55
+"Sum alle sektorer";"16.231 Produksjon av monteringsferdige hus";1751
+"Sum alle sektorer";"16.232 Produksjon av bygningsartikler";5183
+"Sum alle sektorer";"16.240 Produksjon av treemballasje";343
+"Sum alle sektorer";"16.290 Produksjon av andre trevarer og varer av kork, strå og flettematerialer";412
+"Sum alle sektorer";"17.110 Produksjon av papirmasse";143
+"Sum alle sektorer";"17.120 Produksjon av papir og papp";1495
+"Sum alle sektorer";"17.210 Produksjon av bølgepapp og emballasje av papir og papp";827
+"Sum alle sektorer";"17.220 Produksjon av husholdnings-, sanitær- og toalettartikler av papir";0
+"Sum alle sektorer";"17.230 Produksjon av kontorartikler av papir";0
+"Sum alle sektorer";"17.240 Produksjon av tapeter";3
+"Sum alle sektorer";"17.290 Produksjon av varer av papir og papp ellers";131
+"Sum alle sektorer";"18.110 Trykking av aviser";345
+"Sum alle sektorer";"18.120 Trykking ellers";2806
+"Sum alle sektorer";"18.130 Ferdiggjøring før trykking og publisering";359
+"Sum alle sektorer";"18.140 Bokbinding og tilknyttede tjenester";166
+"Sum alle sektorer";"18.200 Reproduksjon av innspilte opptak";0
+"Sum alle sektorer";"19.100 Produksjon av kullprodukter";3
+"Sum alle sektorer";"19.200 Produksjon av raffinerte petroleumsprodukter";1030
+"Sum alle sektorer";"20.110 Produksjon av industrigasser";583
+"Sum alle sektorer";"20.120 Produksjon av fargestoffer og pigmenter";250
+"Sum alle sektorer";"20.130 Produksjon av andre uorganiske kjemikalier";2012
+"Sum alle sektorer";"20.140 Produksjon av andre organiske kjemiske råvarer";1650
+"Sum alle sektorer";"20.150 Produksjon av gjødsel, nitrogenforbindelser og vekstjord";1607
+"Sum alle sektorer";"20.160 Produksjon av basisplast";712
+"Sum alle sektorer";"20.170 Produksjon av syntetisk gummi";0
+"Sum alle sektorer";"20.200 Produksjon av plantevern- og skadedyrmidler og andre landbrukskjemiske produkter";6
+"Sum alle sektorer";"20.300 Produksjon av maling og lakk, trykkfarger og tetningsmidler";1211
+"Sum alle sektorer";"20.410 Produksjon av såpe og vaskemidler, rense- og polermidler";524
+"Sum alle sektorer";"20.420 Produksjon av parfyme og toalettartikler";72
+"Sum alle sektorer";"20.510 Produksjon av eksplosiver";312
+"Sum alle sektorer";"20.520 Produksjon av lim";14
+"Sum alle sektorer";"20.530 Produksjon av eteriske oljer";3
+"Sum alle sektorer";"20.590 Produksjon av kjemiske produkter ikke nevnt annet sted";897
+"Sum alle sektorer";"20.600 Produksjon av kunstfibrer";27
+"Sum alle sektorer";"21.100 Produksjon av farmasøytiske råvarer";543
+"Sum alle sektorer";"21.200 Produksjon av farmasøytiske preparater";2673
+"Sum alle sektorer";"22.110 Produksjon av gummidekk og slanger til gummidekk, og regummiering og vulkanisering av gummidekk";156
+"Sum alle sektorer";"22.190 Produksjon av gummiprodukter ellers";450
+"Sum alle sektorer";"22.210 Produksjon av halvfabrikater av plast";1249
+"Sum alle sektorer";"22.220 Produksjon av plastemballasje";1067
+"Sum alle sektorer";"22.230 Produksjon av byggevarer av plast";971
+"Sum alle sektorer";"22.290 Produksjon av plastprodukter ellers";841
+"Sum alle sektorer";"23.110 Produksjon av planglass";37
+"Sum alle sektorer";"23.120 Bearbeiding av planglass";368
+"Sum alle sektorer";"23.130 Produksjon av emballasje og husholdningsartikler av glass og krystall";219
+"Sum alle sektorer";"23.140 Produksjon av glassfibrer";587
+"Sum alle sektorer";"23.190 Produksjon av teknisk glass og andre glassvarer";39
+"Sum alle sektorer";"23.200 Produksjon av ildfaste produkter";17
+"Sum alle sektorer";"23.310 Produksjon av keramiske vegg- og gulvfliser";0
+"Sum alle sektorer";"23.320 Produksjon av murstein, teglstein og andre byggevarer av brent leire";7
+"Sum alle sektorer";"23.410 Produksjon av keramiske husholdningsartikler og dekorasjonsgjenstander";103
+"Sum alle sektorer";"23.420 Produksjon av sanitærutstyr av keramisk materiale";34
+"Sum alle sektorer";"23.430 Produksjon av isolatorer og isoleringsdeler av keramisk materiale";37
+"Sum alle sektorer";"23.440 Produksjon av andre keramiske produkter for teknisk bruk";0
+"Sum alle sektorer";"23.490 Produksjon av andre keramiske produkter";3
+"Sum alle sektorer";"23.510 Produksjon av sement";410
+"Sum alle sektorer";"23.520 Produksjon av kalk og gips";110
+"Sum alle sektorer";"23.610 Produksjon av betongprodukter for bygge- og anleggsvirksomhet";3333
+"Sum alle sektorer";"23.620 Produksjon av gipsprodukter for bygge- og anleggsvirksomhet";211
+"Sum alle sektorer";"23.630 Produksjon av ferdigblandet betong";1083
+"Sum alle sektorer";"23.640 Produksjon av mørtel";57
+"Sum alle sektorer";"23.650 Produksjon av fibersement";52
+"Sum alle sektorer";"23.690 Produksjon av betong-, sement- og gipsprodukter ellers";83
+"Sum alle sektorer";"23.700 Hogging og bearbeiding av monument- og bygningsstein";644
+"Sum alle sektorer";"23.910 Produksjon av slipestoffer";0
+"Sum alle sektorer";"23.990 Produksjon av ikke-metallholdige mineralprodukter ikke nevnt annet sted";2222
+"Sum alle sektorer";"24.101 Produksjon av jern og stål";426
+"Sum alle sektorer";"24.102 Produksjon av ferrolegeringer";1301
+"Sum alle sektorer";"24.200 Produksjon av andre rør og rørdeler av stål";328
+"Sum alle sektorer";"24.310 Kaldtrekking av stenger og profiler";0
+"Sum alle sektorer";"24.320 Kaldvalsing av bånd";6
+"Sum alle sektorer";"24.330 Kaldvalsing og pressing av profilerte plater og profiler";17
+"Sum alle sektorer";"24.340 Kaldtrekking av tråd";0
+"Sum alle sektorer";"24.410 Produksjon av edelmetaller";63
+"Sum alle sektorer";"24.421 Produksjon av primæraluminium";4978
+"Sum alle sektorer";"24.422 Produksjon av halvfabrikater av aluminium";1798
+"Sum alle sektorer";"24.430 Produksjon av bly, sink og tinn";544
+"Sum alle sektorer";"24.440 Produksjon av kobber";7
+"Sum alle sektorer";"24.450 Produksjon av ikke-jernholdige metaller ellers";837
+"Sum alle sektorer";"24.460 Produksjon av kjernebrensel";0
+"Sum alle sektorer";"24.510 Støping av jern";309
+"Sum alle sektorer";"24.520 Støping av stål";11
+"Sum alle sektorer";"24.530 Støping av lettmetaller";77
+"Sum alle sektorer";"24.540 Støping av andre ikke-jernholdige metaller";85
+"Sum alle sektorer";"25.110 Produksjon av metallkonstruksjoner og deler";5954
+"Sum alle sektorer";"25.120 Produksjon av dører og vinduer av metall";1419
+"Sum alle sektorer";"25.210 Produksjon av radiatorer og kjeler til sentralvarmeanlegg";64
+"Sum alle sektorer";"25.290 Produksjon av andre tanker, cisterner og beholdere av metall";415
+"Sum alle sektorer";"25.300 Produksjon av dampkjeler, unntatt kjeler til sentralvarmeanlegg";167
+"Sum alle sektorer";"25.400 Produksjon av våpen og ammunisjon";4525
+"Sum alle sektorer";"25.500 Smiing, stansing og valsing av metall, og pulvermetallurgi";148
+"Sum alle sektorer";"25.610 Overflatebehandling av metaller";2301
+"Sum alle sektorer";"25.620 Bearbeiding av metaller";7204
+"Sum alle sektorer";"25.710 Produksjon av kjøkkenredskaper og skjære- og klipperedskaper";28
+"Sum alle sektorer";"25.720 Produksjon av låser og beslag";468
+"Sum alle sektorer";"25.730 Produksjon av håndverktøy";109
+"Sum alle sektorer";"25.910 Produksjon av stålfat og lignende beholdere av jern og stål";13
+"Sum alle sektorer";"25.920 Produksjon av emballasje av lettmetall";0
+"Sum alle sektorer";"25.930 Produksjon av varer av metalltråd, kjetting og fjærer";465
+"Sum alle sektorer";"25.940 Produksjon av bolter og skruer";167
+"Sum alle sektorer";"25.990 Produksjon av metallvarer ikke nevnt annet sted";2957
+"Sum alle sektorer";"26.110 Produksjon av elektroniske komponenter";1088
+"Sum alle sektorer";"26.120 Produksjon av kretskort";1109
+"Sum alle sektorer";"26.200 Produksjon av datamaskiner og tilleggsutstyr";198
+"Sum alle sektorer";"26.300 Produksjon av kommunikasjonsutstyr";1277
+"Sum alle sektorer";"26.400 Produksjon av elektronikk til husholdningsbruk";105
+"Sum alle sektorer";"26.510 Produksjon av måle-, kontroll- og navigasjonsinstrumenter";5550
+"Sum alle sektorer";"26.520 Produksjon av klokker og ur";8
+"Sum alle sektorer";"26.600 Produksjon av strålingsutstyr, elektromedisinsk og elektroterapeutisk utstyr";228
+"Sum alle sektorer";"26.700 Produksjon av optiske instrumenter og fotografisk utstyr";105
+"Sum alle sektorer";"26.800 Produksjon av magnetiske og optiske media";6
+"Sum alle sektorer";"27.110 Produksjon av elektromotorer, generatorer og transformatorer";759
+"Sum alle sektorer";"27.120 Produksjon av elektriske fordelings- og kontrolltavler og paneler";2589
+"Sum alle sektorer";"27.200 Produksjon av batterier og akkumulatorer";637
+"Sum alle sektorer";"27.310 Produksjon av optiske fiberkabler";67
+"Sum alle sektorer";"27.320 Produksjon av andre elektroniske og elektriske ledninger og kabler";2600
+"Sum alle sektorer";"27.330 Produksjon av ledningsmateriell";0
+"Sum alle sektorer";"27.400 Produksjon av belysningsutstyr";660
+"Sum alle sektorer";"27.510 Produksjon av elektriske husholdningsmaskiner og apparater";402
+"Sum alle sektorer";"27.520 Produksjon av ikke-elektriske husholdningsmaskiner og apparater";176
+"Sum alle sektorer";"27.900 Produksjon av annet elektrisk utstyr";1844
+"Sum alle sektorer";"28.110 Produksjon av motorer og turbiner, unntatt motorer til luftfartøyer og motorvogner";1244
+"Sum alle sektorer";"28.120 Produksjon av komponenter til hydraulisk og pneumatisk utstyr";931
+"Sum alle sektorer";"28.130 Produksjon av pumper og kompressorer ellers";2716
+"Sum alle sektorer";"28.140 Produksjon av kraner og ventiler ellers";468
+"Sum alle sektorer";"28.150 Produksjon av lagre, gir, tannhjulsutvekslinger og andre innretninger for kraftoverføring";420
+"Sum alle sektorer";"28.210 Produksjon av industri- og laboratorieovner samt brennere";180
+"Sum alle sektorer";"28.221 Produksjon av løfte- og håndteringsutstyr til skip og båter";1567
+"Sum alle sektorer";"28.229 Produksjon av løfte- og håndteringsutstyr ellers";1031
+"Sum alle sektorer";"28.230 Produksjon av kontormaskiner og utstyr (unntatt datamaskiner og tilleggsutstyr)";0
+"Sum alle sektorer";"28.240 Produksjon av motordrevet håndverktøy";0
+"Sum alle sektorer";"28.250 Produksjon av kjøle- og ventilasjonsanlegg, unntatt til husholdningsbruk";1092
+"Sum alle sektorer";"28.290 Produksjon av maskiner og utstyr til generell bruk, ikke nevnt annet sted";1526
+"Sum alle sektorer";"28.300 Produksjon av jordbruks- og skogbruksmaskiner";1056
+"Sum alle sektorer";"28.410 Produksjon av maskinverktøy til metallbearbeiding";34
+"Sum alle sektorer";"28.490 Produksjon av maskinverktøy ikke nevnt annet sted";221
+"Sum alle sektorer";"28.910 Produksjon av maskiner og utstyr til metallurgisk industri";76
+"Sum alle sektorer";"28.920 Produksjon av maskiner og utstyr til bergverksdrift og bygge- og anleggsvirksomhet";2724
+"Sum alle sektorer";"28.930 Produksjon av maskiner og utstyr til nærings- og nytelsesmiddelindustri";826
+"Sum alle sektorer";"28.940 Produksjon av maskiner og utstyr til tekstil-, konfeksjons- og lærvareindustri";3
+"Sum alle sektorer";"28.950 Produksjon av maskiner og utstyr til papir- og pappvareindustri";0
+"Sum alle sektorer";"28.960 Produksjon av maskiner og utstyr til plast- og gummiindustri";48
+"Sum alle sektorer";"28.990 Produksjon av spesialmaskiner ikke nevnt annet sted";1295
+"Sum alle sektorer";"29.100 Produksjon av motorvogner";38
+"Sum alle sektorer";"29.200 Produksjon av karosserier og tilhengere";1147
+"Sum alle sektorer";"29.310 Produksjon av elektrisk og elektronisk utstyr til motorvogner";65
+"Sum alle sektorer";"29.320 Produksjon av andre deler og annet utstyr til motorvogner";1549
+"Sum alle sektorer";"30.111 Bygging av skip og skrog over 100 br.tonn";2253
+"Sum alle sektorer";"30.112 Bygging av skip under 100 br.tonn";697
+"Sum alle sektorer";"30.113 Bygging av oljeplattformer og moduler";7714
+"Sum alle sektorer";"30.114 Produksjon av annet flytende materiell";445
+"Sum alle sektorer";"30.115 Innrednings- og installasjonsarbeid utført på skip over 100 br.tonn";2367
+"Sum alle sektorer";"30.116 Innrednings- og installasjonsarbeid utført på oljeplattformer og moduler";2441
+"Sum alle sektorer";"30.120 Bygging av fritidsbåter";468
+"Sum alle sektorer";"30.200 Produksjon av lokomotiver og annet rullende materiell til jernbane og sporvei";0
+"Sum alle sektorer";"30.300 Produksjon av luftfartøyer og romfartøyer og lignende utstyr";391
+"Sum alle sektorer";"30.400 Produksjon av militære stridskjøretøyer";0
+"Sum alle sektorer";"30.910 Produksjon av motorsykler";0
+"Sum alle sektorer";"30.920 Produksjon av sykler og invalidevogner";171
+"Sum alle sektorer";"30.990 Produksjon av andre transportmidler ikke nevnt annet sted";30
+"Sum alle sektorer";"31.010 Produksjon av kontor- og butikkmøbler";640
+"Sum alle sektorer";"31.020 Produksjon av kjøkkenmøbler";885
+"Sum alle sektorer";"31.030 Produksjon av madrasser";280
+"Sum alle sektorer";"31.090 Produksjon av møbler ellers";2526
+"Sum alle sektorer";"32.110 Preging av mynter og medaljer";14
+"Sum alle sektorer";"32.120 Produksjon av gull- og sølvvarer og lignende artikler";405
+"Sum alle sektorer";"32.130 Produksjon av bijouteri og lignende artikler";17
+"Sum alle sektorer";"32.200 Produksjon av musikkinstrumenter";21
+"Sum alle sektorer";"32.300 Produksjon av sportsartikler";365
+"Sum alle sektorer";"32.400 Produksjon av spill og leker";17
+"Sum alle sektorer";"32.500 Produksjon av medisinske og tanntekniske instrumenter og utstyr";2368
+"Sum alle sektorer";"32.910 Produksjon av koster og børster";9
+"Sum alle sektorer";"32.990 Annen industriproduksjon ikke nevnt annet sted";549
+"Sum alle sektorer";"33.110 Reparasjon av bearbeidede metallprodukter";905
+"Sum alle sektorer";"33.120 Reparasjon av maskiner";10364
+"Sum alle sektorer";"33.130 Reparasjon av elektronisk og optisk utstyr";84
+"Sum alle sektorer";"33.140 Reparasjon av elektrisk utstyr";670
+"Sum alle sektorer";"33.150 Reparasjon og vedlikehold av skip og båter";4792
+"Sum alle sektorer";"33.160 Reparasjon og vedlikehold av luftfartøyer og romfartøyer";1654
+"Sum alle sektorer";"33.170 Reparasjon og vedlikehold av andre transportmidler";966
+"Sum alle sektorer";"33.190 Reparasjon av annet utstyr";349
+"Sum alle sektorer";"33.200 Installasjon av industrimaskiner og -utstyr";2890
+"Sum alle sektorer";"35.111 Produksjon av elektrisitet fra vannkraft";6312
+"Sum alle sektorer";"35.112 Produksjon av elektrisitet fra vindkraft";260
+"Sum alle sektorer";"35.113 Produksjon av elektrisitet fra biobrensel";7
+"Sum alle sektorer";"35.114 Produksjon av elektrisitet fra naturgass";0
+"Sum alle sektorer";"35.119 Produksjon av elektrisitet ellers";252
+"Sum alle sektorer";"35.120 Overføring av elektrisitet";2060
+"Sum alle sektorer";"35.130 Distribusjon av elektrisitet";6802
+"Sum alle sektorer";"35.140 Handel med elektrisitet";2463
+"Sum alle sektorer";"35.210 Produksjon av gass";125
+"Sum alle sektorer";"35.220 Distribusjon av gass gjennom ledningsnett";78
+"Sum alle sektorer";"35.230 Handel med gass gjennom ledningsnett";0
+"Sum alle sektorer";"35.300 Damp- og varmtvannsforsyning";699
+"Sum alle sektorer";"36.000 Uttak fra kilde, rensing og distribusjon av vann";3189
+"Sum alle sektorer";"37.000 Oppsamling og behandling av avløpsvann";3441
+"Sum alle sektorer";"38.110 Innsamling av ikke-farlig avfall";6545
+"Sum alle sektorer";"38.120 Innsamling av farlig avfall";408
+"Sum alle sektorer";"38.210 Behandling og disponering av ikke-farlig avfall";1750
+"Sum alle sektorer";"38.220 Behandling og disponering av farlig avfall";181
+"Sum alle sektorer";"38.310 Demontering av vrakede gjenstander";146
+"Sum alle sektorer";"38.320 Sortering og bearbeiding av avfall for materialgjenvinning";4131
+"Sum alle sektorer";"39.000 Miljørydding, miljørensing og lignende virksomhet";155
+"Sum alle sektorer";"41.101 Boligbyggelag";1869
+"Sum alle sektorer";"41.109 Utvikling og salg av egen fast eiendom ellers";4455
+"Sum alle sektorer";"41.200 Oppføring av bygninger";67982
+"Sum alle sektorer";"42.110 Bygging av veier og motorveier";15241
+"Sum alle sektorer";"42.120 Bygging av jernbaner og undergrunnsbaner";4909
+"Sum alle sektorer";"42.130 Bygging av bruer og tunneler";3153
+"Sum alle sektorer";"42.210 Bygging av vann- og kloakkanlegg";2157
+"Sum alle sektorer";"42.220 Bygging av anlegg for elektrisitet og telekommunikasjon";4248
+"Sum alle sektorer";"42.910 Bygging av havne- og damanlegg";226
+"Sum alle sektorer";"42.990 Bygging av andre anlegg ikke nevnt annet sted";565
+"Sum alle sektorer";"43.110 Riving av bygninger og andre konstruksjoner";1432
+"Sum alle sektorer";"43.120 Grunnarbeid";29205
+"Sum alle sektorer";"43.130 Prøveboring";3
+"Sum alle sektorer";"43.210 Elektrisk installasjonsarbeid";39783
+"Sum alle sektorer";"43.221 Rørleggerarbeid";19349
+"Sum alle sektorer";"43.222 Kuldeanlegg- og varmepumpearbeid";2529
+"Sum alle sektorer";"43.223 Ventilasjonsarbeid";4971
+"Sum alle sektorer";"43.290 Annet installasjonsarbeid";3109
+"Sum alle sektorer";"43.310 Stukkatørarbeid og pussing";10
+"Sum alle sektorer";"43.320 Snekkerarbeid";8917
+"Sum alle sektorer";"43.330 Gulvlegging og tapetsering";2297
+"Sum alle sektorer";"43.341 Malerarbeid";7963
+"Sum alle sektorer";"43.342 Glassarbeid";976
+"Sum alle sektorer";"43.390 Annen ferdiggjøring av bygninger";628
+"Sum alle sektorer";"43.911 Blikkenslagerarbeid";3222
+"Sum alle sektorer";"43.919 Takarbeid ellers";2102
+"Sum alle sektorer";"43.990 Annen spesialisert bygge- og anleggsvirksomhet";24761
+"Sum alle sektorer";"45.111 Agentur- og engroshandel med biler og lette motorvogner, unntatt motorsykler";1411
+"Sum alle sektorer";"45.112 Detaljhandel med biler og lette motorvogner, unntatt motorsykler";14307
+"Sum alle sektorer";"45.191 Agentur- og engroshandel med andre motorvogner, unntatt motorsykler";884
+"Sum alle sektorer";"45.192 Detaljhandel med andre motorvogner, unntatt motorsykler";1114
+"Sum alle sektorer";"45.200 Vedlikehold og reparasjon av motorvogner, unntatt motorsykler";29081
+"Sum alle sektorer";"45.310 Agentur- og engroshandel med deler og utstyr til motorvogner, unntatt motorsykler";2731
+"Sum alle sektorer";"45.320 Detaljhandel med deler og utstyr til motorvogner, unntatt motorsykler";4782
+"Sum alle sektorer";"45.401 Agentur- og engroshandel med motorsykler, deler og utstyr";58
+"Sum alle sektorer";"45.402 Detaljhandel med motorsykler, deler og utstyr";736
+"Sum alle sektorer";"45.403 Vedlikehold og reparasjon av motorsykler";69
+"Sum alle sektorer";"46.110 Agenturhandel med jordbruksråvarer, levende dyr, tekstilråvarer og innsatsvarer";6
+"Sum alle sektorer";"46.120 Agenturhandel med brensel, drivstoff, malm, metaller og industrikjemikalier";73
+"Sum alle sektorer";"46.130 Agenturhandel med tømmer, trelast og byggevarer";106
+"Sum alle sektorer";"46.140 Agenturhandel med maskiner, produksjonsutstyr, båter og luftfartøyer";591
+"Sum alle sektorer";"46.150 Agenturhandel med møbler, husholdningsvarer og jernvarer";207
+"Sum alle sektorer";"46.160 Agenturhandel med tekstiler, klær, pelsskinn, skotøy og lærvarer";306
+"Sum alle sektorer";"46.170 Agenturhandel med nærings- og nytelsesmidler";364
+"Sum alle sektorer";"46.180 Agenturhandel med spesialisert vareutvalg ellers";631
+"Sum alle sektorer";"46.190 Agenturhandel med bredt vareutvalg";77
+"Sum alle sektorer";"46.210 Engroshandel med korn, råtobakk, såvarer og fôrvarer";1765
+"Sum alle sektorer";"46.220 Engroshandel med blomster og planter";627
+"Sum alle sektorer";"46.230 Engroshandel med levende dyr";3
+"Sum alle sektorer";"46.240 Engroshandel med huder, skinn og lær";46
+"Sum alle sektorer";"46.310 Engroshandel med frukt og grønnsaker";2192
+"Sum alle sektorer";"46.320 Engroshandel med kjøtt og kjøttvarer";127
+"Sum alle sektorer";"46.330 Engroshandel med meierivarer, egg, matolje og -fett";99
+"Sum alle sektorer";"46.341 Engroshandel med vin og brennevin";658
+"Sum alle sektorer";"46.349 Engroshandel med drikkevarer ellers";193
+"Sum alle sektorer";"46.350 Engroshandel med tobakksvarer";166
+"Sum alle sektorer";"46.360 Engroshandel med sukker, sjokolade og sukkervarer";242
+"Sum alle sektorer";"46.370 Engroshandel med kaffe, te, kakao og krydder";465
+"Sum alle sektorer";"46.381 Engroshandel med fisk, skalldyr og bløtdyr";1895
+"Sum alle sektorer";"46.389 Engroshandel med spesialisert utvalg av nærings- og nytelsesmidler ikke nevnt annet sted";1420
+"Sum alle sektorer";"46.390 Engroshandel med bredt utvalg av nærings- og nytelsesmidler";10487
+"Sum alle sektorer";"46.410 Engroshandel med tekstiler og utstyrsvarer";676
+"Sum alle sektorer";"46.421 Engroshandel med klær";3748
+"Sum alle sektorer";"46.422 Engroshandel med skotøy";315
+"Sum alle sektorer";"46.431 Engroshandel med elektriske husholdningsapparater og -maskiner";1276
+"Sum alle sektorer";"46.432 Engroshandel med radio og fjernsyn";218
+"Sum alle sektorer";"46.433 Engroshandel med plater, musikk- og videokassetter og CD- og DVD-plater";12
+"Sum alle sektorer";"46.434 Engroshandel med fotoutstyr";9
+"Sum alle sektorer";"46.435 Engroshandel med optiske artikler";174
+"Sum alle sektorer";"46.441 Engroshandel med kjøkkenutstyr, glass og steintøy";260
+"Sum alle sektorer";"46.442 Engroshandel med rengjøringsmidler";117
+"Sum alle sektorer";"46.450 Engroshandel med parfyme og kosmetikk";1200
+"Sum alle sektorer";"46.460 Engroshandel med sykepleie- og apotekvarer";8128
+"Sum alle sektorer";"46.471 Engroshandel med møbler";603
+"Sum alle sektorer";"46.472 Engroshandel med gulvtepper";76
+"Sum alle sektorer";"46.473 Engroshandel med belysningsutstyr";1013
+"Sum alle sektorer";"46.481 Engroshandel med klokker og ur";90
+"Sum alle sektorer";"46.482 Engroshandel med gull- og sølvvarer";152
+"Sum alle sektorer";"46.491 Engroshandel med bøker, aviser og blader";105
+"Sum alle sektorer";"46.492 Engroshandel med reiseeffekter og lærvarer";138
+"Sum alle sektorer";"46.493 Engroshandel med fritidsbåter og -utstyr";250
+"Sum alle sektorer";"46.494 Engroshandel med sportsutstyr";1684
+"Sum alle sektorer";"46.495 Engroshandel med spill og leker";384
+"Sum alle sektorer";"46.499 Engroshandel med husholdningsvarer og varer til personlig bruk ikke nevnt annet sted";2716
+"Sum alle sektorer";"46.510 Engroshandel med datamaskiner, tilleggsutstyr til datamaskiner samt programvare";4391
+"Sum alle sektorer";"46.520 Engroshandel med elektronikkutstyr og telekommunikasjonsutstyr samt deler";2211
+"Sum alle sektorer";"46.610 Engroshandel med maskiner og utstyr til jordbruk og skogbruk";3028
+"Sum alle sektorer";"46.620 Engroshandel med maskinverktøy";1193
+"Sum alle sektorer";"46.630 Engroshandel med maskiner og utstyr til bergverksdrift, olje- og gassutvinning og bygge- og anleggsvirksomhet";5952
+"Sum alle sektorer";"46.640 Engroshandel med maskiner og utstyr til tekstilproduksjon";41
+"Sum alle sektorer";"46.650 Engroshandel med kontormøbler";1165
+"Sum alle sektorer";"46.660 Engroshandel med maskiner og utstyr til kontor ellers";689
+"Sum alle sektorer";"46.691 Engroshandel med maskiner og utstyr til kraftproduksjon og installasjon";4306
+"Sum alle sektorer";"46.692 Engroshandel med skipsutstyr og fiskeredskap";1167
+"Sum alle sektorer";"46.693 Engroshandel med maskiner og utstyr til industri ellers";4456
+"Sum alle sektorer";"46.694 Engroshandel med maskiner og utstyr til handel, transport og tjenesteyting ellers";5915
+"Sum alle sektorer";"46.710 Engroshandel med drivstoff og brensel";1618
+"Sum alle sektorer";"46.720 Engroshandel med metaller og metallholdig malm";691
+"Sum alle sektorer";"46.731 Engroshandel med tømmer";339
+"Sum alle sektorer";"46.732 Engroshandel med trelast";2682
+"Sum alle sektorer";"46.733 Engroshandel med fargevarer";600
+"Sum alle sektorer";"46.739 Engroshandel med byggevarer ikke nevnt annet sted";8293
+"Sum alle sektorer";"46.740 Engroshandel med jernvarer, rørleggerartikler og oppvarmingsutstyr";7878
+"Sum alle sektorer";"46.750 Engroshandel med kjemiske produkter";1241
+"Sum alle sektorer";"46.761 Engroshandel med papir og papp";738
+"Sum alle sektorer";"46.769 Engroshandel med innsatsvarer ikke nevnt annet sted";351
+"Sum alle sektorer";"46.770 Engroshandel med avfall og skrap";558
+"Sum alle sektorer";"46.900 Uspesifisert engroshandel";2929
+"Sum alle sektorer";"47.111 Butikkhandel med bredt vareutvalg med hovedvekt på nærings- og nytelsesmidler";67171
+"Sum alle sektorer";"47.112 Kioskhandel med bredt vareutvalg med hovedvekt på nærings- og nytelsesmidler";3505
+"Sum alle sektorer";"47.190 Butikkhandel med bredt vareutvalg ellers";9921
+"Sum alle sektorer";"47.210 Butikkhandel med frukt og grønnsaker";205
+"Sum alle sektorer";"47.220 Butikkhandel med kjøtt og kjøttvarer";196
+"Sum alle sektorer";"47.230 Butikkhandel med fisk, skalldyr og bløtdyr";377
+"Sum alle sektorer";"47.241 Butikkhandel med bakervarer og konditorvarer";3672
+"Sum alle sektorer";"47.242 Butikkhandel med sukkervarer";163
+"Sum alle sektorer";"47.251 Butikkhandel med vin og brennevin";3780
+"Sum alle sektorer";"47.259 Butikkhandel med drikkevarer ellers";43
+"Sum alle sektorer";"47.260 Butikkhandel med tobakksvarer";116
+"Sum alle sektorer";"47.291 Butikkhandel med helsekost";1064
+"Sum alle sektorer";"47.292 Butikkhandel med kaffe og te";225
+"Sum alle sektorer";"47.299 Butikkhandel med nærings- og nytelsesmidler ikke nevnt annet sted";751
+"Sum alle sektorer";"47.300 Detaljhandel med drivstoff til motorvogner";9477
+"Sum alle sektorer";"47.410 Butikkhandel med datamaskiner og utstyr til datamaskiner";503
+"Sum alle sektorer";"47.420 Butikkhandel med telekommunikasjonsutstyr";959
+"Sum alle sektorer";"47.430 Butikkhandel med audio- og videoutstyr";396
+"Sum alle sektorer";"47.510 Butikkhandel med tekstiler og utstyrsvarer";4353
+"Sum alle sektorer";"47.521 Butikkhandel med bredt utvalg av jernvarer, fargevarer og andre byggevarer";9505
+"Sum alle sektorer";"47.522 Butikkhandel med jernvarer";1351
+"Sum alle sektorer";"47.523 Butikkhandel med fargevarer";1073
+"Sum alle sektorer";"47.524 Butikkhandel med trelast";218
+"Sum alle sektorer";"47.529 Butikkhandel med byggevarer ikke nevnt annet sted";1807
+"Sum alle sektorer";"47.531 Butikkhandel med tapeter og gulvbelegg";67
+"Sum alle sektorer";"47.532 Butikkhandel med tepper";61
+"Sum alle sektorer";"47.533 Butikkhandel med gardiner";19
+"Sum alle sektorer";"47.540 Butikkhandel med elektriske husholdningsapparater";6176
+"Sum alle sektorer";"47.591 Butikkhandel med møbler";7692
+"Sum alle sektorer";"47.592 Butikkhandel med belysningsutstyr";966
+"Sum alle sektorer";"47.593 Butikkhandel med kjøkkenutstyr, glass og steintøy";2032
+"Sum alle sektorer";"47.594 Butikkhandel med musikkinstrumenter og noter";257
+"Sum alle sektorer";"47.599 Butikkhandel med innredningsartikler ikke nevnt annet sted";2495
+"Sum alle sektorer";"47.610 Butikkhandel med bøker";3273
+"Sum alle sektorer";"47.620 Butikkhandel med aviser og papirvarer";6
+"Sum alle sektorer";"47.630 Butikkhandel med innspillinger av musikk og video";63
+"Sum alle sektorer";"47.641 Butikkhandel med sportsutstyr";9443
+"Sum alle sektorer";"47.642 Butikkhandel med fritidsbåter og -utstyr";997
+"Sum alle sektorer";"47.650 Butikkhandel med spill og leker";1701
+"Sum alle sektorer";"47.710 Butikkhandel med klær";23823
+"Sum alle sektorer";"47.721 Butikkhandel med skotøy";2952
+"Sum alle sektorer";"47.722 Butikkhandel med reiseeffekter av lær og lærimitasjoner og varer av lær";520
+"Sum alle sektorer";"47.730 Butikkhandel med apotekvarer";10074
+"Sum alle sektorer";"47.740 Butikkhandel med medisinske og ortopediske artikler";308
+"Sum alle sektorer";"47.750 Butikkhandel med kosmetikk og toalettartikler";5972
+"Sum alle sektorer";"47.761 Butikkhandel med blomster og planter";6025
+"Sum alle sektorer";"47.762 Butikkhandel med kjæledyr og fôrvarer til kjæledyr";1855
+"Sum alle sektorer";"47.771 Butikkhandel med ur og klokker";607
+"Sum alle sektorer";"47.772 Butikkhandel med gull- og sølvvarer";2078
+"Sum alle sektorer";"47.781 Butikkhandel med fotoutstyr";505
+"Sum alle sektorer";"47.782 Butikkhandel med optiske artikler";4545
+"Sum alle sektorer";"47.789 Butikkhandel ikke nevnt annet sted";3622
+"Sum alle sektorer";"47.791 Butikkhandel med antikviteter";25
+"Sum alle sektorer";"47.792 Butikkhandel med brukte klær";567
+"Sum alle sektorer";"47.799 Butikkhandel med brukte varer ellers";341
+"Sum alle sektorer";"47.810 Torghandel med næringsmidler, drikkevarer og tobakksvarer";132
+"Sum alle sektorer";"47.820 Torghandel med tekstiler, klær, skotøy og utstyrsvarer";3
+"Sum alle sektorer";"47.890 Torghandel med andre varer";25
+"Sum alle sektorer";"47.911 Postordre-/Internetthandel med bredt vareutvalg";946
+"Sum alle sektorer";"47.912 Postordre-/Internetthandel med tekstiler, utstyrsvarer, klær, skotøy, reiseeffekter og lærvarer";1224
+"Sum alle sektorer";"47.913 Postordre-/Internetthandel med belysningsutstyr, kjøkkenutstyr, møbler og innredningsartikler";329
+"Sum alle sektorer";"47.914 Postordre-/Internetthandel med elektriske husholdningsapparater, radio, fjernsyn, plater, kassetter og musikkinstrumenter";154
+"Sum alle sektorer";"47.915 Postordre-/internetthandel med bøker, papir, aviser og blader";32
+"Sum alle sektorer";"47.916 Postordre-/Internetthandel med IKT-utstyr";80
+"Sum alle sektorer";"47.917 Postordre-/Internetthandel med helsekost";206
+"Sum alle sektorer";"47.919 Postordre-/Internetthandel med annet spesialisert vareutvalg";2916
+"Sum alle sektorer";"47.990 Detaljhandel utenom utsalgssted ellers";1230
+"Sum alle sektorer";"49.100 Passasjertransport med jernbane";3871
+"Sum alle sektorer";"49.200 Godstransport med jernbane";452
+"Sum alle sektorer";"49.311 Rutebiltransport i by- og forstadsområde";10692
+"Sum alle sektorer";"49.312 Transport med sporveis- og forstadsbane";2523
+"Sum alle sektorer";"49.320 Drosjebiltransport";8358
+"Sum alle sektorer";"49.391 Rutebiltransport utenfor by- og forstadsområde";6407
+"Sum alle sektorer";"49.392 Turbiltransport";3522
+"Sum alle sektorer";"49.393 Transport med taubaner, kabelbaner og skiheiser";174
+"Sum alle sektorer";"49.410 Godstransport på vei";31603
+"Sum alle sektorer";"49.420 Flyttetransport";714
+"Sum alle sektorer";"49.500 Rørtransport";275
+"Sum alle sektorer";"50.101 Utenriks sjøfart med passasjerer";2398
+"Sum alle sektorer";"50.102 Innenlandske kystruter med passasjerer";7336
+"Sum alle sektorer";"50.109 Kysttrafikk ellers med passasjerer";674
+"Sum alle sektorer";"50.201 Utenriks sjøfart med gods";2801
+"Sum alle sektorer";"50.202 Innenriks sjøfart med gods";3189
+"Sum alle sektorer";"50.203 Slepebåter";689
+"Sum alle sektorer";"50.204 Forsyning og andre sjøtransporttjenester for offshore";3543
+"Sum alle sektorer";"50.300 Passasjertransport på elver og innsjøer";22
+"Sum alle sektorer";"50.400 Godstransport på elver og innsjøer";0
+"Sum alle sektorer";"51.100 Lufttransport med passasjerer";6674
+"Sum alle sektorer";"51.210 Lufttransport med gods";207
+"Sum alle sektorer";"51.220 Romfart";44
+"Sum alle sektorer";"52.100 Lagring";1890
+"Sum alle sektorer";"52.211 Drift av gods- og transportsentraler";1430
+"Sum alle sektorer";"52.212 Drift av parkeringsplasser og parkeringshus";1394
+"Sum alle sektorer";"52.213 Drift av bomstasjoner";0
+"Sum alle sektorer";"52.214 Drift av taxisentraler og annen formidling av persontransport";1640
+"Sum alle sektorer";"52.216 Kondensering av gass med henblikk på transport";0
+"Sum alle sektorer";"52.219 Tjenester tilknyttet landtransport ellers";3954
+"Sum alle sektorer";"52.221 Drift av havne- og kaianlegg";1060
+"Sum alle sektorer";"52.222 Redningstjeneste";524
+"Sum alle sektorer";"52.223 Forsyningsbaser";1557
+"Sum alle sektorer";"52.229 Tjenester tilknyttet sjøtransport ellers";2908
+"Sum alle sektorer";"52.230 Andre tjenester tilknyttet lufttransport";8305
+"Sum alle sektorer";"52.240 Lasting og lossing";1194
+"Sum alle sektorer";"52.291 Spedisjon";8450
+"Sum alle sektorer";"52.292 Skipsmegling";1055
+"Sum alle sektorer";"52.293 Flymegling";22
+"Sum alle sektorer";"52.299 Transportformidling ellers";238
+"Sum alle sektorer";"53.100 Landsdekkende posttjenester";9988
+"Sum alle sektorer";"53.200 Andre post- og budtjenester";7426
+"Sum alle sektorer";"55.101 Drift av hoteller, pensjonater og moteller med restaurant";32679
+"Sum alle sektorer";"55.102 Drift av hoteller, pensjonater og moteller uten restaurant";997
+"Sum alle sektorer";"55.201 Drift av vandrerhjem";174
+"Sum alle sektorer";"55.202 Drift av ferieleiligheter";1557
+"Sum alle sektorer";"55.300 Drift av campingplasser";1468
+"Sum alle sektorer";"55.900 Annen overnatting";208
+"Sum alle sektorer";"56.101 Drift av restauranter og kafeer";67294
+"Sum alle sektorer";"56.102 Drift av gatekjøkken";7993
+"Sum alle sektorer";"56.210 Cateringvirksomhet";5725
+"Sum alle sektorer";"56.290 Kantiner drevet som selvstendig virksomhet";8632
+"Sum alle sektorer";"56.301 Drift av puber";4464
+"Sum alle sektorer";"56.309 Drift av barer ellers";684
+"Sum alle sektorer";"58.110 Utgivelse av bøker";1768
+"Sum alle sektorer";"58.120 Utgivelse av kataloger og adresselister";11
+"Sum alle sektorer";"58.130 Utgivelse av aviser";6179
+"Sum alle sektorer";"58.140 Utgivelse av blader og tidsskrifter";1803
+"Sum alle sektorer";"58.190 Forlagsvirksomhet ellers";224
+"Sum alle sektorer";"58.210 Utgivelse av programvare for dataspill";254
+"Sum alle sektorer";"58.290 Utgivelse av annen programvare";9078
+"Sum alle sektorer";"59.110 Produksjon av film, video og fjernsynsprogrammer";3790
+"Sum alle sektorer";"59.120 Etterarbeid knyttet til produksjon av film, video og fjernsynsprogrammer";283
+"Sum alle sektorer";"59.130 Distribusjon av film, video og fjernsynsprogrammer";111
+"Sum alle sektorer";"59.140 Filmframvisning";1727
+"Sum alle sektorer";"59.200 Produksjon og utgivelse av musikk- og lydopptak";650
+"Sum alle sektorer";"60.100 Radiokringkasting";386
+"Sum alle sektorer";"60.200 Fjernsynskringkasting";5499
+"Sum alle sektorer";"61.100 Kabelbasert telekommunikasjon";5440
+"Sum alle sektorer";"61.200 Trådløs telekommunikasjon";3686
+"Sum alle sektorer";"61.300 Satellittbasert telekommunikasjon";1167
+"Sum alle sektorer";"61.900 Telekommunikasjon ellers";714
+"Sum alle sektorer";"62.010 Programmeringstjenester";27274
+"Sum alle sektorer";"62.020 Konsulentvirksomhet tilknyttet informasjonsteknologi";34993
+"Sum alle sektorer";"62.030 Forvaltning og drift av IT-systemer";6120
+"Sum alle sektorer";"62.090 Andre tjenester tilknyttet informasjonsteknologi";300
+"Sum alle sektorer";"63.110 Databehandling, datalagring og tilknyttede tjenester";3654
+"Sum alle sektorer";"63.120 Drift av web-portaler";2437
+"Sum alle sektorer";"63.910 Nyhetsbyråer";399
+"Sum alle sektorer";"63.990 Andre informasjonstjenester ikke nevnt annet sted";158
+"Sum alle sektorer";"64.110 Sentralbankvirksomhet";1195
+"Sum alle sektorer";"64.190 Bankvirksomhet ellers";26867
+"Sum alle sektorer";"64.201 Finansielle holdingselskaper";328
+"Sum alle sektorer";"64.202 Spesielle holdingselskaper";52
+"Sum alle sektorer";"64.301 Verdipapirfond";0
+"Sum alle sektorer";"64.302 Alternative investeringsfond (AIF) som ikke er verdipapirfond";27
+"Sum alle sektorer";"64.305 Finansstiftelser";106
+"Sum alle sektorer";"64.306 Egeninvesteringsselskaper i finansielle konsern og for offentlig forvaltning";168
+"Sum alle sektorer";"64.308 Familieeide egeninvesteringsselskaper";588
+"Sum alle sektorer";"64.910 Finansiell leasing";0
+"Sum alle sektorer";"64.920 Annen kredittgivning";2699
+"Sum alle sektorer";"64.990 Annen finansieringsvirksomhet ikke nevnt annet sted";28
+"Sum alle sektorer";"65.110 Livsforsikring";2754
+"Sum alle sektorer";"65.120 Skadeforsikring";9098
+"Sum alle sektorer";"65.200 Gjenforsikring";0
+"Sum alle sektorer";"65.300 Pensjonskasser";211
+"Sum alle sektorer";"66.110 Administrasjon av finansmarkeder";397
+"Sum alle sektorer";"66.120 Verdipapirmegling";2045
+"Sum alle sektorer";"66.190 Andre tjenester tilknyttet finansieringsvirksomhet";2481
+"Sum alle sektorer";"66.210 Risiko- og skadevurdering";0
+"Sum alle sektorer";"66.220 Forsikringsformidling";3105
+"Sum alle sektorer";"66.290 Andre tjenester tilknyttet forsikringsvirksomhet og pensjonskasser";959
+"Sum alle sektorer";"66.300 Fondsforvaltningsvirksomhet";1745
+"Sum alle sektorer";"68.100 Kjøp og salg av egen fast eiendom";2103
+"Sum alle sektorer";"68.201 Borettslag";1861
+"Sum alle sektorer";"68.209 Utleie av egen eller leid fast eiendom ellers";16320
+"Sum alle sektorer";"68.310 Eiendomsmegling";7135
+"Sum alle sektorer";"68.320 Eiendomsforvaltning";4559
+"Sum alle sektorer";"69.100 Juridisk tjenesteyting";8033
+"Sum alle sektorer";"69.201 Regnskap og bokføring";17980
+"Sum alle sektorer";"69.202 Revisjon";11824
+"Sum alle sektorer";"69.203 Skatterådgivning";49
+"Sum alle sektorer";"70.100 Hovedkontortjenester";0
+"Sum alle sektorer";"70.210 PR og kommunikasjonstjenester";948
+"Sum alle sektorer";"70.220 Bedriftsrådgivning og annen administrativ rådgivning";14828
+"Sum alle sektorer";"71.111 Plan- og reguleringsarbeid";152
+"Sum alle sektorer";"71.112 Arkitekttjenester vedrørende byggverk";6088
+"Sum alle sektorer";"71.113 Landskapsarkitekttjenester";328
+"Sum alle sektorer";"71.121 Byggeteknisk konsulentvirksomhet";21409
+"Sum alle sektorer";"71.122 Geologiske undersøkelser";1758
+"Sum alle sektorer";"71.123 Kart og oppmåling";1250
+"Sum alle sektorer";"71.129 Annen teknisk konsulentvirksomhet";25335
+"Sum alle sektorer";"71.200 Teknisk prøving og analyse";8815
+"Sum alle sektorer";"72.110 Forskning og utviklingsarbeid innen bioteknologi";1133
+"Sum alle sektorer";"72.190 Annen forskning og annet utviklingsarbeid innen naturvitenskap og teknikk";16881
+"Sum alle sektorer";"72.200 Forskning og utviklingsarbeid innen samfunnsvitenskap og humanistiske fag";2362
+"Sum alle sektorer";"73.110 Reklamebyråer";7172
+"Sum alle sektorer";"73.120 Medieformidlingstjenester";1329
+"Sum alle sektorer";"73.200 Markeds- og opinionsundersøkelser";1185
+"Sum alle sektorer";"74.101 Industridesign, produktdesign og annen teknisk designvirksomhet";2789
+"Sum alle sektorer";"74.102 Grafisk og visuell kommunikasjonsdesign";1698
+"Sum alle sektorer";"74.103 Interiørarkitekt-, interiørdesign- og interiørkonsulentvirksomhet";1114
+"Sum alle sektorer";"74.200 Fotografvirksomhet";783
+"Sum alle sektorer";"74.300 Oversettelses- og tolkevirksomhet";5500
+"Sum alle sektorer";"74.901 Takseringsvirksomhet";467
+"Sum alle sektorer";"74.902 Modellbyråvirksomhet";81
+"Sum alle sektorer";"74.903 Impresariovirksomhet";549
+"Sum alle sektorer";"74.909 Annen faglig, vitenskapelig og teknisk virksomhet ikke nevnt annet sted";2517
+"Sum alle sektorer";"75.000 Veterinærtjenester";3807
+"Sum alle sektorer";"77.110 Utleie og leasing av biler og andre lette motorvogner";2283
+"Sum alle sektorer";"77.120 Utleie og leasing av lastebiler";109
+"Sum alle sektorer";"77.210 Utleie og leasing av sports- og fritidsutstyr";542
+"Sum alle sektorer";"77.220 Utleie av videofilm, DVD og lignende";0
+"Sum alle sektorer";"77.290 Utleie og leasing av andre husholdningsvarer og varer til personlig bruk";490
+"Sum alle sektorer";"77.310 Utleie og leasing av landbruksmaskiner og -utstyr";30
+"Sum alle sektorer";"77.320 Utleie og leasing av bygge- og anleggsmaskiner og -utstyr";3333
+"Sum alle sektorer";"77.330 Utleie og leasing av kontor- og datamaskiner";59
+"Sum alle sektorer";"77.340 Utleie og leasing av sjøtransportmateriell";307
+"Sum alle sektorer";"77.350 Utleie og leasing av lufttransportmateriell";26
+"Sum alle sektorer";"77.390 Utleie og leasing av andre maskiner og annet utstyr og materiell ikke nevnt annet sted";1625
+"Sum alle sektorer";"77.400 Leasing av immateriell eiendom og lignende produkter, unntatt opphavsrettsbeskyttede verker";1133
+"Sum alle sektorer";"78.100 Rekruttering og formidling av arbeidskraft";2783
+"Sum alle sektorer";"78.200 Utleie av arbeidskraft";53698
+"Sum alle sektorer";"78.300 Andre personaladministrative tjenester";9
+"Sum alle sektorer";"79.110 Reisebyråvirksomhet";1643
+"Sum alle sektorer";"79.120 Reisearrangørvirksomhet";1439
+"Sum alle sektorer";"79.901 Turistkontorvirksomhet og destinasjonsselskaper";532
+"Sum alle sektorer";"79.902 Guider og reiseledere";736
+"Sum alle sektorer";"79.903 Opplevelses-, arrangements- og aktivitetsarrangørvirksomhet";1908
+"Sum alle sektorer";"79.909 Turistrelaterte tjenester ikke nevnt annet sted";3
+"Sum alle sektorer";"80.100 Private vakttjenester";9489
+"Sum alle sektorer";"80.200 Tjenester tilknyttet vakttjenester";4650
+"Sum alle sektorer";"80.300 Etterforsking";9
+"Sum alle sektorer";"81.101 Vaktmestertjenester";4965
+"Sum alle sektorer";"81.109 Andre kombinerte tjenester tilknyttet eiendomsdrift";19657
+"Sum alle sektorer";"81.210 Rengjøring av bygninger";30168
+"Sum alle sektorer";"81.220 Utvendig rengjøring av bygninger og industriell rengjøring";1362
+"Sum alle sektorer";"81.291 Skadedyrkontroll";792
+"Sum alle sektorer";"81.299 Annen rengjøringsvirksomhet ikke nevnt annet sted";929
+"Sum alle sektorer";"81.300 Beplantning av hager og parkanlegg";4537
+"Sum alle sektorer";"82.110 Kombinerte kontortjenester";2625
+"Sum alle sektorer";"82.190 Fotokopiering, forberedelse av dokumenter og andre spesialiserte kontortjenester";24
+"Sum alle sektorer";"82.201 Telefonvakttjenester";1294
+"Sum alle sektorer";"82.202 Telefonsalg";2174
+"Sum alle sektorer";"82.300 Kongress-, messe- og utstillingsvirksomhet";1772
+"Sum alle sektorer";"82.910 Inkasso- og kredittopplysningsvirksomhet";2767
+"Sum alle sektorer";"82.920 Pakkevirksomhet";312
+"Sum alle sektorer";"82.990 Annen forretningsmessig tjenesteyting ikke nevnt annet sted";3683
+"Sum alle sektorer";"84.110 Generell offentlig administrasjon";49048
+"Sum alle sektorer";"84.120 Offentlig administrasjon tilknyttet helsestell, sosial virksomhet, undervisning, kirke, kultur og miljøvern";29532
+"Sum alle sektorer";"84.130 Offentlig administrasjon tilknyttet næringsvirksomhet og arbeidsmarked";25540
+"Sum alle sektorer";"84.210 Utenrikssaker";2130
+"Sum alle sektorer";"84.220 Forsvar";37473
+"Sum alle sektorer";"84.230 Retts- og fengselsvesen";7493
+"Sum alle sektorer";"84.240 Politi- og påtalemyndighet";20349
+"Sum alle sektorer";"84.250 Brannvern";11152
+"Sum alle sektorer";"84.300 Trygdeordninger underlagt offentlig forvaltning";15249
+"Sum alle sektorer";"85.100 Førskoleundervisning";21
+"Sum alle sektorer";"85.201 Ordinær grunnskoleundervisning";122323
+"Sum alle sektorer";"85.202 Spesialskoleundervisning for funksjonshemmede";2870
+"Sum alle sektorer";"85.203 Kompetansesentra og annen spesialundervisning";2112
+"Sum alle sektorer";"85.310 Videregående opplæring innen allmennfaglige studieretninger";22395
+"Sum alle sektorer";"85.320 Videregående opplæring innen tekniske og andre yrkesfaglige studieretninger";21328
+"Sum alle sektorer";"85.410 Undervisning ved fagskoler";1985
+"Sum alle sektorer";"85.421 Undervisning ved universiteter";45047
+"Sum alle sektorer";"85.422 Undervisning ved vitenskapelige høgskoler";4557
+"Sum alle sektorer";"85.423 Undervisning ved statlige høgskoler";5701
+"Sum alle sektorer";"85.424 Undervisning ved militære høgskoler";0
+"Sum alle sektorer";"85.429 Undervisning ved andre høgskoler";3717
+"Sum alle sektorer";"85.510 Undervisning innen idrett og rekreasjon";1613
+"Sum alle sektorer";"85.521 Kommunal kulturskoleundervisning";5693
+"Sum alle sektorer";"85.522 Undervisning i kunstfag";815
+"Sum alle sektorer";"85.529 Annen undervisning innen kultur";40
+"Sum alle sektorer";"85.530 Trafikkskoleundervisning";3112
+"Sum alle sektorer";"85.591 Folkehøgskoleundervisning";2023
+"Sum alle sektorer";"85.592 Arbeidsmarkedskurs";434
+"Sum alle sektorer";"85.593 Studieforbunds- og frivillige organisasjoners kurs";410
+"Sum alle sektorer";"85.594 Voksenopplæringssentre";6289
+"Sum alle sektorer";"85.595 Timelærervirksomhet";185
+"Sum alle sektorer";"85.596 Undervisning innen religion";36
+"Sum alle sektorer";"85.599 Annen undervisning ikke nevnt annet sted";6278
+"Sum alle sektorer";"85.601 Pedagogisk-psykologisk rådgivningstjeneste";4104
+"Sum alle sektorer";"85.609 Andre tjenester tilknyttet undervisning";1934
+"Sum alle sektorer";"86.101 Alminnelige somatiske sykehus";103028
+"Sum alle sektorer";"86.102 Somatiske spesialsykehus";3110
+"Sum alle sektorer";"86.103 Andre somatiske spesialinstitusjoner";616
+"Sum alle sektorer";"86.104 Institusjoner i psykisk helsevern for voksne";20210
+"Sum alle sektorer";"86.105 Institusjoner i psykisk helsevern for barn og unge";2390
+"Sum alle sektorer";"86.106 Rusmiddelinstitusjoner";4627
+"Sum alle sektorer";"86.107 Rehabiliterings- og opptreningsinstitusjoner";8237
+"Sum alle sektorer";"86.211 Allmenn legetjeneste";17837
+"Sum alle sektorer";"86.212 Somatiske poliklinikker";354
+"Sum alle sektorer";"86.221 Spesialisert legetjeneste, unntatt psykiatrisk legetjeneste";2783
+"Sum alle sektorer";"86.222 Legetjenester innen psykisk helsevern";103
+"Sum alle sektorer";"86.223 Poliklinikker i psykisk helsevern for voksne";4904
+"Sum alle sektorer";"86.224 Poliklinikker i psykisk helsevern for barn og unge";3239
+"Sum alle sektorer";"86.225 Rusmiddelpoliklinikker";1257
+"Sum alle sektorer";"86.230 Tannhelsetjenester";12227
+"Sum alle sektorer";"86.901 Hjemmesykepleie";48351
+"Sum alle sektorer";"86.902 Fysioterapitjeneste";4547
+"Sum alle sektorer";"86.903 Helsestasjons- og skolehelsetjeneste";8624
+"Sum alle sektorer";"86.904 Annen forebyggende helsetjeneste";11147
+"Sum alle sektorer";"86.905 Klinisk psykologtjeneste";573
+"Sum alle sektorer";"86.906 Medisinske laboratorietjenester";11251
+"Sum alle sektorer";"86.907 Ambulansetjenester";7960
+"Sum alle sektorer";"86.909 Andre helsetjenester";4709
+"Sum alle sektorer";"87.101 Somatiske spesialsykehjem";1877
+"Sum alle sektorer";"87.102 Somatiske sykehjem";89528
+"Sum alle sektorer";"87.201 Psykiatriske sykehjem";602
+"Sum alle sektorer";"87.202 Omsorgsinstitusjoner for rusmiddelmisbrukere";2131
+"Sum alle sektorer";"87.203 Bofellesskap for psykisk utviklingshemmede";39553
+"Sum alle sektorer";"87.301 Aldershjem";196
+"Sum alle sektorer";"87.302 Bofellesskap for eldre og funksjonshemmede med fast tilknyttet personell hele døgnet";37884
+"Sum alle sektorer";"87.303 Bofellesskap for eldre og funksjonshemmede med fast tilknyttet personell deler av døgnet";3516
+"Sum alle sektorer";"87.304 Avlastningsboliger/-institusjoner";9331
+"Sum alle sektorer";"87.305 Barneboliger";1571
+"Sum alle sektorer";"87.901 Institusjoner innen barne- og ungdomsvern";10061
+"Sum alle sektorer";"87.909 Omsorgsinstitusjoner ellers";3057
+"Sum alle sektorer";"88.101 Hjemmehjelp";29287
+"Sum alle sektorer";"88.102 Dagsentra/aktivitetssentra for eldre og funksjonshemmede";9198
+"Sum alle sektorer";"88.103 Eldresentre";670
+"Sum alle sektorer";"88.911 Barnehager";100454
+"Sum alle sektorer";"88.912 Barneparker og dagmammaer";37
+"Sum alle sektorer";"88.913 Skolefritidsordninger";24434
+"Sum alle sektorer";"88.914 Fritidsklubber for barn og ungdom";3240
+"Sum alle sektorer";"88.991 Barneverntjenester";14235
+"Sum alle sektorer";"88.992 Familieverntjenester";883
+"Sum alle sektorer";"88.993 Arbeidstrening for ordinært arbeidsmarked";6742
+"Sum alle sektorer";"88.994 Varig tilrettelagt arbeid";7220
+"Sum alle sektorer";"88.995 Sosiale velferdsorganisasjoner";4827
+"Sum alle sektorer";"88.996 Asylmottak";1782
+"Sum alle sektorer";"88.997 Sosialtjenester for rusmiddelmisbrukere uten botilbud";2261
+"Sum alle sektorer";"88.998 Kommunale sosialkontortjenester";9884
+"Sum alle sektorer";"88.999 Andre sosialtjenester uten botilbud";7495
+"Sum alle sektorer";"90.011 Utøvende kunstnere og underholdningsvirksomhet innen musikk";1732
+"Sum alle sektorer";"90.012 Utøvende kunstnere og underholdningsvirksomhet innen scenekunst";3683
+"Sum alle sektorer";"90.019 Utøvende kunstnere og underholdningsvirksomhet ikke nevnt annet sted";159
+"Sum alle sektorer";"90.020 Tjenester tilknyttet underholdningsvirksomhet";3921
+"Sum alle sektorer";"90.031 Selvstendig kunstnerisk virksomhet innen visuell kunst";382
+"Sum alle sektorer";"90.032 Selvstendig kunstnerisk virksomhet innen musikk";53
+"Sum alle sektorer";"90.033 Selvstendig kunstnerisk virksomhet innen scenekunst";76
+"Sum alle sektorer";"90.034 Selvstendig kunstnerisk virksomhet innen litteratur";292
+"Sum alle sektorer";"90.035 Selvstendig kunstnerisk virksomhet innen blogging";45
+"Sum alle sektorer";"90.039 Selvstendig kunstnerisk virksomhet ikke nevnt annet sted";33
+"Sum alle sektorer";"90.040 Drift av lokaler tilknyttet kunstnerisk virksomhet";2086
+"Sum alle sektorer";"91.011 Drift av folkebiblioteker";3254
+"Sum alle sektorer";"91.012 Drift av fag- og forskningsbiblioteker";1080
+"Sum alle sektorer";"91.013 Drift av arkiver";784
+"Sum alle sektorer";"91.021 Drift av kunst- og kunstindustrimuseer";1320
+"Sum alle sektorer";"91.022 Drift av kulturhistoriske museer";3749
+"Sum alle sektorer";"91.023 Drift av naturhistoriske museer";475
+"Sum alle sektorer";"91.029 Drift av museer ikke nevnt annet sted";112
+"Sum alle sektorer";"91.030 Drift av historiske steder og bygninger og lignende severdigheter";1054
+"Sum alle sektorer";"91.040 Drift av botaniske og zoologiske hager og naturreservater";461
+"Sum alle sektorer";"92.000 Lotteri og totalisatorspill";1387
+"Sum alle sektorer";"93.110 Drift av idrettsanlegg";7584
+"Sum alle sektorer";"93.120 Idrettslag og -klubber";20497
+"Sum alle sektorer";"93.130 Treningssentre";11725
+"Sum alle sektorer";"93.190 Andre sportsaktiviteter";2047
+"Sum alle sektorer";"93.210 Drift av fornøyelses- og temaparker";2294
+"Sum alle sektorer";"93.291 Opplevelsesaktiviteter";1318
+"Sum alle sektorer";"93.292 Fritidsetablissement";811
+"Sum alle sektorer";"93.299 Fritidsvirksomhet ellers";108
+"Sum alle sektorer";"94.110 Næringslivs- og arbeidsgiverorganisasjoner";2627
+"Sum alle sektorer";"94.120 Yrkessammenslutninger";1697
+"Sum alle sektorer";"94.200 Arbeidstakerorganisasjoner";5103
+"Sum alle sektorer";"94.910 Religiøse organisasjoner";14483
+"Sum alle sektorer";"94.920 Partipolitiske organisasjoner";756
+"Sum alle sektorer";"94.991 Aktiviteter i andre interesseorganisasjoner ikke nevnt annet sted";10552
+"Sum alle sektorer";"94.992 Fond/legat som støtter veldedige og allmennyttige formål";1320
+"Sum alle sektorer";"95.110 Reparasjon av datamaskiner og tilleggsutstyr";648
+"Sum alle sektorer";"95.120 Reparasjon av kommunikasjonsutstyr";175
+"Sum alle sektorer";"95.210 Reparasjon av elektronikk til husholdningsbruk";215
+"Sum alle sektorer";"95.220 Reparasjon av husholdningsvarer og hageredskaper";311
+"Sum alle sektorer";"95.230 Reparasjon av skotøy og lærvarer";91
+"Sum alle sektorer";"95.240 Reparasjon av møbler og boliginnredning";133
+"Sum alle sektorer";"95.250 Reparasjon av ur, gull- og sølvvarer";48
+"Sum alle sektorer";"95.290 Reparasjon av andre husholdningsvarer og varer til personlig bruk";306
+"Sum alle sektorer";"96.010 Vaskeri- og renserivirksomhet";3119
+"Sum alle sektorer";"96.020 Frisering og annen skjønnhetspleie";13794
+"Sum alle sektorer";"96.030 Begravelsesbyråvirksomhet og drift av kirkegårder og krematorier";1890
+"Sum alle sektorer";"96.040 Virksomhet knyttet til kroppspleie og fysisk velvære";1424
+"Sum alle sektorer";"96.090 Personlig tjenesteyting ikke nevnt annet sted";826
+"Sum alle sektorer";"97.000 Lønnet arbeid i private husholdninger";2351
+"Sum alle sektorer";"99.000 Internasjonale organisasjoner og organer";13

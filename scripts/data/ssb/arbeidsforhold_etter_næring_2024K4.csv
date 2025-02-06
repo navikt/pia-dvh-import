@@ -1,0 +1,90 @@
+"11656: Lønnstakere og jobber, etter alder, næring (SN2007), statistikkvariabel, kvartal og kjønn"
+
+"alder";"næring (SN2007)";"Antall jobber (arbeidsforhold) 2024K4 Begge kjønn"
+"Alle aldre";"01 Jordbruk og tilhørende tjenester, jakt";23315
+"Alle aldre";"02 Skogbruk og tilhørende tjenester";3655
+"Alle aldre";"03 Fiske, fangst og akvakultur";16252
+"Alle aldre";"05 Bryting av steinkull og brunkull";78
+"Alle aldre";"06 Utvinning av råolje og naturgass";27257
+"Alle aldre";"07 Bryting av metallholdig malm";742
+"Alle aldre";"08 Bryting og bergverksdrift ellers";3911
+"Alle aldre";"09 Tjenester til bergverk og utvinning";38159
+"Alle aldre";"10 Næringsmiddelindustri";51971
+"Alle aldre";"11 Drikkevareindustri";3509
+"Alle aldre";"12 Tobakksindustri";12
+"Alle aldre";"13 Tekstilindustri";2993
+"Alle aldre";"14 Bekledningsindustri";1420
+"Alle aldre";"15 Lær- og lærvareindustri";89
+"Alle aldre";"16 Trelast- og trevareindustri";12021
+"Alle aldre";"17 Papir- og papirvareindustri";2599
+"Alle aldre";"18 Trykking, grafisk industri";3677
+"Alle aldre";"19 Petroleums- og kullvareindustri";1031
+"Alle aldre";"20 Kjemisk industri";9882
+"Alle aldre";"21 Farmasøytisk industri";3215
+"Alle aldre";"22 Gummivare- og plastindustri";4736
+"Alle aldre";"23 Mineralproduktindustri";9661
+"Alle aldre";"24 Metallindustri";10787
+"Alle aldre";"25 Metallvareindustri";26405
+"Alle aldre";"26 Data- og elektronisk industri";9673
+"Alle aldre";"27 Elektroteknisk industri";9735
+"Alle aldre";"28 Maskinindustri";17455
+"Alle aldre";"29 Motorkjøretøyindustri";2800
+"Alle aldre";"30 Transportmiddelindustri ellers";16976
+"Alle aldre";"31 Møbelindustri";4330
+"Alle aldre";"32 Annen industri";3761
+"Alle aldre";"33 Maskinreparasjon og -installasjon";22672
+"Alle aldre";"35 Kraftforsyning";19053
+"Alle aldre";"36 Vannforsyning";3188
+"Alle aldre";"37 Håndtering av avløpsvann";3443
+"Alle aldre";"38 Avfallshåndtering";13166
+"Alle aldre";"39 Miljørydding og miljørensing";157
+"Alle aldre";"41 Oppføring av bygninger";74302
+"Alle aldre";"42 Anleggsvirksomhet";30502
+"Alle aldre";"43 Spesialisert bygge- og anleggsvirksomhet";151259
+"Alle aldre";"45 Handel med og reparasjon av motorvogner";55171
+"Alle aldre";"46 Agentur- og engroshandel, unntatt med motorvogner";108525
+"Alle aldre";"47 Detaljhandel, unntatt med motorvogner";227173
+"Alle aldre";"49 Landtransport og rørtransport";68590
+"Alle aldre";"50 Sjøfart";20654
+"Alle aldre";"51 Lufttransport";6925
+"Alle aldre";"52 Transporttjenester og lagring";35621
+"Alle aldre";"53 Post og distribusjonsvirksomhet";17412
+"Alle aldre";"55 Overnattingsvirksomhet";37082
+"Alle aldre";"56 Serveringsvirksomhet";94792
+"Alle aldre";"58 Forlagsvirksomhet";19316
+"Alle aldre";"59 Film- og TV-produksjon, musikkutgivelse";6561
+"Alle aldre";"60 Radio- og fjernsynskringkasting";5886
+"Alle aldre";"61 Telekommunikasjon";11012
+"Alle aldre";"62 IT-tjenester";68686
+"Alle aldre";"63 Informasjonstjenester";6646
+"Alle aldre";"64 Finansieringsvirksomhet";32055
+"Alle aldre";"65 Forsikring og pensjonskasser";12063
+"Alle aldre";"66 Finans-, forsikringshjelpetjenester";10730
+"Alle aldre";"68 Omsetning og drift av fast eiendom";31975
+"Alle aldre";"69 Juridisk og regnskapsmessig tjenesteyting";37886
+"Alle aldre";"70 Hovedkontortjenester, administrativ rådgivning";15776
+"Alle aldre";"71 Arkitekter og tekniske konsulenter";65136
+"Alle aldre";"72 Forskning og utviklingsarbeid";20377
+"Alle aldre";"73 Reklamevirksomhet og markedsundersøkelser";9687
+"Alle aldre";"74 Annen faglig, vitenskapelig og teknisk virksomhet";15496
+"Alle aldre";"75 Veterinærtjenester";3808
+"Alle aldre";"77 Utleie- og leasingvirksomhet";9935
+"Alle aldre";"78 Arbeidskrafttjenester";56493
+"Alle aldre";"79 Reisebyråer og reisearrangører";6261
+"Alle aldre";"80 Vakttjeneste og etterforsking";14149
+"Alle aldre";"81 Tjenester tilknyttet eiendomsdrift";62415
+"Alle aldre";"82 Forretningsmessig tjenesteyting ellers";14646
+"Alle aldre";"84 Off.adm., forsvar, sosialforsikring";197964
+"Alle aldre";"85 Undervisning";265022
+"Alle aldre";"86 Helsetjenester";282085
+"Alle aldre";"87 Pleie og omsorg i institusjon";199309
+"Alle aldre";"88 Omsorg uten botilbud, barnehager mv.";222646
+"Alle aldre";"90 Kunstnerisk virksomhet og underholdning";12464
+"Alle aldre";"91 Bibliotek, muséer o.a. kulturvirksomhet";12290
+"Alle aldre";"92 Lotteri og totalisatorspill";1388
+"Alle aldre";"93 Sports- og fritidsaktiviteter";46381
+"Alle aldre";"94 Aktiviteter i medlemsorgansiasjoner";36540
+"Alle aldre";"95 Reparasjon av varer til personlig bruk";1927
+"Alle aldre";"96 Annen personlig tjenesteyting";21053
+"Alle aldre";"97 Lønnet arbeid i private husholdninger";2350
+"Alle aldre";"99 Internasjonale organer";15
