@@ -1,3 +1,2 @@
 kafkaPool: nav-dev
-retentionHours: 0
 bucketName: pia-sykefravarsstatistikk-api_test-bucket-1

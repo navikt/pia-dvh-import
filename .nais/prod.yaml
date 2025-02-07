@@ -1,3 +1,2 @@
 kafkaPool: nav-prod
-retentionHours: 0
 bucketName: syfra-ia-agg-data-prod
