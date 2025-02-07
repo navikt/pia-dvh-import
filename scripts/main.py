@@ -52,7 +52,7 @@ def skriv_virksomheter_til_fil(
     outputdir: str,
     nasjonalt_sykefravær,
 ):
-    logging.debug(f"genererer data for {len(virksomheter)} virksomheter")
+    logging.debug(f"Genererer data for {len(virksomheter)} virksomheter")
     virksomhet_json = [
         v.til_virksomhet_json(årstall, kvartal, nasjonalt_sykefravær)
         for v in virksomheter
@@ -85,8 +85,6 @@ def generer_data(
     gjennomsnittlig_stillingsprosent,
 ):
     ################################################ publiseringsdato.json ################################################
-    logging.info("TODO: Generer data for publiseringsdato dynamisk")
-
     publiseringsdato = [
         {
             "rapport_periode": "202403",
@@ -115,7 +113,7 @@ def generer_data(
     # skriv_til_fil(data=publiseringsdato, filnavn=filnavn)
 
     ################################################ land.json ################################################
-    logging.info("Genererer data for land")
+    logging.debug("Genererer data for land")
 
     seed_land = årstall + kvartal
 
@@ -137,21 +135,23 @@ def generer_data(
         sykefraværsprosent=sykefraværsprosent_nasjonalt,
     )
 
-    land_data = {
-        "land": "NO",
-        "årstall": årstall,
-        "kvartal": kvartal,
-        "prosent": round(sykefraværsprosent_nasjonalt, 2),
-        "tapteDagsverk": round(tapte_dagsverk_nasjonalt, 2),
-        "muligeDagsverk": round(mulige_dagsverk_nasjonalt, 2),
-        "antallPersoner": round(antall_personer_nasjonalt),
-    }
+    land_data = [
+        {
+            "land": "NO",
+            "årstall": årstall,
+            "kvartal": kvartal,
+            "prosent": round(sykefraværsprosent_nasjonalt, 2),
+            "tapteDagsverk": round(tapte_dagsverk_nasjonalt, 2),
+            "muligeDagsverk": round(mulige_dagsverk_nasjonalt, 2),
+            "antallPersoner": round(antall_personer_nasjonalt),
+        }
+    ]
 
     filnavn = f"{output_dir}/{årstall}/K{kvartal}/land.json"
     skriv_til_fil(data=land_data, filnavn=filnavn)
 
     ################################################ sektor.json ################################################
-    logging.info("Genererer data for sektor")
+    logging.debug("Genererer data for sektor")
 
     sektor_data = []
     sektorer = ["1", "2", "3"]
@@ -198,7 +198,7 @@ def generer_data(
     skriv_til_fil(data=sektor_data, filnavn=filnavn)
 
     ################################################ naering.json ################################################
-    logging.info("genererer data for næring (TODO: generer dynamisk)")
+    logging.debug("Genererer data for næring")
     næring_data = []
     for næring in list(arbeidsforhold_per_næring.keys()):
         seed_næring = årstall + kvartal + int(næring)
@@ -264,7 +264,7 @@ def generer_data(
     skriv_til_fil(data=næring_data, filnavn=filnavn)
 
     ################################################ naeringskode.json ################################################
-    logging.info("genererer data for næringskode")
+    logging.debug("Genererer data for næringskode")
 
     næringskode_data = []
     for næringskode in list(arbeidsforhold_per_næringskode.keys()):
@@ -333,7 +333,7 @@ def generer_data(
     skriv_til_fil(data=næringskode_data, filnavn=filnavn)
 
     ################################################ Virksomheter ################################################
-    logging.info("genererer data for virksomheter")
+    logging.debug("Genererer data for virksomheter")
 
     # TODO: Rectype er hardkodet
     rectype = "2"
@@ -415,7 +415,7 @@ def generer_data(
     filnavn = f"{output_dir}/{årstall}/K{kvartal}/virksomhet_metadata.json"
     skriv_til_fil(data=virksomhet_metadata_json, filnavn=filnavn)
 
-    logging.info("Data ferdig generert")
+    logging.debug(f"{årstall}/K{kvartal} ferdig")
 
 
 def pluss_minus_prosent(seed: int, tall: float, prosent: float = 0.1) -> float:
@@ -424,7 +424,7 @@ def pluss_minus_prosent(seed: int, tall: float, prosent: float = 0.1) -> float:
 
 
 def skriv_til_fil(data, filnavn):
-    logging.info(f"skriver data til fil: {filnavn}")
+    logging.debug(f"skriver data til fil: {filnavn}")
     with open(filnavn, "w", encoding="utf-8") as f:
         json.dump(data, f, ensure_ascii=False, indent=4)
 
@@ -445,9 +445,6 @@ def main():
     arbeidsforhold_nasjonalt = arbeidsforhold_per_sektor["0"]
 
     # hent virksomheter fra tenor
-    # TODO: Sjekk for duplikater:
-    # verifiser at alle virksomheter er i testvirksomheter.csv
-    # verifiser at alle virksomheter i testvirksomheter.csv er i TENOR filene
     tenor_filer = []
     for path, subdirs, files in os.walk("data/tenor"):
         for name in files:
