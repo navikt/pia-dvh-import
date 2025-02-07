@@ -19,5 +19,8 @@ spec:
       application: pia-dvh-import
       access: readwrite   # read, write, readwrite
     - team: pia
+      application: pia-sykefravarsstatistikk
+      access: read
+    - team: pia
       application: pia-devops
       access: read

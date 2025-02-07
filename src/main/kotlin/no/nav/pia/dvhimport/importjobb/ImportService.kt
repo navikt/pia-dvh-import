@@ -117,6 +117,7 @@ class ImportService(
                     sendTilKafka(
                         årstallOgKvartal = årstallOgKvartal,
                         statistikk = it,
+                        kategori = kategori,
                     )
                 }
             }
@@ -129,6 +130,7 @@ class ImportService(
                     sendTilKafka(
                         årstallOgKvartal = årstallOgKvartal,
                         statistikk = it,
+                        kategori = kategori,
                     )
                 }
             }
@@ -141,6 +143,7 @@ class ImportService(
                     sendTilKafka(
                         årstallOgKvartal = årstallOgKvartal,
                         statistikk = it,
+                        kategori = kategori,
                     )
                 }
             }
@@ -153,6 +156,7 @@ class ImportService(
                     sendTilKafka(
                         årstallOgKvartal = årstallOgKvartal,
                         statistikk = it,
+                        kategori = kategori,
                     )
                 }
             }
@@ -162,6 +166,7 @@ class ImportService(
                     sendTilKafka(
                         årstallOgKvartal = årstallOgKvartal,
                         statistikk = it,
+                        kategori = kategori,
                     )
                 }
             }
@@ -197,6 +202,7 @@ class ImportService(
                         sendTilKafka(
                             årstallOgKvartal = årstallOgKvartal,
                             statistikk,
+                            kategori = StatistikkKategori.VIRKSOMHET,
                         )
                     } else {
                         logger.info("Skal IKKE sende til kafka i load-test. Gjelder ${statistikk.size} statistikk")
@@ -417,7 +423,9 @@ class ImportService(
     private fun <T> sendTilKafka(
         årstallOgKvartal: ÅrstallOgKvartal,
         statistikk: List<T>,
+        kategori: StatistikkKategori,
     ) {
+        logger.info("Sender ${statistikk.size} statistikk for kategori $kategori til Kafka")
         statistikk.forEach {
             eksportProdusent.sendMelding(
                 melding = SykefraværsstatistikkMelding(
