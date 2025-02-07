@@ -1,2 +1,2 @@
 kafkaPool: nav-prod
-retentionHours: 0
+retentionHours: 8
