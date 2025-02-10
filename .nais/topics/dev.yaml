@@ -1,2 +1,2 @@
 kafkaPool: nav-dev
-retentionHours: 0
+retentionHours: 1
