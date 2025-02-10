@@ -120,8 +120,8 @@ def generer_data(
     sykefraværsprosent_nasjonalt = pluss_minus_prosent(seed=seed_land, tall=6.0)
 
     # TODO over tid vil sysselsatte gå opp og ned med denne utregningen, burde se på forrige kvartal og legge til ?
-    antall_personer_nasjonalt = pluss_minus_prosent(
-        seed=seed_land, tall=arbeidsforhold_nasjonalt
+    antall_personer_nasjonalt = round(
+        pluss_minus_prosent(seed=seed_land, tall=arbeidsforhold_nasjonalt)
     )
 
     mulige_dagsverk_nasjonalt = mulige_dagsverk(
@@ -143,7 +143,7 @@ def generer_data(
             "prosent": round(sykefraværsprosent_nasjonalt, 2),
             "tapteDagsverk": round(tapte_dagsverk_nasjonalt, 2),
             "muligeDagsverk": round(mulige_dagsverk_nasjonalt, 2),
-            "antallPersoner": round(antall_personer_nasjonalt),
+            "antallPersoner": antall_personer_nasjonalt,
         }
     ]
 
@@ -159,8 +159,10 @@ def generer_data(
     for sektor in sektorer:
         seed_sektor = årstall + kvartal + int(sektor)
 
-        antall_personer_sektor = pluss_minus_prosent(
-            seed=seed_sektor, tall=arbeidsforhold_per_sektor[sektor]
+        antall_personer_sektor = round(
+            pluss_minus_prosent(
+                seed=seed_sektor, tall=arbeidsforhold_per_sektor[sektor]
+            )
         )
 
         sykefraværsprosent_sektor = pluss_minus_prosent(
