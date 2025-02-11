@@ -218,7 +218,7 @@ def generer_næringskode(
         sykefraværsprosent=prosent,
     )
 
-    tapte_dagsverk_gradert = tapte_dagsverk * stillingsprosent * 0.5
+    tapte_dagsverk_gradert = round(tapte_dagsverk * stillingsprosent * 0.5, 6)
 
     tapte_dagsverk_per_varighet = fordel_tapte_dagsverk(
         seed=seed,
