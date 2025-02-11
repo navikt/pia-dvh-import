@@ -185,7 +185,6 @@ class ImportService(
         årstallOgKvartal: ÅrstallOgKvartal,
     ) {
         try {
-            val skalSendeTilKafka = !brukÅrOgKvartalIPathTilFilene // TODO: DELETE ME etter load-test
             val sumAntallVirksomheter = AtomicReference(0)
 
             runBlocking {
@@ -198,15 +197,11 @@ class ImportService(
 
                 virksomhetSykefraværsstatistikk.prosesserIBiter(størrelse = 1000) { statistikk ->
                     logger.info("Sender ${statistikk.size} statistikk for virksomhet til Kafka")
-                    if (skalSendeTilKafka) {
-                        sendTilKafka(
-                            årstallOgKvartal = årstallOgKvartal,
-                            statistikk,
-                            kategori = StatistikkKategori.VIRKSOMHET,
-                        )
-                    } else {
-                        logger.info("Skal IKKE sende til kafka i load-test. Gjelder ${statistikk.size} statistikk")
-                    }
+                    sendTilKafka(
+                        årstallOgKvartal = årstallOgKvartal,
+                        statistikk,
+                        kategori = StatistikkKategori.VIRKSOMHET,
+                    )
                     sumAntallVirksomheter.getAndAccumulate(statistikk.size) { x, y -> x + y }
                 }
                 logger.info("Antall statistikk prosessert for kategori ${StatistikkKategori.VIRKSOMHET.name} er: '$sumAntallVirksomheter'")
