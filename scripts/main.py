@@ -117,7 +117,7 @@ def generer_data(
 
     seed_land = årstall + kvartal
 
-    sykefraværsprosent_nasjonalt = pluss_minus_prosent(seed=seed_land, tall=6.0)
+    sykefraværsprosent_nasjonalt = beregn_prosent(seed=seed_land, tall=6.0)
 
     # TODO over tid vil sysselsatte gå opp og ned med denne utregningen, burde se på forrige kvartal og legge til ?
     antall_personer_nasjonalt = round(
@@ -165,7 +165,7 @@ def generer_data(
             )
         )
 
-        sykefraværsprosent_sektor = pluss_minus_prosent(
+        sykefraværsprosent_sektor = beregn_prosent(
             seed=seed_sektor, tall=sykefraværsprosent_nasjonalt
         )
 
@@ -189,7 +189,7 @@ def generer_data(
             "sektor": sektor,
             "årstall": årstall,
             "kvartal": kvartal,
-            "prosent": round(sykefraværsprosent_sektor, 2),
+            "prosent": sykefraværsprosent_sektor,
             "tapteDagsverk": round(tapte_dagsverk_sektor, 2),
             "muligeDagsverk": round(mulige_dagsverk_sektor, 2),
             "antallPersoner": antall_personer_sektor,
@@ -205,7 +205,7 @@ def generer_data(
     for næring in list(arbeidsforhold_per_næring.keys()):
         seed_næring = årstall + kvartal + int(næring)
 
-        sykefraværsprosent_næring = pluss_minus_prosent(
+        sykefraværsprosent_næring = beregn_prosent(
             seed=seed_næring, tall=sykefraværsprosent_nasjonalt
         )
 
@@ -214,11 +214,6 @@ def generer_data(
                 seed=seed_næring, tall=arbeidsforhold_per_næring[næring]
             )
         )
-
-        sykefraværsprosent_næring = pluss_minus_prosent(
-            seed=seed_næring, tall=sykefraværsprosent_nasjonalt
-        )
-
         stillingsprosent_næring = pluss_minus_prosent(
             seed=seed_næring,
             tall=gjennomsnittlig_stillingsprosent,
@@ -249,7 +244,7 @@ def generer_data(
             "næring": næring,
             "årstall": årstall,
             "kvartal": kvartal,
-            "prosent": round(sykefraværsprosent_næring, 2),
+            "prosent": sykefraværsprosent_næring,
             "tapteDagsverk": round(tapte_dagsverk_næring, 2),
             "muligeDagsverk": round(mulige_dagsverk_næring, 2),
             "tapteDagsverkGradert": round(tapte_dagsverk_gradert_næring, 2),
@@ -272,7 +267,7 @@ def generer_data(
     for næringskode in list(arbeidsforhold_per_næringskode.keys()):
         seed_næringskode = årstall + kvartal + int(næringskode)
 
-        sykefraværsprosent_næringskode = pluss_minus_prosent(
+        sykefraværsprosent_næringskode = beregn_prosent(
             seed=seed_næringskode, tall=sykefraværsprosent_nasjonalt
         )
 
@@ -280,10 +275,6 @@ def generer_data(
             pluss_minus_prosent(
                 seed=seed_næringskode, tall=arbeidsforhold_per_næringskode[næringskode]
             )
-        )
-
-        sykefraværsprosent_næringskode = pluss_minus_prosent(
-            seed=seed_næringskode, tall=sykefraværsprosent_nasjonalt
         )
 
         stillingsprosent_næringskode = pluss_minus_prosent(
@@ -316,7 +307,7 @@ def generer_data(
             "næringskode": næringskode,
             "årstall": årstall,
             "kvartal": kvartal,
-            "prosent": round(sykefraværsprosent_næringskode, 2),
+            "prosent": sykefraværsprosent_næringskode,
             "tapteDagsverk": round(tapte_dagsverk_næringskode, 2),
             "muligeDagsverk": round(mulige_dagsverk_næringskode, 2),
             "tapteDagsverkGradert": round(tapte_dagsverk_gradert_næringskode, 2),
@@ -336,13 +327,16 @@ def generer_data(
 
     ################################################ Virksomheter ################################################
     logging.debug("Genererer data for virksomheter")
-
-    # TODO: Rectype er hardkodet
-    rectype = "2"
+    rectype_1_virksomheter = ["947195360", "944732004", "945071842", "945971401"]
 
     virksomhet_json = []
     virksomhet_metadata_json = []
     for virksomhet in virksomheter:
+        if virksomhet.orgnummer in rectype_1_virksomheter:
+            rectype = "1"
+        else:
+            rectype = "2"
+
         # Sektor virker å være utledet fra: https://www.ssb.no/klass/klassifikasjoner/39/koder som vi kanskje har i virksomheten
         sektor = str(int(virksomhet.orgnummer) % 3 + 1)
         næring = virksomhet.næringskode.split(".")[0]
@@ -350,7 +344,7 @@ def generer_data(
 
         seed_virksomhet = årstall + kvartal + int(virksomhet.orgnummer)
 
-        sykefraværsprosent_virksomhet = pluss_minus_prosent(
+        sykefraværsprosent_virksomhet = beregn_prosent(
             seed=seed_virksomhet, tall=sykefraværsprosent_nasjonalt, prosent=0.8
         )
 
@@ -383,11 +377,8 @@ def generer_data(
             "orgnr": virksomhet.orgnummer,
             "årstall": årstall,
             "kvartal": kvartal,
-            # Sykefraværsprosent = (tapte_dagsverk * 100) / mulige_dagsverk
-            "prosent": round(sykefraværsprosent_virksomhet, 2),
-            # antall arbeidsdager med sykefravær justert for stillingsprosent og sykmeldingsgrad
+            "prosent": sykefraværsprosent_virksomhet,
             "tapteDagsverk": round(tapte_dagsverk_virksomhet, 2),
-            # antall ansatte med antall driftsdager pr. kvartal og stillingsandel
             "muligeDagsverk": round(mulige_dagsverk_virksomhet, 2),
             "tapteDagsverkGradert": round(tapte_dagsverk_gradert_virksomhet, 2),
             "tapteDagsverkPerVarighet": [
@@ -395,6 +386,7 @@ def generer_data(
                 for key in tapte_dagsverk_per_varighet
             ],
             "antallPersoner": virksomhet.antall_ansatte,
+            "rectype": rectype,
         }
 
         virksomhet_json.append(ny_data)
@@ -418,6 +410,10 @@ def generer_data(
     skriv_til_fil(data=virksomhet_metadata_json, filnavn=filnavn)
 
     logging.debug(f"{årstall}/K{kvartal} ferdig")
+
+
+def beregn_prosent(seed, tall, prosent=0.1):
+    return round(pluss_minus_prosent(seed=seed, tall=tall, prosent=prosent), 1)
 
 
 def pluss_minus_prosent(seed: int, tall: float, prosent: float = 0.1) -> float:
@@ -497,7 +493,7 @@ def main():
     driftsdager_per_kvartal = {1: 63, 2: 64, 3: 66, 4: 63}
 
     # generer data for årstall og kvartal
-    for årstall in range(2015, 2035):
+    for årstall in range(2020, 2025):
         for kvartal in [1, 2, 3, 4]:
             # Lag output mappe
             output_dir = "output"
