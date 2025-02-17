@@ -1,19 +1,19 @@
-val gcsNioVersion = "0.127.29"
-val googleCloudStorageVersion = "2.46.0"
+val gcsNioVersion = "0.127.31"
+val googleCloudStorageVersion = "2.48.2"
 val iaFellesVersion = "1.10.2"
 val kafkaClientsVersion = "3.9.0"
 val kotestVersion = "5.8.1"
-val kotlinVersion = "2.1.0"
-val ktorVersion = "3.0.3"
-val logbackVersion = "1.5.15"
+val kotlinVersion = "2.1.10"
+val ktorVersion = "3.1.0"
+val logbackVersion = "1.5.16"
 val logstashLogbackEncoderVersion = "8.0"
-val prometheusVersion = "1.14.2"
+val prometheusVersion = "1.14.4"
 val testcontainersVersion = "1.20.4"
-val wiremockStandaloneVersion = "3.10.0"
+val wiremockStandaloneVersion = "3.12.0"
 
 plugins {
-    kotlin("jvm") version "2.1.0"
-    kotlin("plugin.serialization") version "2.1.0"
+    kotlin("jvm") version "2.1.10"
+    kotlin("plugin.serialization") version "2.1.10"
     id("com.github.johnrengelman.shadow") version "8.1.1"
 }
 
@@ -38,7 +38,7 @@ dependencies {
     implementation("io.ktor:ktor-server-status-pages-jvm:$ktorVersion")
     implementation("ch.qos.logback:logback-classic:$logbackVersion")
     implementation("net.logstash.logback:logstash-logback-encoder:$logstashLogbackEncoderVersion")
-    implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.6.1")
+    implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.6.2")
     // Google Cloud Storage
     implementation("com.google.cloud:google-cloud-storage:$googleCloudStorageVersion")
     // Kafka
@@ -59,7 +59,7 @@ dependencies {
     constraints {
         implementation("net.minidev:json-smart") {
             version {
-                require("2.5.1")
+                require("2.5.2")
             }
             because(
                 "From Kotlin version: 1.7.20 -> Earlier versions of json-smart package are vulnerable to Denial of Service (DoS) due to a StackOverflowError when parsing a deeply nested JSON array or object.",
@@ -67,7 +67,7 @@ dependencies {
         }
         implementation("io.netty:netty-codec-http2") {
             version {
-                require("4.1.116.Final")
+                require("4.1.118.Final")
             }
             because("From Ktor version: 2.3.5 -> io.netty:netty-codec-http2 vulnerable to HTTP/2 Rapid Reset Attack")
         }
