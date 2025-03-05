@@ -18,11 +18,13 @@ spec:
   prometheus:
     enabled: true
     path: /metrics
-
   observability:
     autoInstrumentation:
       enabled: true
       runtime: java
+    logging:
+      destinations:
+        - id: loki
 
   env:
     - name: GCS_SYKEFRAVARSSTATISTIKK_BUCKET_NAME  # GCS: Google Cloud Storage
