@@ -1,7 +1,7 @@
 import logging
 import os
 
-from les_og_skriv_til_fil import last_virksomheter, les_fra_filer, skriv_til_fil
+from les_og_skriv_til_fil import last_virksomheter, les_fra_filer, skriv_til_fil, last_rectype_1_virksomheter
 from testdata_generator import (
     generer_land,
     generer_næring,
@@ -152,6 +152,8 @@ def main():
 
     virksomheter = last_virksomheter()
 
+    rectype_1_virksomheter = last_rectype_1_virksomheter()
+
     # generer data for årstall og kvartal
     for årstall in range(2020, 2025):
         for kvartal in [1, 2, 3, 4]:
@@ -176,15 +178,6 @@ def main():
                 driftsdager=driftsdager_per_kvartal[kvartal],
                 stillingsprosent_norge=gjennomsnittlig_stillingsprosent,
             )
-
-            # Gamle virksomheter:
-
-            rectype_1_virksomheter = [
-                "947195360",
-                "944732004",
-                "945071842",
-                "945971401",
-            ]
 
 
 if __name__ == "__main__":

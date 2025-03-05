@@ -259,3 +259,72 @@ def hent_arbeidsforhold_næring(næringer: list[str]) -> dict:
     return df.set_index("næring")[
         "Antall jobber (arbeidsforhold) 2024K4 Begge kjønn"
     ].to_dict()
+
+
+def last_rectype_1_virksomheter():
+    return [
+        Virksomhet(
+            # Sektor 3
+            # Rectype 1
+            orgnummer="947195360",
+            næringskode="68.209",
+            navn="Ukjent 1",
+            kommune="ukjent",
+            postnummer="ukjent",
+            adresse_lines=["ukjent"],
+            kommunenummer="ukjent",
+            poststed="ukjent",
+            landkode="ukjent",
+            land="ukjent",
+            oppstartsdato="ukjent",
+            antall_ansatte=100,  # ukjent
+        ),
+        Virksomhet(
+            # Sektor 3
+            # Rectype 1
+            orgnummer="944732004",
+            næringskode="16.240",
+            navn="Ukjent 2",
+            kommune="ukjent",
+            postnummer="ukjent",
+            adresse_lines=["ukjent"],
+            kommunenummer="ukjent",
+            poststed="ukjent",
+            landkode="ukjent",
+            land="ukjent",
+            oppstartsdato="ukjent",
+            antall_ansatte=100,  # ukjent
+        ),
+        Virksomhet(
+            # Sektor 3
+            # Rectype 1
+            orgnummer="945071842",
+            næringskode="90.020",
+            navn="Ukjent 3",
+            kommune="ukjent",
+            postnummer="ukjent",
+            adresse_lines=["ukjent"],
+            kommunenummer="ukjent",
+            poststed="ukjent",
+            landkode="ukjent",
+            land="ukjent",
+            oppstartsdato="ukjent",
+            antall_ansatte=100,  # ukjent
+        ),
+        Virksomhet(
+            # Sektor 3
+            # Rectype 1
+            orgnummer="945971401",
+            næringskode="88.911",
+            navn="Ukjent 4",
+            kommune="ukjent",
+            postnummer="ukjent",
+            adresse_lines=["ukjent"],
+            kommunenummer="ukjent",
+            poststed="ukjent",
+            landkode="ukjent",
+            land="ukjent",
+            oppstartsdato="ukjent",
+            antall_ansatte=100,  # ukjent
+        ),
+    ]
