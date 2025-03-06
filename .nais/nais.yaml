@@ -24,10 +24,10 @@ spec:
       runtime: java
       destinations:
         - id: "grafana-lgtm"
-  logging:
-    destinations:
-      - id: loki
-      - id: elastic
+    logging:
+      destinations:
+        - id: loki
+        - id: elastic
   env:
     - name: GCS_SYKEFRAVARSSTATISTIKK_BUCKET_NAME  # GCS: Google Cloud Storage
       value: {{bucketName}}
