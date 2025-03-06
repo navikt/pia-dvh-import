@@ -22,10 +22,12 @@ spec:
     autoInstrumentation:
       enabled: true
       runtime: java
-    logging:
       destinations:
-        - id: loki
-
+        - id: "grafana-lgtm"
+  logging:
+    destinations:
+      - id: loki
+      - id: elastic
   env:
     - name: GCS_SYKEFRAVARSSTATISTIKK_BUCKET_NAME  # GCS: Google Cloud Storage
       value: {{bucketName}}
