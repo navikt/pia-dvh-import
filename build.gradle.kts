@@ -1,19 +1,19 @@
-val gcsNioVersion = "0.127.32"
-val googleCloudStorageVersion = "2.49.0"
+val gcsNioVersion = "0.127.35"
+val googleCloudStorageVersion = "2.52.2"
 val iaFellesVersion = "1.10.2"
 val kafkaClientsVersion = "3.9.0"
-val kotestVersion = "5.8.1"
-val kotlinVersion = "2.1.10"
-val ktorVersion = "3.1.1"
-val logbackVersion = "1.5.17"
-val logstashLogbackEncoderVersion = "8.0"
-val prometheusVersion = "1.14.4"
-val testcontainersVersion = "1.20.6"
-val wiremockStandaloneVersion = "3.12.1"
+val kotestVersion = "5.9.1"
+val kotlinVersion = "2.1.20"
+val ktorVersion = "3.1.3"
+val logbackVersion = "1.5.18"
+val logstashLogbackEncoderVersion = "8.1"
+val prometheusVersion = "1.14.6"
+val testcontainersVersion = "1.21.0"
+val wiremockStandaloneVersion = "3.13.0"
 
 plugins {
-    kotlin("jvm") version "2.1.10"
-    kotlin("plugin.serialization") version "2.1.10"
+    kotlin("jvm") version "2.1.20"
+    kotlin("plugin.serialization") version "2.1.20"
     id("com.github.johnrengelman.shadow") version "8.1.1"
 }
 
@@ -67,7 +67,7 @@ dependencies {
         }
         implementation("io.netty:netty-codec-http2") {
             version {
-                require("4.1.119.Final")
+                require("4.2.0.Final")
             }
             because("From Ktor version: 2.3.5 -> io.netty:netty-codec-http2 vulnerable to HTTP/2 Rapid Reset Attack")
         }
