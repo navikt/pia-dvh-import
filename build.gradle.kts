@@ -10,6 +10,7 @@ val logstashLogbackEncoderVersion = "8.1"
 val prometheusVersion = "1.14.6"
 val testcontainersVersion = "1.21.0"
 val wiremockStandaloneVersion = "3.13.0"
+val opentelemetryLogbackMdcVersion = "2.16.0-alpha"
 
 plugins {
     kotlin("jvm") version "2.1.20"
@@ -36,8 +37,12 @@ dependencies {
     implementation("io.ktor:ktor-client-content-negotiation-jvm:$ktorVersion")
     implementation("io.ktor:ktor-server-netty-jvm:$ktorVersion")
     implementation("io.ktor:ktor-server-status-pages-jvm:$ktorVersion")
+
+    // Logger
     implementation("ch.qos.logback:logback-classic:$logbackVersion")
     implementation("net.logstash.logback:logstash-logback-encoder:$logstashLogbackEncoderVersion")
+    implementation("io.opentelemetry.instrumentation:opentelemetry-logback-mdc-1.0:$opentelemetryLogbackMdcVersion")
+
     implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.6.2")
     // Google Cloud Storage
     implementation("com.google.cloud:google-cloud-storage:$googleCloudStorageVersion")
@@ -45,6 +50,7 @@ dependencies {
     implementation("org.apache.kafka:kafka-clients:$kafkaClientsVersion")
     // Felles definisjoner for IA-domenet
     implementation("com.github.navikt:ia-felles:$iaFellesVersion")
+    // https://mvnrepository.com/artifact/io.opentelemetry.instrumentation/opentelemetry-logback-mdc-1.0
 
     testImplementation("io.kotest:kotest-assertions-core:$kotestVersion")
     testImplementation("io.kotest:kotest-assertions-json:$kotestVersion")
