@@ -10,7 +10,7 @@ spec:
   config:  # optional; all fields are optional too; defaults shown
     cleanupPolicy: compact,delete  # delete, compact, compact,delete
     minimumInSyncReplicas: 2
-    partitions: 1
+    partitions: 2
     replication: 3  # see min/max requirements
     retentionBytes: -1  # -1 means unlimited
     retentionHours: {{retentionHours}}  # avhengig av miljø
