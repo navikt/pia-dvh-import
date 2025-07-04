@@ -3,7 +3,7 @@ val googleCloudStorageVersion = "2.52.2"
 val iaFellesVersion = "1.10.2"
 val kafkaClientsVersion = "3.9.0"
 val kotestVersion = "5.9.1"
-val kotlinVersion = "2.1.20"
+val kotlinVersion = "2.2.0"
 val ktorVersion = "3.1.3"
 val logbackVersion = "1.5.18"
 val logstashLogbackEncoderVersion = "8.1"
@@ -13,8 +13,8 @@ val wiremockStandaloneVersion = "3.13.0"
 val opentelemetryLogbackMdcVersion = "2.16.0-alpha"
 
 plugins {
-    kotlin("jvm") version "2.1.20"
-    kotlin("plugin.serialization") version "2.1.20"
+    kotlin("jvm") version "2.2.0"
+    kotlin("plugin.serialization") version "2.2.0"
     id("com.github.johnrengelman.shadow") version "8.1.1"
 }
 
