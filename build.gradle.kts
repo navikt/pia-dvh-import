@@ -71,6 +71,12 @@ dependencies {
                 "Kotest 6.0.0.M4 inneholder sårbarversjon 2.5.0",
             )
         }
+        implementation("io.netty:netty-codec-http2") {
+            version {
+                require("4.2.4.Final")
+            }
+            because("Sårbar versjon i ktor-server-netty")
+        }
         testImplementation("org.apache.commons:commons-compress") {
             version {
                 require("1.28.0")
