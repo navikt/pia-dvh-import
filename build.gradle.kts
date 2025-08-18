@@ -1,13 +1,13 @@
-val gcsNioVersion = "0.127.38"
-val googleCloudStorageVersion = "2.53.2"
+val gcsNioVersion = "0.128.2"
+val googleCloudStorageVersion = "2.55.0"
 val iaFellesVersion = "1.10.2"
-val kafkaClientsVersion = "3.9.1"
+val kafkaClientsVersion = "4.0.0"
 val kotestVersion = "6.0.0.M4"
 val kotlinVersion = "2.2.0"
-val ktorVersion = "3.2.0"
+val ktorVersion = "3.2.3"
 val logbackVersion = "1.5.18"
 val logstashLogbackEncoderVersion = "8.1"
-val prometheusVersion = "1.15.1"
+val prometheusVersion = "1.15.3"
 val testcontainersVersion = "1.21.3"
 val wiremockStandaloneVersion = "3.13.1"
 val opentelemetryLogbackMdcVersion = "2.16.0-alpha"
@@ -65,7 +65,7 @@ dependencies {
     constraints {
         implementation("net.minidev:json-smart") {
             version {
-                require("2.5.2")
+                require("2.6.0")
             }
             because(
                 "Kotest 6.0.0.M4 inneholder sårbarversjon 2.5.0",
@@ -73,7 +73,7 @@ dependencies {
         }
         testImplementation("org.apache.commons:commons-compress") {
             version {
-                require("1.27.1")
+                require("1.28.0")
             }
             because("testcontainers har sårbar versjon")
         }
