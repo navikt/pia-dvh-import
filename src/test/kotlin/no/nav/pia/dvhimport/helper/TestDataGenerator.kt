@@ -3,6 +3,7 @@ package no.nav.pia.dvhimport.helper
 import ia.felles.definisjoner.bransjer.Bransje
 import ia.felles.definisjoner.bransjer.BransjeId
 import io.kotest.matchers.shouldBe
+import no.nav.pia.dvhimport.importjobb.ImportService.Companion.DatavarehusRecordType
 import no.nav.pia.dvhimport.importjobb.ImportService.Companion.tilFilNavn
 import no.nav.pia.dvhimport.importjobb.domene.DvhMetadata
 import no.nav.pia.dvhimport.importjobb.domene.LandSykefraværsstatistikkDto
@@ -277,6 +278,7 @@ class TestDataGenerator {
             orgnr: String,
             årstall: Int,
             kvartal: Int,
+            rectype: DatavarehusRecordType = DatavarehusRecordType.UNDERENHET,
         ) {
             val filnavn = tilFilNavn(StatistikkKategori.VIRKSOMHET)
             gcsContainer.lagreTestBlob(
@@ -318,7 +320,7 @@ class TestDataGenerator {
                         }
                       ],
                       "antallPersoner": "40", 
-                      "rectype": "1"
+                      "rectype": "${rectype.kode}"
                     }]
                     """.trimIndent().encodeToByteArray(),
             )

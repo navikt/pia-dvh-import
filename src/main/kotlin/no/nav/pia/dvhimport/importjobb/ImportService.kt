@@ -205,7 +205,10 @@ class ImportService(
                     sumAntallVirksomheter.getAndAccumulate(statistikk.size) { x, y -> x + y }
                 }
                 logger.info("Antall statistikk prosessert for kategori ${StatistikkKategori.VIRKSOMHET.name} er: '$sumAntallVirksomheter'")
-                kalkulerOgLoggSykefraværsprosent(StatistikkKategori.VIRKSOMHET, virksomhetSykefraværsstatistikk)
+                kalkulerOgLoggSykefraværsprosent(
+                    StatistikkKategori.VIRKSOMHET,
+                    virksomhetSykefraværsstatistikk.filter { it.rectype == DatavarehusRecordType.UNDERENHET.kode },
+                )
 
                 inputStream.close()
             }
@@ -561,6 +564,14 @@ class ImportService(
                 this.add(item)
             }
             return this.sortedBy { it.varighet }.toList()
+        }
+
+        enum class DatavarehusRecordType(
+            val kode: String,
+        ) {
+            OVERORDNET_ENHET("1"),
+            UNDERENHET("2"),
+            ORGLED("3"),
         }
     }
 }

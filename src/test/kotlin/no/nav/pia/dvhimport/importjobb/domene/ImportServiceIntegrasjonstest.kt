@@ -5,7 +5,6 @@ import io.kotest.inspectors.forAtLeastOne
 import io.kotest.matchers.collections.shouldHaveAtLeastSize
 import io.kotest.matchers.shouldBe
 import kotlinx.coroutines.runBlocking
-import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import no.nav.pia.dvhimport.helper.TestContainerHelper
 import no.nav.pia.dvhimport.helper.TestContainerHelper.Companion.dvhImportApplikasjon
@@ -17,6 +16,7 @@ import no.nav.pia.dvhimport.helper.TestDataGenerator.Companion.lagTestDataForSek
 import no.nav.pia.dvhimport.helper.TestDataGenerator.Companion.lagTestDataForVirksomhet
 import no.nav.pia.dvhimport.helper.TestDataGenerator.Companion.lagTestDataForVirksomhetMetadata
 import no.nav.pia.dvhimport.helper.TestDataGenerator.Companion.lagreITestBucket
+import no.nav.pia.dvhimport.importjobb.ImportService.Companion.DatavarehusRecordType
 import no.nav.pia.dvhimport.importjobb.kafka.EksportProdusent
 import no.nav.pia.dvhimport.importjobb.kafka.EksportProdusent.SykefraværsstatistikkNøkkel
 import no.nav.pia.dvhimport.konfigurasjon.KafkaTopics
@@ -311,7 +311,7 @@ class ImportServiceIntegrasjonstest {
                     virksomhetStatistikk.tapteDagsverkPerVarighet[0].varighet shouldBe "A"
                     virksomhetStatistikk.tapteDagsverkPerVarighet[0].tapteDagsverk shouldBe 12.1527.toBigDecimal()
                     virksomhetStatistikk.antallPersoner shouldBe 40
-                    virksomhetStatistikk.rectype shouldBe "1"
+                    virksomhetStatistikk.rectype shouldBe DatavarehusRecordType.UNDERENHET.kode
                 }
             }
         }
