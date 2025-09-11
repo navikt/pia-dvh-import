@@ -11,6 +11,9 @@ Tester kjøres med (trenger en kjørende docker runtime):
 
 ---
 
+# Generere testdata
+Se [scripts/README.md](scripts/README.md)
+
 # Henvendelser
 
 Spørsmål knyttet til koden eller prosjektet kan stilles som issues her på GitHub
