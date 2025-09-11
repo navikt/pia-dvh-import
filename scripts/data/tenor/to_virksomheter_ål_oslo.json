@@ -10,12 +10,16 @@
         "kommune": "OSLO",
         "landkode": "NO",
         "postnummer": "0284",
-        "adresse": ["Hartmanns vei 42B"],
+        "adresse": [
+          "Hartmanns vei 42B"
+        ],
         "land": "Norge",
         "kommunenummer": "0301",
         "poststed": "OSLO"
       },
-      "naeringBeskrivelse": ["Barnehager"],
+      "naeringBeskrivelse": [
+        "Barnehager"
+      ],
       "registrertIMvaregisteret": false,
       "Postadresse": {
         "adresse": []
@@ -29,12 +33,16 @@
               "kommune": "OSLO",
               "landkode": "NO",
               "postnummer": "0284",
-              "adresse": ["Hartmanns vei 42B"],
+              "adresse": [
+                "Hartmanns vei 42B"
+              ],
               "land": "Norge",
               "kommunenummer": "0301",
               "poststed": "OSLO"
             },
-            "naeringBeskrivelse": ["Barnehager"],
+            "naeringBeskrivelse": [
+              "Barnehager"
+            ],
             "registrertIMvaregisteret": false,
             "styreleder": "05819898989",
             "Postadresse": {
@@ -60,7 +68,9 @@
               "kode": "SA",
               "beskrivelse": "Samvirkeforetak"
             },
-            "naeringKode": ["88.911"],
+            "naeringKode": [
+              "88.911"
+            ],
             "navn": "JURIDISK LYSEBLÅ ISBJØRN SA",
             "dagligLeder": "11888097246",
             "tenorMetadata": {
@@ -82,9 +92,16 @@
               "belop": 0
             },
             "varamedlemmer": [],
-            "harUnderenheter": ["315371333"],
-            "regnskapsfoerere": ["312202093"],
-            "revisorer": ["310495670", "314255682"],
+            "harUnderenheter": [
+              "315371333"
+            ],
+            "regnskapsfoerere": [
+              "312202093"
+            ],
+            "revisorer": [
+              "310495670",
+              "314255682"
+            ],
             "styremedlemmer": [
               "26909899388",
               "06920097667",
@@ -120,11 +137,15 @@
         "kode": "BEDR",
         "beskrivelse": "Underenhet til næringsdrivende og offentlig forvaltning"
       },
-      "naeringKode": ["88.911"],
+      "naeringKode": [
+        "88.911"
+      ],
       "navn": "JURIDISK LYSEBLÅ ISBJØRN SA",
       "tenorMetadata": {
         "kildedata": "{\"organisasjonsnummer\":\"315371333\",\"navn\":\"JURIDISK LYSEBLÅ ISBJØRN SA\",\"oppdeltNavn\":[\"JURIDISK LYSEBLÅ ISBJØRN SA\"],\"organisasjonsform\":{\"kode\":\"BEDR\",\"beskrivelse\":\"Underenhet til næringsdrivende og offentlig forvaltning\"},\"forretningsadresse\":{\"land\":\"Norge\",\"landkode\":\"NO\",\"postnummer\":\"0284\",\"poststed\":\"OSLO\",\"adresse\":[\"Hartmanns vei 42B\"],\"kommune\":\"OSLO\",\"kommunenummer\":\"0301\"},\"postadresse\":{\"adresse\":[]},\"telefonnummer\":\"03 15 37 33\",\"telefaksnummer\":\"03 15 37 33\",\"mobilnummer\":\"031 53 713\",\"naeringskoder\":[{\"kode\":\"88\",\"beskrivelse\":\"Sosiale omsorgstjenester uten botilbud\",\"hjelpeenhetskode\":false,\"rekkefolge\":1,\"nivaa\":1},{\"kode\":\"88.9\",\"beskrivelse\":\"Andre sosialtjenester uten botilbud\",\"hjelpeenhetskode\":false,\"rekkefolge\":1,\"nivaa\":2},{\"kode\":\"88.91\",\"beskrivelse\":\"Sosialtjenester uten botilbud for barn og ungdom\",\"hjelpeenhetskode\":false,\"rekkefolge\":1,\"nivaa\":3},{\"kode\":\"88.911\",\"beskrivelse\":\"Barnehager\",\"hjelpeenhetskode\":false,\"rekkefolge\":1,\"nivaa\":4}],\"institusjonellSektorkode\":{},\"registreringsdatoEnhetsregisteret\":\"2021-03-19\",\"slettetIEnhetsregisteret\":\"N\",\"registrertIForetaksregisteret\":\"N\",\"slettetIForetaksregisteret\":\"N\",\"registreringspliktigForetaksregisteret\":\"N\",\"registrertIFrivillighetsregisteret\":\"N\",\"registrertIStiftelsesregisteret\":\"N\",\"registrertIMvaregisteret\":\"N\",\"aktivitetBransje\":[],\"vedtektsfestetFormaal\":[],\"konkurs\":\"N\",\"underAvvikling\":\"N\",\"underTvangsavviklingEllerTvangsopplosning\":\"N\",\"maalform\":\" \",\"ansvarsbegrensning\":\"N\",\"harAnsatte\":\"N\",\"antallAnsatte\":33,\"underenhet\":{\"hovedenhet\":\"314066073\",\"oppstartsdato\":\"2003-11-20\"},\"bedriftsforsamling\":\"N\",\"representantskap\":\"N\",\"enhetstatuser\":[],\"fullmakter\":[],\"frivilligMvaRegistrert\":[],\"finansielleInstrumenter\":[],\"kapital\":{\"antallAksjer\":\"0\",\"fritekst\":[],\"sakkyndigRedegjorelse\":\"N\"},\"kjonnsrepresentasjon\":\"N\",\"matrikkelnummer\":[],\"paategninger\":[],\"fravalgAvRevisjon\":{\"fravalg\":\"N\"},\"norskregistrertUtenlandskForetak\":{\"helNorskEierskap\":\"N\",\"aktivitetINorge\":\"N\"},\"lovgivningOgForetaksformIHjemlandet\":{\"foretaksform\":\"\"},\"registerIHjemlandet\":{\"navnRegister\":[],\"adresse\":[]},\"fusjoner\":[],\"fisjoner\":[],\"rollegrupper\":[{\"type\":{\"kode\":\"BEDR\",\"beskrivelse\":\"Virksomhet til næringsdrivende person\"},\"fritekst\":[],\"roller\":[{\"type\":{\"kode\":\"BEDR\",\"beskrivelse\":\"har som registreringsenhet\"},\"person\":{},\"virksomhet\":{\"organisasjonsnummer\":\"314066073\"},\"valgtAv\":{},\"fratraadt\":\"N\",\"fritekst\":[],\"rekkefolge\":1}]}]}",
-        "kilder": ["brreg-er-fr"],
+        "kilder": [
+          "brreg-er-fr"
+        ],
         "oppdatert": "2022-09-09T04:06:52.37+02:00",
         "datasettVersjon": 0,
         "opprettet": "2021-11-29T12:05:15.764+01:00",
@@ -154,12 +175,16 @@
         "kommune": "ÅL",
         "landkode": "NO",
         "postnummer": "3570",
-        "adresse": ["Plettevegen 1C"],
+        "adresse": [
+          "Plettevegen 1C"
+        ],
         "land": "Norge",
         "kommunenummer": "3043",
         "poststed": "ÅL"
       },
-      "naeringBeskrivelse": ["Godstransport med jernbane"],
+      "naeringBeskrivelse": [
+        "Godstransport med jernbane"
+      ],
       "registrertIMvaregisteret": false,
       "Postadresse": {
         "adresse": []
@@ -173,12 +198,16 @@
               "kommune": "ÅL",
               "landkode": "NO",
               "postnummer": "3570",
-              "adresse": ["Plettevegen 1C"],
+              "adresse": [
+                "Plettevegen 1C"
+              ],
               "land": "Norge",
               "kommunenummer": "3043",
               "poststed": "ÅL"
             },
-            "naeringBeskrivelse": ["Godstransport med jernbane"],
+            "naeringBeskrivelse": [
+              "Godstransport med jernbane"
+            ],
             "registrertIMvaregisteret": true,
             "styreleder": "24899497216",
             "Postadresse": {
@@ -204,7 +233,9 @@
               "kode": "AS",
               "beskrivelse": "Aksjeselskap"
             },
-            "naeringKode": ["49.200"],
+            "naeringKode": [
+              "49.200"
+            ],
             "navn": "MATEMATISK KONGE TIGER AS",
             "dagligLeder": "31816499952",
             "tenorMetadata": {
@@ -227,10 +258,18 @@
               "belop": 120000
             },
             "varamedlemmer": [],
-            "harUnderenheter": ["315608708"],
+            "harUnderenheter": [
+              "315608708"
+            ],
             "regnskapsfoerere": [],
-            "revisorer": ["314319079"],
-            "styremedlemmer": ["23878198514", "30885298938", "31816499952"],
+            "revisorer": [
+              "314319079"
+            ],
+            "styremedlemmer": [
+              "23878198514",
+              "30885298938",
+              "31816499952"
+            ],
             "harUtenlandskForretningsadresse": false,
             "tenorRelasjonsnavn": "erUnderenhet.hovedenhet",
             "organisasjonsnummer": "313909166",
@@ -258,11 +297,15 @@
         "kode": "BEDR",
         "beskrivelse": "Underenhet til næringsdrivende og offentlig forvaltning"
       },
-      "naeringKode": ["49.200"],
+      "naeringKode": [
+        "49.200"
+      ],
       "navn": "MATEMATISK KONGE TIGER AS",
       "tenorMetadata": {
         "kildedata": "{\"organisasjonsnummer\":\"315608708\",\"navn\":\"MATEMATISK KONGE TIGER AS\",\"oppdeltNavn\":[\"MATEMATISK KONGE TIGER AS\"],\"organisasjonsform\":{\"kode\":\"BEDR\",\"beskrivelse\":\"Underenhet til næringsdrivende og offentlig forvaltning\"},\"forretningsadresse\":{\"land\":\"Norge\",\"landkode\":\"NO\",\"postnummer\":\"3570\",\"poststed\":\"ÅL\",\"adresse\":[\"Plettevegen 1C\"],\"kommune\":\"ÅL\",\"kommunenummer\":\"3043\"},\"postadresse\":{\"adresse\":[]},\"telefaksnummer\":\"03 15 60 70\",\"mobilnummer\":\"031 56 087\",\"naeringskoder\":[{\"kode\":\"49\",\"beskrivelse\":\"Landtransport og rørtransport\",\"hjelpeenhetskode\":false,\"rekkefolge\":1,\"nivaa\":1},{\"kode\":\"49.2\",\"beskrivelse\":\"Godstransport med jernbane\",\"hjelpeenhetskode\":false,\"rekkefolge\":1,\"nivaa\":2},{\"kode\":\"49.20\",\"beskrivelse\":\"Godstransport med jernbane\",\"hjelpeenhetskode\":false,\"rekkefolge\":1,\"nivaa\":3},{\"kode\":\"49.200\",\"beskrivelse\":\"Godstransport med jernbane\",\"hjelpeenhetskode\":false,\"rekkefolge\":1,\"nivaa\":4}],\"institusjonellSektorkode\":{},\"registreringsdatoEnhetsregisteret\":\"2021-03-20\",\"slettetIEnhetsregisteret\":\"N\",\"registrertIForetaksregisteret\":\"N\",\"slettetIForetaksregisteret\":\"N\",\"registreringspliktigForetaksregisteret\":\"N\",\"registrertIFrivillighetsregisteret\":\"N\",\"registrertIStiftelsesregisteret\":\"N\",\"registrertIMvaregisteret\":\"N\",\"aktivitetBransje\":[],\"vedtektsfestetFormaal\":[],\"konkurs\":\"N\",\"underAvvikling\":\"N\",\"underTvangsavviklingEllerTvangsopplosning\":\"N\",\"maalform\":\" \",\"ansvarsbegrensning\":\"N\",\"harAnsatte\":\"N\",\"antallAnsatte\":67,\"underenhet\":{\"hovedenhet\":\"313909166\",\"oppstartsdato\":\"2005-10-21\"},\"bedriftsforsamling\":\"N\",\"representantskap\":\"N\",\"enhetstatuser\":[],\"fullmakter\":[],\"frivilligMvaRegistrert\":[],\"finansielleInstrumenter\":[],\"kapital\":{\"antallAksjer\":\"0\",\"fritekst\":[],\"sakkyndigRedegjorelse\":\"N\"},\"kjonnsrepresentasjon\":\"N\",\"matrikkelnummer\":[],\"paategninger\":[],\"fravalgAvRevisjon\":{\"fravalg\":\"N\"},\"norskregistrertUtenlandskForetak\":{\"helNorskEierskap\":\"N\",\"aktivitetINorge\":\"N\"},\"lovgivningOgForetaksformIHjemlandet\":{\"foretaksform\":\"\"},\"registerIHjemlandet\":{\"navnRegister\":[],\"adresse\":[]},\"fusjoner\":[],\"fisjoner\":[],\"rollegrupper\":[{\"type\":{\"kode\":\"BEDR\",\"beskrivelse\":\"Virksomhet til næringsdrivende person\"},\"fritekst\":[],\"roller\":[{\"type\":{\"kode\":\"BEDR\",\"beskrivelse\":\"har som registreringsenhet\"},\"person\":{},\"virksomhet\":{\"organisasjonsnummer\":\"313909166\"},\"valgtAv\":{},\"fratraadt\":\"N\",\"fritekst\":[],\"rekkefolge\":1}]}]}",
-        "kilder": ["brreg-er-fr"],
+        "kilder": [
+          "brreg-er-fr"
+        ],
         "oppdatert": "2022-09-09T04:33:39.745+02:00",
         "datasettVersjon": 0,
         "opprettet": "2021-11-29T12:28:17.032+01:00",

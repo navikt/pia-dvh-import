@@ -10,18 +10,24 @@
         "kommune": "BINDAL",
         "landkode": "NO",
         "postnummer": "7982",
-        "adresse": ["Åsaunveien 2"],
+        "adresse": [
+          "Åsaunveien 2"
+        ],
         "land": "Norge",
         "kommunenummer": "1811",
         "poststed": "BINDALSEIDET"
       },
-      "naeringBeskrivelse": ["Barnehager"],
+      "naeringBeskrivelse": [
+        "Barnehager"
+      ],
       "registrertIMvaregisteret": false,
       "Postadresse": {
         "kommune": "BINDAL",
         "landkode": "NO",
         "postnummer": "7979",
-        "adresse": ["Postboks 9078"],
+        "adresse": [
+          "Postboks 9078"
+        ],
         "land": "Norge",
         "kommunenummer": "1811",
         "poststed": "TERRÅK"
@@ -35,19 +41,25 @@
               "kommune": "SARPSBORG",
               "landkode": "NO",
               "postnummer": "1746",
-              "adresse": ["Stenbruddveien 27A"],
+              "adresse": [
+                "Stenbruddveien 27A"
+              ],
               "land": "Norge",
               "kommunenummer": "3003",
               "poststed": "SKJEBERG"
             },
-            "naeringBeskrivelse": ["Barnehager"],
+            "naeringBeskrivelse": [
+              "Barnehager"
+            ],
             "registrertIMvaregisteret": false,
             "styreleder": "65926800455",
             "Postadresse": {
               "kommune": "OSLO",
               "landkode": "NO",
               "postnummer": "0115",
-              "adresse": ["Postboks 9074"],
+              "adresse": [
+                "Postboks 9074"
+              ],
               "land": "Norge",
               "kommunenummer": "0301",
               "poststed": "OSLO"
@@ -58,7 +70,9 @@
               "kommune": "OSLO",
               "landkode": "NO",
               "postnummer": "0115",
-              "adresse": ["Postboks 9074"],
+              "adresse": [
+                "Postboks 9074"
+              ],
               "land": "Norge",
               "kommunenummer": "0301",
               "poststed": "OSLO"
@@ -78,7 +92,9 @@
               "kode": "AS",
               "beskrivelse": "Aksjeselskap"
             },
-            "naeringKode": ["88.911"],
+            "naeringKode": [
+              "88.911"
+            ],
             "navn": "NESNØDD PRATSOM TIGER AS",
             "dagligLeder": "18839798683",
             "tenorMetadata": {
@@ -128,8 +144,13 @@
               "311653431"
             ],
             "regnskapsfoerere": [],
-            "revisorer": ["312939053"],
-            "styremedlemmer": ["15833248194", "44857300278"],
+            "revisorer": [
+              "312939053"
+            ],
+            "styremedlemmer": [
+              "15833248194",
+              "44857300278"
+            ],
             "harUtenlandskForretningsadresse": false,
             "tenorRelasjonsnavn": "erUnderenhet.hovedenhet",
             "organisasjonsnummer": "212968382",
@@ -142,7 +163,9 @@
         "kommune": "BINDAL",
         "landkode": "NO",
         "postnummer": "7979",
-        "adresse": ["Postboks 9078"],
+        "adresse": [
+          "Postboks 9078"
+        ],
         "land": "Norge",
         "kommunenummer": "1811",
         "poststed": "TERRÅK"
@@ -163,11 +186,15 @@
         "kode": "BEDR",
         "beskrivelse": "Underenhet til næringsdrivende og offentlig forvaltning"
       },
-      "naeringKode": ["88.911"],
+      "naeringKode": [
+        "88.911"
+      ],
       "navn": "SANNSYNLIG ORDKNAPP FJELLREV",
       "tenorMetadata": {
         "kildedata": "{\"organisasjonsnummer\":\"311653245\",\"navn\":\"SANNSYNLIG ORDKNAPP FJELLREV\",\"oppdeltNavn\":[\"SANNSYNLIG ORDKNAPP FJELLREV\"],\"organisasjonsform\":{\"kode\":\"BEDR\",\"beskrivelse\":\"Underenhet til næringsdrivende og offentlig forvaltning\"},\"forretningsadresse\":{\"land\":\"Norge\",\"landkode\":\"NO\",\"postnummer\":\"7982\",\"poststed\":\"BINDALSEIDET\",\"adresse\":[\"Åsaunveien 2\"],\"kommune\":\"BINDAL\",\"kommunenummer\":\"1811\"},\"postadresse\":{\"land\":\"Norge\",\"landkode\":\"NO\",\"postnummer\":\"7979\",\"poststed\":\"TERRÅK\",\"adresse\":[\"Postboks 9078\"],\"kommune\":\"BINDAL\",\"kommunenummer\":\"1811\"},\"telefonnummer\":\"03 11 65 24\",\"naeringskoder\":[{\"kode\":\"88\",\"beskrivelse\":\"Sosiale omsorgstjenester uten botilbud\",\"hjelpeenhetskode\":false,\"rekkefolge\":1,\"nivaa\":1},{\"kode\":\"88.9\",\"beskrivelse\":\"Andre sosialtjenester uten botilbud\",\"hjelpeenhetskode\":false,\"rekkefolge\":1,\"nivaa\":2},{\"kode\":\"88.91\",\"beskrivelse\":\"Sosialtjenester uten botilbud for barn og ungdom\",\"hjelpeenhetskode\":false,\"rekkefolge\":1,\"nivaa\":3},{\"kode\":\"88.911\",\"beskrivelse\":\"Barnehager\",\"hjelpeenhetskode\":false,\"rekkefolge\":1,\"nivaa\":4}],\"institusjonellSektorkode\":{},\"registreringsdatoEnhetsregisteret\":\"2021-03-18\",\"slettetIEnhetsregisteret\":\"N\",\"registrertIForetaksregisteret\":\"N\",\"slettetIForetaksregisteret\":\"N\",\"registreringspliktigForetaksregisteret\":\"N\",\"registrertIFrivillighetsregisteret\":\"N\",\"registrertIStiftelsesregisteret\":\"N\",\"registrertIMvaregisteret\":\"N\",\"aktivitetBransje\":[],\"vedtektsfestetFormaal\":[],\"konkurs\":\"N\",\"underAvvikling\":\"N\",\"underTvangsavviklingEllerTvangsopplosning\":\"N\",\"maalform\":\" \",\"ansvarsbegrensning\":\"N\",\"harAnsatte\":\"N\",\"antallAnsatte\":5,\"underenhet\":{\"hovedenhet\":\"212968382\",\"oppstartsdato\":\"1989-02-07\",\"datoEierskifte\":\"2019-03-15\"},\"bedriftsforsamling\":\"N\",\"representantskap\":\"N\",\"enhetstatuser\":[],\"fullmakter\":[],\"frivilligMvaRegistrert\":[],\"finansielleInstrumenter\":[],\"kapital\":{\"antallAksjer\":\"0\",\"fritekst\":[],\"sakkyndigRedegjorelse\":\"N\"},\"kjonnsrepresentasjon\":\"N\",\"matrikkelnummer\":[],\"paategninger\":[],\"fravalgAvRevisjon\":{\"fravalg\":\"N\"},\"norskregistrertUtenlandskForetak\":{\"helNorskEierskap\":\"N\",\"aktivitetINorge\":\"N\"},\"lovgivningOgForetaksformIHjemlandet\":{\"foretaksform\":\"\"},\"registerIHjemlandet\":{\"navnRegister\":[],\"adresse\":[]},\"fusjoner\":[],\"fisjoner\":[],\"rollegrupper\":[{\"type\":{\"kode\":\"BEDR\",\"beskrivelse\":\"Virksomhet til næringsdrivende person\"},\"fritekst\":[],\"roller\":[{\"type\":{\"kode\":\"BEDR\",\"beskrivelse\":\"har som registreringsenhet\"},\"person\":{},\"virksomhet\":{\"organisasjonsnummer\":\"212968382\"},\"valgtAv\":{},\"fratraadt\":\"N\",\"fritekst\":[],\"rekkefolge\":1}]}]}",
-        "kilder": ["brreg-er-fr"],
+        "kilder": [
+          "brreg-er-fr"
+        ],
         "oppdatert": "2022-09-08T21:29:35.123+02:00",
         "datasettVersjon": 0,
         "opprettet": "2021-11-26T16:29:11.408+01:00",
@@ -197,12 +224,16 @@
         "kommune": "HÅ",
         "landkode": "NO",
         "postnummer": "4365",
-        "adresse": ["Njølstad 58"],
+        "adresse": [
+          "Njølstad 58"
+        ],
         "land": "Norge",
         "kommunenummer": "1119",
         "poststed": "NÆRBØ"
       },
-      "naeringBeskrivelse": ["Barnehager"],
+      "naeringBeskrivelse": [
+        "Barnehager"
+      ],
       "registrertIMvaregisteret": false,
       "Postadresse": {
         "adresse": []
@@ -216,7 +247,9 @@
               "kommune": "ØSTRE TOTEN",
               "landkode": "NO",
               "postnummer": "2848",
-              "adresse": ["Mjørlundvegen 10"],
+              "adresse": [
+                "Mjørlundvegen 10"
+              ],
               "land": "Norge",
               "kommunenummer": "3442",
               "poststed": "SKREIA"
@@ -229,7 +262,9 @@
               "kommune": "ØSTRE TOTEN",
               "landkode": "NO",
               "postnummer": "2844",
-              "adresse": ["Postboks 9143"],
+              "adresse": [
+                "Postboks 9143"
+              ],
               "land": "Norge",
               "kommunenummer": "3442",
               "poststed": "KOLBU"
@@ -240,7 +275,9 @@
               "kommune": "ØSTRE TOTEN",
               "landkode": "NO",
               "postnummer": "2844",
-              "adresse": ["Postboks 9143"],
+              "adresse": [
+                "Postboks 9143"
+              ],
               "land": "Norge",
               "kommunenummer": "3442",
               "poststed": "KOLBU"
@@ -260,7 +297,9 @@
               "kode": "ORGL",
               "beskrivelse": "Organisasjonsledd"
             },
-            "naeringKode": ["88.102"],
+            "naeringKode": [
+              "88.102"
+            ],
             "navn": "PLUTSELIG DYREBAR PIGGSVIN",
             "dagligLeder": "28875097387",
             "tenorMetadata": {
@@ -393,11 +432,15 @@
         "kode": "BEDR",
         "beskrivelse": "Underenhet til næringsdrivende og offentlig forvaltning"
       },
-      "naeringKode": ["88.911"],
+      "naeringKode": [
+        "88.911"
+      ],
       "navn": "TAKTFULL BLOMSTRETE FJELLREV",
       "tenorMetadata": {
         "kildedata": "{\"organisasjonsnummer\":\"314698126\",\"navn\":\"TAKTFULL BLOMSTRETE FJELLREV\",\"oppdeltNavn\":[\"TAKTFULL BLOMSTRETE FJELLREV\"],\"organisasjonsform\":{\"kode\":\"BEDR\",\"beskrivelse\":\"Underenhet til næringsdrivende og offentlig forvaltning\"},\"forretningsadresse\":{\"land\":\"Norge\",\"landkode\":\"NO\",\"postnummer\":\"4365\",\"poststed\":\"NÆRBØ\",\"adresse\":[\"Njølstad 58\"],\"kommune\":\"HÅ\",\"kommunenummer\":\"1119\"},\"postadresse\":{\"adresse\":[]},\"naeringskoder\":[{\"kode\":\"88\",\"beskrivelse\":\"Sosiale omsorgstjenester uten botilbud\",\"hjelpeenhetskode\":false,\"rekkefolge\":1,\"nivaa\":1},{\"kode\":\"88.9\",\"beskrivelse\":\"Andre sosialtjenester uten botilbud\",\"hjelpeenhetskode\":false,\"rekkefolge\":1,\"nivaa\":2},{\"kode\":\"88.91\",\"beskrivelse\":\"Sosialtjenester uten botilbud for barn og ungdom\",\"hjelpeenhetskode\":false,\"rekkefolge\":1,\"nivaa\":3},{\"kode\":\"88.911\",\"beskrivelse\":\"Barnehager\",\"hjelpeenhetskode\":false,\"rekkefolge\":1,\"nivaa\":4}],\"institusjonellSektorkode\":{},\"registreringsdatoEnhetsregisteret\":\"2021-03-19\",\"slettetIEnhetsregisteret\":\"N\",\"registrertIForetaksregisteret\":\"N\",\"slettetIForetaksregisteret\":\"N\",\"registreringspliktigForetaksregisteret\":\"N\",\"registrertIFrivillighetsregisteret\":\"N\",\"registrertIStiftelsesregisteret\":\"N\",\"registrertIMvaregisteret\":\"N\",\"aktivitetBransje\":[],\"vedtektsfestetFormaal\":[],\"konkurs\":\"N\",\"underAvvikling\":\"N\",\"underTvangsavviklingEllerTvangsopplosning\":\"N\",\"maalform\":\" \",\"ansvarsbegrensning\":\"N\",\"harAnsatte\":\"N\",\"antallAnsatte\":19,\"underenhet\":{\"hovedenhet\":\"310119962\",\"oppstartsdato\":\"2005-02-07\"},\"bedriftsforsamling\":\"N\",\"representantskap\":\"N\",\"enhetstatuser\":[],\"fullmakter\":[],\"frivilligMvaRegistrert\":[],\"finansielleInstrumenter\":[],\"kapital\":{\"antallAksjer\":\"0\",\"fritekst\":[],\"sakkyndigRedegjorelse\":\"N\"},\"kjonnsrepresentasjon\":\"N\",\"matrikkelnummer\":[],\"paategninger\":[],\"fravalgAvRevisjon\":{\"fravalg\":\"N\"},\"norskregistrertUtenlandskForetak\":{\"helNorskEierskap\":\"N\",\"aktivitetINorge\":\"N\"},\"lovgivningOgForetaksformIHjemlandet\":{\"foretaksform\":\"\"},\"registerIHjemlandet\":{\"navnRegister\":[],\"adresse\":[]},\"fusjoner\":[],\"fisjoner\":[],\"rollegrupper\":[{\"type\":{\"kode\":\"BEDR\",\"beskrivelse\":\"Virksomhet til næringsdrivende person\"},\"fritekst\":[],\"roller\":[{\"type\":{\"kode\":\"BEDR\",\"beskrivelse\":\"har som registreringsenhet\"},\"person\":{},\"virksomhet\":{\"organisasjonsnummer\":\"310119962\"},\"valgtAv\":{},\"fratraadt\":\"N\",\"fritekst\":[],\"rekkefolge\":1}]}]}",
-        "kilder": ["brreg-er-fr"],
+        "kilder": [
+          "brreg-er-fr"
+        ],
         "oppdatert": "2022-09-09T02:55:26.904+02:00",
         "datasettVersjon": 0,
         "opprettet": "2021-11-29T10:59:15.869+01:00",
@@ -426,18 +469,24 @@
         "kommune": "ORKLAND",
         "landkode": "NO",
         "postnummer": "7300",
-        "adresse": ["Åsvegen 21"],
+        "adresse": [
+          "Åsvegen 21"
+        ],
         "land": "Norge",
         "kommunenummer": "5059",
         "poststed": "ORKANGER"
       },
-      "naeringBeskrivelse": ["Barnehager"],
+      "naeringBeskrivelse": [
+        "Barnehager"
+      ],
       "registrertIMvaregisteret": false,
       "Postadresse": {
         "kommune": "ORKLAND",
         "landkode": "NO",
         "postnummer": "7338",
-        "adresse": ["Postboks 9049"],
+        "adresse": [
+          "Postboks 9049"
+        ],
         "land": "Norge",
         "kommunenummer": "5059",
         "poststed": "MELDAL"
@@ -451,18 +500,24 @@
               "kommune": "ØSTRE TOTEN",
               "landkode": "NO",
               "postnummer": "2847",
-              "adresse": ["Holtenga 20"],
+              "adresse": [
+                "Holtenga 20"
+              ],
               "land": "Norge",
               "kommunenummer": "3442",
               "poststed": "KOLBU"
             },
-            "naeringBeskrivelse": ["Barnehager"],
+            "naeringBeskrivelse": [
+              "Barnehager"
+            ],
             "registrertIMvaregisteret": false,
             "Postadresse": {
               "kommune": "TROMSØ",
               "landkode": "NO",
               "postnummer": "9274",
-              "adresse": ["Postboks 9086"],
+              "adresse": [
+                "Postboks 9086"
+              ],
               "land": "Norge",
               "kommunenummer": "5401",
               "poststed": "TROMSØ"
@@ -473,7 +528,9 @@
               "kommune": "TROMSØ",
               "landkode": "NO",
               "postnummer": "9274",
-              "adresse": ["Postboks 9086"],
+              "adresse": [
+                "Postboks 9086"
+              ],
               "land": "Norge",
               "kommunenummer": "5401",
               "poststed": "TROMSØ"
@@ -481,7 +538,9 @@
             "erUnderenhet": {},
             "registrertIFrivillighetsregisteret": false,
             "stiftelsesdato": "1995-09-10",
-            "kontaktpersoner": ["30896397830"],
+            "kontaktpersoner": [
+              "30896397830"
+            ],
             "fravalgAvRevisjon": {
               "fravalg": false
             },
@@ -493,7 +552,9 @@
               "kode": "ORGL",
               "beskrivelse": "Organisasjonsledd"
             },
-            "naeringKode": ["88.911"],
+            "naeringKode": [
+              "88.911"
+            ],
             "navn": "ROLIG RØRETE PIGGSVIN",
             "dagligLeder": "26856097942",
             "tenorMetadata": {
@@ -817,7 +878,9 @@
         "kommune": "ORKLAND",
         "landkode": "NO",
         "postnummer": "7338",
-        "adresse": ["Postboks 9049"],
+        "adresse": [
+          "Postboks 9049"
+        ],
         "land": "Norge",
         "kommunenummer": "5059",
         "poststed": "MELDAL"
@@ -838,11 +901,15 @@
         "kode": "BEDR",
         "beskrivelse": "Underenhet til næringsdrivende og offentlig forvaltning"
       },
-      "naeringKode": ["88.911"],
+      "naeringKode": [
+        "88.911"
+      ],
       "navn": "KONSERVATIV LYSEGUL FJELLREV",
       "tenorMetadata": {
         "kildedata": "{\"organisasjonsnummer\":\"314595084\",\"navn\":\"KONSERVATIV LYSEGUL FJELLREV\",\"oppdeltNavn\":[\"KONSERVATIV LYSEGUL FJELLREV\"],\"organisasjonsform\":{\"kode\":\"BEDR\",\"beskrivelse\":\"Underenhet til næringsdrivende og offentlig forvaltning\"},\"forretningsadresse\":{\"land\":\"Norge\",\"landkode\":\"NO\",\"postnummer\":\"7300\",\"poststed\":\"ORKANGER\",\"adresse\":[\"Åsvegen 21\"],\"kommune\":\"ORKLAND\",\"kommunenummer\":\"5059\"},\"postadresse\":{\"land\":\"Norge\",\"landkode\":\"NO\",\"postnummer\":\"7338\",\"poststed\":\"MELDAL\",\"adresse\":[\"Postboks 9049\"],\"kommune\":\"ORKLAND\",\"kommunenummer\":\"5059\"},\"naeringskoder\":[{\"kode\":\"88\",\"beskrivelse\":\"Sosiale omsorgstjenester uten botilbud\",\"hjelpeenhetskode\":false,\"rekkefolge\":1,\"nivaa\":1},{\"kode\":\"88.9\",\"beskrivelse\":\"Andre sosialtjenester uten botilbud\",\"hjelpeenhetskode\":false,\"rekkefolge\":1,\"nivaa\":2},{\"kode\":\"88.91\",\"beskrivelse\":\"Sosialtjenester uten botilbud for barn og ungdom\",\"hjelpeenhetskode\":false,\"rekkefolge\":1,\"nivaa\":3},{\"kode\":\"88.911\",\"beskrivelse\":\"Barnehager\",\"hjelpeenhetskode\":false,\"rekkefolge\":1,\"nivaa\":4}],\"institusjonellSektorkode\":{},\"registreringsdatoEnhetsregisteret\":\"2021-03-19\",\"slettetIEnhetsregisteret\":\"N\",\"registrertIForetaksregisteret\":\"N\",\"slettetIForetaksregisteret\":\"N\",\"registreringspliktigForetaksregisteret\":\"N\",\"registrertIFrivillighetsregisteret\":\"N\",\"registrertIStiftelsesregisteret\":\"N\",\"registrertIMvaregisteret\":\"N\",\"aktivitetBransje\":[],\"vedtektsfestetFormaal\":[],\"konkurs\":\"N\",\"underAvvikling\":\"N\",\"underTvangsavviklingEllerTvangsopplosning\":\"N\",\"maalform\":\" \",\"ansvarsbegrensning\":\"N\",\"harAnsatte\":\"N\",\"antallAnsatte\":33,\"underenhet\":{\"hovedenhet\":\"210389512\",\"oppstartsdato\":\"1989-02-08\",\"datoEierskifte\":\"2007-02-07\"},\"bedriftsforsamling\":\"N\",\"representantskap\":\"N\",\"enhetstatuser\":[],\"fullmakter\":[],\"frivilligMvaRegistrert\":[],\"finansielleInstrumenter\":[],\"kapital\":{\"antallAksjer\":\"0\",\"fritekst\":[],\"sakkyndigRedegjorelse\":\"N\"},\"kjonnsrepresentasjon\":\"N\",\"matrikkelnummer\":[],\"paategninger\":[],\"fravalgAvRevisjon\":{\"fravalg\":\"N\"},\"norskregistrertUtenlandskForetak\":{\"helNorskEierskap\":\"N\",\"aktivitetINorge\":\"N\"},\"lovgivningOgForetaksformIHjemlandet\":{\"foretaksform\":\"\"},\"registerIHjemlandet\":{\"navnRegister\":[],\"adresse\":[]},\"fusjoner\":[],\"fisjoner\":[],\"rollegrupper\":[{\"type\":{\"kode\":\"BEDR\",\"beskrivelse\":\"Virksomhet til næringsdrivende person\"},\"fritekst\":[],\"roller\":[{\"type\":{\"kode\":\"BEDR\",\"beskrivelse\":\"har som registreringsenhet\"},\"person\":{},\"virksomhet\":{\"organisasjonsnummer\":\"210389512\"},\"valgtAv\":{},\"fratraadt\":\"N\",\"fritekst\":[],\"rekkefolge\":1}]}]}",
-        "kilder": ["brreg-er-fr"],
+        "kilder": [
+          "brreg-er-fr"
+        ],
         "oppdatert": "2022-09-09T02:43:18.657+02:00",
         "datasettVersjon": 0,
         "opprettet": "2021-11-29T10:48:38.742+01:00",
@@ -871,12 +938,16 @@
         "kommune": "TROMSØ",
         "landkode": "NO",
         "postnummer": "9012",
-        "adresse": ["Senjavegen 68"],
+        "adresse": [
+          "Senjavegen 68"
+        ],
         "land": "Norge",
         "kommunenummer": "5401",
         "poststed": "TROMSØ"
       },
-      "naeringBeskrivelse": ["Barnehager"],
+      "naeringBeskrivelse": [
+        "Barnehager"
+      ],
       "registrertIMvaregisteret": false,
       "Postadresse": {
         "adresse": []
@@ -890,18 +961,24 @@
               "kommune": "HAMAR",
               "landkode": "NO",
               "postnummer": "2315",
-              "adresse": ["Olav Aukrusts gate 9"],
+              "adresse": [
+                "Olav Aukrusts gate 9"
+              ],
               "land": "Norge",
               "kommunenummer": "3403",
               "poststed": "HAMAR"
             },
-            "naeringBeskrivelse": ["Barnehager"],
+            "naeringBeskrivelse": [
+              "Barnehager"
+            ],
             "registrertIMvaregisteret": false,
             "Postadresse": {
               "kommune": "HAMAR",
               "landkode": "NO",
               "postnummer": "2308",
-              "adresse": ["Postboks 9026"],
+              "adresse": [
+                "Postboks 9026"
+              ],
               "land": "Norge",
               "kommunenummer": "3403",
               "poststed": "HAMAR"
@@ -912,7 +989,9 @@
               "kommune": "HAMAR",
               "landkode": "NO",
               "postnummer": "2308",
-              "adresse": ["Postboks 9026"],
+              "adresse": [
+                "Postboks 9026"
+              ],
               "land": "Norge",
               "kommunenummer": "3403",
               "poststed": "HAMAR"
@@ -920,7 +999,9 @@
             "erUnderenhet": {},
             "registrertIFrivillighetsregisteret": false,
             "stiftelsesdato": "1990-12-26",
-            "kontaktpersoner": ["02816997529"],
+            "kontaktpersoner": [
+              "02816997529"
+            ],
             "fravalgAvRevisjon": {
               "fravalg": false
             },
@@ -932,7 +1013,9 @@
               "kode": "ORGL",
               "beskrivelse": "Organisasjonsledd"
             },
-            "naeringKode": ["88.911"],
+            "naeringKode": [
+              "88.911"
+            ],
             "navn": "KORREKT GRATIS PIGGSVIN",
             "dagligLeder": "02918497962",
             "tenorMetadata": {
@@ -1240,11 +1323,15 @@
         "kode": "BEDR",
         "beskrivelse": "Underenhet til næringsdrivende og offentlig forvaltning"
       },
-      "naeringKode": ["88.911"],
+      "naeringKode": [
+        "88.911"
+      ],
       "navn": "MISFORNØYD SUBJEKTIV FJELLREV",
       "tenorMetadata": {
         "kildedata": "{\"organisasjonsnummer\":\"314683749\",\"navn\":\"MISFORNØYD SUBJEKTIV FJELLREV\",\"oppdeltNavn\":[\"MISFORNØYD SUBJEKTIV FJELLREV\"],\"organisasjonsform\":{\"kode\":\"BEDR\",\"beskrivelse\":\"Underenhet til næringsdrivende og offentlig forvaltning\"},\"forretningsadresse\":{\"land\":\"Norge\",\"landkode\":\"NO\",\"postnummer\":\"9012\",\"poststed\":\"TROMSØ\",\"adresse\":[\"Senjavegen 68\"],\"kommune\":\"TROMSØ\",\"kommunenummer\":\"5401\"},\"postadresse\":{\"adresse\":[]},\"telefonnummer\":\"03 14 68 74\",\"mobilnummer\":\"031 46 837\",\"naeringskoder\":[{\"kode\":\"88\",\"beskrivelse\":\"Sosiale omsorgstjenester uten botilbud\",\"hjelpeenhetskode\":false,\"rekkefolge\":1,\"nivaa\":1},{\"kode\":\"88.9\",\"beskrivelse\":\"Andre sosialtjenester uten botilbud\",\"hjelpeenhetskode\":false,\"rekkefolge\":1,\"nivaa\":2},{\"kode\":\"88.91\",\"beskrivelse\":\"Sosialtjenester uten botilbud for barn og ungdom\",\"hjelpeenhetskode\":false,\"rekkefolge\":1,\"nivaa\":3},{\"kode\":\"88.911\",\"beskrivelse\":\"Barnehager\",\"hjelpeenhetskode\":false,\"rekkefolge\":1,\"nivaa\":4}],\"institusjonellSektorkode\":{},\"registreringsdatoEnhetsregisteret\":\"2021-03-19\",\"slettetIEnhetsregisteret\":\"N\",\"registrertIForetaksregisteret\":\"N\",\"slettetIForetaksregisteret\":\"N\",\"registreringspliktigForetaksregisteret\":\"N\",\"registrertIFrivillighetsregisteret\":\"N\",\"registrertIStiftelsesregisteret\":\"N\",\"registrertIMvaregisteret\":\"N\",\"aktivitetBransje\":[],\"vedtektsfestetFormaal\":[],\"konkurs\":\"N\",\"underAvvikling\":\"N\",\"underTvangsavviklingEllerTvangsopplosning\":\"N\",\"maalform\":\" \",\"ansvarsbegrensning\":\"N\",\"harAnsatte\":\"N\",\"antallAnsatte\":30,\"underenhet\":{\"hovedenhet\":\"313852199\",\"oppstartsdato\":\"2008-05-08\"},\"bedriftsforsamling\":\"N\",\"representantskap\":\"N\",\"enhetstatuser\":[],\"fullmakter\":[],\"frivilligMvaRegistrert\":[],\"finansielleInstrumenter\":[],\"kapital\":{\"antallAksjer\":\"0\",\"fritekst\":[],\"sakkyndigRedegjorelse\":\"N\"},\"kjonnsrepresentasjon\":\"N\",\"matrikkelnummer\":[],\"paategninger\":[],\"fravalgAvRevisjon\":{\"fravalg\":\"N\"},\"norskregistrertUtenlandskForetak\":{\"helNorskEierskap\":\"N\",\"aktivitetINorge\":\"N\"},\"lovgivningOgForetaksformIHjemlandet\":{\"foretaksform\":\"\"},\"registerIHjemlandet\":{\"navnRegister\":[],\"adresse\":[]},\"fusjoner\":[],\"fisjoner\":[],\"rollegrupper\":[{\"type\":{\"kode\":\"BEDR\",\"beskrivelse\":\"Virksomhet til næringsdrivende person\"},\"fritekst\":[],\"roller\":[{\"type\":{\"kode\":\"BEDR\",\"beskrivelse\":\"har som registreringsenhet\"},\"person\":{},\"virksomhet\":{\"organisasjonsnummer\":\"313852199\"},\"valgtAv\":{},\"fratraadt\":\"N\",\"fritekst\":[],\"rekkefolge\":1}]}]}",
-        "kilder": ["brreg-er-fr"],
+        "kilder": [
+          "brreg-er-fr"
+        ],
         "oppdatert": "2022-09-09T02:54:02.77+02:00",
         "datasettVersjon": 0,
         "opprettet": "2021-11-29T10:57:45.482+01:00",
@@ -1274,18 +1361,24 @@
         "kommune": "ASKER",
         "landkode": "NO",
         "postnummer": "3474",
-        "adresse": ["Jensåsveien 3"],
+        "adresse": [
+          "Jensåsveien 3"
+        ],
         "land": "Norge",
         "kommunenummer": "3025",
         "poststed": "ÅROS"
       },
-      "naeringBeskrivelse": ["Barnehager"],
+      "naeringBeskrivelse": [
+        "Barnehager"
+      ],
       "registrertIMvaregisteret": false,
       "Postadresse": {
         "kommune": "ASKER",
         "landkode": "NO",
         "postnummer": "3441",
-        "adresse": ["Postboks 9079"],
+        "adresse": [
+          "Postboks 9079"
+        ],
         "land": "Norge",
         "kommunenummer": "3025",
         "poststed": "RØYKEN"
@@ -1299,18 +1392,24 @@
               "kommune": "VESTBY",
               "landkode": "NO",
               "postnummer": "1555",
-              "adresse": ["Syrinveien 7"],
+              "adresse": [
+                "Syrinveien 7"
+              ],
               "land": "Norge",
               "kommunenummer": "3019",
               "poststed": "SON"
             },
-            "naeringBeskrivelse": ["Ordinær grunnskoleundervisning"],
+            "naeringBeskrivelse": [
+              "Ordinær grunnskoleundervisning"
+            ],
             "registrertIMvaregisteret": false,
             "Postadresse": {
               "kommune": "VESTBY",
               "landkode": "NO",
               "postnummer": "1556",
-              "adresse": ["Postboks 9029 Postboksanlegg"],
+              "adresse": [
+                "Postboks 9029 Postboksanlegg"
+              ],
               "land": "Norge",
               "kommunenummer": "3019",
               "poststed": "SON"
@@ -1321,7 +1420,9 @@
               "kommune": "VESTBY",
               "landkode": "NO",
               "postnummer": "1556",
-              "adresse": ["Postboks 9029 Postboksanlegg"],
+              "adresse": [
+                "Postboks 9029 Postboksanlegg"
+              ],
               "land": "Norge",
               "kommunenummer": "3019",
               "poststed": "SON"
@@ -1329,7 +1430,9 @@
             "erUnderenhet": {},
             "registrertIFrivillighetsregisteret": false,
             "stiftelsesdato": "1971-10-28",
-            "kontaktpersoner": ["08826499479"],
+            "kontaktpersoner": [
+              "08826499479"
+            ],
             "fravalgAvRevisjon": {
               "fravalg": false
             },
@@ -1341,7 +1444,9 @@
               "kode": "ORGL",
               "beskrivelse": "Organisasjonsledd"
             },
-            "naeringKode": ["85.201"],
+            "naeringKode": [
+              "85.201"
+            ],
             "navn": "VIDSYNT VOKAL PIGGSVIN",
             "dagligLeder": "07896896649",
             "tenorMetadata": {
@@ -1410,7 +1515,9 @@
         "kommune": "ASKER",
         "landkode": "NO",
         "postnummer": "3441",
-        "adresse": ["Postboks 9079"],
+        "adresse": [
+          "Postboks 9079"
+        ],
         "land": "Norge",
         "kommunenummer": "3025",
         "poststed": "RØYKEN"
@@ -1431,11 +1538,15 @@
         "kode": "BEDR",
         "beskrivelse": "Underenhet til næringsdrivende og offentlig forvaltning"
       },
-      "naeringKode": ["88.911"],
+      "naeringKode": [
+        "88.911"
+      ],
       "navn": "OPPRIKTIG UNGT FJELLREV",
       "tenorMetadata": {
         "kildedata": "{\"organisasjonsnummer\":\"311849344\",\"navn\":\"OPPRIKTIG UNGT FJELLREV\",\"oppdeltNavn\":[\"OPPRIKTIG UNGT FJELLREV\"],\"organisasjonsform\":{\"kode\":\"BEDR\",\"beskrivelse\":\"Underenhet til næringsdrivende og offentlig forvaltning\"},\"forretningsadresse\":{\"land\":\"Norge\",\"landkode\":\"NO\",\"postnummer\":\"3474\",\"poststed\":\"ÅROS\",\"adresse\":[\"Jensåsveien 3\"],\"kommune\":\"ASKER\",\"kommunenummer\":\"3025\"},\"postadresse\":{\"land\":\"Norge\",\"landkode\":\"NO\",\"postnummer\":\"3441\",\"poststed\":\"RØYKEN\",\"adresse\":[\"Postboks 9079\"],\"kommune\":\"ASKER\",\"kommunenummer\":\"3025\"},\"telefonnummer\":\"03 11 84 34\",\"naeringskoder\":[{\"kode\":\"88\",\"beskrivelse\":\"Sosiale omsorgstjenester uten botilbud\",\"hjelpeenhetskode\":false,\"rekkefolge\":1,\"nivaa\":1},{\"kode\":\"88.9\",\"beskrivelse\":\"Andre sosialtjenester uten botilbud\",\"hjelpeenhetskode\":false,\"rekkefolge\":1,\"nivaa\":2},{\"kode\":\"88.91\",\"beskrivelse\":\"Sosialtjenester uten botilbud for barn og ungdom\",\"hjelpeenhetskode\":false,\"rekkefolge\":1,\"nivaa\":3},{\"kode\":\"88.911\",\"beskrivelse\":\"Barnehager\",\"hjelpeenhetskode\":false,\"rekkefolge\":1,\"nivaa\":4}],\"institusjonellSektorkode\":{},\"registreringsdatoEnhetsregisteret\":\"2021-03-18\",\"slettetIEnhetsregisteret\":\"N\",\"registrertIForetaksregisteret\":\"N\",\"slettetIForetaksregisteret\":\"N\",\"registreringspliktigForetaksregisteret\":\"N\",\"registrertIFrivillighetsregisteret\":\"N\",\"registrertIStiftelsesregisteret\":\"N\",\"registrertIMvaregisteret\":\"N\",\"aktivitetBransje\":[],\"vedtektsfestetFormaal\":[],\"konkurs\":\"N\",\"underAvvikling\":\"N\",\"underTvangsavviklingEllerTvangsopplosning\":\"N\",\"maalform\":\" \",\"ansvarsbegrensning\":\"N\",\"harAnsatte\":\"N\",\"antallAnsatte\":52,\"underenhet\":{\"hovedenhet\":\"313280608\",\"oppstartsdato\":\"1989-02-07\"},\"bedriftsforsamling\":\"N\",\"representantskap\":\"N\",\"enhetstatuser\":[],\"fullmakter\":[],\"frivilligMvaRegistrert\":[],\"finansielleInstrumenter\":[],\"kapital\":{\"antallAksjer\":\"0\",\"fritekst\":[],\"sakkyndigRedegjorelse\":\"N\"},\"kjonnsrepresentasjon\":\"N\",\"matrikkelnummer\":[],\"paategninger\":[],\"fravalgAvRevisjon\":{\"fravalg\":\"N\"},\"norskregistrertUtenlandskForetak\":{\"helNorskEierskap\":\"N\",\"aktivitetINorge\":\"N\"},\"lovgivningOgForetaksformIHjemlandet\":{\"foretaksform\":\"\"},\"registerIHjemlandet\":{\"navnRegister\":[],\"adresse\":[]},\"fusjoner\":[],\"fisjoner\":[],\"rollegrupper\":[{\"type\":{\"kode\":\"BEDR\",\"beskrivelse\":\"Virksomhet til næringsdrivende person\"},\"fritekst\":[],\"roller\":[{\"type\":{\"kode\":\"BEDR\",\"beskrivelse\":\"har som registreringsenhet\"},\"person\":{},\"virksomhet\":{\"organisasjonsnummer\":\"313280608\"},\"valgtAv\":{},\"fratraadt\":\"N\",\"fritekst\":[],\"rekkefolge\":1}]}]}",
-        "kilder": ["brreg-er-fr"],
+        "kilder": [
+          "brreg-er-fr"
+        ],
         "oppdatert": "2022-09-08T21:49:54.204+02:00",
         "datasettVersjon": 0,
         "opprettet": "2021-11-26T16:48:58.181+01:00",
@@ -1465,12 +1576,16 @@
         "kommune": "LURØY",
         "landkode": "NO",
         "postnummer": "8764",
-        "adresse": ["Indre Osenstranden"],
+        "adresse": [
+          "Indre Osenstranden"
+        ],
         "land": "Norge",
         "kommunenummer": "1834",
         "poststed": "LOVUND"
       },
-      "naeringBeskrivelse": ["Barnehager"],
+      "naeringBeskrivelse": [
+        "Barnehager"
+      ],
       "registrertIMvaregisteret": false,
       "Postadresse": {
         "adresse": []
@@ -1484,19 +1599,25 @@
               "kommune": "KARMØY",
               "landkode": "NO",
               "postnummer": "5545",
-              "adresse": ["Vormedalsvegen 301"],
+              "adresse": [
+                "Vormedalsvegen 301"
+              ],
               "land": "Norge",
               "kommunenummer": "1149",
               "poststed": "VORMEDAL"
             },
-            "naeringBeskrivelse": ["Barnehager"],
+            "naeringBeskrivelse": [
+              "Barnehager"
+            ],
             "registrertIMvaregisteret": true,
             "styreleder": "07835696981",
             "Postadresse": {
               "kommune": "KARMØY",
               "landkode": "NO",
               "postnummer": "5508",
-              "adresse": ["Postboks 9027"],
+              "adresse": [
+                "Postboks 9027"
+              ],
               "land": "Norge",
               "kommunenummer": "1149",
               "poststed": "KARMSUND"
@@ -1507,7 +1628,9 @@
               "kommune": "KARMØY",
               "landkode": "NO",
               "postnummer": "5508",
-              "adresse": ["Postboks 9027"],
+              "adresse": [
+                "Postboks 9027"
+              ],
               "land": "Norge",
               "kommunenummer": "1149",
               "poststed": "KARMSUND"
@@ -1527,7 +1650,9 @@
               "kode": "AS",
               "beskrivelse": "Aksjeselskap"
             },
-            "naeringKode": ["88.911"],
+            "naeringKode": [
+              "88.911"
+            ],
             "navn": "NYTTIG MISFORNØYD TIGER AS",
             "dagligLeder": "18837298470",
             "tenorMetadata": {
@@ -1549,7 +1674,10 @@
               "type": "Aksjekapital",
               "belop": 85900
             },
-            "varamedlemmer": ["21888899275", "03858197022"],
+            "varamedlemmer": [
+              "21888899275",
+              "03858197022"
+            ],
             "harUnderenheter": [
               "211872292",
               "211872322",
@@ -1769,8 +1897,12 @@
               "311874349",
               "311874357"
             ],
-            "regnskapsfoerere": ["310951390"],
-            "revisorer": ["314239822"],
+            "regnskapsfoerere": [
+              "310951390"
+            ],
+            "revisorer": [
+              "314239822"
+            ],
             "styremedlemmer": [
               "27906597107",
               "20844799838",
@@ -1806,11 +1938,15 @@
         "kode": "BEDR",
         "beskrivelse": "Underenhet til næringsdrivende og offentlig forvaltning"
       },
-      "naeringKode": ["88.911"],
+      "naeringKode": [
+        "88.911"
+      ],
       "navn": "GUL AKADEMISK FJELLREV",
       "tenorMetadata": {
         "kildedata": "{\"organisasjonsnummer\":\"311872850\",\"navn\":\"GUL AKADEMISK FJELLREV\",\"oppdeltNavn\":[\"GUL AKADEMISK FJELLREV\"],\"organisasjonsform\":{\"kode\":\"BEDR\",\"beskrivelse\":\"Underenhet til næringsdrivende og offentlig forvaltning\"},\"forretningsadresse\":{\"land\":\"Norge\",\"landkode\":\"NO\",\"postnummer\":\"8764\",\"poststed\":\"LOVUND\",\"adresse\":[\"Indre Osenstranden\"],\"kommune\":\"LURØY\",\"kommunenummer\":\"1834\"},\"postadresse\":{\"adresse\":[]},\"mobilnummer\":\"031 18 728\",\"naeringskoder\":[{\"kode\":\"88\",\"beskrivelse\":\"Sosiale omsorgstjenester uten botilbud\",\"hjelpeenhetskode\":false,\"rekkefolge\":1,\"nivaa\":1},{\"kode\":\"88.9\",\"beskrivelse\":\"Andre sosialtjenester uten botilbud\",\"hjelpeenhetskode\":false,\"rekkefolge\":1,\"nivaa\":2},{\"kode\":\"88.91\",\"beskrivelse\":\"Sosialtjenester uten botilbud for barn og ungdom\",\"hjelpeenhetskode\":false,\"rekkefolge\":1,\"nivaa\":3},{\"kode\":\"88.911\",\"beskrivelse\":\"Barnehager\",\"hjelpeenhetskode\":false,\"rekkefolge\":1,\"nivaa\":4}],\"institusjonellSektorkode\":{},\"registreringsdatoEnhetsregisteret\":\"2021-03-18\",\"slettetIEnhetsregisteret\":\"N\",\"registrertIForetaksregisteret\":\"N\",\"slettetIForetaksregisteret\":\"N\",\"registreringspliktigForetaksregisteret\":\"N\",\"registrertIFrivillighetsregisteret\":\"N\",\"registrertIStiftelsesregisteret\":\"N\",\"registrertIMvaregisteret\":\"N\",\"aktivitetBransje\":[],\"vedtektsfestetFormaal\":[],\"konkurs\":\"N\",\"underAvvikling\":\"N\",\"underTvangsavviklingEllerTvangsopplosning\":\"N\",\"maalform\":\" \",\"ansvarsbegrensning\":\"N\",\"harAnsatte\":\"N\",\"antallAnsatte\":12,\"underenhet\":{\"hovedenhet\":\"313461718\",\"oppstartsdato\":\"1990-02-07\",\"datoEierskifte\":\"2017-10-08\"},\"bedriftsforsamling\":\"N\",\"representantskap\":\"N\",\"enhetstatuser\":[],\"fullmakter\":[],\"frivilligMvaRegistrert\":[],\"finansielleInstrumenter\":[],\"kapital\":{\"antallAksjer\":\"0\",\"fritekst\":[],\"sakkyndigRedegjorelse\":\"N\"},\"kjonnsrepresentasjon\":\"N\",\"matrikkelnummer\":[],\"paategninger\":[],\"fravalgAvRevisjon\":{\"fravalg\":\"N\"},\"norskregistrertUtenlandskForetak\":{\"helNorskEierskap\":\"N\",\"aktivitetINorge\":\"N\"},\"lovgivningOgForetaksformIHjemlandet\":{\"foretaksform\":\"\"},\"registerIHjemlandet\":{\"navnRegister\":[],\"adresse\":[]},\"fusjoner\":[],\"fisjoner\":[],\"rollegrupper\":[{\"type\":{\"kode\":\"BEDR\",\"beskrivelse\":\"Virksomhet til næringsdrivende person\"},\"fritekst\":[],\"roller\":[{\"type\":{\"kode\":\"BEDR\",\"beskrivelse\":\"har som registreringsenhet\"},\"person\":{},\"virksomhet\":{\"organisasjonsnummer\":\"313461718\"},\"valgtAv\":{},\"fratraadt\":\"N\",\"fritekst\":[],\"rekkefolge\":1}]}]}",
-        "kilder": ["brreg-er-fr"],
+        "kilder": [
+          "brreg-er-fr"
+        ],
         "oppdatert": "2022-09-08T21:52:24.218+02:00",
         "datasettVersjon": 0,
         "opprettet": "2021-11-26T16:51:25.34+01:00",
@@ -1839,18 +1975,24 @@
         "kommune": "NOTODDEN",
         "landkode": "NO",
         "postnummer": "3691",
-        "adresse": ["Torrudmoen 21"],
+        "adresse": [
+          "Torrudmoen 21"
+        ],
         "land": "Norge",
         "kommunenummer": "3808",
         "poststed": "GRANSHERAD"
       },
-      "naeringBeskrivelse": ["Barnehager"],
+      "naeringBeskrivelse": [
+        "Barnehager"
+      ],
       "registrertIMvaregisteret": false,
       "Postadresse": {
         "kommune": "NOTODDEN",
         "landkode": "NO",
         "postnummer": "3671",
-        "adresse": ["Postboks 9058"],
+        "adresse": [
+          "Postboks 9058"
+        ],
         "land": "Norge",
         "kommunenummer": "3808",
         "poststed": "NOTODDEN"
@@ -1872,14 +2014,18 @@
               "kommunenummer": "0301",
               "poststed": "OSLO"
             },
-            "naeringBeskrivelse": ["Barnehager"],
+            "naeringBeskrivelse": [
+              "Barnehager"
+            ],
             "registrertIMvaregisteret": false,
             "styreleder": "05895596509",
             "Postadresse": {
               "kommune": "OSLO",
               "landkode": "NO",
               "postnummer": "0216",
-              "adresse": ["Postboks 9112"],
+              "adresse": [
+                "Postboks 9112"
+              ],
               "land": "Norge",
               "kommunenummer": "0301",
               "poststed": "OSLO"
@@ -1890,7 +2036,9 @@
               "kommune": "OSLO",
               "landkode": "NO",
               "postnummer": "0216",
-              "adresse": ["Postboks 9112"],
+              "adresse": [
+                "Postboks 9112"
+              ],
               "land": "Norge",
               "kommunenummer": "0301",
               "poststed": "OSLO"
@@ -1910,7 +2058,9 @@
               "kode": "AS",
               "beskrivelse": "Aksjeselskap"
             },
-            "naeringKode": ["88.911"],
+            "naeringKode": [
+              "88.911"
+            ],
             "navn": "SLAPP ØVRIG TIGER AS",
             "dagligLeder": "02835695193",
             "tenorMetadata": {
@@ -1932,7 +2082,11 @@
               "type": "Aksjekapital",
               "belop": 410000
             },
-            "varamedlemmer": ["05895898734", "03836999478", "08888799851"],
+            "varamedlemmer": [
+              "05895898734",
+              "03836999478",
+              "08888799851"
+            ],
             "harUnderenheter": [
               "212295892",
               "212295922",
@@ -1972,8 +2126,12 @@
               "312296225",
               "312296233"
             ],
-            "regnskapsfoerere": ["314248384"],
-            "revisorer": ["314239458"],
+            "regnskapsfoerere": [
+              "314248384"
+            ],
+            "revisorer": [
+              "314239458"
+            ],
             "styremedlemmer": [
               "07817299193",
               "03815298054",
@@ -1993,7 +2151,9 @@
         "kommune": "NOTODDEN",
         "landkode": "NO",
         "postnummer": "3671",
-        "adresse": ["Postboks 9058"],
+        "adresse": [
+          "Postboks 9058"
+        ],
         "land": "Norge",
         "kommunenummer": "3808",
         "poststed": "NOTODDEN"
@@ -2014,11 +2174,15 @@
         "kode": "BEDR",
         "beskrivelse": "Underenhet til næringsdrivende og offentlig forvaltning"
       },
-      "naeringKode": ["88.911"],
+      "naeringKode": [
+        "88.911"
+      ],
       "navn": "HUSLØS USNOBBET FJELLREV",
       "tenorMetadata": {
         "kildedata": "{\"organisasjonsnummer\":\"312296160\",\"navn\":\"HUSLØS USNOBBET FJELLREV\",\"oppdeltNavn\":[\"HUSLØS USNOBBET FJELLREV\"],\"organisasjonsform\":{\"kode\":\"BEDR\",\"beskrivelse\":\"Underenhet til næringsdrivende og offentlig forvaltning\"},\"forretningsadresse\":{\"land\":\"Norge\",\"landkode\":\"NO\",\"postnummer\":\"3691\",\"poststed\":\"GRANSHERAD\",\"adresse\":[\"Torrudmoen 21\"],\"kommune\":\"NOTODDEN\",\"kommunenummer\":\"3808\"},\"postadresse\":{\"land\":\"Norge\",\"landkode\":\"NO\",\"postnummer\":\"3671\",\"poststed\":\"NOTODDEN\",\"adresse\":[\"Postboks 9058\"],\"kommune\":\"NOTODDEN\",\"kommunenummer\":\"3808\"},\"telefonnummer\":\"03 12 29 16\",\"naeringskoder\":[{\"kode\":\"88\",\"beskrivelse\":\"Sosiale omsorgstjenester uten botilbud\",\"hjelpeenhetskode\":false,\"rekkefolge\":1,\"nivaa\":1},{\"kode\":\"88.9\",\"beskrivelse\":\"Andre sosialtjenester uten botilbud\",\"hjelpeenhetskode\":false,\"rekkefolge\":1,\"nivaa\":2},{\"kode\":\"88.91\",\"beskrivelse\":\"Sosialtjenester uten botilbud for barn og ungdom\",\"hjelpeenhetskode\":false,\"rekkefolge\":1,\"nivaa\":3},{\"kode\":\"88.911\",\"beskrivelse\":\"Barnehager\",\"hjelpeenhetskode\":false,\"rekkefolge\":1,\"nivaa\":4}],\"institusjonellSektorkode\":{},\"registreringsdatoEnhetsregisteret\":\"2021-03-18\",\"slettetIEnhetsregisteret\":\"N\",\"registrertIForetaksregisteret\":\"N\",\"slettetIForetaksregisteret\":\"N\",\"registreringspliktigForetaksregisteret\":\"N\",\"registrertIFrivillighetsregisteret\":\"N\",\"registrertIStiftelsesregisteret\":\"N\",\"registrertIMvaregisteret\":\"N\",\"aktivitetBransje\":[],\"vedtektsfestetFormaal\":[],\"konkurs\":\"N\",\"underAvvikling\":\"N\",\"underTvangsavviklingEllerTvangsopplosning\":\"N\",\"maalform\":\" \",\"ansvarsbegrensning\":\"N\",\"harAnsatte\":\"N\",\"antallAnsatte\":13,\"underenhet\":{\"hovedenhet\":\"311009605\",\"oppstartsdato\":\"1973-02-01\",\"datoEierskifte\":\"2005-02-07\"},\"bedriftsforsamling\":\"N\",\"representantskap\":\"N\",\"enhetstatuser\":[],\"fullmakter\":[],\"frivilligMvaRegistrert\":[],\"finansielleInstrumenter\":[],\"kapital\":{\"antallAksjer\":\"0\",\"fritekst\":[],\"sakkyndigRedegjorelse\":\"N\"},\"kjonnsrepresentasjon\":\"N\",\"matrikkelnummer\":[],\"paategninger\":[],\"fravalgAvRevisjon\":{\"fravalg\":\"N\"},\"norskregistrertUtenlandskForetak\":{\"helNorskEierskap\":\"N\",\"aktivitetINorge\":\"N\"},\"lovgivningOgForetaksformIHjemlandet\":{\"foretaksform\":\"\"},\"registerIHjemlandet\":{\"navnRegister\":[],\"adresse\":[]},\"fusjoner\":[],\"fisjoner\":[],\"rollegrupper\":[{\"type\":{\"kode\":\"BEDR\",\"beskrivelse\":\"Virksomhet til næringsdrivende person\"},\"fritekst\":[],\"roller\":[{\"type\":{\"kode\":\"BEDR\",\"beskrivelse\":\"har som registreringsenhet\"},\"person\":{},\"virksomhet\":{\"organisasjonsnummer\":\"311009605\"},\"valgtAv\":{},\"fratraadt\":\"N\",\"fritekst\":[],\"rekkefolge\":1}]}]}",
-        "kilder": ["brreg-er-fr"],
+        "kilder": [
+          "brreg-er-fr"
+        ],
         "oppdatert": "2022-09-08T22:35:27.681+02:00",
         "datasettVersjon": 0,
         "opprettet": "2021-11-26T17:33:18.571+01:00",
@@ -2048,18 +2212,24 @@
         "kommune": "KRISTIANSAND",
         "landkode": "NO",
         "postnummer": "4628",
-        "adresse": ["Mjåvannsvegen 26"],
+        "adresse": [
+          "Mjåvannsvegen 26"
+        ],
         "land": "Norge",
         "kommunenummer": "4204",
         "poststed": "KRISTIANSAND S"
       },
-      "naeringBeskrivelse": ["Barnehager"],
+      "naeringBeskrivelse": [
+        "Barnehager"
+      ],
       "registrertIMvaregisteret": false,
       "Postadresse": {
         "kommune": "KRISTIANSAND",
         "landkode": "NO",
         "postnummer": "4672",
-        "adresse": ["Postboks 9056"],
+        "adresse": [
+          "Postboks 9056"
+        ],
         "land": "Norge",
         "kommunenummer": "4204",
         "poststed": "KRISTIANSAND S"
@@ -2073,19 +2243,25 @@
               "kommune": "STAVANGER",
               "landkode": "NO",
               "postnummer": "4022",
-              "adresse": ["Torleiv Kvalviks gate 29"],
+              "adresse": [
+                "Torleiv Kvalviks gate 29"
+              ],
               "land": "Norge",
               "kommunenummer": "1103",
               "poststed": "STAVANGER"
             },
-            "naeringBeskrivelse": ["Religiøse organisasjoner"],
+            "naeringBeskrivelse": [
+              "Religiøse organisasjoner"
+            ],
             "registrertIMvaregisteret": false,
             "styreleder": "01885696755",
             "Postadresse": {
               "kommune": "SØR-VARANGER",
               "landkode": "NO",
               "postnummer": "9915",
-              "adresse": ["Postboks 9072"],
+              "adresse": [
+                "Postboks 9072"
+              ],
               "land": "Norge",
               "kommunenummer": "5444",
               "poststed": "KIRKENES"
@@ -2096,14 +2272,18 @@
               "kommune": "SØR-VARANGER",
               "landkode": "NO",
               "postnummer": "9915",
-              "adresse": ["Postboks 9072"],
+              "adresse": [
+                "Postboks 9072"
+              ],
               "land": "Norge",
               "kommunenummer": "5444",
               "poststed": "KIRKENES"
             },
             "erUnderenhet": {},
             "registrertIFrivillighetsregisteret": false,
-            "kontaktpersoner": ["01885696755"],
+            "kontaktpersoner": [
+              "01885696755"
+            ],
             "fravalgAvRevisjon": {
               "fravalg": false
             },
@@ -2115,7 +2295,9 @@
               "kode": "KIRK",
               "beskrivelse": "Den norske kirke"
             },
-            "naeringKode": ["94.910"],
+            "naeringKode": [
+              "94.910"
+            ],
             "navn": "UTØRST NYTTIG MUS",
             "tenorMetadata": {
               "kildedata": "{\"organisasjonsnummer\":\"210513922\",\"navn\":\"UTØRST NYTTIG MUS\",\"oppdeltNavn\":[\"UTØRST NYTTIG MUS\"],\"organisasjonsform\":{\"kode\":\"KIRK\",\"beskrivelse\":\"Den norske kirke\"},\"forretningsadresse\":{\"land\":\"Norge\",\"landkode\":\"NO\",\"postnummer\":\"4022\",\"poststed\":\"STAVANGER\",\"adresse\":[\"Torleiv Kvalviks gate 29\"],\"kommune\":\"STAVANGER\",\"kommunenummer\":\"1103\"},\"postadresse\":{\"land\":\"Norge\",\"landkode\":\"NO\",\"postnummer\":\"9915\",\"poststed\":\"KIRKENES\",\"adresse\":[\"Postboks 9072\"],\"kommune\":\"SØR-VARANGER\",\"kommunenummer\":\"5444\"},\"telefonnummer\":\"02 10 51 92\",\"e-post\":\"cepheus@belelarcturus.no\",\"nettadresse\":\"www.zubeneschamaliscorpius.no\",\"naeringskoder\":[{\"kode\":\"94\",\"beskrivelse\":\"Aktiviteter i medlemsorganisasjoner\",\"hjelpeenhetskode\":false,\"rekkefolge\":1,\"nivaa\":1},{\"kode\":\"94.9\",\"beskrivelse\":\"Aktiviteter i andre medlemsorganisasjoner\",\"hjelpeenhetskode\":false,\"rekkefolge\":1,\"nivaa\":2},{\"kode\":\"94.91\",\"beskrivelse\":\"Religiøse organisasjoner\",\"hjelpeenhetskode\":false,\"rekkefolge\":1,\"nivaa\":3},{\"kode\":\"94.910\",\"beskrivelse\":\"Religiøse organisasjoner\",\"hjelpeenhetskode\":false,\"rekkefolge\":1,\"nivaa\":4}],\"institusjonellSektorkode\":{\"kode\":\"6500\",\"beskrivelse\":\"Kommuneforvaltningen \"},\"registreringsdatoEnhetsregisteret\":\"2021-03-16\",\"slettetIEnhetsregisteret\":\"N\",\"registrertIForetaksregisteret\":\"N\",\"slettetIForetaksregisteret\":\"N\",\"registreringspliktigForetaksregisteret\":\"N\",\"registrertIFrivillighetsregisteret\":\"N\",\"registrertIStiftelsesregisteret\":\"N\",\"registrertIMvaregisteret\":\"N\",\"aktivitetBransje\":[\"Religiøse organisasjoner\"],\"vedtektsfestetFormaal\":[],\"konkurs\":\"N\",\"underAvvikling\":\"N\",\"underTvangsavviklingEllerTvangsopplosning\":\"N\",\"maalform\":\"Bokmål\",\"ansvarsbegrensning\":\"N\",\"harAnsatte\":\"N\",\"antallAnsatte\":27,\"underenhet\":{},\"bedriftsforsamling\":\"N\",\"representantskap\":\"N\",\"enhetstatuser\":[],\"fullmakter\":[],\"frivilligMvaRegistrert\":[],\"finansielleInstrumenter\":[],\"kapital\":{\"antallAksjer\":\"0\",\"fritekst\":[],\"sakkyndigRedegjorelse\":\"N\"},\"kjonnsrepresentasjon\":\"N\",\"matrikkelnummer\":[],\"paategninger\":[],\"fravalgAvRevisjon\":{\"fravalg\":\"N\"},\"norskregistrertUtenlandskForetak\":{\"helNorskEierskap\":\"N\",\"aktivitetINorge\":\"N\"},\"lovgivningOgForetaksformIHjemlandet\":{\"foretaksform\":\"\"},\"registerIHjemlandet\":{\"navnRegister\":[],\"adresse\":[]},\"fusjoner\":[],\"fisjoner\":[],\"rollegrupper\":[{\"type\":{\"kode\":\"KIRK\",\"beskrivelse\":\"Inngår i kirkelig fellesråd\"},\"fritekst\":[],\"roller\":[{\"type\":{\"kode\":\"KIRK\",\"beskrivelse\":\"Inngår i kirkelig fellesråd\"},\"person\":{},\"virksomhet\":{\"organisasjonsnummer\":\"311005030\"},\"valgtAv\":{},\"fratraadt\":\"N\",\"fritekst\":[],\"rekkefolge\":1}]},{\"type\":{\"kode\":\"KONT\",\"beskrivelse\":\"Kontaktperson\"},\"fritekst\":[],\"roller\":[{\"type\":{\"kode\":\"KONT\",\"beskrivelse\":\"Kontaktperson\"},\"person\":{\"foedselsnummer\":\"01885696755\"},\"virksomhet\":{},\"valgtAv\":{},\"fratraadt\":\"N\",\"fritekst\":[],\"rekkefolge\":0}]},{\"type\":{\"kode\":\"REVI\",\"beskrivelse\":\"Revisor\"},\"fritekst\":[],\"roller\":[{\"type\":{\"kode\":\"REVI\",\"beskrivelse\":\"Revisor\"},\"person\":{},\"virksomhet\":{\"organisasjonsnummer\":\"312251604\"},\"valgtAv\":{},\"fratraadt\":\"N\",\"fritekst\":[],\"rekkefolge\":1}]},{\"type\":{\"kode\":\"SIGN\",\"beskrivelse\":\"Signatur\"},\"fritekst\":[{\"plassering\":\"Styrets leder alene\"}],\"roller\":[{\"type\":{},\"person\":{},\"virksomhet\":{},\"valgtAv\":{},\"fritekst\":[],\"rekkefolge\":0}]},{\"type\":{\"kode\":\"STYR\",\"beskrivelse\":\"Styre\"},\"fritekst\":[],\"roller\":[{\"type\":{\"kode\":\"LEDE\",\"beskrivelse\":\"Styrets leder\"},\"person\":{\"foedselsnummer\":\"01885696755\"},\"virksomhet\":{},\"valgtAv\":{},\"fratraadt\":\"N\",\"fritekst\":[],\"rekkefolge\":1}]},{\"type\":{\"kode\":\"STYR\",\"beskrivelse\":\"Styre\"},\"fritekst\":[],\"roller\":[{\"type\":{\"kode\":\"NEST\",\"beskrivelse\":\"Nestleder\"},\"person\":{\"foedselsnummer\":\"02897796751\"},\"virksomhet\":{},\"valgtAv\":{},\"fratraadt\":\"N\",\"fritekst\":[],\"rekkefolge\":2}]},{\"type\":{\"kode\":\"STYR\",\"beskrivelse\":\"Styre\"},\"fritekst\":[],\"roller\":[{\"type\":{\"kode\":\"MEDL\",\"beskrivelse\":\"Styremedlem\"},\"person\":{\"foedselsnummer\":\"19848198830\"},\"virksomhet\":{},\"valgtAv\":{},\"fratraadt\":\"N\",\"fritekst\":[],\"rekkefolge\":3}]},{\"type\":{\"kode\":\"STYR\",\"beskrivelse\":\"Styre\"},\"fritekst\":[],\"roller\":[{\"type\":{\"kode\":\"MEDL\",\"beskrivelse\":\"Styremedlem\"},\"person\":{\"foedselsnummer\":\"15897597168\"},\"virksomhet\":{},\"valgtAv\":{},\"fratraadt\":\"N\",\"fritekst\":[],\"rekkefolge\":4}]},{\"type\":{\"kode\":\"STYR\",\"beskrivelse\":\"Styre\"},\"fritekst\":[],\"roller\":[{\"type\":{\"kode\":\"MEDL\",\"beskrivelse\":\"Styremedlem\"},\"person\":{\"foedselsnummer\":\"04828998175\"},\"virksomhet\":{},\"valgtAv\":{},\"fratraadt\":\"N\",\"fritekst\":[],\"rekkefolge\":5}]},{\"type\":{\"kode\":\"STYR\",\"beskrivelse\":\"Styre\"},\"fritekst\":[],\"roller\":[{\"type\":{\"kode\":\"MEDL\",\"beskrivelse\":\"Styremedlem\"},\"person\":{\"foedselsnummer\":\"18828398187\"},\"virksomhet\":{},\"valgtAv\":{},\"fratraadt\":\"N\",\"fritekst\":[],\"rekkefolge\":6}]},{\"type\":{\"kode\":\"STYR\",\"beskrivelse\":\"Styre\"},\"fritekst\":[],\"roller\":[{\"type\":{\"kode\":\"MEDL\",\"beskrivelse\":\"Styremedlem\"},\"person\":{\"foedselsnummer\":\"23864796435\"},\"virksomhet\":{},\"valgtAv\":{},\"fratraadt\":\"N\",\"fritekst\":[],\"rekkefolge\":7}]},{\"type\":{\"kode\":\"STYR\",\"beskrivelse\":\"Styre\"},\"fritekst\":[],\"roller\":[{\"type\":{\"kode\":\"MEDL\",\"beskrivelse\":\"Styremedlem\"},\"person\":{\"foedselsnummer\":\"04874898010\"},\"virksomhet\":{},\"valgtAv\":{},\"fratraadt\":\"N\",\"fritekst\":[],\"rekkefolge\":8}]}]}",
@@ -2135,9 +2317,14 @@
               "belop": 0
             },
             "varamedlemmer": [],
-            "harUnderenheter": ["311866737", "311866745"],
+            "harUnderenheter": [
+              "311866737",
+              "311866745"
+            ],
             "regnskapsfoerere": [],
-            "revisorer": ["312251604"],
+            "revisorer": [
+              "312251604"
+            ],
             "styremedlemmer": [
               "19848198830",
               "15897597168",
@@ -2158,7 +2345,9 @@
         "kommune": "KRISTIANSAND",
         "landkode": "NO",
         "postnummer": "4672",
-        "adresse": ["Postboks 9056"],
+        "adresse": [
+          "Postboks 9056"
+        ],
         "land": "Norge",
         "kommunenummer": "4204",
         "poststed": "KRISTIANSAND S"
@@ -2179,11 +2368,15 @@
         "kode": "BEDR",
         "beskrivelse": "Underenhet til næringsdrivende og offentlig forvaltning"
       },
-      "naeringKode": ["88.911"],
+      "naeringKode": [
+        "88.911"
+      ],
       "navn": "UROMANTISK KLAM FJELLREV",
       "tenorMetadata": {
         "kildedata": "{\"organisasjonsnummer\":\"311866745\",\"navn\":\"UROMANTISK KLAM FJELLREV\",\"oppdeltNavn\":[\"UROMANTISK KLAM FJELLREV\"],\"organisasjonsform\":{\"kode\":\"BEDR\",\"beskrivelse\":\"Underenhet til næringsdrivende og offentlig forvaltning\"},\"forretningsadresse\":{\"land\":\"Norge\",\"landkode\":\"NO\",\"postnummer\":\"4628\",\"poststed\":\"KRISTIANSAND S\",\"adresse\":[\"Mjåvannsvegen 26\"],\"kommune\":\"KRISTIANSAND\",\"kommunenummer\":\"4204\"},\"postadresse\":{\"land\":\"Norge\",\"landkode\":\"NO\",\"postnummer\":\"4672\",\"poststed\":\"KRISTIANSAND S\",\"adresse\":[\"Postboks 9056\"],\"kommune\":\"KRISTIANSAND\",\"kommunenummer\":\"4204\"},\"naeringskoder\":[{\"kode\":\"88\",\"beskrivelse\":\"Sosiale omsorgstjenester uten botilbud\",\"hjelpeenhetskode\":false,\"rekkefolge\":1,\"nivaa\":1},{\"kode\":\"88.9\",\"beskrivelse\":\"Andre sosialtjenester uten botilbud\",\"hjelpeenhetskode\":false,\"rekkefolge\":1,\"nivaa\":2},{\"kode\":\"88.91\",\"beskrivelse\":\"Sosialtjenester uten botilbud for barn og ungdom\",\"hjelpeenhetskode\":false,\"rekkefolge\":1,\"nivaa\":3},{\"kode\":\"88.911\",\"beskrivelse\":\"Barnehager\",\"hjelpeenhetskode\":false,\"rekkefolge\":1,\"nivaa\":4}],\"institusjonellSektorkode\":{},\"registreringsdatoEnhetsregisteret\":\"2021-03-18\",\"slettetIEnhetsregisteret\":\"N\",\"registrertIForetaksregisteret\":\"N\",\"slettetIForetaksregisteret\":\"N\",\"registreringspliktigForetaksregisteret\":\"N\",\"registrertIFrivillighetsregisteret\":\"N\",\"registrertIStiftelsesregisteret\":\"N\",\"registrertIMvaregisteret\":\"N\",\"aktivitetBransje\":[],\"vedtektsfestetFormaal\":[],\"konkurs\":\"N\",\"underAvvikling\":\"N\",\"underTvangsavviklingEllerTvangsopplosning\":\"N\",\"maalform\":\" \",\"ansvarsbegrensning\":\"N\",\"harAnsatte\":\"N\",\"antallAnsatte\":27,\"underenhet\":{\"hovedenhet\":\"210513922\",\"oppstartsdato\":\"2009-08-06\"},\"bedriftsforsamling\":\"N\",\"representantskap\":\"N\",\"enhetstatuser\":[],\"fullmakter\":[],\"frivilligMvaRegistrert\":[],\"finansielleInstrumenter\":[],\"kapital\":{\"antallAksjer\":\"0\",\"fritekst\":[],\"sakkyndigRedegjorelse\":\"N\"},\"kjonnsrepresentasjon\":\"N\",\"matrikkelnummer\":[],\"paategninger\":[],\"fravalgAvRevisjon\":{\"fravalg\":\"N\"},\"norskregistrertUtenlandskForetak\":{\"helNorskEierskap\":\"N\",\"aktivitetINorge\":\"N\"},\"lovgivningOgForetaksformIHjemlandet\":{\"foretaksform\":\"\"},\"registerIHjemlandet\":{\"navnRegister\":[],\"adresse\":[]},\"fusjoner\":[],\"fisjoner\":[],\"rollegrupper\":[{\"type\":{\"kode\":\"BEDR\",\"beskrivelse\":\"Virksomhet til næringsdrivende person\"},\"fritekst\":[],\"roller\":[{\"type\":{\"kode\":\"BEDR\",\"beskrivelse\":\"har som registreringsenhet\"},\"person\":{},\"virksomhet\":{\"organisasjonsnummer\":\"210513922\"},\"valgtAv\":{},\"fratraadt\":\"N\",\"fritekst\":[],\"rekkefolge\":1}]}]}",
-        "kilder": ["brreg-er-fr"],
+        "kilder": [
+          "brreg-er-fr"
+        ],
         "oppdatert": "2022-09-08T21:51:45.456+02:00",
         "datasettVersjon": 0,
         "opprettet": "2021-11-26T16:50:46.008+01:00",
@@ -2212,18 +2405,24 @@
         "kommune": "GRAN",
         "landkode": "NO",
         "postnummer": "2750",
-        "adresse": ["Skotterudgutua 13"],
+        "adresse": [
+          "Skotterudgutua 13"
+        ],
         "land": "Norge",
         "kommunenummer": "3446",
         "poststed": "GRAN"
       },
-      "naeringBeskrivelse": ["Barnehager"],
+      "naeringBeskrivelse": [
+        "Barnehager"
+      ],
       "registrertIMvaregisteret": false,
       "Postadresse": {
         "kommune": "GRAN",
         "landkode": "NO",
         "postnummer": "3527",
-        "adresse": ["Postboks 9056"],
+        "adresse": [
+          "Postboks 9056"
+        ],
         "land": "Norge",
         "kommunenummer": "3446",
         "poststed": "BJONEROA"
@@ -2237,18 +2436,24 @@
               "kommune": "ULLENSAKER",
               "landkode": "NO",
               "postnummer": "2050",
-              "adresse": ["Trondheimsvegen - Jessheim 74"],
+              "adresse": [
+                "Trondheimsvegen - Jessheim 74"
+              ],
               "land": "Norge",
               "kommunenummer": "3033",
               "poststed": "JESSHEIM"
             },
-            "naeringBeskrivelse": ["Helsestasjon og skolehelsetjeneste"],
+            "naeringBeskrivelse": [
+              "Helsestasjon og skolehelsetjeneste"
+            ],
             "registrertIMvaregisteret": true,
             "Postadresse": {
               "kommune": "ULLENSAKER",
               "landkode": "NO",
               "postnummer": "2050",
-              "adresse": ["Trondheimsvegen - Jessheim 74"],
+              "adresse": [
+                "Trondheimsvegen - Jessheim 74"
+              ],
               "land": "Norge",
               "kommunenummer": "3033",
               "poststed": "JESSHEIM"
@@ -2259,7 +2464,9 @@
               "kommune": "ULLENSAKER",
               "landkode": "NO",
               "postnummer": "2050",
-              "adresse": ["Trondheimsvegen - Jessheim 74"],
+              "adresse": [
+                "Trondheimsvegen - Jessheim 74"
+              ],
               "land": "Norge",
               "kommunenummer": "3033",
               "poststed": "JESSHEIM"
@@ -2278,7 +2485,9 @@
               "kode": "KOMM",
               "beskrivelse": "Kommune"
             },
-            "naeringKode": ["86.903"],
+            "naeringKode": [
+              "86.903"
+            ],
             "navn": "TAPPER UKLAR BJØRN KOMMUNE",
             "dagligLeder": "26882549991",
             "tenorMetadata": {
@@ -2410,7 +2619,9 @@
               "312013711"
             ],
             "regnskapsfoerere": [],
-            "revisorer": ["312939053"],
+            "revisorer": [
+              "312939053"
+            ],
             "styremedlemmer": [],
             "harUtenlandskForretningsadresse": false,
             "tenorRelasjonsnavn": "erUnderenhet.hovedenhet",
@@ -2423,7 +2634,9 @@
         "kommune": "GRAN",
         "landkode": "NO",
         "postnummer": "3527",
-        "adresse": ["Postboks 9056"],
+        "adresse": [
+          "Postboks 9056"
+        ],
         "land": "Norge",
         "kommunenummer": "3446",
         "poststed": "BJONEROA"
@@ -2444,11 +2657,15 @@
         "kode": "BEDR",
         "beskrivelse": "Underenhet til næringsdrivende og offentlig forvaltning"
       },
-      "naeringKode": ["88.911"],
+      "naeringKode": [
+        "88.911"
+      ],
       "navn": "INTELLIGENT GLAD FJELLREV",
       "tenorMetadata": {
         "kildedata": "{\"organisasjonsnummer\":\"312013193\",\"navn\":\"INTELLIGENT GLAD FJELLREV\",\"oppdeltNavn\":[\"INTELLIGENT GLAD FJELLREV\"],\"organisasjonsform\":{\"kode\":\"BEDR\",\"beskrivelse\":\"Underenhet til næringsdrivende og offentlig forvaltning\"},\"forretningsadresse\":{\"land\":\"Norge\",\"landkode\":\"NO\",\"postnummer\":\"2750\",\"poststed\":\"GRAN\",\"adresse\":[\"Skotterudgutua 13\"],\"kommune\":\"GRAN\",\"kommunenummer\":\"3446\"},\"postadresse\":{\"land\":\"Norge\",\"landkode\":\"NO\",\"postnummer\":\"3527\",\"poststed\":\"BJONEROA\",\"adresse\":[\"Postboks 9056\"],\"kommune\":\"GRAN\",\"kommunenummer\":\"3446\"},\"telefonnummer\":\"03 12 01 19\",\"naeringskoder\":[{\"kode\":\"88\",\"beskrivelse\":\"Sosiale omsorgstjenester uten botilbud\",\"hjelpeenhetskode\":false,\"rekkefolge\":1,\"nivaa\":1},{\"kode\":\"88.9\",\"beskrivelse\":\"Andre sosialtjenester uten botilbud\",\"hjelpeenhetskode\":false,\"rekkefolge\":1,\"nivaa\":2},{\"kode\":\"88.91\",\"beskrivelse\":\"Sosialtjenester uten botilbud for barn og ungdom\",\"hjelpeenhetskode\":false,\"rekkefolge\":1,\"nivaa\":3},{\"kode\":\"88.911\",\"beskrivelse\":\"Barnehager\",\"hjelpeenhetskode\":false,\"rekkefolge\":1,\"nivaa\":4}],\"institusjonellSektorkode\":{},\"registreringsdatoEnhetsregisteret\":\"2021-03-18\",\"slettetIEnhetsregisteret\":\"N\",\"registrertIForetaksregisteret\":\"N\",\"slettetIForetaksregisteret\":\"N\",\"registreringspliktigForetaksregisteret\":\"N\",\"registrertIFrivillighetsregisteret\":\"N\",\"registrertIStiftelsesregisteret\":\"N\",\"registrertIMvaregisteret\":\"N\",\"aktivitetBransje\":[],\"vedtektsfestetFormaal\":[],\"konkurs\":\"N\",\"underAvvikling\":\"N\",\"underTvangsavviklingEllerTvangsopplosning\":\"N\",\"maalform\":\" \",\"ansvarsbegrensning\":\"N\",\"harAnsatte\":\"N\",\"antallAnsatte\":46,\"underenhet\":{\"hovedenhet\":\"313431215\",\"oppstartsdato\":\"1989-02-08\",\"datoEierskifte\":\"2020-02-07\"},\"bedriftsforsamling\":\"N\",\"representantskap\":\"N\",\"enhetstatuser\":[],\"fullmakter\":[],\"frivilligMvaRegistrert\":[],\"finansielleInstrumenter\":[],\"kapital\":{\"antallAksjer\":\"0\",\"fritekst\":[],\"sakkyndigRedegjorelse\":\"N\"},\"kjonnsrepresentasjon\":\"N\",\"matrikkelnummer\":[],\"paategninger\":[],\"fravalgAvRevisjon\":{\"fravalg\":\"N\"},\"norskregistrertUtenlandskForetak\":{\"helNorskEierskap\":\"N\",\"aktivitetINorge\":\"N\"},\"lovgivningOgForetaksformIHjemlandet\":{\"foretaksform\":\"\"},\"registerIHjemlandet\":{\"navnRegister\":[],\"adresse\":[]},\"fusjoner\":[],\"fisjoner\":[],\"rollegrupper\":[{\"type\":{\"kode\":\"BEDR\",\"beskrivelse\":\"Virksomhet til næringsdrivende person\"},\"fritekst\":[],\"roller\":[{\"type\":{\"kode\":\"BEDR\",\"beskrivelse\":\"har som registreringsenhet\"},\"person\":{},\"virksomhet\":{\"organisasjonsnummer\":\"313431215\"},\"valgtAv\":{},\"fratraadt\":\"N\",\"fritekst\":[],\"rekkefolge\":1}]}]}",
-        "kilder": ["brreg-er-fr"],
+        "kilder": [
+          "brreg-er-fr"
+        ],
         "oppdatert": "2022-09-08T22:06:42.387+02:00",
         "datasettVersjon": 0,
         "opprettet": "2021-11-26T17:05:19.736+01:00",
@@ -2478,18 +2695,25 @@
         "kommune": "KARMØY",
         "landkode": "NO",
         "postnummer": "5548",
-        "adresse": ["Indre Innlandetsmuget"],
+        "adresse": [
+          "Indre Innlandetsmuget"
+        ],
         "land": "Norge",
         "kommunenummer": "1149",
         "poststed": "FEØY"
       },
-      "naeringBeskrivelse": ["Barnehager"],
+      "naeringBeskrivelse": [
+        "Barnehager"
+      ],
       "registrertIMvaregisteret": false,
       "Postadresse": {
         "kommune": "KARMØY",
         "landkode": "NO",
         "postnummer": "4250",
-        "adresse": ["c/o Varsomren Brosme", "Torvvegen 8"],
+        "adresse": [
+          "c/o Varsomren Brosme",
+          "Torvvegen 8"
+        ],
         "land": "Norge",
         "kommunenummer": "1149",
         "poststed": "KOPERVIK"
@@ -2503,7 +2727,9 @@
               "kommune": "STRAND",
               "landkode": "NO",
               "postnummer": "4103",
-              "adresse": ["Kvitemyrkroken 11"],
+              "adresse": [
+                "Kvitemyrkroken 11"
+              ],
               "land": "Norge",
               "kommunenummer": "1130",
               "poststed": "JØRPELAND"
@@ -2534,7 +2760,9 @@
               "kode": "KOMM",
               "beskrivelse": "Kommune"
             },
-            "naeringKode": ["88.102"],
+            "naeringKode": [
+              "88.102"
+            ],
             "navn": "BLAUT KOMPLISERT BJØRN KOMMUNE",
             "dagligLeder": "10896596522",
             "tenorMetadata": {
@@ -2609,7 +2837,9 @@
               "314576837"
             ],
             "regnskapsfoerere": [],
-            "revisorer": ["312251604"],
+            "revisorer": [
+              "312251604"
+            ],
             "styremedlemmer": [],
             "telefonnummer": "+4703124286",
             "harUtenlandskForretningsadresse": false,
@@ -2623,7 +2853,10 @@
         "kommune": "KARMØY",
         "landkode": "NO",
         "postnummer": "4250",
-        "adresse": ["c/o Varsomren Brosme", "Torvvegen 8"],
+        "adresse": [
+          "c/o Varsomren Brosme",
+          "Torvvegen 8"
+        ],
         "land": "Norge",
         "kommunenummer": "1149",
         "poststed": "KOPERVIK"
@@ -2644,11 +2877,15 @@
         "kode": "BEDR",
         "beskrivelse": "Underenhet til næringsdrivende og offentlig forvaltning"
       },
-      "naeringKode": ["88.911"],
+      "naeringKode": [
+        "88.911"
+      ],
       "navn": "KLAM EVENTYRLIG FJELLREV",
       "tenorMetadata": {
         "kildedata": "{\"organisasjonsnummer\":\"314576519\",\"navn\":\"KLAM EVENTYRLIG FJELLREV\",\"oppdeltNavn\":[\"KLAM EVENTYRLIG FJELLREV\"],\"organisasjonsform\":{\"kode\":\"BEDR\",\"beskrivelse\":\"Underenhet til næringsdrivende og offentlig forvaltning\"},\"forretningsadresse\":{\"land\":\"Norge\",\"landkode\":\"NO\",\"postnummer\":\"5548\",\"poststed\":\"FEØY\",\"adresse\":[\"Indre Innlandetsmuget\"],\"kommune\":\"KARMØY\",\"kommunenummer\":\"1149\"},\"postadresse\":{\"land\":\"Norge\",\"landkode\":\"NO\",\"postnummer\":\"4250\",\"poststed\":\"KOPERVIK\",\"adresse\":[\"c/o Varsomren Brosme\",\"Torvvegen 8\"],\"kommune\":\"KARMØY\",\"kommunenummer\":\"1149\"},\"telefonnummer\":\"03 14 57 51\",\"naeringskoder\":[{\"kode\":\"88\",\"beskrivelse\":\"Sosiale omsorgstjenester uten botilbud\",\"hjelpeenhetskode\":false,\"rekkefolge\":1,\"nivaa\":1},{\"kode\":\"88.9\",\"beskrivelse\":\"Andre sosialtjenester uten botilbud\",\"hjelpeenhetskode\":false,\"rekkefolge\":1,\"nivaa\":2},{\"kode\":\"88.91\",\"beskrivelse\":\"Sosialtjenester uten botilbud for barn og ungdom\",\"hjelpeenhetskode\":false,\"rekkefolge\":1,\"nivaa\":3},{\"kode\":\"88.911\",\"beskrivelse\":\"Barnehager\",\"hjelpeenhetskode\":false,\"rekkefolge\":1,\"nivaa\":4}],\"institusjonellSektorkode\":{},\"registreringsdatoEnhetsregisteret\":\"2021-03-19\",\"slettetIEnhetsregisteret\":\"N\",\"registrertIForetaksregisteret\":\"N\",\"slettetIForetaksregisteret\":\"N\",\"registreringspliktigForetaksregisteret\":\"N\",\"registrertIFrivillighetsregisteret\":\"N\",\"registrertIStiftelsesregisteret\":\"N\",\"registrertIMvaregisteret\":\"N\",\"aktivitetBransje\":[],\"vedtektsfestetFormaal\":[],\"konkurs\":\"N\",\"underAvvikling\":\"N\",\"underTvangsavviklingEllerTvangsopplosning\":\"N\",\"maalform\":\" \",\"ansvarsbegrensning\":\"N\",\"harAnsatte\":\"N\",\"antallAnsatte\":18,\"underenhet\":{\"hovedenhet\":\"312428695\",\"oppstartsdato\":\"1989-02-07\",\"datoEierskifte\":\"2005-02-07\"},\"bedriftsforsamling\":\"N\",\"representantskap\":\"N\",\"enhetstatuser\":[],\"fullmakter\":[],\"frivilligMvaRegistrert\":[],\"finansielleInstrumenter\":[],\"kapital\":{\"antallAksjer\":\"0\",\"fritekst\":[],\"sakkyndigRedegjorelse\":\"N\"},\"kjonnsrepresentasjon\":\"N\",\"matrikkelnummer\":[],\"paategninger\":[],\"fravalgAvRevisjon\":{\"fravalg\":\"N\"},\"norskregistrertUtenlandskForetak\":{\"helNorskEierskap\":\"N\",\"aktivitetINorge\":\"N\"},\"lovgivningOgForetaksformIHjemlandet\":{\"foretaksform\":\"\"},\"registerIHjemlandet\":{\"navnRegister\":[],\"adresse\":[]},\"fusjoner\":[],\"fisjoner\":[],\"rollegrupper\":[{\"type\":{\"kode\":\"BEDR\",\"beskrivelse\":\"Virksomhet til næringsdrivende person\"},\"fritekst\":[],\"roller\":[{\"type\":{\"kode\":\"BEDR\",\"beskrivelse\":\"har som registreringsenhet\"},\"person\":{},\"virksomhet\":{\"organisasjonsnummer\":\"312428695\"},\"valgtAv\":{},\"fratraadt\":\"N\",\"fritekst\":[],\"rekkefolge\":1}]}]}",
-        "kilder": ["brreg-er-fr"],
+        "kilder": [
+          "brreg-er-fr"
+        ],
         "oppdatert": "2022-09-09T02:41:12.34+02:00",
         "datasettVersjon": 0,
         "opprettet": "2021-11-29T10:46:37.413+01:00",
@@ -2678,18 +2915,24 @@
         "kommune": "RINGERIKE",
         "landkode": "NO",
         "postnummer": "3514",
-        "adresse": ["Eikemyrveien 22"],
+        "adresse": [
+          "Eikemyrveien 22"
+        ],
         "land": "Norge",
         "kommunenummer": "3007",
         "poststed": "HØNEFOSS"
       },
-      "naeringBeskrivelse": ["Barnehager"],
+      "naeringBeskrivelse": [
+        "Barnehager"
+      ],
       "registrertIMvaregisteret": false,
       "Postadresse": {
         "kommune": "GRUE",
         "landkode": "NO",
         "postnummer": "2251",
-        "adresse": ["Postboks 9141"],
+        "adresse": [
+          "Postboks 9141"
+        ],
         "land": "Norge",
         "kommunenummer": "3417",
         "poststed": "GRUE FINNSKOG"
@@ -2703,18 +2946,24 @@
               "kommune": "BÆRUM",
               "landkode": "NO",
               "postnummer": "1362",
-              "adresse": ["Nadderudveien 68B"],
+              "adresse": [
+                "Nadderudveien 68B"
+              ],
               "land": "Norge",
               "kommunenummer": "3024",
               "poststed": "HOSLE"
             },
-            "naeringBeskrivelse": ["Ordinær grunnskoleundervisning"],
+            "naeringBeskrivelse": [
+              "Ordinær grunnskoleundervisning"
+            ],
             "registrertIMvaregisteret": false,
             "Postadresse": {
               "kommune": "BÆRUM",
               "landkode": "NO",
               "postnummer": "1334",
-              "adresse": ["Postboks 9058"],
+              "adresse": [
+                "Postboks 9058"
+              ],
               "land": "Norge",
               "kommunenummer": "3024",
               "poststed": "RYKKINN"
@@ -2725,7 +2974,9 @@
               "kommune": "BÆRUM",
               "landkode": "NO",
               "postnummer": "1334",
-              "adresse": ["Postboks 9058"],
+              "adresse": [
+                "Postboks 9058"
+              ],
               "land": "Norge",
               "kommunenummer": "3024",
               "poststed": "RYKKINN"
@@ -2733,7 +2984,9 @@
             "erUnderenhet": {},
             "registrertIFrivillighetsregisteret": false,
             "stiftelsesdato": "1971-10-28",
-            "kontaktpersoner": ["30885499763"],
+            "kontaktpersoner": [
+              "30885499763"
+            ],
             "fravalgAvRevisjon": {
               "fravalg": false
             },
@@ -2745,7 +2998,9 @@
               "kode": "ORGL",
               "beskrivelse": "Organisasjonsledd"
             },
-            "naeringKode": ["85.201"],
+            "naeringKode": [
+              "85.201"
+            ],
             "navn": "FIN MUNTER PIGGSVIN",
             "dagligLeder": "02846894511",
             "tenorMetadata": {
@@ -2829,7 +3084,9 @@
         "kommune": "GRUE",
         "landkode": "NO",
         "postnummer": "2251",
-        "adresse": ["Postboks 9141"],
+        "adresse": [
+          "Postboks 9141"
+        ],
         "land": "Norge",
         "kommunenummer": "3417",
         "poststed": "GRUE FINNSKOG"
@@ -2850,11 +3107,15 @@
         "kode": "BEDR",
         "beskrivelse": "Underenhet til næringsdrivende og offentlig forvaltning"
       },
-      "naeringKode": ["88.911"],
+      "naeringKode": [
+        "88.911"
+      ],
       "navn": "AUTONOM SKEPTISK FJELLREV",
       "tenorMetadata": {
         "kildedata": "{\"organisasjonsnummer\":\"214623102\",\"navn\":\"AUTONOM SKEPTISK FJELLREV\",\"oppdeltNavn\":[\"AUTONOM SKEPTISK FJELLREV\"],\"organisasjonsform\":{\"kode\":\"BEDR\",\"beskrivelse\":\"Underenhet til næringsdrivende og offentlig forvaltning\"},\"forretningsadresse\":{\"land\":\"Norge\",\"landkode\":\"NO\",\"postnummer\":\"3514\",\"poststed\":\"HØNEFOSS\",\"adresse\":[\"Eikemyrveien 22\"],\"kommune\":\"RINGERIKE\",\"kommunenummer\":\"3007\"},\"postadresse\":{\"land\":\"Norge\",\"landkode\":\"NO\",\"postnummer\":\"2251\",\"poststed\":\"GRUE FINNSKOG\",\"adresse\":[\"Postboks 9141\"],\"kommune\":\"GRUE\",\"kommunenummer\":\"3417\"},\"naeringskoder\":[{\"kode\":\"88\",\"beskrivelse\":\"Sosiale omsorgstjenester uten botilbud\",\"hjelpeenhetskode\":false,\"rekkefolge\":1,\"nivaa\":1},{\"kode\":\"88.9\",\"beskrivelse\":\"Andre sosialtjenester uten botilbud\",\"hjelpeenhetskode\":false,\"rekkefolge\":1,\"nivaa\":2},{\"kode\":\"88.91\",\"beskrivelse\":\"Sosialtjenester uten botilbud for barn og ungdom\",\"hjelpeenhetskode\":false,\"rekkefolge\":1,\"nivaa\":3},{\"kode\":\"88.911\",\"beskrivelse\":\"Barnehager\",\"hjelpeenhetskode\":false,\"rekkefolge\":1,\"nivaa\":4}],\"institusjonellSektorkode\":{},\"registreringsdatoEnhetsregisteret\":\"2021-03-18\",\"slettetIEnhetsregisteret\":\"N\",\"registrertIForetaksregisteret\":\"N\",\"slettetIForetaksregisteret\":\"N\",\"registreringspliktigForetaksregisteret\":\"N\",\"registrertIFrivillighetsregisteret\":\"N\",\"registrertIStiftelsesregisteret\":\"N\",\"registrertIMvaregisteret\":\"N\",\"aktivitetBransje\":[],\"vedtektsfestetFormaal\":[],\"konkurs\":\"N\",\"underAvvikling\":\"N\",\"underTvangsavviklingEllerTvangsopplosning\":\"N\",\"maalform\":\" \",\"ansvarsbegrensning\":\"N\",\"harAnsatte\":\"N\",\"antallAnsatte\":40,\"underenhet\":{\"hovedenhet\":\"313440427\",\"oppstartsdato\":\"2007-08-07\"},\"bedriftsforsamling\":\"N\",\"representantskap\":\"N\",\"enhetstatuser\":[],\"fullmakter\":[],\"frivilligMvaRegistrert\":[],\"finansielleInstrumenter\":[],\"kapital\":{\"antallAksjer\":\"0\",\"fritekst\":[],\"sakkyndigRedegjorelse\":\"N\"},\"kjonnsrepresentasjon\":\"N\",\"matrikkelnummer\":[],\"paategninger\":[],\"fravalgAvRevisjon\":{\"fravalg\":\"N\"},\"norskregistrertUtenlandskForetak\":{\"helNorskEierskap\":\"N\",\"aktivitetINorge\":\"N\"},\"lovgivningOgForetaksformIHjemlandet\":{\"foretaksform\":\"\"},\"registerIHjemlandet\":{\"navnRegister\":[],\"adresse\":[]},\"fusjoner\":[],\"fisjoner\":[],\"rollegrupper\":[{\"type\":{\"kode\":\"BEDR\",\"beskrivelse\":\"Virksomhet til næringsdrivende person\"},\"fritekst\":[],\"roller\":[{\"type\":{\"kode\":\"BEDR\",\"beskrivelse\":\"har som registreringsenhet\"},\"person\":{},\"virksomhet\":{\"organisasjonsnummer\":\"313440427\"},\"valgtAv\":{},\"fratraadt\":\"N\",\"fritekst\":[],\"rekkefolge\":1}]}]}",
-        "kilder": ["brreg-er-fr"],
+        "kilder": [
+          "brreg-er-fr"
+        ],
         "oppdatert": "2022-09-08T18:28:51.763+02:00",
         "datasettVersjon": 0,
         "opprettet": "2021-11-26T13:34:39.838+01:00",
@@ -2883,18 +3144,24 @@
         "kommune": "TYSVÆR",
         "landkode": "NO",
         "postnummer": "5560",
-        "adresse": ["Øvre Knausenkleiven"],
+        "adresse": [
+          "Øvre Knausenkleiven"
+        ],
         "land": "Norge",
         "kommunenummer": "1146",
         "poststed": "NEDSTRAND"
       },
-      "naeringBeskrivelse": ["Barnehager"],
+      "naeringBeskrivelse": [
+        "Barnehager"
+      ],
       "registrertIMvaregisteret": false,
       "Postadresse": {
         "kommune": "TYSVÆR",
         "landkode": "NO",
         "postnummer": "5595",
-        "adresse": ["Postboks 9021"],
+        "adresse": [
+          "Postboks 9021"
+        ],
         "land": "Norge",
         "kommunenummer": "1146",
         "poststed": "FØRRESFJORDEN"
@@ -2908,18 +3175,24 @@
               "kommune": "ENGERDAL",
               "landkode": "NO",
               "postnummer": "2440",
-              "adresse": ["Engerdalsveien 2444"],
+              "adresse": [
+                "Engerdalsveien 2444"
+              ],
               "land": "Norge",
               "kommunenummer": "3425",
               "poststed": "ENGERDAL"
             },
-            "naeringBeskrivelse": ["Barnehager"],
+            "naeringBeskrivelse": [
+              "Barnehager"
+            ],
             "registrertIMvaregisteret": false,
             "Postadresse": {
               "kommune": "ENGERDAL",
               "landkode": "NO",
               "postnummer": "2444",
-              "adresse": ["Postboks 9186"],
+              "adresse": [
+                "Postboks 9186"
+              ],
               "land": "Norge",
               "kommunenummer": "3425",
               "poststed": "DREVSJØ"
@@ -2930,7 +3203,9 @@
               "kommune": "ENGERDAL",
               "landkode": "NO",
               "postnummer": "2444",
-              "adresse": ["Postboks 9186"],
+              "adresse": [
+                "Postboks 9186"
+              ],
               "land": "Norge",
               "kommunenummer": "3425",
               "poststed": "DREVSJØ"
@@ -2938,7 +3213,9 @@
             "erUnderenhet": {},
             "registrertIFrivillighetsregisteret": false,
             "stiftelsesdato": "1971-10-28",
-            "kontaktpersoner": ["19885398939"],
+            "kontaktpersoner": [
+              "19885398939"
+            ],
             "fravalgAvRevisjon": {
               "fravalg": false
             },
@@ -2950,7 +3227,9 @@
               "kode": "ORGL",
               "beskrivelse": "Organisasjonsledd"
             },
-            "naeringKode": ["88.911"],
+            "naeringKode": [
+              "88.911"
+            ],
             "navn": "NØYTRAL SIST PIGGSVIN",
             "dagligLeder": "05836298626",
             "tenorMetadata": {
@@ -3042,7 +3321,9 @@
         "kommune": "TYSVÆR",
         "landkode": "NO",
         "postnummer": "5595",
-        "adresse": ["Postboks 9021"],
+        "adresse": [
+          "Postboks 9021"
+        ],
         "land": "Norge",
         "kommunenummer": "1146",
         "poststed": "FØRRESFJORDEN"
@@ -3063,11 +3344,15 @@
         "kode": "BEDR",
         "beskrivelse": "Underenhet til næringsdrivende og offentlig forvaltning"
       },
-      "naeringKode": ["88.911"],
+      "naeringKode": [
+        "88.911"
+      ],
       "navn": "GJENNOMSIKTIG PATENT FJELLREV",
       "tenorMetadata": {
         "kildedata": "{\"organisasjonsnummer\":\"314625552\",\"navn\":\"GJENNOMSIKTIG PATENT FJELLREV\",\"oppdeltNavn\":[\"GJENNOMSIKTIG PATENT FJELLREV\"],\"organisasjonsform\":{\"kode\":\"BEDR\",\"beskrivelse\":\"Underenhet til næringsdrivende og offentlig forvaltning\"},\"forretningsadresse\":{\"land\":\"Norge\",\"landkode\":\"NO\",\"postnummer\":\"5560\",\"poststed\":\"NEDSTRAND\",\"adresse\":[\"Øvre Knausenkleiven\"],\"kommune\":\"TYSVÆR\",\"kommunenummer\":\"1146\"},\"postadresse\":{\"land\":\"Norge\",\"landkode\":\"NO\",\"postnummer\":\"5595\",\"poststed\":\"FØRRESFJORDEN\",\"adresse\":[\"Postboks 9021\"],\"kommune\":\"TYSVÆR\",\"kommunenummer\":\"1146\"},\"telefonnummer\":\"03 14 62 55\",\"telefaksnummer\":\"03 14 62 55\",\"naeringskoder\":[{\"kode\":\"88\",\"beskrivelse\":\"Sosiale omsorgstjenester uten botilbud\",\"hjelpeenhetskode\":false,\"rekkefolge\":1,\"nivaa\":1},{\"kode\":\"88.9\",\"beskrivelse\":\"Andre sosialtjenester uten botilbud\",\"hjelpeenhetskode\":false,\"rekkefolge\":1,\"nivaa\":2},{\"kode\":\"88.91\",\"beskrivelse\":\"Sosialtjenester uten botilbud for barn og ungdom\",\"hjelpeenhetskode\":false,\"rekkefolge\":1,\"nivaa\":3},{\"kode\":\"88.911\",\"beskrivelse\":\"Barnehager\",\"hjelpeenhetskode\":false,\"rekkefolge\":1,\"nivaa\":4}],\"institusjonellSektorkode\":{},\"registreringsdatoEnhetsregisteret\":\"2021-03-19\",\"slettetIEnhetsregisteret\":\"N\",\"registrertIForetaksregisteret\":\"N\",\"slettetIForetaksregisteret\":\"N\",\"registreringspliktigForetaksregisteret\":\"N\",\"registrertIFrivillighetsregisteret\":\"N\",\"registrertIStiftelsesregisteret\":\"N\",\"registrertIMvaregisteret\":\"N\",\"aktivitetBransje\":[],\"vedtektsfestetFormaal\":[],\"konkurs\":\"N\",\"underAvvikling\":\"N\",\"underTvangsavviklingEllerTvangsopplosning\":\"N\",\"maalform\":\" \",\"ansvarsbegrensning\":\"N\",\"harAnsatte\":\"N\",\"antallAnsatte\":16,\"underenhet\":{\"hovedenhet\":\"312902168\",\"oppstartsdato\":\"1988-05-08\",\"datoEierskifte\":\"2017-02-07\"},\"bedriftsforsamling\":\"N\",\"representantskap\":\"N\",\"enhetstatuser\":[],\"fullmakter\":[],\"frivilligMvaRegistrert\":[],\"finansielleInstrumenter\":[],\"kapital\":{\"antallAksjer\":\"0\",\"fritekst\":[],\"sakkyndigRedegjorelse\":\"N\"},\"kjonnsrepresentasjon\":\"N\",\"matrikkelnummer\":[],\"paategninger\":[],\"fravalgAvRevisjon\":{\"fravalg\":\"N\"},\"norskregistrertUtenlandskForetak\":{\"helNorskEierskap\":\"N\",\"aktivitetINorge\":\"N\"},\"lovgivningOgForetaksformIHjemlandet\":{\"foretaksform\":\"\"},\"registerIHjemlandet\":{\"navnRegister\":[],\"adresse\":[]},\"fusjoner\":[],\"fisjoner\":[],\"rollegrupper\":[{\"type\":{\"kode\":\"BEDR\",\"beskrivelse\":\"Virksomhet til næringsdrivende person\"},\"fritekst\":[],\"roller\":[{\"type\":{\"kode\":\"BEDR\",\"beskrivelse\":\"har som registreringsenhet\"},\"person\":{},\"virksomhet\":{\"organisasjonsnummer\":\"312902168\"},\"valgtAv\":{},\"fratraadt\":\"N\",\"fritekst\":[],\"rekkefolge\":1}]}]}",
-        "kilder": ["brreg-er-fr"],
+        "kilder": [
+          "brreg-er-fr"
+        ],
         "oppdatert": "2022-09-09T02:47:02.756+02:00",
         "datasettVersjon": 0,
         "opprettet": "2021-11-29T10:51:51.277+01:00",
@@ -3097,12 +3382,16 @@
         "kommune": "ORKLAND",
         "landkode": "NO",
         "postnummer": "7300",
-        "adresse": ["Orkdalsveien 31"],
+        "adresse": [
+          "Orkdalsveien 31"
+        ],
         "land": "Norge",
         "kommunenummer": "5059",
         "poststed": "ORKANGER"
       },
-      "naeringBeskrivelse": ["Barnehager"],
+      "naeringBeskrivelse": [
+        "Barnehager"
+      ],
       "registrertIMvaregisteret": false,
       "Postadresse": {
         "adresse": []
@@ -3116,12 +3405,16 @@
               "kommune": "ORKLAND",
               "landkode": "NO",
               "postnummer": "7300",
-              "adresse": ["Orkdalsveien 31"],
+              "adresse": [
+                "Orkdalsveien 31"
+              ],
               "land": "Norge",
               "kommunenummer": "5059",
               "poststed": "ORKANGER"
             },
-            "naeringBeskrivelse": ["Barnehager"],
+            "naeringBeskrivelse": [
+              "Barnehager"
+            ],
             "registrertIMvaregisteret": false,
             "styreleder": "14815798482",
             "Postadresse": {
@@ -3147,7 +3440,9 @@
               "kode": "AS",
               "beskrivelse": "Aksjeselskap"
             },
-            "naeringKode": ["88.911"],
+            "naeringKode": [
+              "88.911"
+            ],
             "navn": "KONTROLLERT VASSEN TIGER AS",
             "dagligLeder": "14815798482",
             "tenorMetadata": {
@@ -3170,10 +3465,19 @@
               "belop": 100000
             },
             "varamedlemmer": [],
-            "harUnderenheter": ["311648470"],
-            "regnskapsfoerere": ["314239458"],
-            "revisorer": ["314242394"],
-            "styremedlemmer": ["31888499353", "15818898174"],
+            "harUnderenheter": [
+              "311648470"
+            ],
+            "regnskapsfoerere": [
+              "314239458"
+            ],
+            "revisorer": [
+              "314242394"
+            ],
+            "styremedlemmer": [
+              "31888499353",
+              "15818898174"
+            ],
             "harUtenlandskForretningsadresse": false,
             "tenorRelasjonsnavn": "erUnderenhet.hovedenhet",
             "organisasjonsnummer": "310691836",
@@ -3201,11 +3505,15 @@
         "kode": "BEDR",
         "beskrivelse": "Underenhet til næringsdrivende og offentlig forvaltning"
       },
-      "naeringKode": ["88.911"],
+      "naeringKode": [
+        "88.911"
+      ],
       "navn": "KONTROLLERT VASSEN TIGER AS",
       "tenorMetadata": {
         "kildedata": "{\"organisasjonsnummer\":\"311648470\",\"navn\":\"KONTROLLERT VASSEN TIGER AS\",\"oppdeltNavn\":[\"KONTROLLERT VASSEN TIGER AS\"],\"organisasjonsform\":{\"kode\":\"BEDR\",\"beskrivelse\":\"Underenhet til næringsdrivende og offentlig forvaltning\"},\"forretningsadresse\":{\"land\":\"Norge\",\"landkode\":\"NO\",\"postnummer\":\"7300\",\"poststed\":\"ORKANGER\",\"adresse\":[\"Orkdalsveien 31\"],\"kommune\":\"ORKLAND\",\"kommunenummer\":\"5059\"},\"postadresse\":{\"adresse\":[]},\"mobilnummer\":\"031 16 484\",\"naeringskoder\":[{\"kode\":\"88\",\"beskrivelse\":\"Sosiale omsorgstjenester uten botilbud\",\"hjelpeenhetskode\":false,\"rekkefolge\":1,\"nivaa\":1},{\"kode\":\"88.9\",\"beskrivelse\":\"Andre sosialtjenester uten botilbud\",\"hjelpeenhetskode\":false,\"rekkefolge\":1,\"nivaa\":2},{\"kode\":\"88.91\",\"beskrivelse\":\"Sosialtjenester uten botilbud for barn og ungdom\",\"hjelpeenhetskode\":false,\"rekkefolge\":1,\"nivaa\":3},{\"kode\":\"88.911\",\"beskrivelse\":\"Barnehager\",\"hjelpeenhetskode\":false,\"rekkefolge\":1,\"nivaa\":4}],\"institusjonellSektorkode\":{},\"registreringsdatoEnhetsregisteret\":\"2021-03-18\",\"slettetIEnhetsregisteret\":\"N\",\"registrertIForetaksregisteret\":\"N\",\"slettetIForetaksregisteret\":\"N\",\"registreringspliktigForetaksregisteret\":\"N\",\"registrertIFrivillighetsregisteret\":\"N\",\"registrertIStiftelsesregisteret\":\"N\",\"registrertIMvaregisteret\":\"N\",\"aktivitetBransje\":[],\"vedtektsfestetFormaal\":[],\"konkurs\":\"N\",\"underAvvikling\":\"N\",\"underTvangsavviklingEllerTvangsopplosning\":\"N\",\"maalform\":\" \",\"ansvarsbegrensning\":\"N\",\"harAnsatte\":\"N\",\"antallAnsatte\":17,\"underenhet\":{\"hovedenhet\":\"310691836\",\"oppstartsdato\":\"2008-12-18\"},\"bedriftsforsamling\":\"N\",\"representantskap\":\"N\",\"enhetstatuser\":[],\"fullmakter\":[],\"frivilligMvaRegistrert\":[],\"finansielleInstrumenter\":[],\"kapital\":{\"antallAksjer\":\"0\",\"fritekst\":[],\"sakkyndigRedegjorelse\":\"N\"},\"kjonnsrepresentasjon\":\"N\",\"matrikkelnummer\":[],\"paategninger\":[],\"fravalgAvRevisjon\":{\"fravalg\":\"N\"},\"norskregistrertUtenlandskForetak\":{\"helNorskEierskap\":\"N\",\"aktivitetINorge\":\"N\"},\"lovgivningOgForetaksformIHjemlandet\":{\"foretaksform\":\"\"},\"registerIHjemlandet\":{\"navnRegister\":[],\"adresse\":[]},\"fusjoner\":[],\"fisjoner\":[],\"rollegrupper\":[{\"type\":{\"kode\":\"BEDR\",\"beskrivelse\":\"Virksomhet til næringsdrivende person\"},\"fritekst\":[],\"roller\":[{\"type\":{\"kode\":\"BEDR\",\"beskrivelse\":\"har som registreringsenhet\"},\"person\":{},\"virksomhet\":{\"organisasjonsnummer\":\"310691836\"},\"valgtAv\":{},\"fratraadt\":\"N\",\"fritekst\":[],\"rekkefolge\":1}]}]}",
-        "kilder": ["brreg-er-fr"],
+        "kilder": [
+          "brreg-er-fr"
+        ],
         "oppdatert": "2022-09-08T21:29:07.476+02:00",
         "datasettVersjon": 0,
         "opprettet": "2021-11-26T16:28:46.025+01:00",
@@ -3234,12 +3542,16 @@
         "kommune": "KONGSBERG",
         "landkode": "NO",
         "postnummer": "3610",
-        "adresse": ["Marcello Haugens vei 26"],
+        "adresse": [
+          "Marcello Haugens vei 26"
+        ],
         "land": "Norge",
         "kommunenummer": "3006",
         "poststed": "KONGSBERG"
       },
-      "naeringBeskrivelse": ["Barnehager"],
+      "naeringBeskrivelse": [
+        "Barnehager"
+      ],
       "registrertIMvaregisteret": false,
       "Postadresse": {
         "adresse": []
@@ -3253,18 +3565,24 @@
               "kommune": "LILLEHAMMER",
               "landkode": "NO",
               "postnummer": "2613",
-              "adresse": ["Holsjordet 61"],
+              "adresse": [
+                "Holsjordet 61"
+              ],
               "land": "Norge",
               "kommunenummer": "3405",
               "poststed": "LILLEHAMMER"
             },
-            "naeringBeskrivelse": ["Ordinær grunnskoleundervisning"],
+            "naeringBeskrivelse": [
+              "Ordinær grunnskoleundervisning"
+            ],
             "registrertIMvaregisteret": false,
             "Postadresse": {
               "kommune": "STJØRDAL",
               "landkode": "NO",
               "postnummer": "7501",
-              "adresse": ["Postboks 9028"],
+              "adresse": [
+                "Postboks 9028"
+              ],
               "land": "Norge",
               "kommunenummer": "5035",
               "poststed": "STJØRDAL"
@@ -3275,7 +3593,9 @@
               "kommune": "STJØRDAL",
               "landkode": "NO",
               "postnummer": "7501",
-              "adresse": ["Postboks 9028"],
+              "adresse": [
+                "Postboks 9028"
+              ],
               "land": "Norge",
               "kommunenummer": "5035",
               "poststed": "STJØRDAL"
@@ -3283,7 +3603,9 @@
             "erUnderenhet": {},
             "registrertIFrivillighetsregisteret": false,
             "stiftelsesdato": "1979-12-15",
-            "kontaktpersoner": ["16897299902"],
+            "kontaktpersoner": [
+              "16897299902"
+            ],
             "fravalgAvRevisjon": {
               "fravalg": false
             },
@@ -3295,7 +3617,9 @@
               "kode": "ORGL",
               "beskrivelse": "Organisasjonsledd"
             },
-            "naeringKode": ["85.201"],
+            "naeringKode": [
+              "85.201"
+            ],
             "navn": "KLARTENKT NONFIGURATIV PIGGSVIN",
             "dagligLeder": "11915899732",
             "tenorMetadata": {
@@ -3374,11 +3698,15 @@
         "kode": "BEDR",
         "beskrivelse": "Underenhet til næringsdrivende og offentlig forvaltning"
       },
-      "naeringKode": ["88.911"],
+      "naeringKode": [
+        "88.911"
+      ],
       "navn": "FLAT HUSLØS FJELLREV",
       "tenorMetadata": {
         "kildedata": "{\"organisasjonsnummer\":\"314660978\",\"navn\":\"FLAT HUSLØS FJELLREV\",\"oppdeltNavn\":[\"FLAT HUSLØS FJELLREV\"],\"organisasjonsform\":{\"kode\":\"BEDR\",\"beskrivelse\":\"Underenhet til næringsdrivende og offentlig forvaltning\"},\"forretningsadresse\":{\"land\":\"Norge\",\"landkode\":\"NO\",\"postnummer\":\"3610\",\"poststed\":\"KONGSBERG\",\"adresse\":[\"Marcello Haugens vei 26\"],\"kommune\":\"KONGSBERG\",\"kommunenummer\":\"3006\"},\"postadresse\":{\"adresse\":[]},\"naeringskoder\":[{\"kode\":\"88\",\"beskrivelse\":\"Sosiale omsorgstjenester uten botilbud\",\"hjelpeenhetskode\":false,\"rekkefolge\":1,\"nivaa\":1},{\"kode\":\"88.9\",\"beskrivelse\":\"Andre sosialtjenester uten botilbud\",\"hjelpeenhetskode\":false,\"rekkefolge\":1,\"nivaa\":2},{\"kode\":\"88.91\",\"beskrivelse\":\"Sosialtjenester uten botilbud for barn og ungdom\",\"hjelpeenhetskode\":false,\"rekkefolge\":1,\"nivaa\":3},{\"kode\":\"88.911\",\"beskrivelse\":\"Barnehager\",\"hjelpeenhetskode\":false,\"rekkefolge\":1,\"nivaa\":4}],\"institusjonellSektorkode\":{},\"registreringsdatoEnhetsregisteret\":\"2021-03-19\",\"slettetIEnhetsregisteret\":\"N\",\"registrertIForetaksregisteret\":\"N\",\"slettetIForetaksregisteret\":\"N\",\"registreringspliktigForetaksregisteret\":\"N\",\"registrertIFrivillighetsregisteret\":\"N\",\"registrertIStiftelsesregisteret\":\"N\",\"registrertIMvaregisteret\":\"N\",\"aktivitetBransje\":[],\"vedtektsfestetFormaal\":[],\"konkurs\":\"N\",\"underAvvikling\":\"N\",\"underTvangsavviklingEllerTvangsopplosning\":\"N\",\"maalform\":\" \",\"ansvarsbegrensning\":\"N\",\"harAnsatte\":\"N\",\"antallAnsatte\":45,\"underenhet\":{\"hovedenhet\":\"212843342\",\"oppstartsdato\":\"1989-02-07\"},\"bedriftsforsamling\":\"N\",\"representantskap\":\"N\",\"enhetstatuser\":[],\"fullmakter\":[],\"frivilligMvaRegistrert\":[],\"finansielleInstrumenter\":[],\"kapital\":{\"antallAksjer\":\"0\",\"fritekst\":[],\"sakkyndigRedegjorelse\":\"N\"},\"kjonnsrepresentasjon\":\"N\",\"matrikkelnummer\":[],\"paategninger\":[],\"fravalgAvRevisjon\":{\"fravalg\":\"N\"},\"norskregistrertUtenlandskForetak\":{\"helNorskEierskap\":\"N\",\"aktivitetINorge\":\"N\"},\"lovgivningOgForetaksformIHjemlandet\":{\"foretaksform\":\"\"},\"registerIHjemlandet\":{\"navnRegister\":[],\"adresse\":[]},\"fusjoner\":[],\"fisjoner\":[],\"rollegrupper\":[{\"type\":{\"kode\":\"BEDR\",\"beskrivelse\":\"Virksomhet til næringsdrivende person\"},\"fritekst\":[],\"roller\":[{\"type\":{\"kode\":\"BEDR\",\"beskrivelse\":\"har som registreringsenhet\"},\"person\":{},\"virksomhet\":{\"organisasjonsnummer\":\"212843342\"},\"valgtAv\":{},\"fratraadt\":\"N\",\"fritekst\":[],\"rekkefolge\":1}]}]}",
-        "kilder": ["brreg-er-fr"],
+        "kilder": [
+          "brreg-er-fr"
+        ],
         "oppdatert": "2022-09-09T02:51:21.758+02:00",
         "datasettVersjon": 0,
         "opprettet": "2021-11-29T10:55:30.602+01:00",
@@ -3407,18 +3735,25 @@
         "kommune": "HAMAR",
         "landkode": "NO",
         "postnummer": "2319",
-        "adresse": ["Olav Trygvasons gate 90G"],
+        "adresse": [
+          "Olav Trygvasons gate 90G"
+        ],
         "land": "Norge",
         "kommunenummer": "3403",
         "poststed": "HAMAR"
       },
-      "naeringBeskrivelse": ["Barnehager"],
+      "naeringBeskrivelse": [
+        "Barnehager"
+      ],
       "registrertIMvaregisteret": false,
       "Postadresse": {
         "kommune": "ASKØY",
         "landkode": "NO",
         "postnummer": "5319",
-        "adresse": ["v/ Littfiolett Åker", "Postboks 9226"],
+        "adresse": [
+          "v/ Littfiolett Åker",
+          "Postboks 9226"
+        ],
         "land": "Norge",
         "kommunenummer": "4627",
         "poststed": "KLEPPESTØ"
@@ -3432,18 +3767,24 @@
               "kommune": "SUNNFJORD",
               "landkode": "NO",
               "postnummer": "6810",
-              "adresse": ["Oliverlægda 14"],
+              "adresse": [
+                "Oliverlægda 14"
+              ],
               "land": "Norge",
               "kommunenummer": "4647",
               "poststed": "FØRDE"
             },
-            "naeringBeskrivelse": ["Allmenn legetjeneste"],
+            "naeringBeskrivelse": [
+              "Allmenn legetjeneste"
+            ],
             "registrertIMvaregisteret": true,
             "Postadresse": {
               "kommune": "SUNNFJORD",
               "landkode": "NO",
               "postnummer": "6820",
-              "adresse": ["Postboks 9180"],
+              "adresse": [
+                "Postboks 9180"
+              ],
               "land": "Norge",
               "kommunenummer": "4647",
               "poststed": "FØRDE"
@@ -3454,14 +3795,18 @@
               "kommune": "SUNNFJORD",
               "landkode": "NO",
               "postnummer": "6820",
-              "adresse": ["Postboks 9180"],
+              "adresse": [
+                "Postboks 9180"
+              ],
               "land": "Norge",
               "kommunenummer": "4647",
               "poststed": "FØRDE"
             },
             "erUnderenhet": {},
             "registrertIFrivillighetsregisteret": false,
-            "kontaktpersoner": ["25925698167"],
+            "kontaktpersoner": [
+              "25925698167"
+            ],
             "fravalgAvRevisjon": {
               "fravalg": false
             },
@@ -3473,7 +3818,9 @@
               "kode": "KOMM",
               "beskrivelse": "Kommune"
             },
-            "naeringKode": ["86.211"],
+            "naeringKode": [
+              "86.211"
+            ],
             "navn": "KVART UGJENNOMSIKTIG BJØRN KOMMUNE",
             "dagligLeder": "07836696152",
             "tenorMetadata": {
@@ -3574,7 +3921,9 @@
               "311837028"
             ],
             "regnskapsfoerere": [],
-            "revisorer": ["314245326"],
+            "revisorer": [
+              "314245326"
+            ],
             "styremedlemmer": [],
             "telefonnummer": "+4703106981",
             "harUtenlandskForretningsadresse": false,
@@ -3588,7 +3937,10 @@
         "kommune": "ASKØY",
         "landkode": "NO",
         "postnummer": "5319",
-        "adresse": ["v/ Littfiolett Åker", "Postboks 9226"],
+        "adresse": [
+          "v/ Littfiolett Åker",
+          "Postboks 9226"
+        ],
         "land": "Norge",
         "kommunenummer": "4627",
         "poststed": "KLEPPESTØ"
@@ -3609,11 +3961,15 @@
         "kode": "BEDR",
         "beskrivelse": "Underenhet til næringsdrivende og offentlig forvaltning"
       },
-      "naeringKode": ["88.911"],
+      "naeringKode": [
+        "88.911"
+      ],
       "navn": "SELVTILFREDS ÅPEN FJELLREV",
       "tenorMetadata": {
         "kildedata": "{\"organisasjonsnummer\":\"211836512\",\"navn\":\"SELVTILFREDS ÅPEN FJELLREV\",\"oppdeltNavn\":[\"SELVTILFREDS ÅPEN FJELLREV\"],\"organisasjonsform\":{\"kode\":\"BEDR\",\"beskrivelse\":\"Underenhet til næringsdrivende og offentlig forvaltning\"},\"forretningsadresse\":{\"land\":\"Norge\",\"landkode\":\"NO\",\"postnummer\":\"2319\",\"poststed\":\"HAMAR\",\"adresse\":[\"Olav Trygvasons gate 90G\"],\"kommune\":\"HAMAR\",\"kommunenummer\":\"3403\"},\"postadresse\":{\"land\":\"Norge\",\"landkode\":\"NO\",\"postnummer\":\"5319\",\"poststed\":\"KLEPPESTØ\",\"adresse\":[\"v/ Littfiolett Åker\",\"Postboks 9226\"],\"kommune\":\"ASKØY\",\"kommunenummer\":\"4627\"},\"telefonnummer\":\"02 11 83 51\",\"naeringskoder\":[{\"kode\":\"88\",\"beskrivelse\":\"Sosiale omsorgstjenester uten botilbud\",\"hjelpeenhetskode\":false,\"rekkefolge\":1,\"nivaa\":1},{\"kode\":\"88.9\",\"beskrivelse\":\"Andre sosialtjenester uten botilbud\",\"hjelpeenhetskode\":false,\"rekkefolge\":1,\"nivaa\":2},{\"kode\":\"88.91\",\"beskrivelse\":\"Sosialtjenester uten botilbud for barn og ungdom\",\"hjelpeenhetskode\":false,\"rekkefolge\":1,\"nivaa\":3},{\"kode\":\"88.911\",\"beskrivelse\":\"Barnehager\",\"hjelpeenhetskode\":false,\"rekkefolge\":1,\"nivaa\":4}],\"institusjonellSektorkode\":{},\"registreringsdatoEnhetsregisteret\":\"2021-03-18\",\"slettetIEnhetsregisteret\":\"N\",\"registrertIForetaksregisteret\":\"N\",\"slettetIForetaksregisteret\":\"N\",\"registreringspliktigForetaksregisteret\":\"N\",\"registrertIFrivillighetsregisteret\":\"N\",\"registrertIStiftelsesregisteret\":\"N\",\"registrertIMvaregisteret\":\"N\",\"aktivitetBransje\":[],\"vedtektsfestetFormaal\":[],\"konkurs\":\"N\",\"underAvvikling\":\"N\",\"underTvangsavviklingEllerTvangsopplosning\":\"N\",\"maalform\":\" \",\"ansvarsbegrensning\":\"N\",\"harAnsatte\":\"N\",\"antallAnsatte\":23,\"underenhet\":{\"hovedenhet\":\"310698199\",\"oppstartsdato\":\"1971-02-05\",\"datoEierskifte\":\"2006-02-07\"},\"bedriftsforsamling\":\"N\",\"representantskap\":\"N\",\"enhetstatuser\":[],\"fullmakter\":[],\"frivilligMvaRegistrert\":[],\"finansielleInstrumenter\":[],\"kapital\":{\"antallAksjer\":\"0\",\"fritekst\":[],\"sakkyndigRedegjorelse\":\"N\"},\"kjonnsrepresentasjon\":\"N\",\"matrikkelnummer\":[],\"paategninger\":[],\"fravalgAvRevisjon\":{\"fravalg\":\"N\"},\"norskregistrertUtenlandskForetak\":{\"helNorskEierskap\":\"N\",\"aktivitetINorge\":\"N\"},\"lovgivningOgForetaksformIHjemlandet\":{\"foretaksform\":\"\"},\"registerIHjemlandet\":{\"navnRegister\":[],\"adresse\":[]},\"fusjoner\":[],\"fisjoner\":[],\"rollegrupper\":[{\"type\":{\"kode\":\"BEDR\",\"beskrivelse\":\"Virksomhet til næringsdrivende person\"},\"fritekst\":[],\"roller\":[{\"type\":{\"kode\":\"BEDR\",\"beskrivelse\":\"har som registreringsenhet\"},\"person\":{},\"virksomhet\":{\"organisasjonsnummer\":\"310698199\"},\"valgtAv\":{},\"fratraadt\":\"N\",\"fritekst\":[],\"rekkefolge\":1}]}]}",
-        "kilder": ["brreg-er-fr"],
+        "kilder": [
+          "brreg-er-fr"
+        ],
         "oppdatert": "2022-09-08T18:02:12.161+02:00",
         "datasettVersjon": 0,
         "opprettet": "2021-11-26T13:07:37.193+01:00",
@@ -3643,18 +3999,24 @@
         "kommune": "KRISTIANSAND",
         "landkode": "NO",
         "postnummer": "4616",
-        "adresse": ["Jørgen Moes gate 13"],
+        "adresse": [
+          "Jørgen Moes gate 13"
+        ],
         "land": "Norge",
         "kommunenummer": "4204",
         "poststed": "KRISTIANSAND S"
       },
-      "naeringBeskrivelse": ["Barnehager"],
+      "naeringBeskrivelse": [
+        "Barnehager"
+      ],
       "registrertIMvaregisteret": false,
       "Postadresse": {
         "kommune": "MOLDE",
         "landkode": "NO",
         "postnummer": "6461",
-        "adresse": ["Postboks 9197"],
+        "adresse": [
+          "Postboks 9197"
+        ],
         "land": "Norge",
         "kommunenummer": "1506",
         "poststed": "EIDSVÅG I ROMSDAL"
@@ -3668,18 +4030,24 @@
               "kommune": "TROMSØ",
               "landkode": "NO",
               "postnummer": "9019",
-              "adresse": ["Framstredet 79"],
+              "adresse": [
+                "Framstredet 79"
+              ],
               "land": "Norge",
               "kommunenummer": "5401",
               "poststed": "TROMSØ"
             },
-            "naeringBeskrivelse": ["Hjemmehjelp"],
+            "naeringBeskrivelse": [
+              "Hjemmehjelp"
+            ],
             "registrertIMvaregisteret": true,
             "Postadresse": {
               "kommune": "TROMSØ",
               "landkode": "NO",
               "postnummer": "9299",
-              "adresse": ["Postboks 9044"],
+              "adresse": [
+                "Postboks 9044"
+              ],
               "land": "Norge",
               "kommunenummer": "5401",
               "poststed": "TROMSØ"
@@ -3690,7 +4058,9 @@
               "kommune": "TROMSØ",
               "landkode": "NO",
               "postnummer": "9299",
-              "adresse": ["Postboks 9044"],
+              "adresse": [
+                "Postboks 9044"
+              ],
               "land": "Norge",
               "kommunenummer": "5401",
               "poststed": "TROMSØ"
@@ -3709,7 +4079,9 @@
               "kode": "KOMM",
               "beskrivelse": "Kommune"
             },
-            "naeringKode": ["88.101"],
+            "naeringKode": [
+              "88.101"
+            ],
             "navn": "RØRETE REFLEKTERENDE BJØRN KOMMUNE",
             "dagligLeder": "29915598526",
             "tenorMetadata": {
@@ -3899,7 +4271,9 @@
               "311999540"
             ],
             "regnskapsfoerere": [],
-            "revisorer": ["312251604"],
+            "revisorer": [
+              "312251604"
+            ],
             "styremedlemmer": [],
             "harUtenlandskForretningsadresse": false,
             "tenorRelasjonsnavn": "erUnderenhet.hovedenhet",
@@ -3912,7 +4286,9 @@
         "kommune": "MOLDE",
         "landkode": "NO",
         "postnummer": "6461",
-        "adresse": ["Postboks 9197"],
+        "adresse": [
+          "Postboks 9197"
+        ],
         "land": "Norge",
         "kommunenummer": "1506",
         "poststed": "EIDSVÅG I ROMSDAL"
@@ -3933,11 +4309,15 @@
         "kode": "BEDR",
         "beskrivelse": "Underenhet til næringsdrivende og offentlig forvaltning"
       },
-      "naeringKode": ["88.911"],
+      "naeringKode": [
+        "88.911"
+      ],
       "navn": "UKJENT INKLUDERENDE FJELLREV",
       "tenorMetadata": {
         "kildedata": "{\"organisasjonsnummer\":\"211998822\",\"navn\":\"UKJENT INKLUDERENDE FJELLREV\",\"oppdeltNavn\":[\"UKJENT INKLUDERENDE FJELLREV\"],\"organisasjonsform\":{\"kode\":\"BEDR\",\"beskrivelse\":\"Underenhet til næringsdrivende og offentlig forvaltning\"},\"forretningsadresse\":{\"land\":\"Norge\",\"landkode\":\"NO\",\"postnummer\":\"4616\",\"poststed\":\"KRISTIANSAND S\",\"adresse\":[\"Jørgen Moes gate 13\"],\"kommune\":\"KRISTIANSAND\",\"kommunenummer\":\"4204\"},\"postadresse\":{\"land\":\"Norge\",\"landkode\":\"NO\",\"postnummer\":\"6461\",\"poststed\":\"EIDSVÅG I ROMSDAL\",\"adresse\":[\"Postboks 9197\"],\"kommune\":\"MOLDE\",\"kommunenummer\":\"1506\"},\"telefonnummer\":\"02 11 99 82\",\"naeringskoder\":[{\"kode\":\"88\",\"beskrivelse\":\"Sosiale omsorgstjenester uten botilbud\",\"hjelpeenhetskode\":false,\"rekkefolge\":1,\"nivaa\":1},{\"kode\":\"88.9\",\"beskrivelse\":\"Andre sosialtjenester uten botilbud\",\"hjelpeenhetskode\":false,\"rekkefolge\":1,\"nivaa\":2},{\"kode\":\"88.91\",\"beskrivelse\":\"Sosialtjenester uten botilbud for barn og ungdom\",\"hjelpeenhetskode\":false,\"rekkefolge\":1,\"nivaa\":3},{\"kode\":\"88.911\",\"beskrivelse\":\"Barnehager\",\"hjelpeenhetskode\":false,\"rekkefolge\":1,\"nivaa\":4}],\"institusjonellSektorkode\":{},\"registreringsdatoEnhetsregisteret\":\"2021-03-18\",\"slettetIEnhetsregisteret\":\"N\",\"registrertIForetaksregisteret\":\"N\",\"slettetIForetaksregisteret\":\"N\",\"registreringspliktigForetaksregisteret\":\"N\",\"registrertIFrivillighetsregisteret\":\"N\",\"registrertIStiftelsesregisteret\":\"N\",\"registrertIMvaregisteret\":\"N\",\"aktivitetBransje\":[],\"vedtektsfestetFormaal\":[],\"konkurs\":\"N\",\"underAvvikling\":\"N\",\"underTvangsavviklingEllerTvangsopplosning\":\"N\",\"maalform\":\" \",\"ansvarsbegrensning\":\"N\",\"harAnsatte\":\"N\",\"antallAnsatte\":20,\"underenhet\":{\"hovedenhet\":\"312982870\",\"oppstartsdato\":\"1989-02-08\",\"datoEierskifte\":\"2020-02-07\"},\"bedriftsforsamling\":\"N\",\"representantskap\":\"N\",\"enhetstatuser\":[],\"fullmakter\":[],\"frivilligMvaRegistrert\":[],\"finansielleInstrumenter\":[],\"kapital\":{\"antallAksjer\":\"0\",\"fritekst\":[],\"sakkyndigRedegjorelse\":\"N\"},\"kjonnsrepresentasjon\":\"N\",\"matrikkelnummer\":[],\"paategninger\":[],\"fravalgAvRevisjon\":{\"fravalg\":\"N\"},\"norskregistrertUtenlandskForetak\":{\"helNorskEierskap\":\"N\",\"aktivitetINorge\":\"N\"},\"lovgivningOgForetaksformIHjemlandet\":{\"foretaksform\":\"\"},\"registerIHjemlandet\":{\"navnRegister\":[],\"adresse\":[]},\"fusjoner\":[],\"fisjoner\":[],\"rollegrupper\":[{\"type\":{\"kode\":\"BEDR\",\"beskrivelse\":\"Virksomhet til næringsdrivende person\"},\"fritekst\":[],\"roller\":[{\"type\":{\"kode\":\"BEDR\",\"beskrivelse\":\"har som registreringsenhet\"},\"person\":{},\"virksomhet\":{\"organisasjonsnummer\":\"312982870\"},\"valgtAv\":{},\"fratraadt\":\"N\",\"fritekst\":[],\"rekkefolge\":1}]}]}",
-        "kilder": ["brreg-er-fr"],
+        "kilder": [
+          "brreg-er-fr"
+        ],
         "oppdatert": "2022-09-08T18:03:39.673+02:00",
         "datasettVersjon": 0,
         "opprettet": "2021-11-26T13:09:03.8+01:00",
@@ -3967,12 +4347,16 @@
         "kommune": "OSLO",
         "landkode": "NO",
         "postnummer": "1163",
-        "adresse": ["Tyslevveien 54C"],
+        "adresse": [
+          "Tyslevveien 54C"
+        ],
         "land": "Norge",
         "kommunenummer": "0301",
         "poststed": "OSLO"
       },
-      "naeringBeskrivelse": ["Barnehager"],
+      "naeringBeskrivelse": [
+        "Barnehager"
+      ],
       "registrertIMvaregisteret": false,
       "Postadresse": {
         "adresse": []
@@ -3986,12 +4370,16 @@
               "kommune": "OSLO",
               "landkode": "NO",
               "postnummer": "1163",
-              "adresse": ["Tyslevveien 54C"],
+              "adresse": [
+                "Tyslevveien 54C"
+              ],
               "land": "Norge",
               "kommunenummer": "0301",
               "poststed": "OSLO"
             },
-            "naeringBeskrivelse": ["Barnehager"],
+            "naeringBeskrivelse": [
+              "Barnehager"
+            ],
             "registrertIMvaregisteret": false,
             "styreleder": "19865898439",
             "Postadresse": {
@@ -4017,7 +4405,9 @@
               "kode": "AS",
               "beskrivelse": "Aksjeselskap"
             },
-            "naeringKode": ["88.911"],
+            "naeringKode": [
+              "88.911"
+            ],
             "navn": "TILFELDIG FORETAKSOM TIGER AS",
             "dagligLeder": "19865898439",
             "tenorMetadata": {
@@ -4039,10 +4429,20 @@
               "type": "Aksjekapital",
               "belop": 100000
             },
-            "varamedlemmer": ["16879996787", "30888398348"],
-            "harUnderenheter": ["315483085"],
-            "regnskapsfoerere": ["312202093", "313514803"],
-            "revisorer": ["314239822"],
+            "varamedlemmer": [
+              "16879996787",
+              "30888398348"
+            ],
+            "harUnderenheter": [
+              "315483085"
+            ],
+            "regnskapsfoerere": [
+              "312202093",
+              "313514803"
+            ],
+            "revisorer": [
+              "314239822"
+            ],
             "styremedlemmer": [],
             "telefonnummer": "03 10 29 05",
             "harUtenlandskForretningsadresse": false,
@@ -4072,11 +4472,15 @@
         "kode": "BEDR",
         "beskrivelse": "Underenhet til næringsdrivende og offentlig forvaltning"
       },
-      "naeringKode": ["88.911"],
+      "naeringKode": [
+        "88.911"
+      ],
       "navn": "TILFELDIG FORETAKSOM TIGER AS",
       "tenorMetadata": {
         "kildedata": "{\"organisasjonsnummer\":\"315483085\",\"navn\":\"TILFELDIG FORETAKSOM TIGER AS\",\"oppdeltNavn\":[\"TILFELDIG FORETAKSOM TIGER AS\"],\"organisasjonsform\":{\"kode\":\"BEDR\",\"beskrivelse\":\"Underenhet til næringsdrivende og offentlig forvaltning\"},\"forretningsadresse\":{\"land\":\"Norge\",\"landkode\":\"NO\",\"postnummer\":\"1163\",\"poststed\":\"OSLO\",\"adresse\":[\"Tyslevveien 54C\"],\"kommune\":\"OSLO\",\"kommunenummer\":\"0301\"},\"postadresse\":{\"adresse\":[]},\"telefonnummer\":\"03 15 48 08\",\"naeringskoder\":[{\"kode\":\"88\",\"beskrivelse\":\"Sosiale omsorgstjenester uten botilbud\",\"hjelpeenhetskode\":false,\"rekkefolge\":1,\"nivaa\":1},{\"kode\":\"88.9\",\"beskrivelse\":\"Andre sosialtjenester uten botilbud\",\"hjelpeenhetskode\":false,\"rekkefolge\":1,\"nivaa\":2},{\"kode\":\"88.91\",\"beskrivelse\":\"Sosialtjenester uten botilbud for barn og ungdom\",\"hjelpeenhetskode\":false,\"rekkefolge\":1,\"nivaa\":3},{\"kode\":\"88.911\",\"beskrivelse\":\"Barnehager\",\"hjelpeenhetskode\":false,\"rekkefolge\":1,\"nivaa\":4}],\"institusjonellSektorkode\":{},\"registreringsdatoEnhetsregisteret\":\"2021-03-19\",\"slettetIEnhetsregisteret\":\"N\",\"registrertIForetaksregisteret\":\"N\",\"slettetIForetaksregisteret\":\"N\",\"registreringspliktigForetaksregisteret\":\"N\",\"registrertIFrivillighetsregisteret\":\"N\",\"registrertIStiftelsesregisteret\":\"N\",\"registrertIMvaregisteret\":\"N\",\"aktivitetBransje\":[],\"vedtektsfestetFormaal\":[],\"konkurs\":\"N\",\"underAvvikling\":\"N\",\"underTvangsavviklingEllerTvangsopplosning\":\"N\",\"maalform\":\" \",\"ansvarsbegrensning\":\"N\",\"harAnsatte\":\"J\",\"antallAnsatte\":15,\"underenhet\":{\"hovedenhet\":\"310293059\",\"oppstartsdato\":\"1998-09-07\",\"datoEierskifte\":\"2004-09-07\"},\"bedriftsforsamling\":\"N\",\"representantskap\":\"N\",\"enhetstatuser\":[],\"fullmakter\":[],\"frivilligMvaRegistrert\":[],\"finansielleInstrumenter\":[],\"kapital\":{\"antallAksjer\":\"0\",\"fritekst\":[],\"sakkyndigRedegjorelse\":\"N\"},\"kjonnsrepresentasjon\":\"N\",\"matrikkelnummer\":[],\"paategninger\":[],\"fravalgAvRevisjon\":{\"fravalg\":\"N\"},\"norskregistrertUtenlandskForetak\":{\"helNorskEierskap\":\"N\",\"aktivitetINorge\":\"N\"},\"lovgivningOgForetaksformIHjemlandet\":{\"foretaksform\":\"\"},\"registerIHjemlandet\":{\"navnRegister\":[],\"adresse\":[]},\"fusjoner\":[],\"fisjoner\":[],\"rollegrupper\":[{\"type\":{\"kode\":\"BEDR\",\"beskrivelse\":\"Virksomhet til næringsdrivende person\"},\"fritekst\":[],\"roller\":[{\"type\":{\"kode\":\"BEDR\",\"beskrivelse\":\"har som registreringsenhet\"},\"person\":{},\"virksomhet\":{\"organisasjonsnummer\":\"310293059\"},\"valgtAv\":{},\"fratraadt\":\"N\",\"fritekst\":[],\"rekkefolge\":1}]}]}",
-        "kilder": ["brreg-er-fr"],
+        "kilder": [
+          "brreg-er-fr"
+        ],
         "oppdatert": "2022-09-09T04:19:03.71+02:00",
         "datasettVersjon": 0,
         "opprettet": "2021-11-29T12:16:07.816+01:00",
@@ -4106,18 +4510,24 @@
         "kommune": "MIDT-TELEMARK",
         "landkode": "NO",
         "postnummer": "3800",
-        "adresse": ["Stasjonsvegen 17"],
+        "adresse": [
+          "Stasjonsvegen 17"
+        ],
         "land": "Norge",
         "kommunenummer": "3817",
         "poststed": "BØ I TELEMARK"
       },
-      "naeringBeskrivelse": ["Barnehager"],
+      "naeringBeskrivelse": [
+        "Barnehager"
+      ],
       "registrertIMvaregisteret": false,
       "Postadresse": {
         "kommune": "RØYRVIK",
         "landkode": "NO",
         "postnummer": "7897",
-        "adresse": ["Postboks 9035"],
+        "adresse": [
+          "Postboks 9035"
+        ],
         "land": "Norge",
         "kommunenummer": "5043",
         "poststed": "LIMINGEN"
@@ -4131,19 +4541,25 @@
               "kommune": "MIDT-TELEMARK",
               "landkode": "NO",
               "postnummer": "3800",
-              "adresse": ["Stasjonsvegen 17"],
+              "adresse": [
+                "Stasjonsvegen 17"
+              ],
               "land": "Norge",
               "kommunenummer": "3817",
               "poststed": "BØ I TELEMARK"
             },
-            "naeringBeskrivelse": ["Barnehager"],
+            "naeringBeskrivelse": [
+              "Barnehager"
+            ],
             "registrertIMvaregisteret": false,
             "styreleder": "28875898460",
             "Postadresse": {
               "kommune": "RØYRVIK",
               "landkode": "NO",
               "postnummer": "7897",
-              "adresse": ["Postboks 9035"],
+              "adresse": [
+                "Postboks 9035"
+              ],
               "land": "Norge",
               "kommunenummer": "5043",
               "poststed": "LIMINGEN"
@@ -4154,7 +4570,9 @@
               "kommune": "RØYRVIK",
               "landkode": "NO",
               "postnummer": "7897",
-              "adresse": ["Postboks 9035"],
+              "adresse": [
+                "Postboks 9035"
+              ],
               "land": "Norge",
               "kommunenummer": "5043",
               "poststed": "LIMINGEN"
@@ -4174,7 +4592,9 @@
               "kode": "AS",
               "beskrivelse": "Aksjeselskap"
             },
-            "naeringKode": ["88.911"],
+            "naeringKode": [
+              "88.911"
+            ],
             "navn": "KONGE VRIEN TIGER AS",
             "dagligLeder": "15887199458",
             "tenorMetadata": {
@@ -4196,9 +4616,15 @@
               "belop": 200000
             },
             "varamedlemmer": [],
-            "harUnderenheter": ["312079240"],
-            "regnskapsfoerere": ["312946874"],
-            "revisorer": ["312939053"],
+            "harUnderenheter": [
+              "312079240"
+            ],
+            "regnskapsfoerere": [
+              "312946874"
+            ],
+            "revisorer": [
+              "312939053"
+            ],
             "styremedlemmer": [],
             "harUtenlandskForretningsadresse": false,
             "tenorRelasjonsnavn": "erUnderenhet.hovedenhet",
@@ -4212,7 +4638,9 @@
         "kommune": "RØYRVIK",
         "landkode": "NO",
         "postnummer": "7897",
-        "adresse": ["Postboks 9035"],
+        "adresse": [
+          "Postboks 9035"
+        ],
         "land": "Norge",
         "kommunenummer": "5043",
         "poststed": "LIMINGEN"
@@ -4233,11 +4661,15 @@
         "kode": "BEDR",
         "beskrivelse": "Underenhet til næringsdrivende og offentlig forvaltning"
       },
-      "naeringKode": ["88.911"],
+      "naeringKode": [
+        "88.911"
+      ],
       "navn": "KONGE VRIEN TIGER AS",
       "tenorMetadata": {
         "kildedata": "{\"organisasjonsnummer\":\"312079240\",\"navn\":\"KONGE VRIEN TIGER AS\",\"oppdeltNavn\":[\"KONGE VRIEN TIGER AS\"],\"organisasjonsform\":{\"kode\":\"BEDR\",\"beskrivelse\":\"Underenhet til næringsdrivende og offentlig forvaltning\"},\"forretningsadresse\":{\"land\":\"Norge\",\"landkode\":\"NO\",\"postnummer\":\"3800\",\"poststed\":\"BØ I TELEMARK\",\"adresse\":[\"Stasjonsvegen 17\"],\"kommune\":\"MIDT-TELEMARK\",\"kommunenummer\":\"3817\"},\"postadresse\":{\"land\":\"Norge\",\"landkode\":\"NO\",\"postnummer\":\"7897\",\"poststed\":\"LIMINGEN\",\"adresse\":[\"Postboks 9035\"],\"kommune\":\"RØYRVIK\",\"kommunenummer\":\"5043\"},\"naeringskoder\":[{\"kode\":\"88\",\"beskrivelse\":\"Sosiale omsorgstjenester uten botilbud\",\"hjelpeenhetskode\":false,\"rekkefolge\":1,\"nivaa\":1},{\"kode\":\"88.9\",\"beskrivelse\":\"Andre sosialtjenester uten botilbud\",\"hjelpeenhetskode\":false,\"rekkefolge\":1,\"nivaa\":2},{\"kode\":\"88.91\",\"beskrivelse\":\"Sosialtjenester uten botilbud for barn og ungdom\",\"hjelpeenhetskode\":false,\"rekkefolge\":1,\"nivaa\":3},{\"kode\":\"88.911\",\"beskrivelse\":\"Barnehager\",\"hjelpeenhetskode\":false,\"rekkefolge\":1,\"nivaa\":4}],\"institusjonellSektorkode\":{},\"registreringsdatoEnhetsregisteret\":\"2021-03-18\",\"slettetIEnhetsregisteret\":\"N\",\"registrertIForetaksregisteret\":\"N\",\"slettetIForetaksregisteret\":\"N\",\"registreringspliktigForetaksregisteret\":\"N\",\"registrertIFrivillighetsregisteret\":\"N\",\"registrertIStiftelsesregisteret\":\"N\",\"registrertIMvaregisteret\":\"N\",\"aktivitetBransje\":[],\"vedtektsfestetFormaal\":[],\"konkurs\":\"N\",\"underAvvikling\":\"N\",\"underTvangsavviklingEllerTvangsopplosning\":\"N\",\"maalform\":\" \",\"ansvarsbegrensning\":\"N\",\"harAnsatte\":\"N\",\"antallAnsatte\":33,\"underenhet\":{\"hovedenhet\":\"210535292\",\"oppstartsdato\":\"2006-02-10\",\"datoEierskifte\":\"2020-01-09\"},\"bedriftsforsamling\":\"N\",\"representantskap\":\"N\",\"enhetstatuser\":[],\"fullmakter\":[],\"frivilligMvaRegistrert\":[],\"finansielleInstrumenter\":[],\"kapital\":{\"antallAksjer\":\"0\",\"fritekst\":[],\"sakkyndigRedegjorelse\":\"N\"},\"kjonnsrepresentasjon\":\"N\",\"matrikkelnummer\":[],\"paategninger\":[],\"fravalgAvRevisjon\":{\"fravalg\":\"N\"},\"norskregistrertUtenlandskForetak\":{\"helNorskEierskap\":\"N\",\"aktivitetINorge\":\"N\"},\"lovgivningOgForetaksformIHjemlandet\":{\"foretaksform\":\"\"},\"registerIHjemlandet\":{\"navnRegister\":[],\"adresse\":[]},\"fusjoner\":[],\"fisjoner\":[],\"rollegrupper\":[{\"type\":{\"kode\":\"BEDR\",\"beskrivelse\":\"Virksomhet til næringsdrivende person\"},\"fritekst\":[],\"roller\":[{\"type\":{\"kode\":\"BEDR\",\"beskrivelse\":\"har som registreringsenhet\"},\"person\":{},\"virksomhet\":{\"organisasjonsnummer\":\"210535292\"},\"valgtAv\":{},\"fratraadt\":\"N\",\"fritekst\":[],\"rekkefolge\":1}]}]}",
-        "kilder": ["brreg-er-fr"],
+        "kilder": [
+          "brreg-er-fr"
+        ],
         "oppdatert": "2022-09-08T22:13:21.974+02:00",
         "datasettVersjon": 0,
         "opprettet": "2021-11-26T17:11:50.607+01:00",
@@ -4266,18 +4698,24 @@
         "kommune": "OSLO",
         "landkode": "NO",
         "postnummer": "0452",
-        "adresse": ["Johannes Bruns gate 6"],
+        "adresse": [
+          "Johannes Bruns gate 6"
+        ],
         "land": "Norge",
         "kommunenummer": "0301",
         "poststed": "OSLO"
       },
-      "naeringBeskrivelse": ["Barnehager"],
+      "naeringBeskrivelse": [
+        "Barnehager"
+      ],
       "registrertIMvaregisteret": false,
       "Postadresse": {
         "kommune": "OSLO",
         "landkode": "NO",
         "postnummer": "0506",
-        "adresse": ["Postboks 9071"],
+        "adresse": [
+          "Postboks 9071"
+        ],
         "land": "Norge",
         "kommunenummer": "0301",
         "poststed": "OSLO"
@@ -4291,18 +4729,24 @@
               "kommune": "TROMSØ",
               "landkode": "NO",
               "postnummer": "9019",
-              "adresse": ["Framstredet 79"],
+              "adresse": [
+                "Framstredet 79"
+              ],
               "land": "Norge",
               "kommunenummer": "5401",
               "poststed": "TROMSØ"
             },
-            "naeringBeskrivelse": ["Hjemmehjelp"],
+            "naeringBeskrivelse": [
+              "Hjemmehjelp"
+            ],
             "registrertIMvaregisteret": true,
             "Postadresse": {
               "kommune": "TROMSØ",
               "landkode": "NO",
               "postnummer": "9299",
-              "adresse": ["Postboks 9044"],
+              "adresse": [
+                "Postboks 9044"
+              ],
               "land": "Norge",
               "kommunenummer": "5401",
               "poststed": "TROMSØ"
@@ -4313,7 +4757,9 @@
               "kommune": "TROMSØ",
               "landkode": "NO",
               "postnummer": "9299",
-              "adresse": ["Postboks 9044"],
+              "adresse": [
+                "Postboks 9044"
+              ],
               "land": "Norge",
               "kommunenummer": "5401",
               "poststed": "TROMSØ"
@@ -4332,7 +4778,9 @@
               "kode": "KOMM",
               "beskrivelse": "Kommune"
             },
-            "naeringKode": ["88.101"],
+            "naeringKode": [
+              "88.101"
+            ],
             "navn": "RØRETE REFLEKTERENDE BJØRN KOMMUNE",
             "dagligLeder": "29915598526",
             "tenorMetadata": {
@@ -4522,7 +4970,9 @@
               "311999540"
             ],
             "regnskapsfoerere": [],
-            "revisorer": ["312251604"],
+            "revisorer": [
+              "312251604"
+            ],
             "styremedlemmer": [],
             "harUtenlandskForretningsadresse": false,
             "tenorRelasjonsnavn": "erUnderenhet.hovedenhet",
@@ -4535,7 +4985,9 @@
         "kommune": "OSLO",
         "landkode": "NO",
         "postnummer": "0506",
-        "adresse": ["Postboks 9071"],
+        "adresse": [
+          "Postboks 9071"
+        ],
         "land": "Norge",
         "kommunenummer": "0301",
         "poststed": "OSLO"
@@ -4556,11 +5008,15 @@
         "kode": "BEDR",
         "beskrivelse": "Underenhet til næringsdrivende og offentlig forvaltning"
       },
-      "naeringKode": ["88.911"],
+      "naeringKode": [
+        "88.911"
+      ],
       "navn": "NATURSTRIDIG KUL FJELLREV",
       "tenorMetadata": {
         "kildedata": "{\"organisasjonsnummer\":\"311998412\",\"navn\":\"NATURSTRIDIG KUL FJELLREV\",\"oppdeltNavn\":[\"NATURSTRIDIG KUL FJELLREV\"],\"organisasjonsform\":{\"kode\":\"BEDR\",\"beskrivelse\":\"Underenhet til næringsdrivende og offentlig forvaltning\"},\"forretningsadresse\":{\"land\":\"Norge\",\"landkode\":\"NO\",\"postnummer\":\"0452\",\"poststed\":\"OSLO\",\"adresse\":[\"Johannes Bruns gate 6\"],\"kommune\":\"OSLO\",\"kommunenummer\":\"0301\"},\"postadresse\":{\"land\":\"Norge\",\"landkode\":\"NO\",\"postnummer\":\"0506\",\"poststed\":\"OSLO\",\"adresse\":[\"Postboks 9071\"],\"kommune\":\"OSLO\",\"kommunenummer\":\"0301\"},\"telefonnummer\":\"+4703119984\",\"naeringskoder\":[{\"kode\":\"88\",\"beskrivelse\":\"Sosiale omsorgstjenester uten botilbud\",\"hjelpeenhetskode\":false,\"rekkefolge\":1,\"nivaa\":1},{\"kode\":\"88.9\",\"beskrivelse\":\"Andre sosialtjenester uten botilbud\",\"hjelpeenhetskode\":false,\"rekkefolge\":1,\"nivaa\":2},{\"kode\":\"88.91\",\"beskrivelse\":\"Sosialtjenester uten botilbud for barn og ungdom\",\"hjelpeenhetskode\":false,\"rekkefolge\":1,\"nivaa\":3},{\"kode\":\"88.911\",\"beskrivelse\":\"Barnehager\",\"hjelpeenhetskode\":false,\"rekkefolge\":1,\"nivaa\":4}],\"institusjonellSektorkode\":{},\"registreringsdatoEnhetsregisteret\":\"2021-03-18\",\"slettetIEnhetsregisteret\":\"N\",\"registrertIForetaksregisteret\":\"N\",\"slettetIForetaksregisteret\":\"N\",\"registreringspliktigForetaksregisteret\":\"N\",\"registrertIFrivillighetsregisteret\":\"N\",\"registrertIStiftelsesregisteret\":\"N\",\"registrertIMvaregisteret\":\"N\",\"aktivitetBransje\":[],\"vedtektsfestetFormaal\":[],\"konkurs\":\"N\",\"underAvvikling\":\"N\",\"underTvangsavviklingEllerTvangsopplosning\":\"N\",\"maalform\":\" \",\"ansvarsbegrensning\":\"N\",\"harAnsatte\":\"N\",\"antallAnsatte\":9,\"underenhet\":{\"hovedenhet\":\"312982870\",\"datoEierskifte\":\"2020-02-07\"},\"bedriftsforsamling\":\"N\",\"representantskap\":\"N\",\"enhetstatuser\":[],\"fullmakter\":[],\"frivilligMvaRegistrert\":[],\"finansielleInstrumenter\":[],\"kapital\":{\"antallAksjer\":\"0\",\"fritekst\":[],\"sakkyndigRedegjorelse\":\"N\"},\"kjonnsrepresentasjon\":\"N\",\"matrikkelnummer\":[],\"paategninger\":[],\"fravalgAvRevisjon\":{\"fravalg\":\"N\"},\"norskregistrertUtenlandskForetak\":{\"helNorskEierskap\":\"N\",\"aktivitetINorge\":\"N\"},\"lovgivningOgForetaksformIHjemlandet\":{\"foretaksform\":\"\"},\"registerIHjemlandet\":{\"navnRegister\":[],\"adresse\":[]},\"fusjoner\":[],\"fisjoner\":[],\"rollegrupper\":[{\"type\":{\"kode\":\"BEDR\",\"beskrivelse\":\"Virksomhet til næringsdrivende person\"},\"fritekst\":[],\"roller\":[{\"type\":{\"kode\":\"BEDR\",\"beskrivelse\":\"har som registreringsenhet\"},\"person\":{},\"virksomhet\":{\"organisasjonsnummer\":\"312982870\"},\"valgtAv\":{},\"fratraadt\":\"N\",\"fritekst\":[],\"rekkefolge\":1}]}]}",
-        "kilder": ["brreg-er-fr"],
+        "kilder": [
+          "brreg-er-fr"
+        ],
         "oppdatert": "2022-09-08T22:05:10.089+02:00",
         "datasettVersjon": 0,
         "opprettet": "2021-11-26T17:03:48.5+01:00",
@@ -4590,18 +5046,24 @@
         "kommune": "VESTBY",
         "landkode": "NO",
         "postnummer": "1555",
-        "adresse": ["Stokkandveien 8"],
+        "adresse": [
+          "Stokkandveien 8"
+        ],
         "land": "Norge",
         "kommunenummer": "3019",
         "poststed": "SON"
       },
-      "naeringBeskrivelse": ["Barnehager"],
+      "naeringBeskrivelse": [
+        "Barnehager"
+      ],
       "registrertIMvaregisteret": false,
       "Postadresse": {
         "kommune": "VESTBY",
         "landkode": "NO",
         "postnummer": "1541",
-        "adresse": ["Postboks 9087"],
+        "adresse": [
+          "Postboks 9087"
+        ],
         "land": "Norge",
         "kommunenummer": "3019",
         "poststed": "VESTBY"
@@ -4615,18 +5077,24 @@
               "kommune": "SEL",
               "landkode": "NO",
               "postnummer": "2670",
-              "adresse": ["Nyseterjordet 35"],
+              "adresse": [
+                "Nyseterjordet 35"
+              ],
               "land": "Norge",
               "kommunenummer": "3437",
               "poststed": "OTTA"
             },
-            "naeringBeskrivelse": ["Ordinær grunnskoleundervisning"],
+            "naeringBeskrivelse": [
+              "Ordinær grunnskoleundervisning"
+            ],
             "registrertIMvaregisteret": false,
             "Postadresse": {
               "kommune": "SEL",
               "landkode": "NO",
               "postnummer": "2678",
-              "adresse": ["Postboks 9111"],
+              "adresse": [
+                "Postboks 9111"
+              ],
               "land": "Norge",
               "kommunenummer": "3437",
               "poststed": "SEL"
@@ -4637,7 +5105,9 @@
               "kommune": "SEL",
               "landkode": "NO",
               "postnummer": "2678",
-              "adresse": ["Postboks 9111"],
+              "adresse": [
+                "Postboks 9111"
+              ],
               "land": "Norge",
               "kommunenummer": "3437",
               "poststed": "SEL"
@@ -4657,7 +5127,9 @@
               "kode": "ORGL",
               "beskrivelse": "Organisasjonsledd"
             },
-            "naeringKode": ["85.201"],
+            "naeringKode": [
+              "85.201"
+            ],
             "navn": "STANDHAFTIG EKSAKT PIGGSVIN",
             "dagligLeder": "23836399161",
             "tenorMetadata": {
@@ -4882,7 +5354,9 @@
         "kommune": "VESTBY",
         "landkode": "NO",
         "postnummer": "1541",
-        "adresse": ["Postboks 9087"],
+        "adresse": [
+          "Postboks 9087"
+        ],
         "land": "Norge",
         "kommunenummer": "3019",
         "poststed": "VESTBY"
@@ -4903,11 +5377,15 @@
         "kode": "BEDR",
         "beskrivelse": "Underenhet til næringsdrivende og offentlig forvaltning"
       },
-      "naeringKode": ["88.911"],
+      "naeringKode": [
+        "88.911"
+      ],
       "navn": "VAKLENDE MELANKOLSK FJELLREV",
       "tenorMetadata": {
         "kildedata": "{\"organisasjonsnummer\":\"315108500\",\"navn\":\"VAKLENDE MELANKOLSK FJELLREV\",\"oppdeltNavn\":[\"VAKLENDE MELANKOLSK FJELLREV\"],\"organisasjonsform\":{\"kode\":\"BEDR\",\"beskrivelse\":\"Underenhet til næringsdrivende og offentlig forvaltning\"},\"forretningsadresse\":{\"land\":\"Norge\",\"landkode\":\"NO\",\"postnummer\":\"1555\",\"poststed\":\"SON\",\"adresse\":[\"Stokkandveien 8\"],\"kommune\":\"VESTBY\",\"kommunenummer\":\"3019\"},\"postadresse\":{\"land\":\"Norge\",\"landkode\":\"NO\",\"postnummer\":\"1541\",\"poststed\":\"VESTBY\",\"adresse\":[\"Postboks 9087\"],\"kommune\":\"VESTBY\",\"kommunenummer\":\"3019\"},\"telefonnummer\":\"03 15 10 50\",\"naeringskoder\":[{\"kode\":\"88\",\"beskrivelse\":\"Sosiale omsorgstjenester uten botilbud\",\"hjelpeenhetskode\":false,\"rekkefolge\":1,\"nivaa\":1},{\"kode\":\"88.9\",\"beskrivelse\":\"Andre sosialtjenester uten botilbud\",\"hjelpeenhetskode\":false,\"rekkefolge\":1,\"nivaa\":2},{\"kode\":\"88.91\",\"beskrivelse\":\"Sosialtjenester uten botilbud for barn og ungdom\",\"hjelpeenhetskode\":false,\"rekkefolge\":1,\"nivaa\":3},{\"kode\":\"88.911\",\"beskrivelse\":\"Barnehager\",\"hjelpeenhetskode\":false,\"rekkefolge\":1,\"nivaa\":4}],\"institusjonellSektorkode\":{},\"registreringsdatoEnhetsregisteret\":\"2021-03-19\",\"slettetIEnhetsregisteret\":\"N\",\"registrertIForetaksregisteret\":\"N\",\"slettetIForetaksregisteret\":\"N\",\"registreringspliktigForetaksregisteret\":\"N\",\"registrertIFrivillighetsregisteret\":\"N\",\"registrertIStiftelsesregisteret\":\"N\",\"registrertIMvaregisteret\":\"N\",\"aktivitetBransje\":[],\"vedtektsfestetFormaal\":[],\"konkurs\":\"N\",\"underAvvikling\":\"N\",\"underTvangsavviklingEllerTvangsopplosning\":\"N\",\"maalform\":\" \",\"ansvarsbegrensning\":\"N\",\"harAnsatte\":\"N\",\"antallAnsatte\":19,\"underenhet\":{\"hovedenhet\":\"312533324\",\"datoEierskifte\":\"2020-02-07\"},\"bedriftsforsamling\":\"N\",\"representantskap\":\"N\",\"enhetstatuser\":[],\"fullmakter\":[],\"frivilligMvaRegistrert\":[],\"finansielleInstrumenter\":[],\"kapital\":{\"antallAksjer\":\"0\",\"fritekst\":[],\"sakkyndigRedegjorelse\":\"N\"},\"kjonnsrepresentasjon\":\"N\",\"matrikkelnummer\":[],\"paategninger\":[],\"fravalgAvRevisjon\":{\"fravalg\":\"N\"},\"norskregistrertUtenlandskForetak\":{\"helNorskEierskap\":\"N\",\"aktivitetINorge\":\"N\"},\"lovgivningOgForetaksformIHjemlandet\":{\"foretaksform\":\"\"},\"registerIHjemlandet\":{\"navnRegister\":[],\"adresse\":[]},\"fusjoner\":[],\"fisjoner\":[],\"rollegrupper\":[{\"type\":{\"kode\":\"BEDR\",\"beskrivelse\":\"Virksomhet til næringsdrivende person\"},\"fritekst\":[],\"roller\":[{\"type\":{\"kode\":\"BEDR\",\"beskrivelse\":\"har som registreringsenhet\"},\"person\":{},\"virksomhet\":{\"organisasjonsnummer\":\"312533324\"},\"valgtAv\":{},\"fratraadt\":\"N\",\"fritekst\":[],\"rekkefolge\":1}]}]}",
-        "kilder": ["brreg-er-fr"],
+        "kilder": [
+          "brreg-er-fr"
+        ],
         "oppdatert": "2022-09-09T03:40:44.899+02:00",
         "datasettVersjon": 0,
         "opprettet": "2021-11-29T11:40:03.107+01:00",
@@ -4937,18 +5415,25 @@
         "kommune": "HADSEL",
         "landkode": "NO",
         "postnummer": "8445",
-        "adresse": ["Chr. Frederiksens gate 1"],
+        "adresse": [
+          "Chr. Frederiksens gate 1"
+        ],
         "land": "Norge",
         "kommunenummer": "1866",
         "poststed": "MELBU"
       },
-      "naeringBeskrivelse": ["Barnehager", "Utleie av arbeidskraft"],
+      "naeringBeskrivelse": [
+        "Barnehager",
+        "Utleie av arbeidskraft"
+      ],
       "registrertIMvaregisteret": false,
       "Postadresse": {
         "kommune": "HADSEL",
         "landkode": "NO",
         "postnummer": "8459",
-        "adresse": ["Postboks 9034"],
+        "adresse": [
+          "Postboks 9034"
+        ],
         "land": "Norge",
         "kommunenummer": "1866",
         "poststed": "MELBU"
@@ -4962,18 +5447,24 @@
               "kommune": "HOLMESTRAND",
               "landkode": "NO",
               "postnummer": "3077",
-              "adresse": ["Brekketoppen 46"],
+              "adresse": [
+                "Brekketoppen 46"
+              ],
               "land": "Norge",
               "kommunenummer": "3802",
               "poststed": "SANDE I VESTFOLD"
             },
-            "naeringBeskrivelse": ["Barnehager"],
+            "naeringBeskrivelse": [
+              "Barnehager"
+            ],
             "registrertIMvaregisteret": false,
             "Postadresse": {
               "kommune": "HOLMESTRAND",
               "landkode": "NO",
               "postnummer": "3088",
-              "adresse": ["Postboks 9120"],
+              "adresse": [
+                "Postboks 9120"
+              ],
               "land": "Norge",
               "kommunenummer": "3802",
               "poststed": "HOLMESTRAND"
@@ -4984,7 +5475,9 @@
               "kommune": "HOLMESTRAND",
               "landkode": "NO",
               "postnummer": "3088",
-              "adresse": ["Postboks 9120"],
+              "adresse": [
+                "Postboks 9120"
+              ],
               "land": "Norge",
               "kommunenummer": "3802",
               "poststed": "HOLMESTRAND"
@@ -5003,7 +5496,9 @@
               "kode": "ORGL",
               "beskrivelse": "Organisasjonsledd"
             },
-            "naeringKode": ["88.911"],
+            "naeringKode": [
+              "88.911"
+            ],
             "navn": "GRUNN PARODISK PIGGSVIN",
             "dagligLeder": "08825998056",
             "tenorMetadata": {
@@ -5048,7 +5543,9 @@
         "kommune": "HADSEL",
         "landkode": "NO",
         "postnummer": "8459",
-        "adresse": ["Postboks 9034"],
+        "adresse": [
+          "Postboks 9034"
+        ],
         "land": "Norge",
         "kommunenummer": "1866",
         "poststed": "MELBU"
@@ -5069,11 +5566,16 @@
         "kode": "BEDR",
         "beskrivelse": "Underenhet til næringsdrivende og offentlig forvaltning"
       },
-      "naeringKode": ["88.911", "78.200"],
+      "naeringKode": [
+        "88.911",
+        "78.200"
+      ],
       "navn": "SPENNENDE UTYDELIG FJELLREV",
       "tenorMetadata": {
         "kildedata": "{\"organisasjonsnummer\":\"311677594\",\"navn\":\"SPENNENDE UTYDELIG FJELLREV\",\"oppdeltNavn\":[\"SPENNENDE UTYDELIG FJELLREV\"],\"organisasjonsform\":{\"kode\":\"BEDR\",\"beskrivelse\":\"Underenhet til næringsdrivende og offentlig forvaltning\"},\"forretningsadresse\":{\"land\":\"Norge\",\"landkode\":\"NO\",\"postnummer\":\"8445\",\"poststed\":\"MELBU\",\"adresse\":[\"Chr. Frederiksens gate 1\"],\"kommune\":\"HADSEL\",\"kommunenummer\":\"1866\"},\"postadresse\":{\"land\":\"Norge\",\"landkode\":\"NO\",\"postnummer\":\"8459\",\"poststed\":\"MELBU\",\"adresse\":[\"Postboks 9034\"],\"kommune\":\"HADSEL\",\"kommunenummer\":\"1866\"},\"naeringskoder\":[{\"kode\":\"88\",\"beskrivelse\":\"Sosiale omsorgstjenester uten botilbud\",\"hjelpeenhetskode\":false,\"rekkefolge\":1,\"nivaa\":1},{\"kode\":\"88.9\",\"beskrivelse\":\"Andre sosialtjenester uten botilbud\",\"hjelpeenhetskode\":false,\"rekkefolge\":1,\"nivaa\":2},{\"kode\":\"88.91\",\"beskrivelse\":\"Sosialtjenester uten botilbud for barn og ungdom\",\"hjelpeenhetskode\":false,\"rekkefolge\":1,\"nivaa\":3},{\"kode\":\"88.911\",\"beskrivelse\":\"Barnehager\",\"hjelpeenhetskode\":false,\"rekkefolge\":1,\"nivaa\":4},{\"kode\":\"78\",\"beskrivelse\":\"Arbeidskrafttjenester\",\"hjelpeenhetskode\":false,\"rekkefolge\":2,\"nivaa\":1},{\"kode\":\"78.2\",\"beskrivelse\":\"Utleie av arbeidskraft\",\"hjelpeenhetskode\":false,\"rekkefolge\":2,\"nivaa\":2},{\"kode\":\"78.20\",\"beskrivelse\":\"Utleie av arbeidskraft\",\"hjelpeenhetskode\":false,\"rekkefolge\":2,\"nivaa\":3},{\"kode\":\"78.200\",\"beskrivelse\":\"Utleie av arbeidskraft\",\"hjelpeenhetskode\":false,\"rekkefolge\":2,\"nivaa\":4}],\"institusjonellSektorkode\":{},\"registreringsdatoEnhetsregisteret\":\"2021-03-18\",\"slettetIEnhetsregisteret\":\"N\",\"registrertIForetaksregisteret\":\"N\",\"slettetIForetaksregisteret\":\"N\",\"registreringspliktigForetaksregisteret\":\"N\",\"registrertIFrivillighetsregisteret\":\"N\",\"registrertIStiftelsesregisteret\":\"N\",\"registrertIMvaregisteret\":\"N\",\"aktivitetBransje\":[],\"vedtektsfestetFormaal\":[],\"konkurs\":\"N\",\"underAvvikling\":\"N\",\"underTvangsavviklingEllerTvangsopplosning\":\"N\",\"maalform\":\" \",\"ansvarsbegrensning\":\"N\",\"harAnsatte\":\"N\",\"antallAnsatte\":22,\"underenhet\":{\"hovedenhet\":\"311771019\",\"oppstartsdato\":\"2012-07-08\"},\"bedriftsforsamling\":\"N\",\"representantskap\":\"N\",\"enhetstatuser\":[],\"fullmakter\":[],\"frivilligMvaRegistrert\":[],\"finansielleInstrumenter\":[],\"kapital\":{\"antallAksjer\":\"0\",\"fritekst\":[],\"sakkyndigRedegjorelse\":\"N\"},\"kjonnsrepresentasjon\":\"N\",\"matrikkelnummer\":[],\"paategninger\":[],\"fravalgAvRevisjon\":{\"fravalg\":\"N\"},\"norskregistrertUtenlandskForetak\":{\"helNorskEierskap\":\"N\",\"aktivitetINorge\":\"N\"},\"lovgivningOgForetaksformIHjemlandet\":{\"foretaksform\":\"\"},\"registerIHjemlandet\":{\"navnRegister\":[],\"adresse\":[]},\"fusjoner\":[],\"fisjoner\":[],\"rollegrupper\":[{\"type\":{\"kode\":\"BEDR\",\"beskrivelse\":\"Virksomhet til næringsdrivende person\"},\"fritekst\":[],\"roller\":[{\"type\":{\"kode\":\"BEDR\",\"beskrivelse\":\"har som registreringsenhet\"},\"person\":{},\"virksomhet\":{\"organisasjonsnummer\":\"311771019\"},\"valgtAv\":{},\"fratraadt\":\"N\",\"fritekst\":[],\"rekkefolge\":1}]}]}",
-        "kilder": ["brreg-er-fr"],
+        "kilder": [
+          "brreg-er-fr"
+        ],
         "oppdatert": "2022-09-08T21:32:07.799+02:00",
         "datasettVersjon": 0,
         "opprettet": "2021-11-26T16:31:34.568+01:00",
@@ -5102,12 +5604,16 @@
         "kommune": "SKIEN",
         "landkode": "NO",
         "postnummer": "3733",
-        "adresse": ["Olaf Ryes gate 8A"],
+        "adresse": [
+          "Olaf Ryes gate 8A"
+        ],
         "land": "Norge",
         "kommunenummer": "3807",
         "poststed": "SKIEN"
       },
-      "naeringBeskrivelse": ["Barnehager"],
+      "naeringBeskrivelse": [
+        "Barnehager"
+      ],
       "registrertIMvaregisteret": false,
       "Postadresse": {
         "adresse": []
@@ -5121,19 +5627,25 @@
               "kommune": "SARPSBORG",
               "landkode": "NO",
               "postnummer": "1746",
-              "adresse": ["Stenbruddveien 27A"],
+              "adresse": [
+                "Stenbruddveien 27A"
+              ],
               "land": "Norge",
               "kommunenummer": "3003",
               "poststed": "SKJEBERG"
             },
-            "naeringBeskrivelse": ["Barnehager"],
+            "naeringBeskrivelse": [
+              "Barnehager"
+            ],
             "registrertIMvaregisteret": false,
             "styreleder": "65926800455",
             "Postadresse": {
               "kommune": "OSLO",
               "landkode": "NO",
               "postnummer": "0115",
-              "adresse": ["Postboks 9074"],
+              "adresse": [
+                "Postboks 9074"
+              ],
               "land": "Norge",
               "kommunenummer": "0301",
               "poststed": "OSLO"
@@ -5144,7 +5656,9 @@
               "kommune": "OSLO",
               "landkode": "NO",
               "postnummer": "0115",
-              "adresse": ["Postboks 9074"],
+              "adresse": [
+                "Postboks 9074"
+              ],
               "land": "Norge",
               "kommunenummer": "0301",
               "poststed": "OSLO"
@@ -5164,7 +5678,9 @@
               "kode": "AS",
               "beskrivelse": "Aksjeselskap"
             },
-            "naeringKode": ["88.911"],
+            "naeringKode": [
+              "88.911"
+            ],
             "navn": "NESNØDD PRATSOM TIGER AS",
             "dagligLeder": "18839798683",
             "tenorMetadata": {
@@ -5214,8 +5730,13 @@
               "311653431"
             ],
             "regnskapsfoerere": [],
-            "revisorer": ["312939053"],
-            "styremedlemmer": ["15833248194", "44857300278"],
+            "revisorer": [
+              "312939053"
+            ],
+            "styremedlemmer": [
+              "15833248194",
+              "44857300278"
+            ],
             "harUtenlandskForretningsadresse": false,
             "tenorRelasjonsnavn": "erUnderenhet.hovedenhet",
             "organisasjonsnummer": "212968382",
@@ -5243,11 +5764,15 @@
         "kode": "BEDR",
         "beskrivelse": "Underenhet til næringsdrivende og offentlig forvaltning"
       },
-      "naeringKode": ["88.911"],
+      "naeringKode": [
+        "88.911"
+      ],
       "navn": "UTROLIG INTELLIGENT FJELLREV",
       "tenorMetadata": {
         "kildedata": "{\"organisasjonsnummer\":\"311653261\",\"navn\":\"UTROLIG INTELLIGENT FJELLREV\",\"oppdeltNavn\":[\"UTROLIG INTELLIGENT FJELLREV\"],\"organisasjonsform\":{\"kode\":\"BEDR\",\"beskrivelse\":\"Underenhet til næringsdrivende og offentlig forvaltning\"},\"forretningsadresse\":{\"land\":\"Norge\",\"landkode\":\"NO\",\"postnummer\":\"3733\",\"poststed\":\"SKIEN\",\"adresse\":[\"Olaf Ryes gate 8A\"],\"kommune\":\"SKIEN\",\"kommunenummer\":\"3807\"},\"postadresse\":{\"adresse\":[]},\"telefonnummer\":\"03 11 65 26\",\"telefaksnummer\":\"03 11 65 26\",\"mobilnummer\":\"031 16 532\",\"naeringskoder\":[{\"kode\":\"88\",\"beskrivelse\":\"Sosiale omsorgstjenester uten botilbud\",\"hjelpeenhetskode\":false,\"rekkefolge\":1,\"nivaa\":1},{\"kode\":\"88.9\",\"beskrivelse\":\"Andre sosialtjenester uten botilbud\",\"hjelpeenhetskode\":false,\"rekkefolge\":1,\"nivaa\":2},{\"kode\":\"88.91\",\"beskrivelse\":\"Sosialtjenester uten botilbud for barn og ungdom\",\"hjelpeenhetskode\":false,\"rekkefolge\":1,\"nivaa\":3},{\"kode\":\"88.911\",\"beskrivelse\":\"Barnehager\",\"hjelpeenhetskode\":false,\"rekkefolge\":1,\"nivaa\":4}],\"institusjonellSektorkode\":{},\"registreringsdatoEnhetsregisteret\":\"2021-03-18\",\"slettetIEnhetsregisteret\":\"N\",\"registrertIForetaksregisteret\":\"N\",\"slettetIForetaksregisteret\":\"N\",\"registreringspliktigForetaksregisteret\":\"N\",\"registrertIFrivillighetsregisteret\":\"N\",\"registrertIStiftelsesregisteret\":\"N\",\"registrertIMvaregisteret\":\"N\",\"aktivitetBransje\":[],\"vedtektsfestetFormaal\":[],\"konkurs\":\"N\",\"underAvvikling\":\"N\",\"underTvangsavviklingEllerTvangsopplosning\":\"N\",\"maalform\":\" \",\"ansvarsbegrensning\":\"N\",\"harAnsatte\":\"N\",\"antallAnsatte\":26,\"underenhet\":{\"hovedenhet\":\"212968382\",\"oppstartsdato\":\"1992-02-07\",\"datoEierskifte\":\"2020-08-14\"},\"bedriftsforsamling\":\"N\",\"representantskap\":\"N\",\"enhetstatuser\":[],\"fullmakter\":[],\"frivilligMvaRegistrert\":[],\"finansielleInstrumenter\":[],\"kapital\":{\"antallAksjer\":\"0\",\"fritekst\":[],\"sakkyndigRedegjorelse\":\"N\"},\"kjonnsrepresentasjon\":\"N\",\"matrikkelnummer\":[],\"paategninger\":[],\"fravalgAvRevisjon\":{\"fravalg\":\"N\"},\"norskregistrertUtenlandskForetak\":{\"helNorskEierskap\":\"N\",\"aktivitetINorge\":\"N\"},\"lovgivningOgForetaksformIHjemlandet\":{\"foretaksform\":\"\"},\"registerIHjemlandet\":{\"navnRegister\":[],\"adresse\":[]},\"fusjoner\":[],\"fisjoner\":[],\"rollegrupper\":[{\"type\":{\"kode\":\"BEDR\",\"beskrivelse\":\"Virksomhet til næringsdrivende person\"},\"fritekst\":[],\"roller\":[{\"type\":{\"kode\":\"BEDR\",\"beskrivelse\":\"har som registreringsenhet\"},\"person\":{},\"virksomhet\":{\"organisasjonsnummer\":\"212968382\"},\"valgtAv\":{},\"fratraadt\":\"N\",\"fritekst\":[],\"rekkefolge\":1}]}]}",
-        "kilder": ["brreg-er-fr"],
+        "kilder": [
+          "brreg-er-fr"
+        ],
         "oppdatert": "2022-09-08T21:29:35.101+02:00",
         "datasettVersjon": 0,
         "opprettet": "2021-11-26T16:29:11.377+01:00",
@@ -5277,18 +5802,25 @@
         "kommune": "EIGERSUND",
         "landkode": "NO",
         "postnummer": "4372",
-        "adresse": ["Søndre Svanesvei 18"],
+        "adresse": [
+          "Søndre Svanesvei 18"
+        ],
         "land": "Norge",
         "kommunenummer": "1101",
         "poststed": "EGERSUND"
       },
-      "naeringBeskrivelse": ["Barnehager"],
+      "naeringBeskrivelse": [
+        "Barnehager"
+      ],
       "registrertIMvaregisteret": false,
       "Postadresse": {
         "kommune": "EIGERSUND",
         "landkode": "NO",
         "postnummer": "4371",
-        "adresse": ["v/ Nødvendigdyrebar Babybag", "Sagaveien 13"],
+        "adresse": [
+          "v/ Nødvendigdyrebar Babybag",
+          "Sagaveien 13"
+        ],
         "land": "Norge",
         "kommunenummer": "1101",
         "poststed": "EGERSUND"
@@ -5302,12 +5834,16 @@
               "kommune": "HALDEN",
               "landkode": "NO",
               "postnummer": "1769",
-              "adresse": ["Kongeveien 1"],
+              "adresse": [
+                "Kongeveien 1"
+              ],
               "land": "Norge",
               "kommunenummer": "3001",
               "poststed": "HALDEN"
             },
-            "naeringBeskrivelse": ["Helsestasjon og skolehelsetjeneste"],
+            "naeringBeskrivelse": [
+              "Helsestasjon og skolehelsetjeneste"
+            ],
             "registrertIMvaregisteret": false,
             "Postadresse": {
               "adresse": []
@@ -5320,7 +5856,9 @@
             "erUnderenhet": {},
             "registrertIFrivillighetsregisteret": false,
             "stiftelsesdato": "1971-10-28",
-            "kontaktpersoner": ["27885597756"],
+            "kontaktpersoner": [
+              "27885597756"
+            ],
             "fravalgAvRevisjon": {
               "fravalg": false
             },
@@ -5332,7 +5870,9 @@
               "kode": "ORGL",
               "beskrivelse": "Organisasjonsledd"
             },
-            "naeringKode": ["86.903"],
+            "naeringKode": [
+              "86.903"
+            ],
             "navn": "LATTERMILD USTABIL PIGGSVIN",
             "dagligLeder": "07876498787",
             "tenorMetadata": {
@@ -5388,7 +5928,10 @@
         "kommune": "EIGERSUND",
         "landkode": "NO",
         "postnummer": "4371",
-        "adresse": ["v/ Nødvendigdyrebar Babybag", "Sagaveien 13"],
+        "adresse": [
+          "v/ Nødvendigdyrebar Babybag",
+          "Sagaveien 13"
+        ],
         "land": "Norge",
         "kommunenummer": "1101",
         "poststed": "EGERSUND"
@@ -5409,11 +5952,15 @@
         "kode": "BEDR",
         "beskrivelse": "Underenhet til næringsdrivende og offentlig forvaltning"
       },
-      "naeringKode": ["88.911"],
+      "naeringKode": [
+        "88.911"
+      ],
       "navn": "STRIDLYNT INTELLIGENT FJELLREV",
       "tenorMetadata": {
         "kildedata": "{\"organisasjonsnummer\":\"314633725\",\"navn\":\"STRIDLYNT INTELLIGENT FJELLREV\",\"oppdeltNavn\":[\"STRIDLYNT INTELLIGENT FJELLREV\"],\"organisasjonsform\":{\"kode\":\"BEDR\",\"beskrivelse\":\"Underenhet til næringsdrivende og offentlig forvaltning\"},\"forretningsadresse\":{\"land\":\"Norge\",\"landkode\":\"NO\",\"postnummer\":\"4372\",\"poststed\":\"EGERSUND\",\"adresse\":[\"Søndre Svanesvei 18\"],\"kommune\":\"EIGERSUND\",\"kommunenummer\":\"1101\"},\"postadresse\":{\"land\":\"Norge\",\"landkode\":\"NO\",\"postnummer\":\"4371\",\"poststed\":\"EGERSUND\",\"adresse\":[\"v/ Nødvendigdyrebar Babybag\",\"Sagaveien 13\"],\"kommune\":\"EIGERSUND\",\"kommunenummer\":\"1101\"},\"naeringskoder\":[{\"kode\":\"88\",\"beskrivelse\":\"Sosiale omsorgstjenester uten botilbud\",\"hjelpeenhetskode\":false,\"rekkefolge\":1,\"nivaa\":1},{\"kode\":\"88.9\",\"beskrivelse\":\"Andre sosialtjenester uten botilbud\",\"hjelpeenhetskode\":false,\"rekkefolge\":1,\"nivaa\":2},{\"kode\":\"88.91\",\"beskrivelse\":\"Sosialtjenester uten botilbud for barn og ungdom\",\"hjelpeenhetskode\":false,\"rekkefolge\":1,\"nivaa\":3},{\"kode\":\"88.911\",\"beskrivelse\":\"Barnehager\",\"hjelpeenhetskode\":false,\"rekkefolge\":1,\"nivaa\":4}],\"institusjonellSektorkode\":{},\"registreringsdatoEnhetsregisteret\":\"2021-03-19\",\"slettetIEnhetsregisteret\":\"N\",\"registrertIForetaksregisteret\":\"N\",\"slettetIForetaksregisteret\":\"N\",\"registreringspliktigForetaksregisteret\":\"N\",\"registrertIFrivillighetsregisteret\":\"N\",\"registrertIStiftelsesregisteret\":\"N\",\"registrertIMvaregisteret\":\"N\",\"aktivitetBransje\":[],\"vedtektsfestetFormaal\":[],\"konkurs\":\"N\",\"underAvvikling\":\"N\",\"underTvangsavviklingEllerTvangsopplosning\":\"N\",\"maalform\":\" \",\"ansvarsbegrensning\":\"N\",\"harAnsatte\":\"N\",\"antallAnsatte\":15,\"underenhet\":{\"hovedenhet\":\"311138219\",\"oppstartsdato\":\"1989-02-07\"},\"bedriftsforsamling\":\"N\",\"representantskap\":\"N\",\"enhetstatuser\":[],\"fullmakter\":[],\"frivilligMvaRegistrert\":[],\"finansielleInstrumenter\":[],\"kapital\":{\"antallAksjer\":\"0\",\"fritekst\":[],\"sakkyndigRedegjorelse\":\"N\"},\"kjonnsrepresentasjon\":\"N\",\"matrikkelnummer\":[],\"paategninger\":[],\"fravalgAvRevisjon\":{\"fravalg\":\"N\"},\"norskregistrertUtenlandskForetak\":{\"helNorskEierskap\":\"N\",\"aktivitetINorge\":\"N\"},\"lovgivningOgForetaksformIHjemlandet\":{\"foretaksform\":\"\"},\"registerIHjemlandet\":{\"navnRegister\":[],\"adresse\":[]},\"fusjoner\":[],\"fisjoner\":[],\"rollegrupper\":[{\"type\":{\"kode\":\"BEDR\",\"beskrivelse\":\"Virksomhet til næringsdrivende person\"},\"fritekst\":[],\"roller\":[{\"type\":{\"kode\":\"BEDR\",\"beskrivelse\":\"har som registreringsenhet\"},\"person\":{},\"virksomhet\":{\"organisasjonsnummer\":\"311138219\"},\"valgtAv\":{},\"fratraadt\":\"N\",\"fritekst\":[],\"rekkefolge\":1}]}]}",
-        "kilder": ["brreg-er-fr"],
+        "kilder": [
+          "brreg-er-fr"
+        ],
         "oppdatert": "2022-09-09T02:48:07.628+02:00",
         "datasettVersjon": 0,
         "opprettet": "2021-11-29T10:52:45.759+01:00",
@@ -5442,18 +5989,25 @@
         "kommune": "BODØ",
         "landkode": "NO",
         "postnummer": "8095",
-        "adresse": ["Nedre Avstikkerenbåtstøen"],
+        "adresse": [
+          "Nedre Avstikkerenbåtstøen"
+        ],
         "land": "Norge",
         "kommunenummer": "1804",
         "poststed": "HELLIGVÆR"
       },
-      "naeringBeskrivelse": ["Barnehager"],
+      "naeringBeskrivelse": [
+        "Barnehager"
+      ],
       "registrertIMvaregisteret": false,
       "Postadresse": {
         "kommune": "BODØ",
         "landkode": "NO",
         "postnummer": "8006",
-        "adresse": ["v/ Fast Entusiastisk Jaguar", "Nøstgata 2"],
+        "adresse": [
+          "v/ Fast Entusiastisk Jaguar",
+          "Nøstgata 2"
+        ],
         "land": "Norge",
         "kommunenummer": "1804",
         "poststed": "BODØ"
@@ -5467,12 +6021,16 @@
               "kommune": "ASKER",
               "landkode": "NO",
               "postnummer": "1387",
-              "adresse": ["Gamle Leangvei 22"],
+              "adresse": [
+                "Gamle Leangvei 22"
+              ],
               "land": "Norge",
               "kommunenummer": "3025",
               "poststed": "ASKER"
             },
-            "naeringBeskrivelse": ["Generell offentlig administrasjon"],
+            "naeringBeskrivelse": [
+              "Generell offentlig administrasjon"
+            ],
             "registrertIMvaregisteret": true,
             "Postadresse": {
               "adresse": []
@@ -5496,7 +6054,9 @@
               "kode": "KOMM",
               "beskrivelse": "Kommune"
             },
-            "naeringKode": ["84.110"],
+            "naeringKode": [
+              "84.110"
+            ],
             "navn": "VELKOMMEN MODERAT BJØRN KOMMUNE",
             "dagligLeder": "14906896983",
             "tenorMetadata": {
@@ -5552,7 +6112,9 @@
               "314538102"
             ],
             "regnskapsfoerere": [],
-            "revisorer": ["314108590"],
+            "revisorer": [
+              "314108590"
+            ],
             "styremedlemmer": [],
             "telefonnummer": "+4703133069",
             "harUtenlandskForretningsadresse": false,
@@ -5566,7 +6128,10 @@
         "kommune": "BODØ",
         "landkode": "NO",
         "postnummer": "8006",
-        "adresse": ["v/ Fast Entusiastisk Jaguar", "Nøstgata 2"],
+        "adresse": [
+          "v/ Fast Entusiastisk Jaguar",
+          "Nøstgata 2"
+        ],
         "land": "Norge",
         "kommunenummer": "1804",
         "poststed": "BODØ"
@@ -5587,11 +6152,15 @@
         "kode": "BEDR",
         "beskrivelse": "Underenhet til næringsdrivende og offentlig forvaltning"
       },
-      "naeringKode": ["88.911"],
+      "naeringKode": [
+        "88.911"
+      ],
       "navn": "GLUPSK TØRST FJELLREV",
       "tenorMetadata": {
         "kildedata": "{\"organisasjonsnummer\":\"314537939\",\"navn\":\"GLUPSK TØRST FJELLREV\",\"oppdeltNavn\":[\"GLUPSK TØRST FJELLREV\"],\"organisasjonsform\":{\"kode\":\"BEDR\",\"beskrivelse\":\"Underenhet til næringsdrivende og offentlig forvaltning\"},\"forretningsadresse\":{\"land\":\"Norge\",\"landkode\":\"NO\",\"postnummer\":\"8095\",\"poststed\":\"HELLIGVÆR\",\"adresse\":[\"Nedre Avstikkerenbåtstøen\"],\"kommune\":\"BODØ\",\"kommunenummer\":\"1804\"},\"postadresse\":{\"land\":\"Norge\",\"landkode\":\"NO\",\"postnummer\":\"8006\",\"poststed\":\"BODØ\",\"adresse\":[\"v/ Fast Entusiastisk Jaguar\",\"Nøstgata 2\"],\"kommune\":\"BODØ\",\"kommunenummer\":\"1804\"},\"telefonnummer\":\"03 14 53 93\",\"naeringskoder\":[{\"kode\":\"88\",\"beskrivelse\":\"Sosiale omsorgstjenester uten botilbud\",\"hjelpeenhetskode\":false,\"rekkefolge\":1,\"nivaa\":1},{\"kode\":\"88.9\",\"beskrivelse\":\"Andre sosialtjenester uten botilbud\",\"hjelpeenhetskode\":false,\"rekkefolge\":1,\"nivaa\":2},{\"kode\":\"88.91\",\"beskrivelse\":\"Sosialtjenester uten botilbud for barn og ungdom\",\"hjelpeenhetskode\":false,\"rekkefolge\":1,\"nivaa\":3},{\"kode\":\"88.911\",\"beskrivelse\":\"Barnehager\",\"hjelpeenhetskode\":false,\"rekkefolge\":1,\"nivaa\":4}],\"institusjonellSektorkode\":{},\"registreringsdatoEnhetsregisteret\":\"2021-03-19\",\"slettetIEnhetsregisteret\":\"N\",\"registrertIForetaksregisteret\":\"N\",\"slettetIForetaksregisteret\":\"N\",\"registreringspliktigForetaksregisteret\":\"N\",\"registrertIFrivillighetsregisteret\":\"N\",\"registrertIStiftelsesregisteret\":\"N\",\"registrertIMvaregisteret\":\"N\",\"aktivitetBransje\":[],\"vedtektsfestetFormaal\":[],\"konkurs\":\"N\",\"underAvvikling\":\"N\",\"underTvangsavviklingEllerTvangsopplosning\":\"N\",\"maalform\":\" \",\"ansvarsbegrensning\":\"N\",\"harAnsatte\":\"N\",\"antallAnsatte\":5,\"underenhet\":{\"hovedenhet\":\"313306909\",\"oppstartsdato\":\"1988-05-08\",\"datoEierskifte\":\"1999-08-07\"},\"bedriftsforsamling\":\"N\",\"representantskap\":\"N\",\"enhetstatuser\":[],\"fullmakter\":[],\"frivilligMvaRegistrert\":[],\"finansielleInstrumenter\":[],\"kapital\":{\"antallAksjer\":\"0\",\"fritekst\":[],\"sakkyndigRedegjorelse\":\"N\"},\"kjonnsrepresentasjon\":\"N\",\"matrikkelnummer\":[],\"paategninger\":[],\"fravalgAvRevisjon\":{\"fravalg\":\"N\"},\"norskregistrertUtenlandskForetak\":{\"helNorskEierskap\":\"N\",\"aktivitetINorge\":\"N\"},\"lovgivningOgForetaksformIHjemlandet\":{\"foretaksform\":\"\"},\"registerIHjemlandet\":{\"navnRegister\":[],\"adresse\":[]},\"fusjoner\":[],\"fisjoner\":[],\"rollegrupper\":[{\"type\":{\"kode\":\"BEDR\",\"beskrivelse\":\"Virksomhet til næringsdrivende person\"},\"fritekst\":[],\"roller\":[{\"type\":{\"kode\":\"BEDR\",\"beskrivelse\":\"har som registreringsenhet\"},\"person\":{},\"virksomhet\":{\"organisasjonsnummer\":\"313306909\"},\"valgtAv\":{},\"fratraadt\":\"N\",\"fritekst\":[],\"rekkefolge\":1}]}]}",
-        "kilder": ["brreg-er-fr"],
+        "kilder": [
+          "brreg-er-fr"
+        ],
         "oppdatert": "2022-09-09T02:36:23.328+02:00",
         "datasettVersjon": 0,
         "opprettet": "2021-11-29T10:42:54.261+01:00",
@@ -5621,18 +6190,24 @@
         "kommune": "OSLO",
         "landkode": "NO",
         "postnummer": "0340",
-        "adresse": ["Nordre Leirenutkanten"],
+        "adresse": [
+          "Nordre Leirenutkanten"
+        ],
         "land": "Norge",
         "kommunenummer": "0301",
         "poststed": "OSLO"
       },
-      "naeringBeskrivelse": ["Barnehager"],
+      "naeringBeskrivelse": [
+        "Barnehager"
+      ],
       "registrertIMvaregisteret": false,
       "Postadresse": {
         "kommune": "OSLO",
         "landkode": "NO",
         "postnummer": "0624",
-        "adresse": ["Postboks 9067"],
+        "adresse": [
+          "Postboks 9067"
+        ],
         "land": "Norge",
         "kommunenummer": "0301",
         "poststed": "OSLO"
@@ -5646,18 +6221,24 @@
               "kommune": "GJESDAL",
               "landkode": "NO",
               "postnummer": "4331",
-              "adresse": ["Kongsgata 12"],
+              "adresse": [
+                "Kongsgata 12"
+              ],
               "land": "Norge",
               "kommunenummer": "1122",
               "poststed": "ÅLGÅRD"
             },
-            "naeringBeskrivelse": ["Skolefritidsordninger"],
+            "naeringBeskrivelse": [
+              "Skolefritidsordninger"
+            ],
             "registrertIMvaregisteret": true,
             "Postadresse": {
               "kommune": "GJESDAL",
               "landkode": "NO",
               "postnummer": "4390",
-              "adresse": ["Postboks 9130"],
+              "adresse": [
+                "Postboks 9130"
+              ],
               "land": "Norge",
               "kommunenummer": "1122",
               "poststed": "OLTEDAL"
@@ -5668,14 +6249,18 @@
               "kommune": "GJESDAL",
               "landkode": "NO",
               "postnummer": "4390",
-              "adresse": ["Postboks 9130"],
+              "adresse": [
+                "Postboks 9130"
+              ],
               "land": "Norge",
               "kommunenummer": "1122",
               "poststed": "OLTEDAL"
             },
             "erUnderenhet": {},
             "registrertIFrivillighetsregisteret": false,
-            "kontaktpersoner": ["16877298381"],
+            "kontaktpersoner": [
+              "16877298381"
+            ],
             "fravalgAvRevisjon": {
               "fravalg": false
             },
@@ -5687,7 +6272,9 @@
               "kode": "KOMM",
               "beskrivelse": "Kommune"
             },
-            "naeringKode": ["88.913"],
+            "naeringKode": [
+              "88.913"
+            ],
             "navn": "HEVNGJERRIG SPENNENDE BJØRN KOMMUNE",
             "dagligLeder": "20813249317",
             "tenorMetadata": {
@@ -5800,7 +6387,9 @@
               "312144751"
             ],
             "regnskapsfoerere": [],
-            "revisorer": ["314245547"],
+            "revisorer": [
+              "314245547"
+            ],
             "styremedlemmer": [],
             "telefonnummer": "+4703104886",
             "harUtenlandskForretningsadresse": false,
@@ -5814,7 +6403,9 @@
         "kommune": "OSLO",
         "landkode": "NO",
         "postnummer": "0624",
-        "adresse": ["Postboks 9067"],
+        "adresse": [
+          "Postboks 9067"
+        ],
         "land": "Norge",
         "kommunenummer": "0301",
         "poststed": "OSLO"
@@ -5835,11 +6426,15 @@
         "kode": "BEDR",
         "beskrivelse": "Underenhet til næringsdrivende og offentlig forvaltning"
       },
-      "naeringKode": ["88.911"],
+      "naeringKode": [
+        "88.911"
+      ],
       "navn": "BRA RAVGUL FJELLREV",
       "tenorMetadata": {
         "kildedata": "{\"organisasjonsnummer\":\"312144700\",\"navn\":\"BRA RAVGUL FJELLREV\",\"oppdeltNavn\":[\"BRA RAVGUL FJELLREV\"],\"organisasjonsform\":{\"kode\":\"BEDR\",\"beskrivelse\":\"Underenhet til næringsdrivende og offentlig forvaltning\"},\"forretningsadresse\":{\"land\":\"Norge\",\"landkode\":\"NO\",\"postnummer\":\"0340\",\"poststed\":\"OSLO\",\"adresse\":[\"Nordre Leirenutkanten\"],\"kommune\":\"OSLO\",\"kommunenummer\":\"0301\"},\"postadresse\":{\"land\":\"Norge\",\"landkode\":\"NO\",\"postnummer\":\"0624\",\"poststed\":\"OSLO\",\"adresse\":[\"Postboks 9067\"],\"kommune\":\"OSLO\",\"kommunenummer\":\"0301\"},\"telefonnummer\":\"03 12 14 70\",\"naeringskoder\":[{\"kode\":\"88\",\"beskrivelse\":\"Sosiale omsorgstjenester uten botilbud\",\"hjelpeenhetskode\":false,\"rekkefolge\":1,\"nivaa\":1},{\"kode\":\"88.9\",\"beskrivelse\":\"Andre sosialtjenester uten botilbud\",\"hjelpeenhetskode\":false,\"rekkefolge\":1,\"nivaa\":2},{\"kode\":\"88.91\",\"beskrivelse\":\"Sosialtjenester uten botilbud for barn og ungdom\",\"hjelpeenhetskode\":false,\"rekkefolge\":1,\"nivaa\":3},{\"kode\":\"88.911\",\"beskrivelse\":\"Barnehager\",\"hjelpeenhetskode\":false,\"rekkefolge\":1,\"nivaa\":4}],\"institusjonellSektorkode\":{},\"registreringsdatoEnhetsregisteret\":\"2021-03-18\",\"slettetIEnhetsregisteret\":\"N\",\"registrertIForetaksregisteret\":\"N\",\"slettetIForetaksregisteret\":\"N\",\"registreringspliktigForetaksregisteret\":\"N\",\"registrertIFrivillighetsregisteret\":\"N\",\"registrertIStiftelsesregisteret\":\"N\",\"registrertIMvaregisteret\":\"N\",\"aktivitetBransje\":[],\"vedtektsfestetFormaal\":[],\"konkurs\":\"N\",\"underAvvikling\":\"N\",\"underTvangsavviklingEllerTvangsopplosning\":\"N\",\"maalform\":\" \",\"ansvarsbegrensning\":\"N\",\"harAnsatte\":\"N\",\"antallAnsatte\":13,\"underenhet\":{\"hovedenhet\":\"310488666\",\"oppstartsdato\":\"2007-11-07\"},\"bedriftsforsamling\":\"N\",\"representantskap\":\"N\",\"enhetstatuser\":[],\"fullmakter\":[],\"frivilligMvaRegistrert\":[],\"finansielleInstrumenter\":[],\"kapital\":{\"antallAksjer\":\"0\",\"fritekst\":[],\"sakkyndigRedegjorelse\":\"N\"},\"kjonnsrepresentasjon\":\"N\",\"matrikkelnummer\":[],\"paategninger\":[],\"fravalgAvRevisjon\":{\"fravalg\":\"N\"},\"norskregistrertUtenlandskForetak\":{\"helNorskEierskap\":\"N\",\"aktivitetINorge\":\"N\"},\"lovgivningOgForetaksformIHjemlandet\":{\"foretaksform\":\"\"},\"registerIHjemlandet\":{\"navnRegister\":[],\"adresse\":[]},\"fusjoner\":[],\"fisjoner\":[],\"rollegrupper\":[{\"type\":{\"kode\":\"BEDR\",\"beskrivelse\":\"Virksomhet til næringsdrivende person\"},\"fritekst\":[],\"roller\":[{\"type\":{\"kode\":\"BEDR\",\"beskrivelse\":\"har som registreringsenhet\"},\"person\":{},\"virksomhet\":{\"organisasjonsnummer\":\"310488666\"},\"valgtAv\":{},\"fratraadt\":\"N\",\"fritekst\":[],\"rekkefolge\":1}]}]}",
-        "kilder": ["brreg-er-fr"],
+        "kilder": [
+          "brreg-er-fr"
+        ],
         "oppdatert": "2022-09-08T22:19:55.855+02:00",
         "datasettVersjon": 0,
         "opprettet": "2021-11-26T17:18:14.169+01:00",
@@ -5869,18 +6464,24 @@
         "kommune": "BÆRUM",
         "landkode": "NO",
         "postnummer": "1359",
-        "adresse": ["Grinilunden 26"],
+        "adresse": [
+          "Grinilunden 26"
+        ],
         "land": "Norge",
         "kommunenummer": "3024",
         "poststed": "EIKSMARKA"
       },
-      "naeringBeskrivelse": ["Barnehager"],
+      "naeringBeskrivelse": [
+        "Barnehager"
+      ],
       "registrertIMvaregisteret": false,
       "Postadresse": {
         "kommune": "BÆRUM",
         "landkode": "NO",
         "postnummer": "1359",
-        "adresse": ["Grinilunden 26"],
+        "adresse": [
+          "Grinilunden 26"
+        ],
         "land": "Norge",
         "kommunenummer": "3024",
         "poststed": "EIKSMARKA"
@@ -5894,19 +6495,25 @@
               "kommune": "NANNESTAD",
               "landkode": "NO",
               "postnummer": "2032",
-              "adresse": ["Vestre Hurdalsveg 201"],
+              "adresse": [
+                "Vestre Hurdalsveg 201"
+              ],
               "land": "Norge",
               "kommunenummer": "3036",
               "poststed": "MAURA"
             },
-            "naeringBeskrivelse": ["Barnehager"],
+            "naeringBeskrivelse": [
+              "Barnehager"
+            ],
             "registrertIMvaregisteret": false,
             "styreleder": "07828199352",
             "Postadresse": {
               "kommune": "NANNESTAD",
               "landkode": "NO",
               "postnummer": "2032",
-              "adresse": ["Vestre Hurdalsveg 201"],
+              "adresse": [
+                "Vestre Hurdalsveg 201"
+              ],
               "land": "Norge",
               "kommunenummer": "3036",
               "poststed": "MAURA"
@@ -5917,7 +6524,9 @@
               "kommune": "NANNESTAD",
               "landkode": "NO",
               "postnummer": "2032",
-              "adresse": ["Vestre Hurdalsveg 201"],
+              "adresse": [
+                "Vestre Hurdalsveg 201"
+              ],
               "land": "Norge",
               "kommunenummer": "3036",
               "poststed": "MAURA"
@@ -5937,7 +6546,9 @@
               "kode": "AS",
               "beskrivelse": "Aksjeselskap"
             },
-            "naeringKode": ["88.911"],
+            "naeringKode": [
+              "88.911"
+            ],
             "navn": "STANDHAFTIG FORNØYD TIGER AS",
             "tenorMetadata": {
               "kildedata": "{\"organisasjonsnummer\":\"313314324\",\"navn\":\"STANDHAFTIG FORNØYD TIGER AS\",\"oppdeltNavn\":[\"STANDHAFTIG FORNØYD TIGER AS\"],\"organisasjonsform\":{\"kode\":\"AS\",\"beskrivelse\":\"Aksjeselskap\"},\"forretningsadresse\":{\"land\":\"Norge\",\"landkode\":\"NO\",\"postnummer\":\"2032\",\"poststed\":\"MAURA\",\"adresse\":[\"Vestre Hurdalsveg 201\"],\"kommune\":\"NANNESTAD\",\"kommunenummer\":\"3036\"},\"postadresse\":{\"land\":\"Norge\",\"landkode\":\"NO\",\"postnummer\":\"2032\",\"poststed\":\"MAURA\",\"adresse\":[\"Vestre Hurdalsveg 201\"],\"kommune\":\"NANNESTAD\",\"kommunenummer\":\"3036\"},\"nettadresse\":\"www.aldhibahsalm.no\",\"naeringskoder\":[{\"kode\":\"88\",\"beskrivelse\":\"Sosiale omsorgstjenester uten botilbud\",\"hjelpeenhetskode\":false,\"rekkefolge\":1,\"nivaa\":1},{\"kode\":\"88.9\",\"beskrivelse\":\"Andre sosialtjenester uten botilbud\",\"hjelpeenhetskode\":false,\"rekkefolge\":1,\"nivaa\":2},{\"kode\":\"88.91\",\"beskrivelse\":\"Sosialtjenester uten botilbud for barn og ungdom\",\"hjelpeenhetskode\":false,\"rekkefolge\":1,\"nivaa\":3},{\"kode\":\"88.911\",\"beskrivelse\":\"Barnehager\",\"hjelpeenhetskode\":false,\"rekkefolge\":1,\"nivaa\":4}],\"institusjonellSektorkode\":{\"kode\":\"2100\",\"beskrivelse\":\"Private aksjeselskaper mv. \"},\"registreringsdatoEnhetsregisteret\":\"2021-03-15\",\"slettetIEnhetsregisteret\":\"N\",\"registrertIForetaksregisteret\":\"J\",\"registreringsdatoForetaksregisteret\":\"2021-03-15\",\"slettetIForetaksregisteret\":\"N\",\"registreringspliktigForetaksregisteret\":\"J\",\"registrertIFrivillighetsregisteret\":\"N\",\"registrertIStiftelsesregisteret\":\"N\",\"registrertIMvaregisteret\":\"N\",\"stiftelsesdato\":\"2007-08-08\",\"aktivitetBransje\":[\"Barnehager\"],\"vedtektsdato\":\"2019-09-19\",\"vedtektsfestetFormaal\":[\"Barnehager\"],\"sisteInnsendteAarsregnskap\":\"2018\",\"konkurs\":\"N\",\"underAvvikling\":\"N\",\"underTvangsavviklingEllerTvangsopplosning\":\"N\",\"maalform\":\"Bokmål\",\"ansvarsbegrensning\":\"N\",\"harAnsatte\":\"J\",\"antallAnsatte\":132,\"underenhet\":{},\"bedriftsforsamling\":\"N\",\"representantskap\":\"N\",\"enhetstatuser\":[],\"fullmakter\":[],\"frivilligMvaRegistrert\":[],\"finansielleInstrumenter\":[],\"kapital\":{\"type\":\"Aksjekapital\",\"belop\":\"100000.00\",\"antallAksjer\":\"1000\",\"paalydendeBelop\":\"100.00\",\"innbetaltBelop\":\"100000.00\",\"fritekst\":[],\"fulltInnbetaltBelop\":\"J\",\"sakkyndigRedegjorelse\":\"N\"},\"kjonnsrepresentasjon\":\"N\",\"matrikkelnummer\":[],\"paategninger\":[],\"fravalgAvRevisjon\":{\"fravalg\":\"N\"},\"norskregistrertUtenlandskForetak\":{\"helNorskEierskap\":\"N\",\"aktivitetINorge\":\"N\"},\"lovgivningOgForetaksformIHjemlandet\":{\"foretaksform\":\"\"},\"registerIHjemlandet\":{\"navnRegister\":[],\"adresse\":[]},\"fusjoner\":[],\"fisjoner\":[],\"rollegrupper\":[{\"type\":{\"kode\":\"PROK\",\"beskrivelse\":\"Prokura\"},\"fritekst\":[{\"plassering\":\"Daglig leder alene\"}],\"roller\":[{\"type\":{},\"person\":{},\"virksomhet\":{},\"valgtAv\":{},\"fritekst\":[],\"rekkefolge\":0}]},{\"type\":{\"kode\":\"REVI\",\"beskrivelse\":\"Revisor\"},\"fritekst\":[],\"roller\":[{\"type\":{\"kode\":\"REVI\",\"beskrivelse\":\"Revisor\"},\"person\":{},\"virksomhet\":{\"organisasjonsnummer\":\"314239822\"},\"valgtAv\":{},\"fratraadt\":\"N\",\"fritekst\":[],\"rekkefolge\":1}]},{\"type\":{\"kode\":\"SIGN\",\"beskrivelse\":\"Signatur\"},\"fritekst\":[{\"plassering\":\"Styrets leder alene eller to styremedlemmer i fellesskap\"}],\"roller\":[{\"type\":{},\"person\":{},\"virksomhet\":{},\"valgtAv\":{},\"fritekst\":[],\"rekkefolge\":0}]},{\"type\":{\"kode\":\"STYR\",\"beskrivelse\":\"Styre\"},\"fritekst\":[],\"roller\":[{\"type\":{\"kode\":\"LEDE\",\"beskrivelse\":\"Styrets leder\"},\"person\":{\"foedselsnummer\":\"07828199352\"},\"virksomhet\":{},\"valgtAv\":{\"kode\":\"A-AK\",\"beskrivelse\":\"Representant for A-aksjonærene\"},\"fratraadt\":\"N\",\"fritekst\":[],\"rekkefolge\":0}]}]}",
@@ -5966,7 +6577,9 @@
               "315809134"
             ],
             "regnskapsfoerere": [],
-            "revisorer": ["314239822"],
+            "revisorer": [
+              "314239822"
+            ],
             "styremedlemmer": [],
             "harUtenlandskForretningsadresse": false,
             "tenorRelasjonsnavn": "erUnderenhet.hovedenhet",
@@ -5980,7 +6593,9 @@
         "kommune": "BÆRUM",
         "landkode": "NO",
         "postnummer": "1359",
-        "adresse": ["Grinilunden 26"],
+        "adresse": [
+          "Grinilunden 26"
+        ],
         "land": "Norge",
         "kommunenummer": "3024",
         "poststed": "EIKSMARKA"
@@ -6001,11 +6616,15 @@
         "kode": "BEDR",
         "beskrivelse": "Underenhet til næringsdrivende og offentlig forvaltning"
       },
-      "naeringKode": ["88.911"],
+      "naeringKode": [
+        "88.911"
+      ],
       "navn": "UGJENNOMSIKTIG BEGEISTRET FJELLREV",
       "tenorMetadata": {
         "kildedata": "{\"organisasjonsnummer\":\"315809134\",\"navn\":\"UGJENNOMSIKTIG BEGEISTRET FJELLREV\",\"oppdeltNavn\":[\"UGJENNOMSIKTIG BEGEISTRET FJELLREV\"],\"organisasjonsform\":{\"kode\":\"BEDR\",\"beskrivelse\":\"Underenhet til næringsdrivende og offentlig forvaltning\"},\"forretningsadresse\":{\"land\":\"Norge\",\"landkode\":\"NO\",\"postnummer\":\"1359\",\"poststed\":\"EIKSMARKA\",\"adresse\":[\"Grinilunden 26\"],\"kommune\":\"BÆRUM\",\"kommunenummer\":\"3024\"},\"postadresse\":{\"land\":\"Norge\",\"landkode\":\"NO\",\"postnummer\":\"1359\",\"poststed\":\"EIKSMARKA\",\"adresse\":[\"Grinilunden 26\"],\"kommune\":\"BÆRUM\",\"kommunenummer\":\"3024\"},\"mobilnummer\":\"031 58 091\",\"naeringskoder\":[{\"kode\":\"88\",\"beskrivelse\":\"Sosiale omsorgstjenester uten botilbud\",\"hjelpeenhetskode\":false,\"rekkefolge\":1,\"nivaa\":1},{\"kode\":\"88.9\",\"beskrivelse\":\"Andre sosialtjenester uten botilbud\",\"hjelpeenhetskode\":false,\"rekkefolge\":1,\"nivaa\":2},{\"kode\":\"88.91\",\"beskrivelse\":\"Sosialtjenester uten botilbud for barn og ungdom\",\"hjelpeenhetskode\":false,\"rekkefolge\":1,\"nivaa\":3},{\"kode\":\"88.911\",\"beskrivelse\":\"Barnehager\",\"hjelpeenhetskode\":false,\"rekkefolge\":1,\"nivaa\":4}],\"institusjonellSektorkode\":{},\"registreringsdatoEnhetsregisteret\":\"2021-03-20\",\"slettetIEnhetsregisteret\":\"N\",\"registrertIForetaksregisteret\":\"N\",\"slettetIForetaksregisteret\":\"N\",\"registreringspliktigForetaksregisteret\":\"N\",\"registrertIFrivillighetsregisteret\":\"N\",\"registrertIStiftelsesregisteret\":\"N\",\"registrertIMvaregisteret\":\"N\",\"aktivitetBransje\":[],\"vedtektsfestetFormaal\":[],\"konkurs\":\"N\",\"underAvvikling\":\"N\",\"underTvangsavviklingEllerTvangsopplosning\":\"N\",\"maalform\":\" \",\"ansvarsbegrensning\":\"N\",\"harAnsatte\":\"N\",\"antallAnsatte\":30,\"underenhet\":{\"hovedenhet\":\"313314324\",\"oppstartsdato\":\"2008-10-18\"},\"bedriftsforsamling\":\"N\",\"representantskap\":\"N\",\"enhetstatuser\":[],\"fullmakter\":[],\"frivilligMvaRegistrert\":[],\"finansielleInstrumenter\":[],\"kapital\":{\"antallAksjer\":\"0\",\"fritekst\":[],\"sakkyndigRedegjorelse\":\"N\"},\"kjonnsrepresentasjon\":\"N\",\"matrikkelnummer\":[],\"paategninger\":[],\"fravalgAvRevisjon\":{\"fravalg\":\"N\"},\"norskregistrertUtenlandskForetak\":{\"helNorskEierskap\":\"N\",\"aktivitetINorge\":\"N\"},\"lovgivningOgForetaksformIHjemlandet\":{\"foretaksform\":\"\"},\"registerIHjemlandet\":{\"navnRegister\":[],\"adresse\":[]},\"fusjoner\":[],\"fisjoner\":[],\"rollegrupper\":[{\"type\":{\"kode\":\"BEDR\",\"beskrivelse\":\"Virksomhet til næringsdrivende person\"},\"fritekst\":[],\"roller\":[{\"type\":{\"kode\":\"BEDR\",\"beskrivelse\":\"har som registreringsenhet\"},\"person\":{},\"virksomhet\":{\"organisasjonsnummer\":\"313314324\"},\"valgtAv\":{},\"fratraadt\":\"N\",\"fritekst\":[],\"rekkefolge\":1}]}]}",
-        "kilder": ["brreg-er-fr"],
+        "kilder": [
+          "brreg-er-fr"
+        ],
         "oppdatert": "2022-09-09T04:55:10.173+02:00",
         "datasettVersjon": 0,
         "opprettet": "2021-11-29T12:48:10.509+01:00",
@@ -6034,18 +6653,24 @@
         "kommune": "SULA",
         "landkode": "NO",
         "postnummer": "6037",
-        "adresse": ["Einahaugen 16"],
+        "adresse": [
+          "Einahaugen 16"
+        ],
         "land": "Norge",
         "kommunenummer": "1531",
         "poststed": "EIDSNES"
       },
-      "naeringBeskrivelse": ["Barnehager"],
+      "naeringBeskrivelse": [
+        "Barnehager"
+      ],
       "registrertIMvaregisteret": false,
       "Postadresse": {
         "kommune": "SULA",
         "landkode": "NO",
         "postnummer": "6034",
-        "adresse": ["Postboks 9084"],
+        "adresse": [
+          "Postboks 9084"
+        ],
         "land": "Norge",
         "kommunenummer": "1531",
         "poststed": "EIDSNES"
@@ -6059,18 +6684,24 @@
               "kommune": "SEL",
               "landkode": "NO",
               "postnummer": "2670",
-              "adresse": ["Nyseterjordet 35"],
+              "adresse": [
+                "Nyseterjordet 35"
+              ],
               "land": "Norge",
               "kommunenummer": "3437",
               "poststed": "OTTA"
             },
-            "naeringBeskrivelse": ["Ordinær grunnskoleundervisning"],
+            "naeringBeskrivelse": [
+              "Ordinær grunnskoleundervisning"
+            ],
             "registrertIMvaregisteret": false,
             "Postadresse": {
               "kommune": "SEL",
               "landkode": "NO",
               "postnummer": "2678",
-              "adresse": ["Postboks 9111"],
+              "adresse": [
+                "Postboks 9111"
+              ],
               "land": "Norge",
               "kommunenummer": "3437",
               "poststed": "SEL"
@@ -6081,7 +6712,9 @@
               "kommune": "SEL",
               "landkode": "NO",
               "postnummer": "2678",
-              "adresse": ["Postboks 9111"],
+              "adresse": [
+                "Postboks 9111"
+              ],
               "land": "Norge",
               "kommunenummer": "3437",
               "poststed": "SEL"
@@ -6101,7 +6734,9 @@
               "kode": "ORGL",
               "beskrivelse": "Organisasjonsledd"
             },
-            "naeringKode": ["85.201"],
+            "naeringKode": [
+              "85.201"
+            ],
             "navn": "STANDHAFTIG EKSAKT PIGGSVIN",
             "dagligLeder": "23836399161",
             "tenorMetadata": {
@@ -6326,7 +6961,9 @@
         "kommune": "SULA",
         "landkode": "NO",
         "postnummer": "6034",
-        "adresse": ["Postboks 9084"],
+        "adresse": [
+          "Postboks 9084"
+        ],
         "land": "Norge",
         "kommunenummer": "1531",
         "poststed": "EIDSNES"
@@ -6347,11 +6984,15 @@
         "kode": "BEDR",
         "beskrivelse": "Underenhet til næringsdrivende og offentlig forvaltning"
       },
-      "naeringKode": ["88.911"],
+      "naeringKode": [
+        "88.911"
+      ],
       "navn": "ANSVARSFULL ULOGISK FJELLREV",
       "tenorMetadata": {
         "kildedata": "{\"organisasjonsnummer\":\"315108640\",\"navn\":\"ANSVARSFULL ULOGISK FJELLREV\",\"oppdeltNavn\":[\"ANSVARSFULL ULOGISK FJELLREV\"],\"organisasjonsform\":{\"kode\":\"BEDR\",\"beskrivelse\":\"Underenhet til næringsdrivende og offentlig forvaltning\"},\"forretningsadresse\":{\"land\":\"Norge\",\"landkode\":\"NO\",\"postnummer\":\"6037\",\"poststed\":\"EIDSNES\",\"adresse\":[\"Einahaugen 16\"],\"kommune\":\"SULA\",\"kommunenummer\":\"1531\"},\"postadresse\":{\"land\":\"Norge\",\"landkode\":\"NO\",\"postnummer\":\"6034\",\"poststed\":\"EIDSNES\",\"adresse\":[\"Postboks 9084\"],\"kommune\":\"SULA\",\"kommunenummer\":\"1531\"},\"telefonnummer\":\"03 15 10 64\",\"telefaksnummer\":\"03 15 10 64\",\"naeringskoder\":[{\"kode\":\"88\",\"beskrivelse\":\"Sosiale omsorgstjenester uten botilbud\",\"hjelpeenhetskode\":false,\"rekkefolge\":1,\"nivaa\":1},{\"kode\":\"88.9\",\"beskrivelse\":\"Andre sosialtjenester uten botilbud\",\"hjelpeenhetskode\":false,\"rekkefolge\":1,\"nivaa\":2},{\"kode\":\"88.91\",\"beskrivelse\":\"Sosialtjenester uten botilbud for barn og ungdom\",\"hjelpeenhetskode\":false,\"rekkefolge\":1,\"nivaa\":3},{\"kode\":\"88.911\",\"beskrivelse\":\"Barnehager\",\"hjelpeenhetskode\":false,\"rekkefolge\":1,\"nivaa\":4}],\"institusjonellSektorkode\":{},\"registreringsdatoEnhetsregisteret\":\"2021-03-19\",\"slettetIEnhetsregisteret\":\"N\",\"registrertIForetaksregisteret\":\"N\",\"slettetIForetaksregisteret\":\"N\",\"registreringspliktigForetaksregisteret\":\"N\",\"registrertIFrivillighetsregisteret\":\"N\",\"registrertIStiftelsesregisteret\":\"N\",\"registrertIMvaregisteret\":\"N\",\"aktivitetBransje\":[],\"vedtektsfestetFormaal\":[],\"konkurs\":\"N\",\"underAvvikling\":\"N\",\"underTvangsavviklingEllerTvangsopplosning\":\"N\",\"maalform\":\" \",\"ansvarsbegrensning\":\"N\",\"harAnsatte\":\"N\",\"antallAnsatte\":13,\"underenhet\":{\"hovedenhet\":\"312533324\",\"datoEierskifte\":\"2020-02-07\"},\"bedriftsforsamling\":\"N\",\"representantskap\":\"N\",\"enhetstatuser\":[],\"fullmakter\":[],\"frivilligMvaRegistrert\":[],\"finansielleInstrumenter\":[],\"kapital\":{\"antallAksjer\":\"0\",\"fritekst\":[],\"sakkyndigRedegjorelse\":\"N\"},\"kjonnsrepresentasjon\":\"N\",\"matrikkelnummer\":[],\"paategninger\":[],\"fravalgAvRevisjon\":{\"fravalg\":\"N\"},\"norskregistrertUtenlandskForetak\":{\"helNorskEierskap\":\"N\",\"aktivitetINorge\":\"N\"},\"lovgivningOgForetaksformIHjemlandet\":{\"foretaksform\":\"\"},\"registerIHjemlandet\":{\"navnRegister\":[],\"adresse\":[]},\"fusjoner\":[],\"fisjoner\":[],\"rollegrupper\":[{\"type\":{\"kode\":\"BEDR\",\"beskrivelse\":\"Virksomhet til næringsdrivende person\"},\"fritekst\":[],\"roller\":[{\"type\":{\"kode\":\"BEDR\",\"beskrivelse\":\"har som registreringsenhet\"},\"person\":{},\"virksomhet\":{\"organisasjonsnummer\":\"312533324\"},\"valgtAv\":{},\"fratraadt\":\"N\",\"fritekst\":[],\"rekkefolge\":1}]}]}",
-        "kilder": ["brreg-er-fr"],
+        "kilder": [
+          "brreg-er-fr"
+        ],
         "oppdatert": "2022-09-09T03:40:44.88+02:00",
         "datasettVersjon": 0,
         "opprettet": "2021-11-29T11:40:03.061+01:00",
@@ -6381,18 +7022,24 @@
         "kommune": "LØRENSKOG",
         "landkode": "NO",
         "postnummer": "1473",
-        "adresse": ["Sigrids vei 4"],
+        "adresse": [
+          "Sigrids vei 4"
+        ],
         "land": "Norge",
         "kommunenummer": "3029",
         "poststed": "LØRENSKOG"
       },
-      "naeringBeskrivelse": ["Barnehager"],
+      "naeringBeskrivelse": [
+        "Barnehager"
+      ],
       "registrertIMvaregisteret": false,
       "Postadresse": {
         "kommune": "LØRENSKOG",
         "landkode": "NO",
         "postnummer": "1468",
-        "adresse": ["Postboks 9007"],
+        "adresse": [
+          "Postboks 9007"
+        ],
         "land": "Norge",
         "kommunenummer": "3029",
         "poststed": "FINSTADJORDET"
@@ -6406,18 +7053,24 @@
               "kommune": "TROMSØ",
               "landkode": "NO",
               "postnummer": "9019",
-              "adresse": ["Framstredet 79"],
+              "adresse": [
+                "Framstredet 79"
+              ],
               "land": "Norge",
               "kommunenummer": "5401",
               "poststed": "TROMSØ"
             },
-            "naeringBeskrivelse": ["Hjemmehjelp"],
+            "naeringBeskrivelse": [
+              "Hjemmehjelp"
+            ],
             "registrertIMvaregisteret": true,
             "Postadresse": {
               "kommune": "TROMSØ",
               "landkode": "NO",
               "postnummer": "9299",
-              "adresse": ["Postboks 9044"],
+              "adresse": [
+                "Postboks 9044"
+              ],
               "land": "Norge",
               "kommunenummer": "5401",
               "poststed": "TROMSØ"
@@ -6428,7 +7081,9 @@
               "kommune": "TROMSØ",
               "landkode": "NO",
               "postnummer": "9299",
-              "adresse": ["Postboks 9044"],
+              "adresse": [
+                "Postboks 9044"
+              ],
               "land": "Norge",
               "kommunenummer": "5401",
               "poststed": "TROMSØ"
@@ -6447,7 +7102,9 @@
               "kode": "KOMM",
               "beskrivelse": "Kommune"
             },
-            "naeringKode": ["88.101"],
+            "naeringKode": [
+              "88.101"
+            ],
             "navn": "RØRETE REFLEKTERENDE BJØRN KOMMUNE",
             "dagligLeder": "29915598526",
             "tenorMetadata": {
@@ -6637,7 +7294,9 @@
               "311999540"
             ],
             "regnskapsfoerere": [],
-            "revisorer": ["312251604"],
+            "revisorer": [
+              "312251604"
+            ],
             "styremedlemmer": [],
             "harUtenlandskForretningsadresse": false,
             "tenorRelasjonsnavn": "erUnderenhet.hovedenhet",
@@ -6650,7 +7309,9 @@
         "kommune": "LØRENSKOG",
         "landkode": "NO",
         "postnummer": "1468",
-        "adresse": ["Postboks 9007"],
+        "adresse": [
+          "Postboks 9007"
+        ],
         "land": "Norge",
         "kommunenummer": "3029",
         "poststed": "FINSTADJORDET"
@@ -6671,11 +7332,15 @@
         "kode": "BEDR",
         "beskrivelse": "Underenhet til næringsdrivende og offentlig forvaltning"
       },
-      "naeringKode": ["88.911"],
+      "naeringKode": [
+        "88.911"
+      ],
       "navn": "SLEM AUTORISERT FJELLREV",
       "tenorMetadata": {
         "kildedata": "{\"organisasjonsnummer\":\"311999427\",\"navn\":\"SLEM AUTORISERT FJELLREV\",\"oppdeltNavn\":[\"SLEM AUTORISERT FJELLREV\"],\"organisasjonsform\":{\"kode\":\"BEDR\",\"beskrivelse\":\"Underenhet til næringsdrivende og offentlig forvaltning\"},\"forretningsadresse\":{\"land\":\"Norge\",\"landkode\":\"NO\",\"postnummer\":\"1473\",\"poststed\":\"LØRENSKOG\",\"adresse\":[\"Sigrids vei 4\"],\"kommune\":\"LØRENSKOG\",\"kommunenummer\":\"3029\"},\"postadresse\":{\"land\":\"Norge\",\"landkode\":\"NO\",\"postnummer\":\"1468\",\"poststed\":\"FINSTADJORDET\",\"adresse\":[\"Postboks 9007\"],\"kommune\":\"LØRENSKOG\",\"kommunenummer\":\"3029\"},\"telefonnummer\":\"03 11 99 42\",\"naeringskoder\":[{\"kode\":\"88\",\"beskrivelse\":\"Sosiale omsorgstjenester uten botilbud\",\"hjelpeenhetskode\":false,\"rekkefolge\":1,\"nivaa\":1},{\"kode\":\"88.9\",\"beskrivelse\":\"Andre sosialtjenester uten botilbud\",\"hjelpeenhetskode\":false,\"rekkefolge\":1,\"nivaa\":2},{\"kode\":\"88.91\",\"beskrivelse\":\"Sosialtjenester uten botilbud for barn og ungdom\",\"hjelpeenhetskode\":false,\"rekkefolge\":1,\"nivaa\":3},{\"kode\":\"88.911\",\"beskrivelse\":\"Barnehager\",\"hjelpeenhetskode\":false,\"rekkefolge\":1,\"nivaa\":4}],\"institusjonellSektorkode\":{},\"registreringsdatoEnhetsregisteret\":\"2021-03-18\",\"slettetIEnhetsregisteret\":\"N\",\"registrertIForetaksregisteret\":\"N\",\"slettetIForetaksregisteret\":\"N\",\"registreringspliktigForetaksregisteret\":\"N\",\"registrertIFrivillighetsregisteret\":\"N\",\"registrertIStiftelsesregisteret\":\"N\",\"registrertIMvaregisteret\":\"N\",\"aktivitetBransje\":[],\"vedtektsfestetFormaal\":[],\"konkurs\":\"N\",\"underAvvikling\":\"N\",\"underTvangsavviklingEllerTvangsopplosning\":\"N\",\"maalform\":\" \",\"ansvarsbegrensning\":\"N\",\"harAnsatte\":\"N\",\"antallAnsatte\":47,\"underenhet\":{\"hovedenhet\":\"312982870\",\"oppstartsdato\":\"2006-10-08\",\"datoEierskifte\":\"2020-02-07\"},\"bedriftsforsamling\":\"N\",\"representantskap\":\"N\",\"enhetstatuser\":[],\"fullmakter\":[],\"frivilligMvaRegistrert\":[],\"finansielleInstrumenter\":[],\"kapital\":{\"antallAksjer\":\"0\",\"fritekst\":[],\"sakkyndigRedegjorelse\":\"N\"},\"kjonnsrepresentasjon\":\"N\",\"matrikkelnummer\":[],\"paategninger\":[],\"fravalgAvRevisjon\":{\"fravalg\":\"N\"},\"norskregistrertUtenlandskForetak\":{\"helNorskEierskap\":\"N\",\"aktivitetINorge\":\"N\"},\"lovgivningOgForetaksformIHjemlandet\":{\"foretaksform\":\"\"},\"registerIHjemlandet\":{\"navnRegister\":[],\"adresse\":[]},\"fusjoner\":[],\"fisjoner\":[],\"rollegrupper\":[{\"type\":{\"kode\":\"BEDR\",\"beskrivelse\":\"Virksomhet til næringsdrivende person\"},\"fritekst\":[],\"roller\":[{\"type\":{\"kode\":\"BEDR\",\"beskrivelse\":\"har som registreringsenhet\"},\"person\":{},\"virksomhet\":{\"organisasjonsnummer\":\"312982870\"},\"valgtAv\":{},\"fratraadt\":\"N\",\"fritekst\":[],\"rekkefolge\":1}]}]}",
-        "kilder": ["brreg-er-fr"],
+        "kilder": [
+          "brreg-er-fr"
+        ],
         "oppdatert": "2022-09-08T22:05:23.892+02:00",
         "datasettVersjon": 0,
         "opprettet": "2021-11-26T17:04:01.283+01:00",
@@ -6705,12 +7370,16 @@
         "kommune": "GRUE",
         "landkode": "NO",
         "postnummer": "2264",
-        "adresse": ["Solørvegen 500"],
+        "adresse": [
+          "Solørvegen 500"
+        ],
         "land": "Norge",
         "kommunenummer": "3417",
         "poststed": "GRINDER"
       },
-      "naeringBeskrivelse": ["Barnehager"],
+      "naeringBeskrivelse": [
+        "Barnehager"
+      ],
       "registrertIMvaregisteret": false,
       "Postadresse": {
         "adresse": []
@@ -6724,18 +7393,24 @@
               "kommune": "HAMAR",
               "landkode": "NO",
               "postnummer": "2315",
-              "adresse": ["Olav Aukrusts gate 9"],
+              "adresse": [
+                "Olav Aukrusts gate 9"
+              ],
               "land": "Norge",
               "kommunenummer": "3403",
               "poststed": "HAMAR"
             },
-            "naeringBeskrivelse": ["Barnehager"],
+            "naeringBeskrivelse": [
+              "Barnehager"
+            ],
             "registrertIMvaregisteret": false,
             "Postadresse": {
               "kommune": "HAMAR",
               "landkode": "NO",
               "postnummer": "2308",
-              "adresse": ["Postboks 9026"],
+              "adresse": [
+                "Postboks 9026"
+              ],
               "land": "Norge",
               "kommunenummer": "3403",
               "poststed": "HAMAR"
@@ -6746,7 +7421,9 @@
               "kommune": "HAMAR",
               "landkode": "NO",
               "postnummer": "2308",
-              "adresse": ["Postboks 9026"],
+              "adresse": [
+                "Postboks 9026"
+              ],
               "land": "Norge",
               "kommunenummer": "3403",
               "poststed": "HAMAR"
@@ -6754,7 +7431,9 @@
             "erUnderenhet": {},
             "registrertIFrivillighetsregisteret": false,
             "stiftelsesdato": "1990-12-26",
-            "kontaktpersoner": ["02816997529"],
+            "kontaktpersoner": [
+              "02816997529"
+            ],
             "fravalgAvRevisjon": {
               "fravalg": false
             },
@@ -6766,7 +7445,9 @@
               "kode": "ORGL",
               "beskrivelse": "Organisasjonsledd"
             },
-            "naeringKode": ["88.911"],
+            "naeringKode": [
+              "88.911"
+            ],
             "navn": "KORREKT GRATIS PIGGSVIN",
             "dagligLeder": "02918497962",
             "tenorMetadata": {
@@ -7074,11 +7755,15 @@
         "kode": "BEDR",
         "beskrivelse": "Underenhet til næringsdrivende og offentlig forvaltning"
       },
-      "naeringKode": ["88.911"],
+      "naeringKode": [
+        "88.911"
+      ],
       "navn": "HEVNGJERRIG FYSISK FJELLREV",
       "tenorMetadata": {
         "kildedata": "{\"organisasjonsnummer\":\"314683765\",\"navn\":\"HEVNGJERRIG FYSISK FJELLREV\",\"oppdeltNavn\":[\"HEVNGJERRIG FYSISK FJELLREV\"],\"organisasjonsform\":{\"kode\":\"BEDR\",\"beskrivelse\":\"Underenhet til næringsdrivende og offentlig forvaltning\"},\"forretningsadresse\":{\"land\":\"Norge\",\"landkode\":\"NO\",\"postnummer\":\"2264\",\"poststed\":\"GRINDER\",\"adresse\":[\"Solørvegen 500\"],\"kommune\":\"GRUE\",\"kommunenummer\":\"3417\"},\"postadresse\":{\"adresse\":[]},\"telefonnummer\":\"03 14 68 76\",\"naeringskoder\":[{\"kode\":\"88\",\"beskrivelse\":\"Sosiale omsorgstjenester uten botilbud\",\"hjelpeenhetskode\":false,\"rekkefolge\":1,\"nivaa\":1},{\"kode\":\"88.9\",\"beskrivelse\":\"Andre sosialtjenester uten botilbud\",\"hjelpeenhetskode\":false,\"rekkefolge\":1,\"nivaa\":2},{\"kode\":\"88.91\",\"beskrivelse\":\"Sosialtjenester uten botilbud for barn og ungdom\",\"hjelpeenhetskode\":false,\"rekkefolge\":1,\"nivaa\":3},{\"kode\":\"88.911\",\"beskrivelse\":\"Barnehager\",\"hjelpeenhetskode\":false,\"rekkefolge\":1,\"nivaa\":4}],\"institusjonellSektorkode\":{},\"registreringsdatoEnhetsregisteret\":\"2021-03-19\",\"slettetIEnhetsregisteret\":\"N\",\"registrertIForetaksregisteret\":\"N\",\"slettetIForetaksregisteret\":\"N\",\"registreringspliktigForetaksregisteret\":\"N\",\"registrertIFrivillighetsregisteret\":\"N\",\"registrertIStiftelsesregisteret\":\"N\",\"registrertIMvaregisteret\":\"N\",\"aktivitetBransje\":[],\"vedtektsfestetFormaal\":[],\"konkurs\":\"N\",\"underAvvikling\":\"N\",\"underTvangsavviklingEllerTvangsopplosning\":\"N\",\"maalform\":\" \",\"ansvarsbegrensning\":\"N\",\"harAnsatte\":\"N\",\"antallAnsatte\":22,\"underenhet\":{\"hovedenhet\":\"313852199\",\"oppstartsdato\":\"2008-02-07\"},\"bedriftsforsamling\":\"N\",\"representantskap\":\"N\",\"enhetstatuser\":[],\"fullmakter\":[],\"frivilligMvaRegistrert\":[],\"finansielleInstrumenter\":[],\"kapital\":{\"antallAksjer\":\"0\",\"fritekst\":[],\"sakkyndigRedegjorelse\":\"N\"},\"kjonnsrepresentasjon\":\"N\",\"matrikkelnummer\":[],\"paategninger\":[],\"fravalgAvRevisjon\":{\"fravalg\":\"N\"},\"norskregistrertUtenlandskForetak\":{\"helNorskEierskap\":\"N\",\"aktivitetINorge\":\"N\"},\"lovgivningOgForetaksformIHjemlandet\":{\"foretaksform\":\"\"},\"registerIHjemlandet\":{\"navnRegister\":[],\"adresse\":[]},\"fusjoner\":[],\"fisjoner\":[],\"rollegrupper\":[{\"type\":{\"kode\":\"BEDR\",\"beskrivelse\":\"Virksomhet til næringsdrivende person\"},\"fritekst\":[],\"roller\":[{\"type\":{\"kode\":\"BEDR\",\"beskrivelse\":\"har som registreringsenhet\"},\"person\":{},\"virksomhet\":{\"organisasjonsnummer\":\"313852199\"},\"valgtAv\":{},\"fratraadt\":\"N\",\"fritekst\":[],\"rekkefolge\":1}]}]}",
-        "kilder": ["brreg-er-fr"],
+        "kilder": [
+          "brreg-er-fr"
+        ],
         "oppdatert": "2022-09-09T02:54:02.743+02:00",
         "datasettVersjon": 0,
         "opprettet": "2021-11-29T10:57:45.388+01:00",
@@ -7108,12 +7793,16 @@
         "kommune": "STANGE",
         "landkode": "NO",
         "postnummer": "2312",
-        "adresse": ["Lyngvegen 17"],
+        "adresse": [
+          "Lyngvegen 17"
+        ],
         "land": "Norge",
         "kommunenummer": "3413",
         "poststed": "OTTESTAD"
       },
-      "naeringBeskrivelse": ["Barnehager"],
+      "naeringBeskrivelse": [
+        "Barnehager"
+      ],
       "registrertIMvaregisteret": false,
       "Postadresse": {
         "adresse": []
@@ -7127,18 +7816,24 @@
               "kommune": "ARENDAL",
               "landkode": "NO",
               "postnummer": "4810",
-              "adresse": ["Andres Haugmoens vei 16"],
+              "adresse": [
+                "Andres Haugmoens vei 16"
+              ],
               "land": "Norge",
               "kommunenummer": "4203",
               "poststed": "EYDEHAVN"
             },
-            "naeringBeskrivelse": ["Barnehager"],
+            "naeringBeskrivelse": [
+              "Barnehager"
+            ],
             "registrertIMvaregisteret": false,
             "Postadresse": {
               "kommune": "ARENDAL",
               "landkode": "NO",
               "postnummer": "4852",
-              "adresse": ["Postboks 9110"],
+              "adresse": [
+                "Postboks 9110"
+              ],
               "land": "Norge",
               "kommunenummer": "4203",
               "poststed": "FÆRVIK"
@@ -7149,7 +7844,9 @@
               "kommune": "ARENDAL",
               "landkode": "NO",
               "postnummer": "4852",
-              "adresse": ["Postboks 9110"],
+              "adresse": [
+                "Postboks 9110"
+              ],
               "land": "Norge",
               "kommunenummer": "4203",
               "poststed": "FÆRVIK"
@@ -7157,7 +7854,9 @@
             "erUnderenhet": {},
             "registrertIFrivillighetsregisteret": false,
             "stiftelsesdato": "2003-05-22",
-            "kontaktpersoner": ["20895699471"],
+            "kontaktpersoner": [
+              "20895699471"
+            ],
             "fravalgAvRevisjon": {
               "fravalg": false
             },
@@ -7169,7 +7868,9 @@
               "kode": "ORGL",
               "beskrivelse": "Organisasjonsledd"
             },
-            "naeringKode": ["88.911"],
+            "naeringKode": [
+              "88.911"
+            ],
             "navn": "UNDERDANIG LOJAL PIGGSVIN",
             "dagligLeder": "14926497945",
             "tenorMetadata": {
@@ -7190,7 +7891,11 @@
               "belop": 0
             },
             "varamedlemmer": [],
-            "harUnderenheter": ["315216990", "315217008", "315217016"],
+            "harUnderenheter": [
+              "315216990",
+              "315217008",
+              "315217016"
+            ],
             "regnskapsfoerere": [],
             "revisorer": [],
             "styremedlemmer": [],
@@ -7220,11 +7925,15 @@
         "kode": "BEDR",
         "beskrivelse": "Underenhet til næringsdrivende og offentlig forvaltning"
       },
-      "naeringKode": ["88.911"],
+      "naeringKode": [
+        "88.911"
+      ],
       "navn": "LANG ØVRIG FJELLREV",
       "tenorMetadata": {
         "kildedata": "{\"organisasjonsnummer\":\"315217008\",\"navn\":\"LANG ØVRIG FJELLREV\",\"oppdeltNavn\":[\"LANG ØVRIG FJELLREV\"],\"organisasjonsform\":{\"kode\":\"BEDR\",\"beskrivelse\":\"Underenhet til næringsdrivende og offentlig forvaltning\"},\"forretningsadresse\":{\"land\":\"Norge\",\"landkode\":\"NO\",\"postnummer\":\"2312\",\"poststed\":\"OTTESTAD\",\"adresse\":[\"Lyngvegen 17\"],\"kommune\":\"STANGE\",\"kommunenummer\":\"3413\"},\"postadresse\":{\"adresse\":[]},\"telefonnummer\":\"03 15 21 00\",\"naeringskoder\":[{\"kode\":\"88\",\"beskrivelse\":\"Sosiale omsorgstjenester uten botilbud\",\"hjelpeenhetskode\":false,\"rekkefolge\":1,\"nivaa\":1},{\"kode\":\"88.9\",\"beskrivelse\":\"Andre sosialtjenester uten botilbud\",\"hjelpeenhetskode\":false,\"rekkefolge\":1,\"nivaa\":2},{\"kode\":\"88.91\",\"beskrivelse\":\"Sosialtjenester uten botilbud for barn og ungdom\",\"hjelpeenhetskode\":false,\"rekkefolge\":1,\"nivaa\":3},{\"kode\":\"88.911\",\"beskrivelse\":\"Barnehager\",\"hjelpeenhetskode\":false,\"rekkefolge\":1,\"nivaa\":4}],\"institusjonellSektorkode\":{},\"registreringsdatoEnhetsregisteret\":\"2021-03-19\",\"slettetIEnhetsregisteret\":\"N\",\"registrertIForetaksregisteret\":\"N\",\"slettetIForetaksregisteret\":\"N\",\"registreringspliktigForetaksregisteret\":\"N\",\"registrertIFrivillighetsregisteret\":\"N\",\"registrertIStiftelsesregisteret\":\"N\",\"registrertIMvaregisteret\":\"N\",\"aktivitetBransje\":[],\"vedtektsfestetFormaal\":[],\"konkurs\":\"N\",\"underAvvikling\":\"N\",\"underTvangsavviklingEllerTvangsopplosning\":\"N\",\"maalform\":\" \",\"ansvarsbegrensning\":\"N\",\"harAnsatte\":\"N\",\"antallAnsatte\":5,\"underenhet\":{\"hovedenhet\":\"310790206\",\"oppstartsdato\":\"1989-02-07\",\"datoEierskifte\":\"2002-07-13\"},\"bedriftsforsamling\":\"N\",\"representantskap\":\"N\",\"enhetstatuser\":[],\"fullmakter\":[],\"frivilligMvaRegistrert\":[],\"finansielleInstrumenter\":[],\"kapital\":{\"antallAksjer\":\"0\",\"fritekst\":[],\"sakkyndigRedegjorelse\":\"N\"},\"kjonnsrepresentasjon\":\"N\",\"matrikkelnummer\":[],\"paategninger\":[],\"fravalgAvRevisjon\":{\"fravalg\":\"N\"},\"norskregistrertUtenlandskForetak\":{\"helNorskEierskap\":\"N\",\"aktivitetINorge\":\"N\"},\"lovgivningOgForetaksformIHjemlandet\":{\"foretaksform\":\"\"},\"registerIHjemlandet\":{\"navnRegister\":[],\"adresse\":[]},\"fusjoner\":[],\"fisjoner\":[],\"rollegrupper\":[{\"type\":{\"kode\":\"BEDR\",\"beskrivelse\":\"Virksomhet til næringsdrivende person\"},\"fritekst\":[],\"roller\":[{\"type\":{\"kode\":\"BEDR\",\"beskrivelse\":\"har som registreringsenhet\"},\"person\":{},\"virksomhet\":{\"organisasjonsnummer\":\"310790206\"},\"valgtAv\":{},\"fratraadt\":\"N\",\"fritekst\":[],\"rekkefolge\":1}]}]}",
-        "kilder": ["brreg-er-fr"],
+        "kilder": [
+          "brreg-er-fr"
+        ],
         "oppdatert": "2022-09-09T03:51:30.859+02:00",
         "datasettVersjon": 0,
         "opprettet": "2021-11-29T11:50:35.714+01:00",
