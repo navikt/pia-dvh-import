@@ -1,20 +1,20 @@
-val gcsNioVersion = "0.128.2"
-val googleCloudStorageVersion = "2.55.0"
+val gcsNioVersion = "0.128.4"
+val googleCloudStorageVersion = "2.57.0"
 val iaFellesVersion = "1.10.2"
-val kafkaClientsVersion = "4.0.0"
-val kotestVersion = "6.0.0.M4"
-val kotlinVersion = "2.2.0"
-val ktorVersion = "3.2.3"
+val kafkaClientsVersion = "4.1.0"
+val kotestVersion = "6.0.3"
+val kotlinVersion = "2.2.20"
+val ktorVersion = "3.3.0"
 val logbackVersion = "1.5.18"
 val logstashLogbackEncoderVersion = "8.1"
-val prometheusVersion = "1.15.3"
+val prometheusVersion = "1.15.4"
 val testcontainersVersion = "1.21.3"
 val wiremockStandaloneVersion = "3.13.1"
 val opentelemetryLogbackMdcVersion = "2.16.0-alpha"
 
 plugins {
-    kotlin("jvm") version "2.2.0"
-    kotlin("plugin.serialization") version "2.2.0"
+    kotlin("jvm") version "2.2.20"
+    kotlin("plugin.serialization") version "2.2.20"
     id("com.github.johnrengelman.shadow") version "8.1.1"
 }
 
@@ -43,7 +43,7 @@ dependencies {
     implementation("net.logstash.logback:logstash-logback-encoder:$logstashLogbackEncoderVersion")
     implementation("io.opentelemetry.instrumentation:opentelemetry-logback-mdc-1.0:$opentelemetryLogbackMdcVersion")
 
-    implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.6.2")
+    implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.7.1-0.6.x-compat")
     // Google Cloud Storage
     implementation("com.google.cloud:google-cloud-storage:$googleCloudStorageVersion")
     // Kafka
@@ -73,7 +73,7 @@ dependencies {
         }
         implementation("io.netty:netty-codec-http2") {
             version {
-                require("4.2.4.Final")
+                require("4.2.6.Final")
             }
             because("Sårbar versjon i ktor-server-netty")
         }
