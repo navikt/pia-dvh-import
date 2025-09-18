@@ -16,6 +16,7 @@ import kotlinx.serialization.descriptors.PrimitiveSerialDescriptor
 import kotlinx.serialization.encoding.Decoder
 import kotlinx.serialization.encoding.Encoder
 import kotlinx.serialization.json.Json
+import kotlin.time.ExperimentalTime
 
 @Serializable
 data class PubliseringsdatoFraDvhDto(
@@ -44,6 +45,7 @@ data class Publiseringsdato(
     companion object {
         val timeZone = TimeZone.of("Europe/Oslo")
 
+        @OptIn(ExperimentalTime::class)
         fun LocalDateTime.antallDagerTilPubliseringsdato(publiseringsdato: Publiseringsdato): Int {
             val fraInstant = this.toInstant(timeZone)
             val tilInstant = publiseringsdato.offentligDato.toInstant(timeZone)
