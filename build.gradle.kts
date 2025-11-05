@@ -1,20 +1,20 @@
-val gcsNioVersion = "0.128.4"
-val googleCloudStorageVersion = "2.57.0"
+val gcsNioVersion = "0.128.7"
+val googleCloudStorageVersion = "2.59.0"
 val iaFellesVersion = "1.10.2"
 val kafkaClientsVersion = "4.1.0"
-val kotestVersion = "6.0.3"
-val kotlinVersion = "2.2.20"
-val ktorVersion = "3.3.0"
-val logbackVersion = "1.5.18"
-val logstashLogbackEncoderVersion = "8.1"
-val prometheusVersion = "1.15.4"
-val testcontainersVersion = "1.21.3"
+val kotestVersion = "6.0.4"
+val kotlinVersion = "2.2.21"
+val ktorVersion = "3.3.2"
+val logbackVersion = "1.5.20"
+val logstashLogbackEncoderVersion = "9.0"
+val prometheusVersion = "1.15.5"
+val testcontainersVersion = "2.0.1"
 val wiremockStandaloneVersion = "3.13.1"
 val opentelemetryLogbackMdcVersion = "2.16.0-alpha"
 
 plugins {
-    kotlin("jvm") version "2.2.20"
-    kotlin("plugin.serialization") version "2.2.20"
+    kotlin("jvm") version "2.2.21"
+    kotlin("plugin.serialization") version "2.2.21"
     id("application")
 }
 
@@ -56,7 +56,7 @@ dependencies {
     testImplementation("io.kotest:kotest-assertions-json:$kotestVersion")
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit:$kotlinVersion")
     testImplementation("org.testcontainers:testcontainers:$testcontainersVersion")
-    testImplementation("org.testcontainers:kafka:$testcontainersVersion")
+    testImplementation("org.testcontainers:testcontainers-kafka:$testcontainersVersion")
     testImplementation("io.aiven:testcontainers-fake-gcs-server:0.2.0")
     testImplementation("org.wiremock:wiremock-standalone:$wiremockStandaloneVersion")
     // In-memory google cloud storage bucket
@@ -69,29 +69,6 @@ dependencies {
             }
             because(
                 "Kotest 6.0.0.M4 inneholder sårbarversjon 2.5.0",
-            )
-        }
-        implementation("io.netty:netty-codec-http2") {
-            version {
-                require("4.2.6.Final")
-            }
-            because("Sårbar versjon i ktor-server-netty")
-        }
-        testImplementation("org.apache.commons:commons-compress") {
-            version {
-                require("1.28.0")
-            }
-            because("testcontainers har sårbar versjon")
-        }
-        testImplementation("com.jayway.jsonpath:json-path") {
-            version {
-                require("2.9.0")
-            }
-            because(
-                """
-                json-path v2.8.0 was discovered to contain a stack overflow via the Criteria.parse() method.
-                introdusert gjennom io.kotest:kotest-assertions-json:5.8.0
-                """.trimIndent(),
             )
         }
     }
