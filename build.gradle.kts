@@ -15,7 +15,7 @@ val opentelemetryLogbackMdcVersion = "2.16.0-alpha"
 plugins {
     kotlin("jvm") version "2.2.20"
     kotlin("plugin.serialization") version "2.2.20"
-    id("com.github.johnrengelman.shadow") version "8.1.1"
+    id("application")
 }
 
 group = "no.nav"
@@ -94,16 +94,5 @@ dependencies {
                 """.trimIndent(),
             )
         }
-    }
-}
-
-tasks {
-    shadowJar {
-        manifest {
-            attributes("Main-Class" to "no.nav.pia.dvhimport.ApplicationKt")
-        }
-    }
-    test {
-        dependsOn(shadowJar)
     }
 }
