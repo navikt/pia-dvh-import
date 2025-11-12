@@ -1,5 +1,5 @@
 val gcsNioVersion = "0.128.7"
-val googleCloudStorageVersion = "2.59.0"
+val googleCloudStorageVersion = "2.60.0"
 val iaFellesVersion = "1.10.2"
 val kafkaClientsVersion = "4.1.0"
 val kotestVersion = "6.0.4"
@@ -70,6 +70,12 @@ dependencies {
             because(
                 "Kotest 6.0.0.M4 inneholder sårbarversjon 2.5.0",
             )
+        }
+    }
+
+    tasks {
+        test {
+            dependsOn(installDist)
         }
     }
 }
