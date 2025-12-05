@@ -63,6 +63,19 @@ dependencies {
     testImplementation("com.google.cloud:google-cloud-nio:$gcsNioVersion")
 
     constraints {
+        implementation("org.lz4:lz4-java") {
+            modules {
+                module("org.lz4:lz4-java") {
+                    replacedBy("at.yawk.lz4:lz4-java", "Fork of the original unmaintained lz4-java library that fixes a CVE")
+                }
+            }
+            version {
+                require("1.8.1")
+            }
+            because(
+                "Fikser CVE-2025-12183 - lz4-java 1.8.0 har sårbar versjon (transitive dependency fra kafka-clients:4.1.0)",
+            )
+        }
         implementation("net.minidev:json-smart") {
             version {
                 require("2.6.0")
