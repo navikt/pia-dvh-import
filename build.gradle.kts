@@ -47,7 +47,11 @@ dependencies {
     // Google Cloud Storage
     implementation("com.google.cloud:google-cloud-storage:$googleCloudStorageVersion")
     // Kafka
-    implementation("org.apache.kafka:kafka-clients:$kafkaClientsVersion")
+    implementation("at.yawk.lz4:lz4-java:1.10.1")
+    implementation("org.apache.kafka:kafka-clients:$kafkaClientsVersion") {
+        // "Fikser CVE-2025-12183 - lz4-java >1.8.1 har sårbar versjon (transitive dependency fra kafka-clients:4.1.0)"
+        exclude("org.lz4", "lz4-java")
+    }
     // Felles definisjoner for IA-domenet
     implementation("com.github.navikt:ia-felles:$iaFellesVersion")
     // https://mvnrepository.com/artifact/io.opentelemetry.instrumentation/opentelemetry-logback-mdc-1.0
@@ -63,19 +67,6 @@ dependencies {
     testImplementation("com.google.cloud:google-cloud-nio:$gcsNioVersion")
 
     constraints {
-        implementation("org.lz4:lz4-java") {
-            modules {
-                module("org.lz4:lz4-java") {
-                    replacedBy("at.yawk.lz4:lz4-java", "Fork of the original unmaintained lz4-java library that fixes a CVE")
-                }
-            }
-            version {
-                require("1.8.1")
-            }
-            because(
-                "Fikser CVE-2025-12183 - lz4-java 1.8.0 har sårbar versjon (transitive dependency fra kafka-clients:4.1.0)",
-            )
-        }
         implementation("net.minidev:json-smart") {
             version {
                 require("2.6.0")
