@@ -1,15 +1,15 @@
-val gcsNioVersion = "0.128.7"
-val googleCloudStorageVersion = "2.60.0"
+val gcsNioVersion = "0.128.10"
+val googleCloudStorageVersion = "2.62.0"
 val iaFellesVersion = "1.10.2"
-val kafkaClientsVersion = "4.1.0"
-val kotestVersion = "6.0.4"
+val kafkaClientsVersion = "4.1.1"
+val kotestVersion = "6.0.7"
 val kotlinVersion = "2.2.21"
-val ktorVersion = "3.3.2"
-val logbackVersion = "1.5.20"
+val ktorVersion = "3.3.3"
+val logbackVersion = "1.5.24"
 val logstashLogbackEncoderVersion = "9.0"
-val prometheusVersion = "1.15.5"
-val testcontainersVersion = "2.0.1"
-val wiremockStandaloneVersion = "3.13.1"
+val prometheusVersion = "1.16.2"
+val testcontainersVersion = "2.0.3"
+val wiremockStandaloneVersion = "3.13.2"
 val opentelemetryLogbackMdcVersion = "2.16.0-alpha"
 
 plugins {
@@ -47,7 +47,7 @@ dependencies {
     // Google Cloud Storage
     implementation("com.google.cloud:google-cloud-storage:$googleCloudStorageVersion")
     // Kafka
-    implementation("at.yawk.lz4:lz4-java:1.10.1")
+    implementation("at.yawk.lz4:lz4-java:1.10.2")
     implementation("org.apache.kafka:kafka-clients:$kafkaClientsVersion") {
         // "Fikser CVE-2025-12183 - lz4-java >1.8.1 har sårbar versjon (transitive dependency fra kafka-clients:4.1.0)"
         exclude("org.lz4", "lz4-java")
@@ -61,7 +61,7 @@ dependencies {
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit:$kotlinVersion")
     testImplementation("org.testcontainers:testcontainers:$testcontainersVersion")
     testImplementation("org.testcontainers:testcontainers-kafka:$testcontainersVersion")
-    testImplementation("io.aiven:testcontainers-fake-gcs-server:0.2.0")
+    testImplementation("io.aiven:testcontainers-fake-gcs-server:0.3.0")
     testImplementation("org.wiremock:wiremock-standalone:$wiremockStandaloneVersion")
     // In-memory google cloud storage bucket
     testImplementation("com.google.cloud:google-cloud-nio:$gcsNioVersion")
@@ -73,6 +73,14 @@ dependencies {
             }
             because(
                 "Kotest 6.0.0.M4 inneholder sårbarversjon 2.5.0",
+            )
+        }
+        implementation("io.netty:netty-codec-http2") {
+            version {
+                require("4.2.9.Final")
+            }
+            because(
+                "ktor-server-netty har sårbar versjon < 4.2.8.Final",
             )
         }
     }
