@@ -67,21 +67,13 @@ dependencies {
     testImplementation("com.google.cloud:google-cloud-nio:$gcsNioVersion")
 
     constraints {
-        implementation("net.minidev:json-smart") {
-            version {
-                require("2.6.0")
-            }
-            because(
-                "Kotest 6.0.0.M4 inneholder sårbarversjon 2.5.0",
-            )
+        implementation("com.fasterxml.jackson.core:jackson-core") {
+            version { require("2.21.1") }
+            because("versjoner < 2.21.1 har sårbarhet. inkludert i ktor-server-auth:3.4.0")
         }
-        implementation("io.netty:netty-codec-http2") {
-            version {
-                require("4.2.9.Final")
-            }
-            because(
-                "ktor-server-netty har sårbar versjon < 4.2.8.Final",
-            )
+        implementation("tools.jackson.core:jackson-core") {
+            version { require("3.1.0") }
+            because("versjoner < 3.1.0 har sårbarhet. inkludert i logstash-logback-encoder:9.0")
         }
     }
 
