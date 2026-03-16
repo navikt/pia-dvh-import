@@ -2,7 +2,7 @@ val gcsNioVersion = "0.128.13"
 val googleCloudStorageVersion = "2.64.0"
 val iaFellesVersion = "1.10.2"
 val kafkaClientsVersion = "4.2.0"
-val kotestVersion = "6.1.4"
+val kotestVersion = "6.1.5"
 val kotlinVersion = "2.3.10"
 val ktorVersion = "3.4.0"
 val logbackVersion = "1.5.32"
@@ -47,7 +47,7 @@ dependencies {
     // Google Cloud Storage
     implementation("com.google.cloud:google-cloud-storage:$googleCloudStorageVersion")
     // Kafka
-    implementation("at.yawk.lz4:lz4-java:1.10.3")
+    implementation("at.yawk.lz4:lz4-java:1.10.4")
     implementation("org.apache.kafka:kafka-clients:$kafkaClientsVersion") {
         // "Fikser CVE-2025-12183 - lz4-java >1.8.1 har sårbar versjon (transitive dependency fra kafka-clients:4.1.0)"
         exclude("org.lz4", "lz4-java")
