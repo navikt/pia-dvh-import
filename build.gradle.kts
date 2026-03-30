@@ -3,18 +3,18 @@ val googleCloudStorageVersion = "2.64.0"
 val iaFellesVersion = "1.10.2"
 val kafkaClientsVersion = "4.2.0"
 val kotestVersion = "6.1.7"
-val kotlinVersion = "2.3.10"
+val kotlinVersion = "2.3.20"
 val ktorVersion = "3.4.1"
 val logbackVersion = "1.5.32"
 val logstashLogbackEncoderVersion = "9.0"
 val prometheusVersion = "1.16.4"
-val testcontainersVersion = "2.0.3"
+val testcontainersVersion = "2.0.4"
 val wiremockStandaloneVersion = "3.13.2"
 val opentelemetryLogbackMdcVersion = "2.26.0-alpha"
 
 plugins {
-    kotlin("jvm") version "2.3.10"
-    kotlin("plugin.serialization") version "2.3.10"
+    kotlin("jvm") version "2.3.20"
+    kotlin("plugin.serialization") version "2.3.20"
     id("application")
 }
 
