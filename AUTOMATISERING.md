@@ -239,9 +239,8 @@ Første import for 2027. Første gang begge jobbene kjører sammen i produksjon 
 - `sjekkPubliseringsdatoOgStartImport` flyttet fra `Jobblytter` til `ImportService`
 
 #### `publiseringsdatoDvhImport` parameter-uavhengig
-- `importPubliseringsdatoer()` beregner selv hvilke år som skal leses: inneværende + neste år
+- `importPubliseringsdatoer()` bruker `LocalDate.now().year` til å beregne hvilke år som skal leses: inneværende + neste år. F.eks. i 2026 leser den GCS-filer for både 2026 og 2027. Hvis filen for 2027 ikke finnes ennå, logges det og hoppes over. Når DVH legger ut `publiseringsdato_2027.json` i oktober/november, plukker neste kjøring den opp automatisk.
 - `importPubliseringsdatoForÅr(årstall)` erstatter `importPubliseringsdato(årstallOgKvartal)` — tar kun årstall, kvartalet var ubrukt
-- Fil som ikke finnes ennå (neste år) hoppes over med loggmelding
 - Deduplisering med `distinctBy { rapportPeriode }` for å unngå duplikater hvis begge år har samme data
 - `Jobblytter` kaller `importService.importPubliseringsdatoer()` uten parameter
 - Manuell kjøring via `publiseringsdatoDvhImport` i pia-jobbsender fungerer fortsatt (uten parameter)
