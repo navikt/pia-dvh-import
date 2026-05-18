@@ -8,6 +8,7 @@ import ia.felles.integrasjoner.jobbsender.Jobb.næringSykefraværsstatistikkDvhI
 import ia.felles.integrasjoner.jobbsender.Jobb.næringskodeSykefraværsstatistikkDvhImport
 import ia.felles.integrasjoner.jobbsender.Jobb.publiseringsdatoDvhImport
 import ia.felles.integrasjoner.jobbsender.Jobb.sektorSykefraværsstatistikkDvhImport
+import ia.felles.integrasjoner.jobbsender.Jobb.sjekkPubliseringsdatoOgImporter
 import ia.felles.integrasjoner.jobbsender.Jobb.virksomhetMetadataSykefraværsstatistikkDvhImport
 import ia.felles.integrasjoner.jobbsender.Jobb.virksomhetSykefraværsstatistikkDvhImport
 import ia.felles.integrasjoner.jobbsender.JobbInfo
@@ -20,7 +21,6 @@ import kotlinx.coroutines.runBlocking
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
 import no.nav.pia.dvhimport.importjobb.ImportService
-import no.nav.pia.dvhimport.importjobb.domene.DvhMetadata
 import no.nav.pia.dvhimport.importjobb.domene.StatistikkKategori
 import no.nav.pia.dvhimport.importjobb.domene.ÅrstallOgKvartal
 import no.nav.pia.dvhimport.konfigurasjon.KafkaConfig
@@ -72,39 +72,47 @@ class Jobblytter(
                                 logger.info(
                                     "Starter jobb ${jobbInfo.jobb} for $årstallOgKvartal",
                                 )
-                                when (jobbInfo.jobb) {
-                                    alleKategorierSykefraværsstatistikkDvhImport -> {
-                                        importService.importAlleStatistikkKategorier(årstallOgKvartal)
-                                    }
-                                    landSykefraværsstatistikkDvhImport -> {
-                                        importService.importForStatistikkKategori(StatistikkKategori.LAND, årstallOgKvartal)
-                                    }
-                                    sektorSykefraværsstatistikkDvhImport -> {
-                                        importService.importForStatistikkKategori(StatistikkKategori.SEKTOR, årstallOgKvartal)
-                                    }
-                                    næringSykefraværsstatistikkDvhImport -> {
-                                        importService.importForStatistikkKategori(StatistikkKategori.NÆRING, årstallOgKvartal)
-                                    }
-                                    næringskodeSykefraværsstatistikkDvhImport -> {
-                                        importService.importForStatistikkKategori(StatistikkKategori.NÆRINGSKODE, årstallOgKvartal)
-                                    }
-                                    bransjeSykefraværsstatistikkDvhImport -> {
-                                        importService.importForStatistikkKategori(StatistikkKategori.BRANSJE, årstallOgKvartal)
-                                    }
-                                    virksomhetSykefraværsstatistikkDvhImport -> {
-                                        importService.importForStatistikkKategori(StatistikkKategori.VIRKSOMHET, årstallOgKvartal)
-                                    }
-                                    virksomhetMetadataSykefraværsstatistikkDvhImport -> {
-                                        importService.importMetadata(DvhMetadata.VIRKSOMHET_METADATA, årstallOgKvartal)
-                                    }
-                                    publiseringsdatoDvhImport -> {
-                                        importService.importMetadata(DvhMetadata.PUBLISERINGSDATO, årstallOgKvartal)
-                                    }
+                                try {
+                                    when (jobbInfo.jobb) {
+                                        alleKategorierSykefraværsstatistikkDvhImport -> {
+                                            val startFra = jobbInfo.tilStartFraKategori()
+                                            importService.importAlleStatistikkKategorier(årstallOgKvartal, startFra)
+                                        }
+                                        landSykefraværsstatistikkDvhImport -> {
+                                            importService.importForStatistikkKategori(StatistikkKategori.LAND, årstallOgKvartal)
+                                        }
+                                        sektorSykefraværsstatistikkDvhImport -> {
+                                            importService.importForStatistikkKategori(StatistikkKategori.SEKTOR, årstallOgKvartal)
+                                        }
+                                        næringSykefraværsstatistikkDvhImport -> {
+                                            importService.importForStatistikkKategori(StatistikkKategori.NÆRING, årstallOgKvartal)
+                                        }
+                                        næringskodeSykefraværsstatistikkDvhImport -> {
+                                            importService.importForStatistikkKategori(StatistikkKategori.NÆRINGSKODE, årstallOgKvartal)
+                                        }
+                                        bransjeSykefraværsstatistikkDvhImport -> {
+                                            importService.importForStatistikkKategori(StatistikkKategori.BRANSJE, årstallOgKvartal)
+                                        }
+                                        virksomhetSykefraværsstatistikkDvhImport -> {
+                                            importService.importForStatistikkKategori(StatistikkKategori.VIRKSOMHET, årstallOgKvartal)
+                                        }
+                                        virksomhetMetadataSykefraværsstatistikkDvhImport -> {
+                                            importService.importVirksomhetMetadata(årstallOgKvartal)
+                                        }
+                                        publiseringsdatoDvhImport -> {
+                                            importService.importPubliseringsdatoer()
+                                        }
+                                        sjekkPubliseringsdatoOgImporter -> {
+                                            importService.sjekkPubliseringsdatoOgStartImport()
+                                        }
                                     else -> {
-                                        logger.info("Jobb '${jobbInfo.jobb}' ignorert")
+                                            logger.info("Jobb '${jobbInfo.jobb}' ignorert")
+                                        }
                                     }
+                                    logger.info("Jobb '${jobbInfo.jobb}' ferdig")
+                                } catch (e: Exception) {
+                                    logger.error("Jobb '${jobbInfo.jobb}' feilet for $årstallOgKvartal", e)
                                 }
-                                logger.info("Jobb '${jobbInfo.jobb}' ferdig")
                             }
                         }
                         consumer.commitSync()
@@ -140,18 +148,32 @@ class Jobblytter(
             logger.info("Stopped kafka consumer job for ${topic.navn}")
         }
 
-    private fun SerializableJobbInfo.tilÅrstallOgKvartal() =
-        try {
-            this.parameter?.split("-")?.let {
-                val årstall = it.first().toInt()
-                val kvartal = it.last().toInt()
-                ÅrstallOgKvartal(
-                    årstall = årstall,
-                    kvartal = kvartal,
-                )
-            }
+    private fun SerializableJobbInfo.tilÅrstallOgKvartal(): ÅrstallOgKvartal? {
+        if (this.parameter == null) return null
+        return try {
+            val kvartalDel = this.parameter.split(":").first()
+            val deler = kvartalDel.split("-")
+            val årstall = deler.first().toInt()
+            val kvartal = deler.last().toInt()
+            ÅrstallOgKvartal(
+                årstall = årstall,
+                kvartal = kvartal,
+            )
         } catch (e: Exception) {
             logger.error("Kunne ikke parse årstall og kvartal fra parameter: '$parameter'", e)
             throw ManglerJobbParameterException()
         }
+    }
+
+    private fun SerializableJobbInfo.tilStartFraKategori(): StatistikkKategori? {
+        if (this.parameter == null) return null
+        val deler = this.parameter.split(":")
+        if (deler.size < 2) return null
+        return try {
+            StatistikkKategori.valueOf(deler[1])
+        } catch (e: IllegalArgumentException) {
+            logger.error("Ugyldig startFra-kategori: '${deler[1]}'. Gyldige verdier: ${StatistikkKategori.entries}", e)
+            throw e
+        }
+    }
 }

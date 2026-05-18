@@ -1,13 +1,12 @@
 package no.nav.pia.dvhimport.importjobb.kafka
 
 import kotlinx.serialization.Serializable
-import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import no.nav.pia.dvhimport.importjobb.domene.BransjeSykefraværsstatistikkDto
 import no.nav.pia.dvhimport.importjobb.domene.LandSykefraværsstatistikkDto
 import no.nav.pia.dvhimport.importjobb.domene.NæringSykefraværsstatistikkDto
 import no.nav.pia.dvhimport.importjobb.domene.NæringskodeSykefraværsstatistikkDto
-import no.nav.pia.dvhimport.importjobb.domene.PubliseringsdatoDto
+import no.nav.pia.dvhimport.importjobb.publiseringsdato.PubliseringsdatoKafkaDto
 import no.nav.pia.dvhimport.importjobb.domene.SektorSykefraværsstatistikkDto
 import no.nav.pia.dvhimport.importjobb.domene.StatistikkKategori
 import no.nav.pia.dvhimport.importjobb.domene.StatistikkKategori.BRANSJE
@@ -25,12 +24,20 @@ import no.nav.pia.dvhimport.importjobb.kafka.EksportProdusent.MeldingType.SYKEFR
 import no.nav.pia.dvhimport.konfigurasjon.KafkaConfig
 import no.nav.pia.dvhimport.konfigurasjon.KafkaTopics
 import org.apache.kafka.clients.producer.KafkaProducer
+import org.apache.kafka.clients.producer.Producer
 import org.apache.kafka.clients.producer.ProducerRecord
+import org.slf4j.LoggerFactory
+import java.util.concurrent.atomic.AtomicReference
 
 class EksportProdusent(
-    kafkaConfig: KafkaConfig,
+    kafkaConfig: KafkaConfig? = null,
+    kafkaProducer: Producer<String, String>? = null,
+    private val dryRun: Boolean = false,
 ) {
-    private val producer: KafkaProducer<String, String> = KafkaProducer(kafkaConfig.producerProperties())
+    private val logger = LoggerFactory.getLogger(this::class.java)
+    private val producer: Producer<String, String> = kafkaProducer
+        ?: KafkaProducer(kafkaConfig!!.producerProperties())
+    private val førsteFeil = AtomicReference<Exception?>(null)
 
     init {
         Runtime.getRuntime().addShutdownHook(
@@ -41,16 +48,13 @@ class EksportProdusent(
     }
 
     fun <T> sendMelding(melding: EksportMelding<T>) {
-        val topic = when (melding) {
-            is SykefraværsstatistikkMelding -> if (melding.isViksomhetStatistikk()) {
-                KafkaTopics.KVARTALSVIS_SYKEFRAVARSSTATISTIKK_VIRKSOMHET.navnMedNamespace
-            } else {
-                KafkaTopics.KVARTALSVIS_SYKEFRAVARSSTATISTIKK_ØVRIGE_KATEGORIER.navnMedNamespace
-            }
+        val topic = tilTopic(melding)
 
-            is VirksomhetMetadataMelding -> KafkaTopics.KVARTALSVIS_SYKEFRAVARSSTATISTIKK_VIRKSOMHET_METADATA.navnMedNamespace
-            is PubliseringsdatoMelding -> KafkaTopics.KVARTALSVIS_SYKEFRAVARSSTATISTIKK_PUBLISERINGSDATO.navnMedNamespace
+        if (dryRun) {
+            logger.info("DRY RUN: Ville sendt melding til topic '$topic' med nøkkel ${melding.tilNøkkel()}")
+            return
         }
+
         val nøkkel = melding.tilNøkkel()
         val content = melding.tilMelding()
 
@@ -60,8 +64,34 @@ class EksportProdusent(
                 nøkkel,
                 content,
             ),
-        )
+        ) { _, exception ->
+            if (exception != null) {
+                logger.error("Feil ved sending av melding til topic '$topic'", exception)
+                førsteFeil.compareAndSet(null, exception)
+            }
+        }
     }
+
+    private fun <T> tilTopic(melding: EksportMelding<T>): String =
+        when (melding) {
+            is SykefraværsstatistikkMelding -> if (melding.isViksomhetStatistikk()) {
+                KafkaTopics.KVARTALSVIS_SYKEFRAVARSSTATISTIKK_VIRKSOMHET.navnMedNamespace
+            } else {
+                KafkaTopics.KVARTALSVIS_SYKEFRAVARSSTATISTIKK_ØVRIGE_KATEGORIER.navnMedNamespace
+            }
+            is VirksomhetMetadataMelding -> KafkaTopics.KVARTALSVIS_SYKEFRAVARSSTATISTIKK_VIRKSOMHET_METADATA.navnMedNamespace
+            is PubliseringsdatoMelding -> KafkaTopics.KVARTALSVIS_SYKEFRAVARSSTATISTIKK_PUBLISERINGSDATO.navnMedNamespace
+        }
+
+    fun flushOgSjekkFeil() {
+        producer.flush()
+        val feil = førsteFeil.getAndSet(null)
+        if (feil != null) {
+            throw KafkaSendException("Kafka-sending feilet", feil)
+        }
+    }
+
+    class KafkaSendException(message: String, cause: Throwable) : RuntimeException(message, cause)
 
     class VirksomhetMetadataMelding(
         årstall: Int,
@@ -88,8 +118,8 @@ class EksportProdusent(
     class PubliseringsdatoMelding(
         årstall: Int,
         kvartal: Int,
-        publiseringsdato: PubliseringsdatoDto,
-    ) : EksportMelding<PubliseringsdatoDto>(
+        publiseringsdato: PubliseringsdatoKafkaDto,
+    ) : EksportMelding<PubliseringsdatoKafkaDto>(
             årstall = årstall,
             kvartal = kvartal,
             meldingType = PUBLISERINGSDATO,
@@ -135,7 +165,7 @@ class EksportProdusent(
             when (data) {
                 is SykefraværsstatistikkDto -> data.tilStatistikkSpesifikkVerdi()
                 is VirksomhetMetadataDto -> data.orgnr
-                is PubliseringsdatoDto -> data.rapportPeriode
+                is PubliseringsdatoKafkaDto -> data.rapportPeriode
                 else -> {
                     throw RuntimeException("Kunne ikke hente kode verdi for '${data!!::class.java.name}'")
                 }
@@ -180,7 +210,7 @@ class EksportProdusent(
             when (this) {
                 is SykefraværsstatistikkMelding -> Json.encodeToString<SykefraværsstatistikkDto>(data as SykefraværsstatistikkDto)
                 is VirksomhetMetadataMelding -> Json.encodeToString<VirksomhetMetadataDto>(data)
-                is PubliseringsdatoMelding -> Json.encodeToString<PubliseringsdatoDto>(data)
+                is PubliseringsdatoMelding -> Json.encodeToString<PubliseringsdatoKafkaDto>(data)
             }
     }
 

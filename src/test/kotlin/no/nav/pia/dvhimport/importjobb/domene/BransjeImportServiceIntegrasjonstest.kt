@@ -97,12 +97,10 @@ class BransjeImportServiceIntegrasjonstest {
 
     @Test
     fun `kan utledde statistikk for bransjer med flere næringskoder`() {
-        /*SYKEHJEM(
-            navn = "Sykehjem",
-            bransjeId = BransjeId.Næringskoder("87101", "87102"),  --> er ikke med: 87103
-        ),*/
+        // SYKEHJEM inkluderer nå SN2025-koder (87101-87106) i tillegg til SN2007 (87101, 87102)
+        // 87103 er nå med i bransjedefinisjonen og skal aggregeres inn
 
-        lagTestDataForNæringskodeSykehjem(gcsContainer = gcsContainer) // inneholder BARNEHAGER
+        lagTestDataForNæringskodeSykehjem(gcsContainer = gcsContainer)
 
         kafkaContainer.sendJobbMelding(Jobb.bransjeSykefraværsstatistikkDvhImport)
 
@@ -122,16 +120,20 @@ class BransjeImportServiceIntegrasjonstest {
                     bransjeStatistikk.bransje shouldBe Bransje.SYKEHJEM.navn
                     bransjeStatistikk.årstall shouldBe 2024
                     bransjeStatistikk.kvartal shouldBe 2
-                    bransjeStatistikk.prosent bigDecimalShouldBe 10.0
-                    bransjeStatistikk.tapteDagsverk bigDecimalShouldBe 301.0
-                    bransjeStatistikk.muligeDagsverk bigDecimalShouldBe 3021.0
-                    bransjeStatistikk.tapteDagsverkGradert bigDecimalShouldBe 101.0
-                    bransjeStatistikk.tapteDagsverkPerVarighet.size shouldBe 2
+                    bransjeStatistikk.prosent bigDecimalShouldBe 10.4
+                    bransjeStatistikk.tapteDagsverk bigDecimalShouldBe 324.5
+                    bransjeStatistikk.muligeDagsverk bigDecimalShouldBe 3121.0
+                    bransjeStatistikk.tapteDagsverkGradert bigDecimalShouldBe 104.0
+                    bransjeStatistikk.tapteDagsverkPerVarighet.size shouldBe 4
                     bransjeStatistikk.tapteDagsverkPerVarighet[0].varighet shouldBe "B"
                     bransjeStatistikk.tapteDagsverkPerVarighet[0].tapteDagsverk bigDecimalShouldBe 3.54444
-                    bransjeStatistikk.tapteDagsverkPerVarighet[1].varighet shouldBe "D"
-                    bransjeStatistikk.tapteDagsverkPerVarighet[1].tapteDagsverk bigDecimalShouldBe 19.1
-                    bransjeStatistikk.antallPersoner shouldBe 600
+                    bransjeStatistikk.tapteDagsverkPerVarighet[1].varighet shouldBe "C"
+                    bransjeStatistikk.tapteDagsverkPerVarighet[1].tapteDagsverk bigDecimalShouldBe 8.88844
+                    bransjeStatistikk.tapteDagsverkPerVarighet[2].varighet shouldBe "D"
+                    bransjeStatistikk.tapteDagsverkPerVarighet[2].tapteDagsverk bigDecimalShouldBe 1019.21
+                    bransjeStatistikk.tapteDagsverkPerVarighet[3].varighet shouldBe "E"
+                    bransjeStatistikk.tapteDagsverkPerVarighet[3].tapteDagsverk bigDecimalShouldBe 11.41
+                    bransjeStatistikk.antallPersoner shouldBe 1599
                 }
             }
         }

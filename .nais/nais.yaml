@@ -14,6 +14,13 @@ spec:
       memory: 4Gi
   kafka:
     pool: {{kafkaPool}}
+  gcp:
+    sqlInstances:
+      - type: POSTGRES_17
+        diskAutoresize: {{dbAutoresizeDisk}}
+        tier: {{dbTier}}
+        databases:
+          - name: "pia-dvh-import-db"
   prometheus:
     enabled: true
     path: /metrics
@@ -32,3 +39,5 @@ spec:
       value: {{bucketName}}
     - name: GCS_URL
       value: "https://storage.googleapis.com"
+    - name: DRY_RUN
+      value: "{{dryRun}}"

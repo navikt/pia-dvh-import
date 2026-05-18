@@ -6,12 +6,12 @@ import io.kotest.matchers.shouldBe
 import kotlinx.coroutines.runBlocking
 import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.LocalTime
-import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import no.nav.pia.dvhimport.helper.TestContainerHelper
 import no.nav.pia.dvhimport.helper.TestContainerHelper.Companion.dvhImportApplikasjon
 import no.nav.pia.dvhimport.helper.TestContainerHelper.Companion.shouldContainLog
 import no.nav.pia.dvhimport.importjobb.kafka.EksportProdusent.PubliseringsdatoNøkkel
+import no.nav.pia.dvhimport.importjobb.publiseringsdato.PubliseringsdatoKafkaDto
 import no.nav.pia.dvhimport.konfigurasjon.KafkaTopics
 import kotlin.test.AfterTest
 import kotlin.test.BeforeTest
@@ -57,7 +57,7 @@ class PubliseringsdatoImportServiceIntegrasjonstest {
                 konsument = eksportertPubliseringsdatoKonsument,
             ) { meldinger ->
                 val deserialiserteSvar = meldinger.map {
-                    Json.decodeFromString<PubliseringsdatoDto>(it)
+                    Json.decodeFromString<PubliseringsdatoKafkaDto>(it)
                 }
                 deserialiserteSvar shouldHaveSize 1
                 val publiseringTredjeKvartal = deserialiserteSvar.first { publiseringsdato ->

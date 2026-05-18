@@ -10,6 +10,8 @@ import no.nav.pia.dvhimport.importjobb.ImportService.Companion.kalkulerOgLoggSyk
 import no.nav.pia.dvhimport.importjobb.ImportService.Companion.leggTil
 import no.nav.pia.dvhimport.importjobb.ImportService.Companion.nestePubliseringsdato
 import no.nav.pia.dvhimport.importjobb.ImportService.Companion.utleddBransjeStatistikk
+import no.nav.pia.dvhimport.importjobb.publiseringsdato.NestePubliseringsdato
+import no.nav.pia.dvhimport.importjobb.publiseringsdato.PubliseringsdatoFraDvhDto
 import java.math.BigDecimal
 import kotlin.test.Test
 

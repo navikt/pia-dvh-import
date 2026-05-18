@@ -4,18 +4,13 @@ import ia.felles.definisjoner.bransjer.Bransje
 import ia.felles.definisjoner.bransjer.BransjeId
 import kotlinx.coroutines.runBlocking
 import kotlinx.datetime.Clock
+import kotlinx.datetime.toJavaLocalDateTime
 import kotlinx.datetime.toLocalDateTime
 import no.nav.pia.dvhimport.importjobb.domene.BransjeSykefraværsstatistikkDto
 import no.nav.pia.dvhimport.importjobb.domene.DvhMetadata
 import no.nav.pia.dvhimport.importjobb.domene.LandSykefraværsstatistikkDto
-import no.nav.pia.dvhimport.importjobb.domene.NestePubliseringsdato
 import no.nav.pia.dvhimport.importjobb.domene.NæringSykefraværsstatistikkDto
 import no.nav.pia.dvhimport.importjobb.domene.NæringskodeSykefraværsstatistikkDto
-import no.nav.pia.dvhimport.importjobb.domene.Publiseringsdato.Companion.antallDagerTilPubliseringsdato
-import no.nav.pia.dvhimport.importjobb.domene.Publiseringsdato.Companion.erFørPubliseringsdato
-import no.nav.pia.dvhimport.importjobb.domene.Publiseringsdato.Companion.sjekkPubliseringErIDag
-import no.nav.pia.dvhimport.importjobb.domene.Publiseringsdato.Companion.timeZone
-import no.nav.pia.dvhimport.importjobb.domene.PubliseringsdatoFraDvhDto
 import no.nav.pia.dvhimport.importjobb.domene.SektorSykefraværsstatistikkDto
 import no.nav.pia.dvhimport.importjobb.domene.StatistikkKategori
 import no.nav.pia.dvhimport.importjobb.domene.StatistikkUtils
@@ -24,11 +19,19 @@ import no.nav.pia.dvhimport.importjobb.domene.TapteDagsverkPerVarighetDto
 import no.nav.pia.dvhimport.importjobb.domene.VirksomhetMetadataDto
 import no.nav.pia.dvhimport.importjobb.domene.VirksomhetSykefraværsstatistikkDto
 import no.nav.pia.dvhimport.importjobb.domene.tilListe
-import no.nav.pia.dvhimport.importjobb.domene.tilPubliseringsdato
-import no.nav.pia.dvhimport.importjobb.domene.tilPubliseringsdatoDto
-import no.nav.pia.dvhimport.importjobb.domene.tilPubliseringsdatoFraDvhDto
 import no.nav.pia.dvhimport.importjobb.domene.toSykefraværsstatistikkDto
 import no.nav.pia.dvhimport.importjobb.domene.ÅrstallOgKvartal
+import no.nav.pia.dvhimport.importjobb.publiseringsdato.LagreResultat
+import no.nav.pia.dvhimport.importjobb.publiseringsdato.NestePubliseringsdato
+import no.nav.pia.dvhimport.importjobb.publiseringsdato.Publiseringsdato.Companion.antallDagerTilPubliseringsdato
+import no.nav.pia.dvhimport.importjobb.publiseringsdato.Publiseringsdato.Companion.erFørPubliseringsdato
+import no.nav.pia.dvhimport.importjobb.publiseringsdato.Publiseringsdato.Companion.sjekkPubliseringErIDag
+import no.nav.pia.dvhimport.importjobb.publiseringsdato.Publiseringsdato.Companion.timeZone
+import no.nav.pia.dvhimport.importjobb.publiseringsdato.PubliseringsdatoFraDvhDto
+import no.nav.pia.dvhimport.importjobb.publiseringsdato.PubliseringsdatoRepository
+import no.nav.pia.dvhimport.importjobb.publiseringsdato.tilPubliseringsdato
+import no.nav.pia.dvhimport.importjobb.publiseringsdato.tilPubliseringsdatoKafkaDto
+import no.nav.pia.dvhimport.importjobb.publiseringsdato.tilPubliseringsdatoFraDvhDto
 import no.nav.pia.dvhimport.importjobb.kafka.EksportProdusent
 import no.nav.pia.dvhimport.importjobb.kafka.EksportProdusent.PubliseringsdatoMelding
 import no.nav.pia.dvhimport.importjobb.kafka.EksportProdusent.SykefraværsstatistikkMelding
@@ -45,70 +48,113 @@ import java.io.InputStream
 import java.math.BigDecimal
 import java.math.BigDecimal.ZERO
 import java.math.RoundingMode
+import java.time.LocalDate
 import java.util.concurrent.atomic.AtomicReference
 
 class ImportService(
     private val bucketKlient: BucketKlient,
     private val brukÅrOgKvartalIPathTilFilene: Boolean,
+    private val publiseringsdatoRepository: PubliseringsdatoRepository? = null,
+    private val dryRun: Boolean = false,
 ) {
     private val logger: Logger = LoggerFactory.getLogger(this::class.java)
     private val eksportProdusent by lazy {
-        EksportProdusent(kafkaConfig = KafkaConfig())
+        EksportProdusent(kafkaConfig = KafkaConfig(), dryRun = dryRun)
     }
 
-    fun importAlleStatistikkKategorier(årstallOgKvartal: ÅrstallOgKvartal) {
+    fun sjekkPubliseringsdatoOgStartImport(dato: LocalDate = LocalDate.now()) {
+        if (publiseringsdatoRepository == null) {
+            logger.error("Kan ikke sjekke publiseringsdato uten database")
+            return
+        }
+        val uprosesserte = publiseringsdatoRepository.hentUprosesserteForDato(dato)
+        if (uprosesserte.isEmpty()) {
+            logger.info("Ikke publiseringsdato i dag ($dato), ingen import kjøres")
+            return
+        }
+        uprosesserte.forEach { rad ->
+            val kvartal = ÅrstallOgKvartal(årstall = rad.årstall, kvartal = rad.kvartal)
+            logger.info("Publiseringsdato i dag for $kvartal, starter import")
+            importAlleStatistikkKategorier(kvartal)
+            publiseringsdatoRepository.markerSomProsessert(rad.id)
+            logger.info("Import ferdig for $kvartal, markert som prosessert")
+        }
+    }
+
+    fun importAlleStatistikkKategorier(
+        årstallOgKvartal: ÅrstallOgKvartal,
+        startFra: StatistikkKategori? = null,
+    ) {
         logger.info("Starter import av sykefraværsstatistikk for alle statistikkkategorier")
 
         if (!bucketKlient.sjekkBucketExists()) {
-            logger.error("Bucket ikke funnet, avbryter import for alle kategorier")
-            return
+            throw IllegalStateException("Bucket ikke funnet, avbryter import for alle kategorier")
         }
 
-        for (statistikkKategori in StatistikkKategori.entries) {
-            importForStatistikkKategori(kategori = statistikkKategori, årstallOgKvartal = årstallOgKvartal)
+        val kategorier = if (startFra != null) {
+            logger.info("Starter fra kategori '$startFra', hopper over tidligere kategorier")
+            StatistikkKategori.entries.dropWhile { it != startFra }
+        } else {
+            StatistikkKategori.entries
         }
+
+        val oppsummering = mutableMapOf<String, Int>()
+
+        for (statistikkKategori in kategorier) {
+            val antall = importForStatistikkKategori(kategori = statistikkKategori, årstallOgKvartal = årstallOgKvartal)
+            oppsummering[statistikkKategori.name] = antall
+            logger.info("Ferdig med import av '$statistikkKategori' ($antall rader)")
+        }
+
+        logger.info("Starter import av virksomhet metadata")
+        val antallMetadata = importVirksomhetMetadata(årstallOgKvartal = årstallOgKvartal)
+        oppsummering["VIRKSOMHET_METADATA"] = antallMetadata
+        logger.info("Ferdig med import av virksomhet metadata ($antallMetadata rader)")
+
+        val oppsummeringStr = oppsummering.entries.joinToString(", ") { "${it.key}=${it.value}" }
+        logger.info("Import ferdig for $årstallOgKvartal: $oppsummeringStr")
     }
 
-    fun importMetadata(
-        kategori: DvhMetadata,
-        årstallOgKvartal: ÅrstallOgKvartal,
-    ) {
-        logger.info("Starter import av metadata for kategori '$kategori'")
+    fun importPubliseringsdatoer() {
+        val inneværendeÅr = LocalDate.now().year
+        val årstall = listOf(inneværendeÅr, inneværendeÅr + 1)
+        logger.info("Starter import av publiseringsdatoer for årstall $årstall")
 
         if (!bucketKlient.sjekkBucketExists()) {
-            logger.error("Bucket ikke funnet, avbryter import for kategori '$kategori'")
-            return
+            throw IllegalStateException("Bucket ikke funnet, avbryter import av publiseringsdatoer")
         }
 
-        when (kategori) {
-            DvhMetadata.VIRKSOMHET_METADATA -> {
-                val path = årstallOgKvartal.tilMappestruktur(brukÅrOgKvartalIPathTilFilene).pathTilKvartalsvisData()
-                importVirksomhetMetadataOgSendTilKafka(
-                    path = path,
-                    årstallOgKvartal = årstallOgKvartal,
-                )
-            }
+        val antall = importPubliseringsdatoOgSendTilKafka(årstall = årstall)
+        logger.info("Import av publiseringsdatoer ferdig ($antall rader)")
+    }
 
-            DvhMetadata.PUBLISERINGSDATO -> {
-                importPubliseringsdatoOgSendTilKafka(årstallOgKvartal = årstallOgKvartal)
-            }
+    fun importVirksomhetMetadata(årstallOgKvartal: ÅrstallOgKvartal): Int {
+        logger.info("Starter import av virksomhet metadata")
+
+        if (!bucketKlient.sjekkBucketExists()) {
+            throw IllegalStateException("Bucket ikke funnet, avbryter import av virksomhet metadata")
         }
+
+        val path = årstallOgKvartal.tilMappestruktur(brukÅrOgKvartalIPathTilFilene).pathTilKvartalsvisData()
+        return importVirksomhetMetadataOgSendTilKafka(
+            path = path,
+            årstallOgKvartal = årstallOgKvartal,
+        )
     }
 
     fun importForStatistikkKategori(
         kategori: StatistikkKategori,
         årstallOgKvartal: ÅrstallOgKvartal,
-    ) {
+    ): Int {
         logger.info("Starter import av sykefraværsstatistikk for kategori '$kategori'")
 
         if (!bucketKlient.sjekkBucketExists()) {
-            logger.error("Bucket ikke funnet, avbryter import for kategori '$kategori'")
-            return
+            throw IllegalStateException("Bucket ikke funnet, avbryter import for kategori '$kategori'")
         }
 
         val path = årstallOgKvartal.tilMappestruktur(brukÅrOgKvartalIPathTilFilene).pathTilKvartalsvisData()
 
-        when (kategori) {
+        return when (kategori) {
             StatistikkKategori.LAND -> {
                 import<LandSykefraværsstatistikkDto>(
                     kategori = StatistikkKategori.LAND,
@@ -119,7 +165,7 @@ class ImportService(
                         statistikk = it,
                         kategori = kategori,
                     )
-                }
+                }.size
             }
 
             StatistikkKategori.SEKTOR -> {
@@ -132,7 +178,7 @@ class ImportService(
                         statistikk = it,
                         kategori = kategori,
                     )
-                }
+                }.size
             }
 
             StatistikkKategori.NÆRING -> {
@@ -145,7 +191,7 @@ class ImportService(
                         statistikk = it,
                         kategori = kategori,
                     )
-                }
+                }.size
             }
 
             StatistikkKategori.NÆRINGSKODE -> {
@@ -158,7 +204,7 @@ class ImportService(
                         statistikk = it,
                         kategori = kategori,
                     )
-                }
+                }.size
             }
 
             StatistikkKategori.BRANSJE -> {
@@ -168,7 +214,7 @@ class ImportService(
                         statistikk = it,
                         kategori = kategori,
                     )
-                }
+                }.size
             }
 
             StatistikkKategori.VIRKSOMHET -> {
@@ -183,7 +229,7 @@ class ImportService(
     private fun importStatistikkVirksomhetOgSendTilKafka(
         path: String,
         årstallOgKvartal: ÅrstallOgKvartal,
-    ) {
+    ): Int {
         try {
             val sumAntallVirksomheter = AtomicReference(0)
 
@@ -212,15 +258,17 @@ class ImportService(
 
                 inputStream.close()
             }
+            return sumAntallVirksomheter.get()
         } catch (ex: Exception) {
-            logger.warn("Fikk exception med melding ${ex.message}", ex)
+            logger.error("Import feilet for kategori '${StatistikkKategori.VIRKSOMHET}'", ex)
+            throw ex
         }
     }
 
     private fun importVirksomhetMetadataOgSendTilKafka(
         path: String,
         årstallOgKvartal: ÅrstallOgKvartal,
-    ) {
+    ): Int {
         logger.info("Starter import av virksomhet metadata")
         try {
             val sumAntallMetadata = AtomicReference(0)
@@ -243,14 +291,18 @@ class ImportService(
                 }
                 logger.info("Antall metadata prosessert for kategori ${DvhMetadata.VIRKSOMHET_METADATA.name} er: '$sumAntallMetadata'")
             }
+            return sumAntallMetadata.get()
         } catch (ex: Exception) {
-            logger.warn("Fikk exception med melding ${ex.message}", ex)
+            logger.error("Import feilet for kategori '${DvhMetadata.VIRKSOMHET_METADATA}'", ex)
+            throw ex
         }
     }
 
-    private fun importPubliseringsdatoOgSendTilKafka(årstallOgKvartal: ÅrstallOgKvartal) {
+    private fun importPubliseringsdatoOgSendTilKafka(årstall: List<Int>): Int {
         val iDag = Clock.System.now().toLocalDateTime(timeZone)
-        val publiseringsdatoer = importPubliseringsdato(årstallOgKvartal)
+        val publiseringsdatoer = årstall
+            .flatMap { år -> importPubliseringsdatoForÅr(år) }
+            .distinctBy { it.rapportPeriode }
 
         val publiseringsDatoErIDag = sjekkPubliseringErIDag(publiseringsdatoer, iDag)
         if (publiseringsDatoErIDag != null) {
@@ -270,38 +322,68 @@ class ImportService(
                 "og neste importert kvartal blir ${nestePubliseringsdato?.årstall}/${nestePubliseringsdato?.kvartal}",
         )
 
-        publiseringsdatoer.map(
-            transform = PubliseringsdatoFraDvhDto::tilPubliseringsdatoDto,
-        ).forEach {
-            eksportProdusent.sendMelding(
-                melding = PubliseringsdatoMelding(
-                    årstall = årstallOgKvartal.årstall,
-                    kvartal = årstallOgKvartal.kvartal,
-                    publiseringsdato = it,
-                ),
+        var antallEndret = 0
+        publiseringsdatoer.forEach { dvhDto ->
+            val parsed = dvhDto.tilPubliseringsdato()
+            val dato = dvhDto.offentligDato.toJavaLocalDateTime().toLocalDate()
+
+            val resultat = publiseringsdatoRepository?.lagrePubliseringsdato(
+                årstall = parsed.årstall,
+                kvartal = parsed.kvartal,
+                dato = dato,
             )
+
+            when (resultat) {
+                LagreResultat.NY -> {
+                    logger.info("Ny publiseringsdato oppdaget for ${parsed.årstall}-Q${parsed.kvartal}: $dato")
+                }
+                LagreResultat.OPPDATERT -> {
+                    logger.warn("Publiseringsdato endret for ${parsed.årstall}-Q${parsed.kvartal}: ny dato=$dato")
+                }
+                LagreResultat.UENDRET -> {
+                    logger.info("Publiseringsdato uendret for ${parsed.årstall}-Q${parsed.kvartal}: $dato, hopper over Kafka-sending")
+                }
+                null -> {}
+            }
+
+            if (resultat != LagreResultat.UENDRET) {
+                eksportProdusent.sendMelding(
+                    melding = PubliseringsdatoMelding(
+                        årstall = parsed.årstall,
+                        kvartal = parsed.kvartal,
+                        publiseringsdato = dvhDto.tilPubliseringsdatoKafkaDto(),
+                    ),
+                )
+                antallEndret++
+            }
         }
+
+        if (antallEndret > 0) {
+            eksportProdusent.flushOgSjekkFeil()
+        }
+        logger.info("Publiseringsdatoer lest: ${publiseringsdatoer.size}, endret/sendt til Kafka: $antallEndret")
+        return publiseringsdatoer.size
     }
 
-    private fun importPubliseringsdato(årstallOgKvartal: ÅrstallOgKvartal): List<PubliseringsdatoFraDvhDto> {
-        logger.info("Starter import av publiseringsdato")
-        val path = årstallOgKvartal.tilMappestruktur(brukÅrOgKvartalIPathTilFilene).pathTilÅrsvisData()
+    private fun importPubliseringsdatoForÅr(årstall: Int): List<PubliseringsdatoFraDvhDto> {
+        val path = if (brukÅrOgKvartalIPathTilFilene) "$årstall" else ""
+        val filnavn = tilFilNavn(DvhMetadata.PUBLISERINGSDATO)
 
-        bucketKlient.ensureFileExists(
-            path = path,
-            fileName = tilFilNavn(DvhMetadata.PUBLISERINGSDATO),
-        )
+        if (!bucketKlient.ensureFileExists(path = path, fileName = filnavn)) {
+            logger.info("Publiseringsdato-fil for $årstall finnes ikke ennå ($path/$filnavn), hopper over")
+            return emptyList()
+        }
 
         return try {
             val publiseringsdatoer = hentInnholdForMetadata(
                 path = path,
                 kilde = DvhMetadata.PUBLISERINGSDATO,
             )
-            logger.info("Antall rader med publiseringsdatoer: ${publiseringsdatoer.size}")
+            logger.info("Antall rader med publiseringsdatoer for $årstall: ${publiseringsdatoer.size}")
             publiseringsdatoer.tilPubliseringsdatoFraDvhDto()
         } catch (e: Exception) {
-            logger.warn("Fikk exception i import prosess med melding '${e.message}'", e)
-            emptyList()
+            logger.error("Import feilet for publiseringsdato ($årstall)", e)
+            throw e
         }
     }
 
@@ -322,8 +404,8 @@ class ImportService(
             kalkulerOgLoggSykefraværsprosent(kategori, sykefraværsstatistikkDtoList)
             return sykefraværsstatistikkDtoList
         } catch (e: Exception) {
-            logger.warn("Fikk exception i import prosess med melding '${e.message}'", e)
-            return emptyList()
+            logger.error("Import feilet for kategori '$kategori'", e)
+            throw e
         }
     }
 
@@ -379,8 +461,8 @@ class ImportService(
             kalkulerOgLoggSykefraværsprosent(StatistikkKategori.BRANSJE, sykefraværsstatistikkDtoList)
             return sykefraværsstatistikkDtoList.filterNotNull()
         } catch (e: Exception) {
-            logger.warn("Fikk exception i import prosess med melding '${e.message}'", e)
-            return emptyList()
+            logger.error("Import feilet for kategori '${StatistikkKategori.BRANSJE}'", e)
+            throw e
         }
     }
 
@@ -399,23 +481,21 @@ class ImportService(
         kilde: String,
         filnavn: String,
     ): List<String> {
-        val result: List<String> = try {
-            val innhold = bucketKlient.getFromFile(
-                path = path,
-                fileName = filnavn,
-            )
-            if (innhold.isNullOrEmpty()) {
-                return emptyList()
-            }
-
-            val data: List<String> = innhold.tilListe()
-            logger.info("Antall rader med data for kilde '$kilde' og path '$path': ${data.size}")
-            data
-        } catch (e: Exception) {
-            logger.warn("Fikk exception med melding '${e.message}'", e)
-            emptyList()
+        val innhold = bucketKlient.getFromFile(
+            path = path,
+            fileName = filnavn,
+        )
+        if (innhold.isNullOrEmpty()) {
+            throw IllegalStateException("Ingen data funnet for kilde '$kilde' i '$path/$filnavn'")
         }
-        return result
+
+        val data: List<String> = innhold.tilListe()
+        if (data.isEmpty()) {
+            throw IllegalStateException("Tom fil for kilde '$kilde' i '$path/$filnavn'")
+        }
+
+        logger.info("Antall rader med data for kilde '$kilde' og path '$path': ${data.size}")
+        return data
     }
 
     private fun <T> sendTilKafka(
@@ -433,6 +513,7 @@ class ImportService(
                 ),
             )
         }
+        eksportProdusent.flushOgSjekkFeil()
     }
 
     private fun sendMetadataTilKafka(
@@ -450,6 +531,7 @@ class ImportService(
                 melding = metadataMelding,
             )
         }
+        eksportProdusent.flushOgSjekkFeil()
     }
 
     companion object {
