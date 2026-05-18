@@ -1,5 +1,5 @@
-val gcsNioVersion = "0.131.0"
-val googleCloudStorageVersion = "2.67.0"
+val gcsNioVersion = "0.132.0"
+val googleCloudStorageVersion = "2.68.0"
 val iaFellesVersion = "1.10.2"
 val kafkaClientsVersion = "4.2.0"
 val kotestVersion = "6.1.11"
@@ -43,7 +43,7 @@ dependencies {
     implementation("net.logstash.logback:logstash-logback-encoder:$logstashLogbackEncoderVersion")
     implementation("io.opentelemetry.instrumentation:opentelemetry-logback-mdc-1.0:$opentelemetryLogbackMdcVersion")
 
-    implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.7.1-0.6.x-compat")
+    implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.8.0-0.6.x-compat")
     // Google Cloud Storage
     implementation("com.google.cloud:google-cloud-storage:$googleCloudStorageVersion")
     // Kafka
