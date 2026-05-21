@@ -8,9 +8,9 @@ import javax.sql.DataSource
 
 class PubliseringsdatoRepository(private val dataSource: DataSource) {
 
-    fun hentUprosesserteForDato(dato: LocalDate): List<PubliseringsdatoDto> =
+    fun hentUprosessertForDato(dato: LocalDate): PubliseringsdatoDto? =
         using(sessionOf(dataSource)) { session ->
-            session.list(
+            session.single(
                 queryOf(
                     """
                     SELECT id, arstall, kvartal, dato, prosessert

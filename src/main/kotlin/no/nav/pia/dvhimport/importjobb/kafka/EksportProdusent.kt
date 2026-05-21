@@ -32,7 +32,6 @@ import java.util.concurrent.atomic.AtomicReference
 class EksportProdusent(
     kafkaConfig: KafkaConfig? = null,
     kafkaProducer: Producer<String, String>? = null,
-    private val dryRun: Boolean = false,
 ) {
     private val logger = LoggerFactory.getLogger(this::class.java)
     private val producer: Producer<String, String> = kafkaProducer
@@ -49,11 +48,6 @@ class EksportProdusent(
 
     fun <T> sendMelding(melding: EksportMelding<T>) {
         val topic = tilTopic(melding)
-
-        if (dryRun) {
-            logger.info("DRY RUN: Ville sendt melding til topic '$topic' med nøkkel ${melding.tilNøkkel()}")
-            return
-        }
 
         val nøkkel = melding.tilNøkkel()
         val content = melding.tilMelding()

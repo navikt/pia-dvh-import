@@ -1,6 +1,7 @@
 package no.nav.pia.dvhimport.importjobb
 
-import io.kotest.matchers.collections.shouldHaveSize
+import io.kotest.matchers.nulls.shouldBeNull
+import io.kotest.matchers.nulls.shouldNotBeNull
 import io.kotest.matchers.shouldBe
 import no.nav.pia.dvhimport.importjobb.publiseringsdato.LagreResultat
 import no.nav.pia.dvhimport.importjobb.publiseringsdato.PubliseringsdatoRepository
@@ -36,12 +37,12 @@ class PubliseringsdatoRepositoryTest {
         val lagreResultat = repository.lagrePubliseringsdato(årstall = 2025, kvartal = 1, dato = dato)
 
         lagreResultat shouldBe LagreResultat.NY
-        val resultat = repository.hentUprosesserteForDato(dato)
-        resultat shouldHaveSize 1
-        resultat.first().årstall shouldBe 2025
-        resultat.first().kvartal shouldBe 1
-        resultat.first().dato shouldBe dato
-        resultat.first().prosessert shouldBe false
+        val resultat = repository.hentUprosessertForDato(dato)
+        resultat.shouldNotBeNull()
+        resultat.årstall shouldBe 2025
+        resultat.kvartal shouldBe 1
+        resultat.dato shouldBe dato
+        resultat.prosessert shouldBe false
     }
 
     @Test
@@ -50,17 +51,17 @@ class PubliseringsdatoRepositoryTest {
         val nyttDato = LocalDate.of(2025, 9, 4)
 
         repository.lagrePubliseringsdato(årstall = 2025, kvartal = 2, dato = gammeltDato)
-        repository.markerSomProsessert(repository.hentUprosesserteForDato(gammeltDato).first().id)
+        repository.markerSomProsessert(repository.hentUprosessertForDato(gammeltDato)!!.id)
 
         val endret = repository.lagrePubliseringsdato(årstall = 2025, kvartal = 2, dato = nyttDato)
 
         endret shouldBe LagreResultat.OPPDATERT
-        val resultat = repository.hentUprosesserteForDato(nyttDato)
-        resultat shouldHaveSize 1
-        resultat.first().dato shouldBe nyttDato
-        resultat.first().prosessert shouldBe false
+        val resultat = repository.hentUprosessertForDato(nyttDato)
+        resultat.shouldNotBeNull()
+        resultat.dato shouldBe nyttDato
+        resultat.prosessert shouldBe false
 
-        repository.hentUprosesserteForDato(gammeltDato) shouldHaveSize 0
+        repository.hentUprosessertForDato(gammeltDato).shouldBeNull()
     }
 
     @Test
@@ -71,8 +72,8 @@ class PubliseringsdatoRepositoryTest {
         val endret = repository.lagrePubliseringsdato(årstall = 2025, kvartal = 3, dato = dato)
 
         endret shouldBe LagreResultat.UENDRET
-        val resultat = repository.hentUprosesserteForDato(dato)
-        resultat shouldHaveSize 1
+        val resultat = repository.hentUprosessertForDato(dato)
+        resultat.shouldNotBeNull()
     }
 
     @Test
@@ -80,18 +81,18 @@ class PubliseringsdatoRepositoryTest {
         val dato = LocalDate.of(2025, 12, 4)
         repository.lagrePubliseringsdato(årstall = 2025, kvartal = 3, dato = dato)
 
-        val uprosesserte = repository.hentUprosesserteForDato(dato)
-        uprosesserte shouldHaveSize 1
+        val uprosessert = repository.hentUprosessertForDato(dato)
+        uprosessert.shouldNotBeNull()
 
-        repository.markerSomProsessert(uprosesserte.first().id)
+        repository.markerSomProsessert(uprosessert.id)
 
-        repository.hentUprosesserteForDato(dato) shouldHaveSize 0
+        repository.hentUprosessertForDato(dato).shouldBeNull()
     }
 
     @Test
-    fun `returnerer tom liste når ingen matcher dato`() {
-        val resultat = repository.hentUprosesserteForDato(LocalDate.of(2099, 1, 1))
-        resultat shouldHaveSize 0
+    fun `returnerer null når ingen matcher dato`() {
+        val resultat = repository.hentUprosessertForDato(LocalDate.of(2099, 1, 1))
+        resultat.shouldBeNull()
     }
 
     @Test
@@ -99,9 +100,9 @@ class PubliseringsdatoRepositoryTest {
         val dato = LocalDate.of(2026, 3, 5)
         repository.lagrePubliseringsdato(årstall = 2026, kvartal = 4, dato = dato)
 
-        val rader = repository.hentUprosesserteForDato(dato)
-        repository.markerSomProsessert(rader.first().id)
+        val rad = repository.hentUprosessertForDato(dato)
+        repository.markerSomProsessert(rad!!.id)
 
-        repository.hentUprosesserteForDato(dato) shouldHaveSize 0
+        repository.hentUprosessertForDato(dato).shouldBeNull()
     }
 }

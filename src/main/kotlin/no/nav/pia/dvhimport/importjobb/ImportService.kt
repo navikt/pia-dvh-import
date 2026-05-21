@@ -55,11 +55,10 @@ class ImportService(
     private val bucketKlient: BucketKlient,
     private val brukÅrOgKvartalIPathTilFilene: Boolean,
     private val publiseringsdatoRepository: PubliseringsdatoRepository? = null,
-    private val dryRun: Boolean = false,
 ) {
     private val logger: Logger = LoggerFactory.getLogger(this::class.java)
     private val eksportProdusent by lazy {
-        EksportProdusent(kafkaConfig = KafkaConfig(), dryRun = dryRun)
+        EksportProdusent(kafkaConfig = KafkaConfig())
     }
 
     fun sjekkPubliseringsdatoOgStartImport(dato: LocalDate = LocalDate.now()) {
@@ -67,18 +66,21 @@ class ImportService(
             logger.error("Kan ikke sjekke publiseringsdato uten database")
             return
         }
-        val uprosesserte = publiseringsdatoRepository.hentUprosesserteForDato(dato)
-        if (uprosesserte.isEmpty()) {
+        val uprosessert = publiseringsdatoRepository.hentUprosessertForDato(dato)
+        if (uprosessert == null) {
             logger.info("Ikke publiseringsdato i dag ($dato), ingen import kjøres")
+            // TODO: (metrics.send("Antall dager til publiseringsdato ....") logger.info i tillegg
+            // Vi kan godt ha både log.info og metrics
             return
         }
-        uprosesserte.forEach { rad ->
-            val kvartal = ÅrstallOgKvartal(årstall = rad.årstall, kvartal = rad.kvartal)
-            logger.info("Publiseringsdato i dag for $kvartal, starter import")
-            importAlleStatistikkKategorier(kvartal)
-            publiseringsdatoRepository.markerSomProsessert(rad.id)
-            logger.info("Import ferdig for $kvartal, markert som prosessert")
-        }
+        val kvartal = ÅrstallOgKvartal(årstall = uprosessert.årstall, kvartal = uprosessert.kvartal)
+        logger.info("Publiseringsdato i dag for $kvartal — import kjøres ikke automatisk ennå")
+        // TODO: Tilleggsfunksjon: Legg på slackmelding alerts (metrics.send("")
+        // TODO: Når vi er klar for automatisk full-import, fjern return og uncomment denne:
+        //importAlleStatistikkKategorier(kvartal)
+        //publiseringsdatoRepository.markerSomProsessert(rad.id)
+        //logger.info("Import ferdig for $kvartal, markert som prosessert")
+        return
     }
 
     fun importAlleStatistikkKategorier(

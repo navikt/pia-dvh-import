@@ -1,6 +1,7 @@
 package no.nav.pia.dvhimport.importjobb
 
-import io.kotest.matchers.collections.shouldHaveSize
+import io.kotest.matchers.nulls.shouldBeNull
+import io.kotest.matchers.nulls.shouldNotBeNull
 import io.kotest.matchers.shouldBe
 import io.mockk.every
 import io.mockk.just
@@ -17,6 +18,7 @@ import org.testcontainers.postgresql.PostgreSQLContainer
 import java.time.LocalDate
 import kotlin.test.AfterTest
 import kotlin.test.BeforeTest
+import kotlin.test.Ignore
 import kotlin.test.Test
 
 class SjekkPubliseringsdatoTest {
@@ -55,6 +57,7 @@ class SjekkPubliseringsdatoTest {
         verify(exactly = 0) { importService.importAlleStatistikkKategorier(any(), any()) }
     }
 
+    @Ignore("Deaktivert: sjekkPubliseringsdatoOgStartImport returnerer før import — reaktiver når automatisk import er på")
     @Test
     fun `starter import og markerer som prosessert når det er publiseringsdato i dag`() {
         val iDag = LocalDate.now()
@@ -64,33 +67,19 @@ class SjekkPubliseringsdatoTest {
         importService.sjekkPubliseringsdatoOgStartImport(dato = iDag)
 
         verify(exactly = 1) { importService.importAlleStatistikkKategorier(ÅrstallOgKvartal(årstall = 2025, kvartal = 1), null) }
-        repository.hentUprosesserteForDato(iDag) shouldHaveSize 0
+        repository.hentUprosessertForDato(iDag).shouldBeNull()
     }
 
     @Test
     fun `hopper over allerede prosesserte rader`() {
         val iDag = LocalDate.now()
         repository.lagrePubliseringsdato(årstall = 2025, kvartal = 2, dato = iDag)
-        val rader = repository.hentUprosesserteForDato(iDag)
-        repository.markerSomProsessert(rader.first().id)
+        val rad = repository.hentUprosessertForDato(iDag)
+        repository.markerSomProsessert(rad!!.id)
 
         importService.sjekkPubliseringsdatoOgStartImport(dato = iDag)
 
         verify(exactly = 0) { importService.importAlleStatistikkKategorier(any(), any()) }
-    }
-
-    @Test
-    fun `prosesserer flere publiseringsdatoer på samme dag`() {
-        val iDag = LocalDate.now()
-
-        repository.lagrePubliseringsdato(årstall = 2025, kvartal = 3, dato = iDag)
-        repository.lagrePubliseringsdato(årstall = 2025, kvartal = 4, dato = iDag)
-
-        importService.sjekkPubliseringsdatoOgStartImport(dato = iDag)
-
-        verify(exactly = 1) { importService.importAlleStatistikkKategorier(ÅrstallOgKvartal(årstall = 2025, kvartal = 3), null) }
-        verify(exactly = 1) { importService.importAlleStatistikkKategorier(ÅrstallOgKvartal(årstall = 2025, kvartal = 4), null) }
-        repository.hentUprosesserteForDato(iDag) shouldHaveSize 0
     }
 
     @Test
@@ -105,7 +94,8 @@ class SjekkPubliseringsdatoTest {
         } catch (_: IllegalStateException) {
         }
 
-        repository.hentUprosesserteForDato(iDag) shouldHaveSize 1
-        repository.hentUprosesserteForDato(iDag).first().prosessert shouldBe false
+        val uprosessert = repository.hentUprosessertForDato(iDag)
+        uprosessert.shouldNotBeNull()
+        uprosessert.prosessert shouldBe false
     }
 }

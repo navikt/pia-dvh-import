@@ -2,4 +2,3 @@ kafkaPool: nav-prod
 bucketName: syfra-ia-agg-data-prod
 dbTier: db-f1-micro
 dbAutoresizeDisk: true
-dryRun: "true"

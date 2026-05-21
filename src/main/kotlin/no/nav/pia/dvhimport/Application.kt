@@ -15,15 +15,9 @@ import no.nav.pia.dvhimport.konfigurasjon.plugins.configureRouting
 import no.nav.pia.dvhimport.konfigurasjon.plugins.configureSerialization
 import no.nav.pia.dvhimport.konfigurasjon.runMigration
 import no.nav.pia.dvhimport.storage.BucketKlient
-import org.slf4j.LoggerFactory
-
-private val logger = LoggerFactory.getLogger("no.nav.pia.dvhimport.Application")
 
 fun main() {
     val naisEnvironment = NaisEnvironment()
-    if (naisEnvironment.dryRun) {
-        logger.info("DRY RUN er aktivert — ingen Kafka-meldinger vil bli sendt")
-    }
     val storageURL = naisEnvironment.googleCloudStorageUrl
     val brukÅrOgKvartalIPathTilFilene: Boolean
     val storage: Storage
@@ -55,7 +49,6 @@ fun main() {
             bucketKlient = BucketKlient(gcpStorage = storage, bucketName = naisEnvironment.statistikkBucketName),
             brukÅrOgKvartalIPathTilFilene = brukÅrOgKvartalIPathTilFilene,
             publiseringsdatoRepository = publiseringsdatoRepository,
-            dryRun = naisEnvironment.dryRun,
         ),
     ).run()
     embeddedServer(Netty, port = 8080, host = "0.0.0.0", module = Application::dvhImport).start(wait = true)

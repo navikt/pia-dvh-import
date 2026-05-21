@@ -39,5 +39,4 @@ spec:
       value: {{bucketName}}
     - name: GCS_URL
       value: "https://storage.googleapis.com"
-    - name: DRY_RUN
-      value: "{{dryRun}}"
+
