@@ -1,10 +1,10 @@
 val gcsNioVersion = "0.132.0"
 val googleCloudStorageVersion = "2.68.0"
 val iaFellesVersion = "1.10.2"
-val kafkaClientsVersion = "4.2.0"
+val kafkaClientsVersion = "4.3.0"
 val kotestVersion = "6.1.11"
 val kotlinVersion = "2.3.21"
-val ktorVersion = "3.4.3"
+val ktorVersion = "3.5.0"
 val logbackVersion = "1.5.32"
 val logstashLogbackEncoderVersion = "9.0"
 val prometheusVersion = "1.16.5"
@@ -68,22 +68,21 @@ dependencies {
 
     constraints {
         implementation("com.fasterxml.jackson.core:jackson-core") {
-            version { require("2.21.1") }
+            version { require("2.21.3") }
             because("versjoner < 2.21.1 har sårbarhet. inkludert i ktor-server-auth:3.4.0")
         }
         implementation("io.netty:netty-codec-http2") {
             version {
-                require("4.2.11.Final")
+                require("4.2.13.Final")
             }
             because(
                 "versjoner < 4.2.10.Final har sårbarhet. inkludert i ktor-server-netty-jvm:3.4.2",
             )
         }
         implementation("tools.jackson.core:jackson-core") {
-            version { require("3.1.1") }
+            version { require("3.1.3") }
             because("versjoner < 3.1.0 har sårbarhet. inkludert i logstash-logback-encoder:9.0")
         }
-
     }
 
     tasks {
