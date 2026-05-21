@@ -54,7 +54,7 @@ import java.util.concurrent.atomic.AtomicReference
 class ImportService(
     private val bucketKlient: BucketKlient,
     private val brukÅrOgKvartalIPathTilFilene: Boolean,
-    private val publiseringsdatoRepository: PubliseringsdatoRepository? = null,
+    private val publiseringsdatoRepository: PubliseringsdatoRepository,
 ) {
     private val logger: Logger = LoggerFactory.getLogger(this::class.java)
     private val eksportProdusent by lazy {
@@ -62,10 +62,6 @@ class ImportService(
     }
 
     fun sjekkPubliseringsdatoOgStartImport(dato: LocalDate = LocalDate.now()) {
-        if (publiseringsdatoRepository == null) {
-            logger.error("Kan ikke sjekke publiseringsdato uten database")
-            return
-        }
         val uprosessert = publiseringsdatoRepository.hentUprosessertForDato(dato)
         if (uprosessert == null) {
             logger.info("Ikke publiseringsdato i dag ($dato), ingen import kjøres")
@@ -329,7 +325,7 @@ class ImportService(
             val parsed = dvhDto.tilPubliseringsdato()
             val dato = dvhDto.offentligDato.toJavaLocalDateTime().toLocalDate()
 
-            val resultat = publiseringsdatoRepository?.lagrePubliseringsdato(
+            val resultat = publiseringsdatoRepository.lagrePubliseringsdato(
                 årstall = parsed.årstall,
                 kvartal = parsed.kvartal,
                 dato = dato,

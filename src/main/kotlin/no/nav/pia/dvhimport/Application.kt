@@ -36,13 +36,9 @@ fun main() {
             .service // Http / No credentials -> bare for testing med testcontainers
     }
 
-    val publiseringsdatoRepository = if (!naisEnvironment.databaseJdbcUrl.isNullOrBlank()) {
-        val dataSource = createDataSource(naisEnvironment.databaseJdbcUrl)
-        runMigration(dataSource)
-        PubliseringsdatoRepository(dataSource)
-    } else {
-        null
-    }
+    val dataSource = createDataSource(naisEnvironment.databaseJdbcUrl)
+    runMigration(dataSource)
+    val publiseringsdatoRepository = PubliseringsdatoRepository(dataSource)
 
     Jobblytter(
         importService = ImportService(
