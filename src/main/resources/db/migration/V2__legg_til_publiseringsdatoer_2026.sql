@@ -1,4 +1,4 @@
-INSERT INTO publiseringsdato (arstall, kvartal, dato, prosessert)
+INSERT INTO publiseringsdato (arstall, kvartal, offentlig_dato, prosessert)
 VALUES
     (2025, 4, '2026-02-26', true),
     (2026, 1, '2026-05-28', false),
