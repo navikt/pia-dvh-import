@@ -14,9 +14,9 @@ class PubliseringsdatoRepository(
             session.single(
                 queryOf(
                     """
-                    SELECT id, arstall, kvartal, dato, prosessert
+                    SELECT id, arstall, kvartal, offentlig_dato, prosessert
                     FROM publiseringsdato
-                    WHERE dato = :dato AND prosessert = false
+                    WHERE offentlig_dato = :dato AND prosessert = false
                     """.trimIndent(),
                     mapOf("dato" to dato),
                 ),
@@ -25,7 +25,7 @@ class PubliseringsdatoRepository(
                     id = row.int("id"),
                     årstall = row.int("arstall"),
                     kvartal = row.int("kvartal"),
-                    dato = row.localDate("dato"),
+                    dato = row.localDate("offentlig_dato"),
                     prosessert = row.boolean("prosessert"),
                 )
             }
@@ -55,13 +55,13 @@ class PubliseringsdatoRepository(
             session.single(
                 queryOf(
                     """
-                    INSERT INTO publiseringsdato (arstall, kvartal, dato, sist_endret)
+                    INSERT INTO publiseringsdato (arstall, kvartal, offentlig_dato, sist_endret)
                     VALUES (:arstall, :kvartal, :dato, NULL)
                     ON CONFLICT (arstall, kvartal) DO UPDATE SET
-                        dato = EXCLUDED.dato,
+                        offentlig_dato = EXCLUDED.offentlig_dato,
                         prosessert = false,
                         sist_endret = now()
-                    WHERE publiseringsdato.dato != EXCLUDED.dato
+                    WHERE publiseringsdato.offentlig_dato != EXCLUDED.offentlig_dato
                     RETURNING (sist_endret IS NULL) AS er_ny
                     """.trimIndent(),
                     mapOf("arstall" to årstall, "kvartal" to kvartal, "dato" to dato),
