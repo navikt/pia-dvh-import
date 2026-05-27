@@ -1,6 +1,7 @@
 val gcsNioVersion = "0.132.0"
 val googleCloudStorageVersion = "2.68.0"
-val iaFellesVersion = "1.10.2"
+val flywayPostgresqlVersion = "12.0.0"
+val iaFellesVersion = "3.0.1"
 val kafkaClientsVersion = "4.3.0"
 val kotestVersion = "6.1.11"
 val kotlinVersion = "2.3.21"
@@ -54,13 +55,21 @@ dependencies {
     }
     // Felles definisjoner for IA-domenet
     implementation("com.github.navikt:ia-felles:$iaFellesVersion")
+
+    // Database
+    implementation("org.postgresql:postgresql:42.7.9")
+    implementation("com.zaxxer:HikariCP:7.0.2")
+    implementation("org.flywaydb:flyway-database-postgresql:$flywayPostgresqlVersion")
+    implementation("com.github.seratch:kotliquery:1.9.1")
     // https://mvnrepository.com/artifact/io.opentelemetry.instrumentation/opentelemetry-logback-mdc-1.0
 
     testImplementation("io.kotest:kotest-assertions-core:$kotestVersion")
     testImplementation("io.kotest:kotest-assertions-json:$kotestVersion")
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit:$kotlinVersion")
+    testImplementation("io.mockk:mockk:1.14.4")
     testImplementation("org.testcontainers:testcontainers:$testcontainersVersion")
     testImplementation("org.testcontainers:testcontainers-kafka:$testcontainersVersion")
+    testImplementation("org.testcontainers:testcontainers-postgresql:$testcontainersVersion")
     testImplementation("io.aiven:testcontainers-fake-gcs-server:0.3.0")
     testImplementation("org.wiremock:wiremock-standalone:$wiremockStandaloneVersion")
     // In-memory google cloud storage bucket

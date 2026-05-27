@@ -1,0 +1,21 @@
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: pia-dvh-import-alerts
+  namespace: pia
+  labels:
+    team: pia
+spec:
+  groups:
+    - name: pia-dvh-import-alerts
+      rules:
+        - alert: PiaDvhImportErrorLog
+          expr: sum(increase(logd_messages_total{log_app="pia-dvh-import", log_level="Error"}[10m])) > 0
+          annotations:
+            consequence: "pia-dvh-import har logget en (eller flere) feil"
+            action: |-
+              Sjekk logger for pia-dvh-import i Grafana for å se hva som feilet.
+              Dersom det er importdag, kan importen gjenopptas manuelt med startFra-parameter via pia-jobbsender.
+          labels:
+            namespace: pia
+            severity: warning

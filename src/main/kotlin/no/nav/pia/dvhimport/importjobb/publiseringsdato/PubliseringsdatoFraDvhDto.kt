@@ -1,4 +1,4 @@
-package no.nav.pia.dvhimport.importjobb.domene
+package no.nav.pia.dvhimport.importjobb.publiseringsdato
 
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.LocalDateTime
@@ -31,7 +31,7 @@ data class PubliseringsdatoFraDvhDto(
 )
 
 @Serializable
-data class PubliseringsdatoDto(
+data class PubliseringsdatoKafkaDto(
     val rapportPeriode: String,
     val offentligDato: LocalDateTime,
     val oppdatertIDvh: LocalDateTime,
@@ -105,8 +105,8 @@ internal object DvhDatoMedTidSerializer : KSerializer<LocalDateTime> {
     override fun deserialize(decoder: Decoder): LocalDateTime = LocalDateTime.parse(decoder.decodeString(), dvhTidsformat)
 }
 
-fun PubliseringsdatoFraDvhDto.tilPubliseringsdatoDto(): PubliseringsdatoDto =
-    PubliseringsdatoDto(
+fun PubliseringsdatoFraDvhDto.tilPubliseringsdatoKafkaDto(): PubliseringsdatoKafkaDto =
+    PubliseringsdatoKafkaDto(
         rapportPeriode = this.rapportPeriode,
         offentligDato = this.offentligDato,
         oppdatertIDvh = this.oppdatertIDvh,

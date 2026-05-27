@@ -2,7 +2,8 @@ package no.nav.pia.dvhimport.importjobb.domene
 
 import io.kotest.matchers.shouldBe
 import kotlinx.datetime.LocalDateTime
-import no.nav.pia.dvhimport.importjobb.domene.Publiseringsdato.Companion.antallDagerTilPubliseringsdato
+import no.nav.pia.dvhimport.importjobb.publiseringsdato.Publiseringsdato
+import no.nav.pia.dvhimport.importjobb.publiseringsdato.Publiseringsdato.Companion.antallDagerTilPubliseringsdato
 import kotlin.test.Test
 
 class PubliseringsdatoTest {

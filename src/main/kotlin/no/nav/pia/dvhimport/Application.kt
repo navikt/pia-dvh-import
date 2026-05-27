@@ -7,10 +7,13 @@ import io.ktor.server.application.Application
 import io.ktor.server.engine.embeddedServer
 import io.ktor.server.netty.Netty
 import no.nav.pia.dvhimport.importjobb.ImportService
+import no.nav.pia.dvhimport.importjobb.publiseringsdato.PubliseringsdatoRepository
 import no.nav.pia.dvhimport.importjobb.kafka.Jobblytter
+import no.nav.pia.dvhimport.konfigurasjon.createDataSource
 import no.nav.pia.dvhimport.konfigurasjon.plugins.configureMonitoring
 import no.nav.pia.dvhimport.konfigurasjon.plugins.configureRouting
 import no.nav.pia.dvhimport.konfigurasjon.plugins.configureSerialization
+import no.nav.pia.dvhimport.konfigurasjon.runMigration
 import no.nav.pia.dvhimport.storage.BucketKlient
 
 fun main() {
@@ -33,10 +36,15 @@ fun main() {
             .service // Http / No credentials -> bare for testing med testcontainers
     }
 
+    val dataSource = createDataSource(naisEnvironment.databaseJdbcUrl)
+    runMigration(dataSource)
+    val publiseringsdatoRepository = PubliseringsdatoRepository(dataSource)
+
     Jobblytter(
         importService = ImportService(
             bucketKlient = BucketKlient(gcpStorage = storage, bucketName = naisEnvironment.statistikkBucketName),
             brukÅrOgKvartalIPathTilFilene = brukÅrOgKvartalIPathTilFilene,
+            publiseringsdatoRepository = publiseringsdatoRepository,
         ),
     ).run()
     embeddedServer(Netty, port = 8080, host = "0.0.0.0", module = Application::dvhImport).start(wait = true)

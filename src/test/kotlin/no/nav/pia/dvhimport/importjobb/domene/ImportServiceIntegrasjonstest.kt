@@ -89,8 +89,8 @@ class ImportServiceIntegrasjonstest {
 
         dvhImportApplikasjon shouldContainLog "Starter import av sykefraværsstatistikk for kategori 'LAND'".toRegex()
         dvhImportApplikasjon shouldContainLog
-            "Fikk exception i import prosess med melding 'Encountered an unknown key 'testField'".toRegex()
-        dvhImportApplikasjon shouldContainLog "Jobb 'landSykefraværsstatistikkDvhImport' ferdig".toRegex()
+            "Import feilet for kategori 'LAND'".toRegex()
+        dvhImportApplikasjon shouldContainLog "Jobb 'landSykefraværsstatistikkDvhImport' feilet".toRegex()
     }
 
     @Test

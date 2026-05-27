@@ -1,2 +1,4 @@
 kafkaPool: nav-dev
 bucketName: pia-sykefravarsstatistikk-api_test-bucket-1
+dbTier: db-f1-micro
+dbAutoresizeDisk: false
