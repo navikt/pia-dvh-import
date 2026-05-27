@@ -149,7 +149,7 @@ class Jobblytter(
         }
 
     private fun SerializableJobbInfo.tilÅrstallOgKvartal(): ÅrstallOgKvartal? {
-        if (this.parameter == null) return null
+        if (this.parameter.isNullOrBlank()) return null
         return try {
             val kvartalDel = this.parameter.split(":").first()
             val deler = kvartalDel.split("-")
