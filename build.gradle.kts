@@ -10,7 +10,7 @@ val logstashLogbackEncoderVersion = "9.0"
 val prometheusVersion = "1.16.5"
 val testcontainersVersion = "2.0.5"
 val wiremockStandaloneVersion = "3.13.2"
-val opentelemetryLogbackMdcVersion = "2.27.0-alpha"
+val opentelemetryLogbackMdcVersion = "2.28.1-alpha"
 
 plugins {
     kotlin("jvm") version "2.3.21"
