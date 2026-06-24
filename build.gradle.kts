@@ -1,13 +1,13 @@
 val gcsNioVersion = "0.133.0"
 val googleCloudStorageVersion = "2.69.0"
 val iaFellesVersion = "1.10.2"
-val kafkaClientsVersion = "4.3.0"
-val kotestVersion = "6.1.11"
+val kafkaClientsVersion = "4.3.1"
+val kotestVersion = "6.2.1"
 val kotlinVersion = "2.3.21"
 val ktorVersion = "3.5.0"
-val logbackVersion = "1.5.34"
+val logbackVersion = "1.5.35"
 val logstashLogbackEncoderVersion = "9.0"
-val prometheusVersion = "1.16.5"
+val prometheusVersion = "1.17.0"
 val testcontainersVersion = "2.0.5"
 val wiremockStandaloneVersion = "3.13.2"
 val opentelemetryLogbackMdcVersion = "2.28.1-alpha"
@@ -63,24 +63,24 @@ dependencies {
     testImplementation("org.testcontainers:testcontainers-kafka:$testcontainersVersion")
     testImplementation("io.aiven:testcontainers-fake-gcs-server:0.3.0")
     testImplementation("org.wiremock:wiremock-standalone:$wiremockStandaloneVersion")
-    // In-memory google cloud storage bucket
+    // In-memory Google Cloud storage bucket
     testImplementation("com.google.cloud:google-cloud-nio:$gcsNioVersion")
 
     constraints {
         implementation("com.fasterxml.jackson.core:jackson-core") {
-            version { require("2.21.3") }
+            version { require("2.22.0") }
             because("versjoner < 2.21.1 har sårbarhet. inkludert i ktor-server-auth:3.4.0")
         }
         implementation("io.netty:netty-codec-http2") {
             version {
-                require("4.2.13.Final")
+                require("4.2.15.Final")
             }
             because(
                 "versjoner < 4.2.10.Final har sårbarhet. inkludert i ktor-server-netty-jvm:3.4.2",
             )
         }
         implementation("tools.jackson.core:jackson-core") {
-            version { require("3.1.3") }
+            version { require("3.2.0") }
             because("versjoner < 3.1.0 har sårbarhet. inkludert i logstash-logback-encoder:9.0")
         }
     }
