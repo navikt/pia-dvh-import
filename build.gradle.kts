@@ -4,7 +4,7 @@ val iaFellesVersion = "1.10.2"
 val kafkaClientsVersion = "4.3.1"
 val kotestVersion = "6.2.1"
 val kotlinVersion = "2.3.21"
-val ktorVersion = "3.5.0"
+val ktorVersion = "3.5.1"
 val logbackVersion = "1.5.35"
 val logstashLogbackEncoderVersion = "9.0"
 val prometheusVersion = "1.17.0"
@@ -68,6 +68,10 @@ dependencies {
 
     constraints {
         implementation("com.fasterxml.jackson.core:jackson-core") {
+            version { require("2.22.0") }
+            because("versjoner < 2.21.1 har sårbarhet. inkludert i ktor-server-auth:3.4.0")
+        }
+        implementation("com.fasterxml.jackson.core:jackson-databind") {
             version { require("2.22.0") }
             because("versjoner < 2.21.1 har sårbarhet. inkludert i ktor-server-auth:3.4.0")
         }
