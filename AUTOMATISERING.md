@@ -1,5 +1,14 @@
 # Automatisering av DVH-import av sykefraværsstatistikk
 
+> **📚 Ny dokumentasjonsstruktur:** Det videre automatiseringsarbeidet er nå delt opp i
+> [docs/automatisering/](docs/automatisering/README.md):
+> - [README](docs/automatisering/README.md) — overordnet intro og leseguide
+> - [Del 1 — Grunnautomatisering](docs/automatisering/del-1-grunnautomatisering.md) (i hovedsak ferdig — denne filen er endringsloggen)
+> - [Del 2 — Orkestrering, validering og alerts](docs/automatisering/del-2-orkestrering-validering-alerts.md) (hovedarbeidet som gjenstår)
+> - [Del 3 — Dynamisk tilnærming og downstream-automatisering](docs/automatisering/del-3-dynamisk-tilnaerming.md) (lavere prioritet)
+>
+> Denne filen beholdes som detaljert endringslogg for del 1.
+
 ## Bakgrunn
 
 Kvartalsvis import av sykefraværsstatistikk fra DVH (Datavarehus) krevde manuell kjøring av 7 separate GitHub Actions-jobber i riktig rekkefølge. Det tok ~3.5 timer, feil ble slukt stille, og det var ingen måte å vite om noe gikk galt underveis.
