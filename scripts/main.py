@@ -177,7 +177,7 @@ if __name__ == "__main__":
     driftsdager_per_kvartal: dict[int, int] = {1: 63, 2: 64, 3: 66, 4: 63}
 
     # generer data for årstall og kvartal
-    for årstall in range(2025, 2026):
+    for årstall in range(2026, 2027):
         for kvartal in [1, 2, 3, 4]:
             # Lag output mappe
             kvartal_dir = f"{output_dir}/{årstall}/K{kvartal}"
