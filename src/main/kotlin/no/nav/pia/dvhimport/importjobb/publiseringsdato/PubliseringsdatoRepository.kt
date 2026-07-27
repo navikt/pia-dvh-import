@@ -70,4 +70,21 @@ class PubliseringsdatoRepository(
                 if (row.boolean("er_ny")) LagreResultat.NY else LagreResultat.OPPDATERT
             } ?: LagreResultat.UENDRET
         }
+
+    fun hentIdForKvartal(
+        årstall: Int,
+        kvartal: Int,
+    ): Int? =
+        using(sessionOf(dataSource)) { session ->
+            session.single(
+                queryOf(
+                    """
+                    SELECT id
+                    FROM publiseringsdato
+                    WHERE arstall = :arstall AND kvartal = :kvartal
+                    """.trimIndent(),
+                    mapOf("arstall" to årstall, "kvartal" to kvartal),
+                ),
+            ) { row -> row.int("id") }
+        }
 }

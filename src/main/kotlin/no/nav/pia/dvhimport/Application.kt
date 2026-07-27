@@ -7,6 +7,10 @@ import io.ktor.server.application.Application
 import io.ktor.server.engine.embeddedServer
 import io.ktor.server.netty.Netty
 import no.nav.pia.dvhimport.importjobb.ImportService
+import no.nav.pia.dvhimport.importjobb.orkestrering.ImportLockRepository
+import no.nav.pia.dvhimport.importjobb.orkestrering.ImportOrkestrering
+import no.nav.pia.dvhimport.importjobb.orkestrering.ImportStegRepository
+import no.nav.pia.dvhimport.importjobb.orkestrering.Radgrenser
 import no.nav.pia.dvhimport.importjobb.publiseringsdato.PubliseringsdatoRepository
 import no.nav.pia.dvhimport.importjobb.kafka.Jobblytter
 import no.nav.pia.dvhimport.konfigurasjon.createDataSource
@@ -39,13 +43,22 @@ fun main() {
     val dataSource = createDataSource(naisEnvironment.databaseJdbcUrl)
     runMigration(dataSource)
     val publiseringsdatoRepository = PubliseringsdatoRepository(dataSource)
+    val importService = ImportService(
+        bucketKlient = BucketKlient(gcpStorage = storage, bucketName = naisEnvironment.statistikkBucketName),
+        brukÅrOgKvartalIPathTilFilene = brukÅrOgKvartalIPathTilFilene,
+        publiseringsdatoRepository = publiseringsdatoRepository,
+        radgrenser = Radgrenser.forCluster(naisEnvironment.naisClusterName),
+    )
+    val importOrkestrering = ImportOrkestrering(
+        importService = importService,
+        lockRepository = ImportLockRepository(dataSource),
+        stegRepository = ImportStegRepository(dataSource),
+        publiseringsdatoRepository = publiseringsdatoRepository,
+    )
 
     Jobblytter(
-        importService = ImportService(
-            bucketKlient = BucketKlient(gcpStorage = storage, bucketName = naisEnvironment.statistikkBucketName),
-            brukÅrOgKvartalIPathTilFilene = brukÅrOgKvartalIPathTilFilene,
-            publiseringsdatoRepository = publiseringsdatoRepository,
-        ),
+        importService = importService,
+        importOrkestrering = importOrkestrering,
     ).run()
     embeddedServer(Netty, port = 8080, host = "0.0.0.0", module = Application::dvhImport).start(wait = true)
 }

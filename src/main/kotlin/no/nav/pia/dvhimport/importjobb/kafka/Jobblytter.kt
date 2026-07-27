@@ -23,6 +23,7 @@ import kotlinx.serialization.json.Json
 import no.nav.pia.dvhimport.importjobb.ImportService
 import no.nav.pia.dvhimport.importjobb.domene.StatistikkKategori
 import no.nav.pia.dvhimport.importjobb.domene.ÅrstallOgKvartal
+import no.nav.pia.dvhimport.importjobb.orkestrering.ImportOrkestrering
 import no.nav.pia.dvhimport.konfigurasjon.KafkaConfig
 import no.nav.pia.dvhimport.konfigurasjon.KafkaTopics
 import org.apache.kafka.clients.consumer.KafkaConsumer
@@ -36,6 +37,7 @@ import kotlin.coroutines.CoroutineContext
 
 class Jobblytter(
     val importService: ImportService,
+    val importOrkestrering: ImportOrkestrering,
 ) : CoroutineScope {
     private val logger: Logger = LoggerFactory.getLogger(this::class.java)
     private val job: Job = Job()
@@ -75,8 +77,7 @@ class Jobblytter(
                                 try {
                                     when (jobbInfo.jobb) {
                                         alleKategorierSykefraværsstatistikkDvhImport -> {
-                                            val startFra = jobbInfo.tilStartFraKategori()
-                                            importService.importAlleStatistikkKategorier(årstallOgKvartal, startFra)
+                                            importOrkestrering.kjørImportForKvartal(årstallOgKvartal, dryRun = jobbInfo.tilDryRun())
                                         }
                                         landSykefraværsstatistikkDvhImport -> {
                                             importService.importForStatistikkKategori(StatistikkKategori.LAND, årstallOgKvartal)
@@ -103,7 +104,12 @@ class Jobblytter(
                                             importService.importPubliseringsdatoer()
                                         }
                                         sjekkPubliseringsdatoOgImporter -> {
+                                            // Auto-import er deaktivert til go-live (3. sept 2026).
+                                            // sjekkPubliseringsdatoOgStartImport() returnerer før import (se ImportService).
                                             importService.sjekkPubliseringsdatoOgStartImport()
+                                            // TODO (nær go-live): aktiver automatisk orkestrert import ved å erstatte
+                                            // linjen over med linjen under:
+                                            // importOrkestrering.kjørImportForPubliseringsdato()
                                         }
                                     else -> {
                                             logger.info("Jobb '${jobbInfo.jobb}' ignorert")
@@ -165,15 +171,9 @@ class Jobblytter(
         }
     }
 
-    private fun SerializableJobbInfo.tilStartFraKategori(): StatistikkKategori? {
-        if (this.parameter == null) return null
+    private fun SerializableJobbInfo.tilDryRun(): Boolean {
+        if (this.parameter.isNullOrBlank()) return false
         val deler = this.parameter.split(":")
-        if (deler.size < 2) return null
-        return try {
-            StatistikkKategori.valueOf(deler[1])
-        } catch (e: IllegalArgumentException) {
-            logger.error("Ugyldig startFra-kategori: '${deler[1]}'. Gyldige verdier: ${StatistikkKategori.entries}", e)
-            throw e
-        }
+        return deler.size == 2 && deler[1].equals("DRY_RUN", ignoreCase = true)
     }
 }

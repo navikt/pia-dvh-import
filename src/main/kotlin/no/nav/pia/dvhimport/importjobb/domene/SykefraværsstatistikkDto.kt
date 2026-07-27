@@ -21,9 +21,9 @@ import kotlinx.serialization.json.jsonObject
 import kotlinx.serialization.json.jsonPrimitive
 import java.math.BigDecimal
 
-sealed interface Sykefraværsstatistikk {
-    val årstall: Int
-    val kvartal: Int
+sealed interface Sykefraværsstatistikk : HarÅrstallOgKvartal {
+    override val årstall: Int
+    override val kvartal: Int
     val prosent: BigDecimal
     val tapteDagsverk: BigDecimal
     val muligeDagsverk: BigDecimal

@@ -8,6 +8,7 @@ import kotlinx.datetime.toJavaLocalDateTime
 import kotlinx.datetime.toLocalDateTime
 import no.nav.pia.dvhimport.importjobb.domene.BransjeSykefraværsstatistikkDto
 import no.nav.pia.dvhimport.importjobb.domene.DvhMetadata
+import no.nav.pia.dvhimport.importjobb.domene.HarÅrstallOgKvartal
 import no.nav.pia.dvhimport.importjobb.domene.LandSykefraværsstatistikkDto
 import no.nav.pia.dvhimport.importjobb.domene.NæringSykefraværsstatistikkDto
 import no.nav.pia.dvhimport.importjobb.domene.NæringskodeSykefraværsstatistikkDto
@@ -21,6 +22,11 @@ import no.nav.pia.dvhimport.importjobb.domene.VirksomhetSykefraværsstatistikkDt
 import no.nav.pia.dvhimport.importjobb.domene.tilListe
 import no.nav.pia.dvhimport.importjobb.domene.toSykefraværsstatistikkDto
 import no.nav.pia.dvhimport.importjobb.domene.ÅrstallOgKvartal
+import no.nav.pia.dvhimport.importjobb.orkestrering.ImportSteg
+import no.nav.pia.dvhimport.importjobb.orkestrering.Kontroll
+import no.nav.pia.dvhimport.importjobb.orkestrering.Radgrenser
+import no.nav.pia.dvhimport.importjobb.orkestrering.StegValideringsresultat
+import no.nav.pia.dvhimport.importjobb.orkestrering.ValideringsfeilException
 import no.nav.pia.dvhimport.importjobb.publiseringsdato.LagreResultat
 import no.nav.pia.dvhimport.importjobb.publiseringsdato.NestePubliseringsdato
 import no.nav.pia.dvhimport.importjobb.publiseringsdato.Publiseringsdato.Companion.antallDagerTilPubliseringsdato
@@ -55,12 +61,15 @@ class ImportService(
     private val bucketKlient: BucketKlient,
     private val brukÅrOgKvartalIPathTilFilene: Boolean,
     private val publiseringsdatoRepository: PubliseringsdatoRepository,
+    private val radgrenser: Radgrenser,
 ) {
     private val logger: Logger = LoggerFactory.getLogger(this::class.java)
     private val eksportProdusent by lazy {
         EksportProdusent(kafkaConfig = KafkaConfig())
     }
 
+    // TODO: Fjern denne (og importAlleStatistikkKategorier) når importOrkestrering.kjørImportForPubliseringsdato()
+    // har blitt tatt i bruk i Jobblytter og erstattet denne funksjonen.
     fun sjekkPubliseringsdatoOgStartImport(dato: LocalDate = LocalDate.now()) {
         val uprosessert = publiseringsdatoRepository.hentUprosessertForDato(dato)
         if (uprosessert == null) {
@@ -224,6 +233,228 @@ class ImportService(
         }
     }
 
+    fun lesOgValiderSteg(
+        steg: ImportSteg,
+        årstallOgKvartal: ÅrstallOgKvartal,
+        landSfProsent: BigDecimal?,
+    ): StegValideringsresultat {
+        logger.info("Validerer steg '$steg' for $årstallOgKvartal")
+        if (!bucketKlient.sjekkBucketExists()) {
+            throw IllegalStateException("Bucket ikke funnet, avbryter validering av steg '$steg'")
+        }
+        val path = årstallOgKvartal.tilMappestruktur(brukÅrOgKvartalIPathTilFilene).pathTilKvartalsvisData()
+
+        return when (steg) {
+            ImportSteg.IMPORT_LAND -> {
+                val data = import<LandSykefraværsstatistikkDto>(StatistikkKategori.LAND, path)
+                validerStruktur(steg, data) { it.land }
+                validerÅrstall(steg, data, årstallOgKvartal)
+                validerRadgrense(steg, data.size)
+                val beregnet = kalkulerOgLoggSykefraværsprosent(StatistikkKategori.LAND, data)
+                // LAND er referansen: beregnet sf_prosent skal stemme med prosent-feltet i fila.
+                validerSfProsent(steg, beregnet, data.first().prosent)
+                StegValideringsresultat(data.size, beregnet)
+            }
+            ImportSteg.IMPORT_SEKTOR -> {
+                val data = import<SektorSykefraværsstatistikkDto>(StatistikkKategori.SEKTOR, path)
+                validerStruktur(steg, data) { it.sektor }
+                validerÅrstall(steg, data, årstallOgKvartal)
+                validerRadgrense(steg, data.size)
+                val beregnet = kalkulerOgLoggSykefraværsprosent(StatistikkKategori.SEKTOR, data)
+                validerSfProsent(steg, beregnet, landSfProsent)
+                StegValideringsresultat(data.size, beregnet)
+            }
+            ImportSteg.IMPORT_NARING -> {
+                val data = import<NæringSykefraværsstatistikkDto>(StatistikkKategori.NÆRING, path)
+                validerStruktur(steg, data) { it.næring }
+                validerÅrstall(steg, data, årstallOgKvartal)
+                validerRadgrense(steg, data.size)
+                val beregnet = kalkulerOgLoggSykefraværsprosent(StatistikkKategori.NÆRING, data)
+                validerSfProsent(steg, beregnet, landSfProsent)
+                StegValideringsresultat(data.size, beregnet)
+            }
+            ImportSteg.IMPORT_NARINGSKODE -> {
+                val data = import<NæringskodeSykefraværsstatistikkDto>(StatistikkKategori.NÆRINGSKODE, path)
+                validerStruktur(steg, data) { it.næringskode }
+                validerÅrstall(steg, data, årstallOgKvartal)
+                validerRadgrense(steg, data.size)
+                val beregnet = kalkulerOgLoggSykefraværsprosent(StatistikkKategori.NÆRINGSKODE, data)
+                validerSfProsent(steg, beregnet, landSfProsent)
+                StegValideringsresultat(data.size, beregnet)
+            }
+            ImportSteg.IMPORT_BRANSJE -> {
+                // Bransje utledes fra næring/næringskode. Struktur, årstall og radgrense er allerede
+                // dekket av NÆRING- og NÆRINGSKODE-stegene, og bransje er unntatt sf_prosent-sjekken.
+                // TODO: vurder en egen sjekk på selve bransje-outputen (bransjeData) i stedet.
+                val næringData = import<NæringSykefraværsstatistikkDto>(StatistikkKategori.NÆRING, path)
+                val bransjeData = importBransje(path, årstallOgKvartal)
+                StegValideringsresultat(næringData.size, kalkulerOgLoggSykefraværsprosent(StatistikkKategori.BRANSJE, bransjeData))
+            }
+            ImportSteg.IMPORT_VIRKSOMHET -> validerVirksomhet(steg, path, årstallOgKvartal, landSfProsent)
+            ImportSteg.IMPORT_VIRKSOMHET_METADATA -> validerVirksomhetMetadata(steg, path, årstallOgKvartal)
+        }
+    }
+
+    fun sendSteg(
+        steg: ImportSteg,
+        årstallOgKvartal: ÅrstallOgKvartal,
+    ): Int {
+        logger.info("Sender steg '$steg' for $årstallOgKvartal")
+        if (!bucketKlient.sjekkBucketExists()) {
+            throw IllegalStateException("Bucket ikke funnet, avbryter sending av steg '$steg'")
+        }
+        val path = årstallOgKvartal.tilMappestruktur(brukÅrOgKvartalIPathTilFilene).pathTilKvartalsvisData()
+
+        return when (steg) {
+            ImportSteg.IMPORT_LAND -> {
+                val data = import<LandSykefraværsstatistikkDto>(StatistikkKategori.LAND, path)
+                sendTilKafka(årstallOgKvartal, data, StatistikkKategori.LAND)
+                data.size
+            }
+            ImportSteg.IMPORT_SEKTOR -> {
+                val data = import<SektorSykefraværsstatistikkDto>(StatistikkKategori.SEKTOR, path)
+                sendTilKafka(årstallOgKvartal, data, StatistikkKategori.SEKTOR)
+                data.size
+            }
+            ImportSteg.IMPORT_NARING -> {
+                val data = import<NæringSykefraværsstatistikkDto>(StatistikkKategori.NÆRING, path)
+                sendTilKafka(årstallOgKvartal, data, StatistikkKategori.NÆRING)
+                data.size
+            }
+            ImportSteg.IMPORT_NARINGSKODE -> {
+                val data = import<NæringskodeSykefraværsstatistikkDto>(StatistikkKategori.NÆRINGSKODE, path)
+                sendTilKafka(årstallOgKvartal, data, StatistikkKategori.NÆRINGSKODE)
+                data.size
+            }
+            ImportSteg.IMPORT_BRANSJE -> {
+                val data = importBransje(path, årstallOgKvartal)
+                sendTilKafka(årstallOgKvartal, data, StatistikkKategori.BRANSJE)
+                data.size
+            }
+            ImportSteg.IMPORT_VIRKSOMHET -> importStatistikkVirksomhetOgSendTilKafka(path, årstallOgKvartal)
+            ImportSteg.IMPORT_VIRKSOMHET_METADATA -> importVirksomhetMetadataOgSendTilKafka(path, årstallOgKvartal)
+        }
+    }
+
+    private fun <T> validerStruktur(
+        steg: ImportSteg,
+        data: List<T>,
+        felt: (T) -> String,
+    ) {
+        val regex = steg.strukturRegex ?: return
+        val antallUgyldige = data.count { !regex.matches(felt(it)) }
+        if (antallUgyldige > 0) {
+            throw ValideringsfeilException(
+                Kontroll.FEIL_STRUKTUR_I_INPUT_FIL,
+                "Steg $steg: $antallUgyldige rader bryter strukturkravet '${regex.pattern}'",
+            )
+        }
+    }
+
+    private fun validerÅrstall(
+        steg: ImportSteg,
+        data: List<HarÅrstallOgKvartal>,
+        årstallOgKvartal: ÅrstallOgKvartal,
+    ) {
+        val antallAvvik = data.count { it.årstall != årstallOgKvartal.årstall || it.kvartal != årstallOgKvartal.kvartal }
+        if (antallAvvik > 0) {
+            throw ValideringsfeilException(
+                Kontroll.FEIL_ÅRSTALL_ELLER_KVARTAL,
+                "Steg $steg: $antallAvvik rader har feil årstall/kvartal (forventet $årstallOgKvartal)",
+            )
+        }
+    }
+
+    private fun validerRadgrense(
+        steg: ImportSteg,
+        antall: Int,
+    ) {
+        val grense = radgrenser.forSteg(steg)
+        if (!grense.inneholder(antall)) {
+            throw ValideringsfeilException(
+                Kontroll.FEIL_ANTALL_RADER_I_INPUT_FIL,
+                "Steg $steg: $antall rader utenfor tillatt intervall [${grense.nedre}, ${grense.øvre}]",
+            )
+        }
+    }
+
+    private fun validerSfProsent(
+        steg: ImportSteg,
+        beregnet: BigDecimal,
+        referanse: BigDecimal?,
+    ) {
+        if (referanse == null) {
+            throw ValideringsfeilException(
+                Kontroll.SF_PROSENT_FEIL,
+                "Steg $steg: mangler referanse-sykefraværsprosent (LAND ikke validert)",
+            )
+        }
+        val a = beregnet.setScale(ANTALL_SIFRE_I_RESULTAT, RoundingMode.HALF_UP)
+        val b = referanse.setScale(ANTALL_SIFRE_I_RESULTAT, RoundingMode.HALF_UP)
+        if (a.compareTo(b) != 0) {
+            throw ValideringsfeilException(
+                Kontroll.SF_PROSENT_FEIL,
+                "Steg $steg: sykefraværsprosent $a avviker fra referanse $b",
+            )
+        }
+    }
+
+    private fun <T> filtrerPåOrgnr(
+        steg: ImportSteg,
+        data: List<T>,
+        orgnr: (T) -> String,
+    ): List<T> {
+        val regex = steg.strukturRegex ?: return data
+        val gyldige = data.filter { regex.matches(orgnr(it)) }
+        val droppet = data.size - gyldige.size
+        if (droppet > 0) {
+            logger.info("Steg $steg: filtrerte bort $droppet rader med ugyldig orgnr (av ${data.size})")
+        }
+        return gyldige
+    }
+
+    private fun validerVirksomhet(
+        steg: ImportSteg,
+        path: String,
+        årstallOgKvartal: ÅrstallOgKvartal,
+        landSfProsent: BigDecimal?,
+    ): StegValideringsresultat =
+        runBlocking {
+            val inputStream: InputStream = bucketKlient.getInputStream(
+                path = path,
+                fileName = tilFilNavn(StatistikkKategori.VIRKSOMHET),
+            )
+            val alle: List<VirksomhetSykefraværsstatistikkDto> = streamVirksomhetSykefraværsstatistikk(inputStream)
+            val gyldige = filtrerPåOrgnr(steg, alle) { it.orgnr }
+            validerÅrstall(steg, gyldige, årstallOgKvartal)
+            validerRadgrense(steg, gyldige.size)
+            val beregnet = kalkulerOgLoggSykefraværsprosent(
+                StatistikkKategori.VIRKSOMHET,
+                gyldige.filter { it.rectype == DatavarehusRecordType.UNDERENHET.kode },
+            )
+            validerSfProsent(steg, beregnet, landSfProsent)
+            inputStream.close()
+            StegValideringsresultat(gyldige.size, beregnet)
+        }
+
+    private fun validerVirksomhetMetadata(
+        steg: ImportSteg,
+        path: String,
+        årstallOgKvartal: ÅrstallOgKvartal,
+    ): StegValideringsresultat =
+        runBlocking {
+            val inputStream: InputStream = bucketKlient.getInputStream(
+                path = path,
+                fileName = tilFilNavn(DvhMetadata.VIRKSOMHET_METADATA),
+            )
+            val alle: List<VirksomhetMetadataDto> = streamVirksomhetMetadata(inputStream)
+            val gyldige = filtrerPåOrgnr(steg, alle) { it.orgnr }
+            validerÅrstall(steg, gyldige, årstallOgKvartal)
+            validerRadgrense(steg, gyldige.size)
+            inputStream.close()
+            StegValideringsresultat(gyldige.size, null)
+        }
+
     private fun importStatistikkVirksomhetOgSendTilKafka(
         path: String,
         årstallOgKvartal: ÅrstallOgKvartal,
@@ -237,7 +468,7 @@ class ImportService(
                     fileName = tilFilNavn(StatistikkKategori.VIRKSOMHET),
                 )
                 val virksomhetSykefraværsstatistikk: List<VirksomhetSykefraværsstatistikkDto> =
-                    streamVirksomhetSykefraværsstatistikk(inputStream)
+                    filtrerPåOrgnr(ImportSteg.IMPORT_VIRKSOMHET, streamVirksomhetSykefraværsstatistikk(inputStream)) { it.orgnr }
 
                 virksomhetSykefraværsstatistikk.prosesserIBiter(størrelse = 1000) { statistikk ->
                     logger.info("Sender ${statistikk.size} statistikk for virksomhet til Kafka")
@@ -276,7 +507,8 @@ class ImportService(
                     path = path,
                     fileName = tilFilNavn(DvhMetadata.VIRKSOMHET_METADATA),
                 )
-                val virksomhetMetadata: List<VirksomhetMetadataDto> = streamVirksomhetMetadata(inputStream)
+                val virksomhetMetadata: List<VirksomhetMetadataDto> =
+                    filtrerPåOrgnr(ImportSteg.IMPORT_VIRKSOMHET_METADATA, streamVirksomhetMetadata(inputStream)) { it.orgnr }
 
                 virksomhetMetadata.prosesserIBiter(størrelse = 1000) { metadata ->
                     logger.info("Sender ${metadata.size} virksomhetmetadata til Kafka")
@@ -341,7 +573,6 @@ class ImportService(
                 LagreResultat.UENDRET -> {
                     logger.info("Publiseringsdato uendret for ${parsed.årstall}-Q${parsed.kvartal}: $dato, hopper over Kafka-sending")
                 }
-                null -> {}
             }
 
             if (resultat != LagreResultat.UENDRET) {

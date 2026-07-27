@@ -10,6 +10,7 @@ import io.mockk.Runs
 import io.mockk.spyk
 import io.mockk.verify
 import no.nav.pia.dvhimport.importjobb.domene.ÅrstallOgKvartal
+import no.nav.pia.dvhimport.importjobb.orkestrering.Radgrenser
 import no.nav.pia.dvhimport.importjobb.publiseringsdato.PubliseringsdatoRepository
 import no.nav.pia.dvhimport.konfigurasjon.createDataSource
 import no.nav.pia.dvhimport.konfigurasjon.runMigration
@@ -38,6 +39,7 @@ class SjekkPubliseringsdatoTest {
                 bucketKlient = mockk<BucketKlient>(),
                 brukÅrOgKvartalIPathTilFilene = false,
                 publiseringsdatoRepository = repository,
+                radgrenser = Radgrenser.forCluster("lokal"),
             ),
         )
         every { importService.importAlleStatistikkKategorier(any(), any()) } just Runs
