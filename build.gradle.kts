@@ -51,7 +51,7 @@ dependencies {
     // Google Cloud Storage
     implementation("com.google.cloud:google-cloud-storage:$googleCloudStorageVersion")
     // Kafka
-    implementation("at.yawk.lz4:lz4-java:1.11.0")
+    implementation("at.yawk.lz4:lz4-java:1.11.1")
     implementation("org.apache.kafka:kafka-clients:$kafkaClientsVersion") {
         // "Fikser CVE-2025-12183 - lz4-java >1.8.1 har sårbar versjon (transitive dependency fra kafka-clients:4.1.0)"
         exclude("org.lz4", "lz4-java")
@@ -75,7 +75,7 @@ dependencies {
     testImplementation("org.testcontainers:testcontainers-postgresql:$testcontainersVersion")
     testImplementation("io.aiven:testcontainers-fake-gcs-server:0.3.0")
     testImplementation("org.wiremock:wiremock-standalone:$wiremockStandaloneVersion")
-    // In-memory google cloud storage bucket
+    // In-memory Google Cloud storage bucket
     testImplementation("com.google.cloud:google-cloud-nio:$gcsNioVersion")
 
     constraints {
