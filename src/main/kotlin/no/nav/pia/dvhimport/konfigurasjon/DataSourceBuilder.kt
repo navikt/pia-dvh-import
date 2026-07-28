@@ -9,9 +9,9 @@ fun createDataSource(jdbcUrl: String): DataSource =
         this.jdbcUrl = jdbcUrl
         maximumPoolSize = 3
         minimumIdle = 1
-        idleTimeout = 100000
-        connectionTimeout = 100000
-        maxLifetime = 300000
+        idleTimeout = 300_000 // 5 min
+        connectionTimeout = 30_000 // 30 sek
+        maxLifetime = 1_800_000 // 30 min
     }
 
 fun runMigration(dataSource: DataSource) {

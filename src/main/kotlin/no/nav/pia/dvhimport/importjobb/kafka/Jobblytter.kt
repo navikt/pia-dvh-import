@@ -70,39 +70,71 @@ class Jobblytter(
                                     "Received record with key ${it.key()} and value ${it.value()} from topic ${it.topic()} but jobInfo.job is ${jobbInfo.jobb}",
                                 )
                             } else {
-                                val årstallOgKvartal = jobbInfo.tilÅrstallOgKvartal() ?: ÅrstallOgKvartal(2024, 2)
-                                logger.info(
-                                    "Starter jobb ${jobbInfo.jobb} for $årstallOgKvartal",
-                                )
+                                val årstallOgKvartal =
+                                    jobbInfo.tilÅrstallOgKvartal() ?: run {
+                                        logger.error("Jobb '${jobbInfo.jobb}' krever årstallOgKvartal-parameter, men ingen ble gitt")
+                                        return@forEach
+                                    }
+                                logger.info("Starter jobb ${jobbInfo.jobb} for $årstallOgKvartal")
                                 try {
                                     when (jobbInfo.jobb) {
                                         alleKategorierSykefraværsstatistikkDvhImport -> {
-                                            importOrkestrering.kjørImportForKvartal(årstallOgKvartal, dryRun = jobbInfo.tilDryRun())
+                                            importOrkestrering.kjørImportForKvartal(
+                                                årstallOgKvartal,
+                                                dryRun = jobbInfo.tilDryRun(),
+                                            )
                                         }
+
                                         landSykefraværsstatistikkDvhImport -> {
-                                            importService.importForStatistikkKategori(StatistikkKategori.LAND, årstallOgKvartal)
+                                            importService.importForStatistikkKategori(
+                                                StatistikkKategori.LAND,
+                                                årstallOgKvartal,
+                                            )
                                         }
+
                                         sektorSykefraværsstatistikkDvhImport -> {
-                                            importService.importForStatistikkKategori(StatistikkKategori.SEKTOR, årstallOgKvartal)
+                                            importService.importForStatistikkKategori(
+                                                StatistikkKategori.SEKTOR,
+                                                årstallOgKvartal,
+                                            )
                                         }
+
                                         næringSykefraværsstatistikkDvhImport -> {
-                                            importService.importForStatistikkKategori(StatistikkKategori.NÆRING, årstallOgKvartal)
+                                            importService.importForStatistikkKategori(
+                                                StatistikkKategori.NÆRING,
+                                                årstallOgKvartal,
+                                            )
                                         }
+
                                         næringskodeSykefraværsstatistikkDvhImport -> {
-                                            importService.importForStatistikkKategori(StatistikkKategori.NÆRINGSKODE, årstallOgKvartal)
+                                            importService.importForStatistikkKategori(
+                                                StatistikkKategori.NÆRINGSKODE,
+                                                årstallOgKvartal,
+                                            )
                                         }
+
                                         bransjeSykefraværsstatistikkDvhImport -> {
-                                            importService.importForStatistikkKategori(StatistikkKategori.BRANSJE, årstallOgKvartal)
+                                            importService.importForStatistikkKategori(
+                                                StatistikkKategori.BRANSJE,
+                                                årstallOgKvartal,
+                                            )
                                         }
+
                                         virksomhetSykefraværsstatistikkDvhImport -> {
-                                            importService.importForStatistikkKategori(StatistikkKategori.VIRKSOMHET, årstallOgKvartal)
+                                            importService.importForStatistikkKategori(
+                                                StatistikkKategori.VIRKSOMHET,
+                                                årstallOgKvartal,
+                                            )
                                         }
+
                                         virksomhetMetadataSykefraværsstatistikkDvhImport -> {
                                             importService.importVirksomhetMetadata(årstallOgKvartal)
                                         }
+
                                         publiseringsdatoDvhImport -> {
                                             importService.importPubliseringsdatoer()
                                         }
+
                                         sjekkPubliseringsdatoOgImporter -> {
                                             // Auto-import er deaktivert til go-live (3. sept 2026).
                                             // sjekkPubliseringsdatoOgStartImport() returnerer før import (se ImportService).
@@ -111,7 +143,8 @@ class Jobblytter(
                                             // linjen over med linjen under:
                                             // importOrkestrering.kjørImportForPubliseringsdato()
                                         }
-                                    else -> {
+
+                                        else -> {
                                             logger.info("Jobb '${jobbInfo.jobb}' ignorert")
                                         }
                                     }

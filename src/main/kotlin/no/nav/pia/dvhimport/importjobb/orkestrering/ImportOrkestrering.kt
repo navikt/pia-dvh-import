@@ -44,7 +44,8 @@ class ImportOrkestrering(
         val publiseringsdatoId = publiseringsdatoRepository.hentIdForKvartal(
             årstall = årstallOgKvartal.årstall,
             kvartal = årstallOgKvartal.kvartal,
-        ) ?: throw IllegalStateException("Ingen publiseringsdato funnet for $årstallOgKvartal, kan ikke starte orkestrert import")
+        )
+            ?: throw IllegalStateException("Ingen publiseringsdato funnet for $årstallOgKvartal, kan ikke starte orkestrert import")
         kjørImport(publiseringsdatoId = publiseringsdatoId, årstallOgKvartal = årstallOgKvartal)
     }
 
@@ -83,14 +84,17 @@ class ImportOrkestrering(
                     return
                 }
             }
+
             ImportLockStatus.FERDIG -> {
                 logger.info("Import er allerede ferdig for $årstallOgKvartal, kjører ikke")
                 return
             }
+
             ImportLockStatus.STARTET -> {
                 logger.info("Import pågår allerede for $årstallOgKvartal, kjører ikke")
                 return
             }
+
             ImportLockStatus.FEILET -> {
                 logger.info("Gjenopptar feilet import for $årstallOgKvartal")
                 lockRepository.markerStartet(publiseringsdatoId)
