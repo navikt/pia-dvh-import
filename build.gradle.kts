@@ -1,21 +1,24 @@
-val gcsNioVersion = "0.132.0"
-val googleCloudStorageVersion = "2.68.0"
 val flywayPostgresqlVersion = "12.0.0"
+val gcsNioVersion = "0.134.0"
+val googleCloudStorageVersion = "2.70.0"
+val hikariCPVersion = "7.0.2"
 val iaFellesVersion = "3.0.1"
-val kafkaClientsVersion = "4.3.0"
-val kotestVersion = "6.1.11"
-val kotlinVersion = "2.3.21"
-val ktorVersion = "3.5.0"
-val logbackVersion = "1.5.32"
+val kafkaClientsVersion = "4.3.1"
+val kotestVersion = "6.2.2"
+val kotlinVersion = "2.4.0"
+val kotliqueryVersion = "1.9.1"
+val ktorVersion = "3.5.1"
+val logbackVersion = "1.5.37"
 val logstashLogbackEncoderVersion = "9.0"
-val prometheusVersion = "1.16.5"
+val opentelemetryLogbackMdcVersion = "2.29.0-alpha"
+val postgresqlVersion = "42.7.9"
+val prometheusVersion = "1.17.0"
 val testcontainersVersion = "2.0.5"
 val wiremockStandaloneVersion = "3.13.2"
-val opentelemetryLogbackMdcVersion = "2.27.0-alpha"
 
 plugins {
-    kotlin("jvm") version "2.3.21"
-    kotlin("plugin.serialization") version "2.3.21"
+    kotlin("jvm") version "2.4.0"
+    kotlin("plugin.serialization") version "2.4.0"
     id("application")
 }
 
@@ -57,10 +60,10 @@ dependencies {
     implementation("com.github.navikt:ia-felles:$iaFellesVersion")
 
     // Database
-    implementation("org.postgresql:postgresql:42.7.9")
-    implementation("com.zaxxer:HikariCP:7.0.2")
+    implementation("org.postgresql:postgresql:$postgresqlVersion")
+    implementation("com.zaxxer:HikariCP:$hikariCPVersion")
     implementation("org.flywaydb:flyway-database-postgresql:$flywayPostgresqlVersion")
-    implementation("com.github.seratch:kotliquery:1.9.1")
+    implementation("com.github.seratch:kotliquery:$kotliqueryVersion")
     // https://mvnrepository.com/artifact/io.opentelemetry.instrumentation/opentelemetry-logback-mdc-1.0
 
     testImplementation("io.kotest:kotest-assertions-core:$kotestVersion")
@@ -77,19 +80,19 @@ dependencies {
 
     constraints {
         implementation("com.fasterxml.jackson.core:jackson-core") {
-            version { require("2.21.3") }
+            version { require("2.22.1") }
             because("versjoner < 2.21.1 har sårbarhet. inkludert i ktor-server-auth:3.4.0")
         }
         implementation("io.netty:netty-codec-http2") {
             version {
-                require("4.2.13.Final")
+                require("4.2.16.Final")
             }
             because(
                 "versjoner < 4.2.10.Final har sårbarhet. inkludert i ktor-server-netty-jvm:3.4.2",
             )
         }
         implementation("tools.jackson.core:jackson-core") {
-            version { require("3.1.3") }
+            version { require("3.2.1") }
             because("versjoner < 3.1.0 har sårbarhet. inkludert i logstash-logback-encoder:9.0")
         }
     }
