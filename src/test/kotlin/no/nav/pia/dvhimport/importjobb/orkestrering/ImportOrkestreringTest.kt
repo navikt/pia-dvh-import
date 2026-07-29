@@ -175,4 +175,15 @@ class ImportOrkestreringTest {
 
         verify(exactly = 0) { slackVarsler.send(any()) }
     }
+
+    @Test
+    fun `dry-run sender Slack-varsel for start og fullført`() {
+        every { importService.lesOgValiderSteg(any(), any(), any()) } returns StegValideringsresultat(1, null)
+
+        orkestrering.kjørDryRun(kvartal)
+
+        verify { slackVarsler.send(match { it.contains("Dry-run startet") }) }
+        verify { slackVarsler.send(match { it.contains("Dry-run fullført") }) }
+        verify(exactly = 0) { importService.sendSteg(any(), any()) }
+    }
 }

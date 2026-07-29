@@ -60,12 +60,14 @@ class ImportOrkestrering(
      */
     fun kjørDryRun(årstallOgKvartal: ÅrstallOgKvartal) {
         logger.info("DRY_RUN: starter validering for $årstallOgKvartal — ingen lås, ingen DB-endring, ingen Kafka")
+        slackVarsler.send("🧪 Dry-run startet for $årstallOgKvartal — validerer alle kategorier, ingen data sendes")
         var landSfProsent: BigDecimal? = null
         ImportSteg.iRekkefolge.forEach { steg ->
             val resultat = try {
                 importService.lesOgValiderSteg(steg, årstallOgKvartal, landSfProsent)
             } catch (e: ValideringsfeilException) {
                 logger.warn("DRY_RUN: validering FEILET på steg $steg (${e.kontroll}): ${e.message} — ville stoppet ekte kjøring")
+                slackVarsler.send("❌ Dry-run FEILET på ${steg.visningsnavn} (${e.kontroll}) for $årstallOgKvartal: ${e.message}")
                 return
             }
             if (steg == ImportSteg.IMPORT_LAND) {
@@ -74,6 +76,7 @@ class ImportOrkestrering(
             logger.info("DRY_RUN: steg $steg validert (rader=${resultat.antallRaderLest}, sfProsent=${resultat.sfProsent})")
         }
         logger.info("DRY_RUN: validering fullført for $årstallOgKvartal — ingen data sendt")
+        slackVarsler.send("🧪 Dry-run fullført for $årstallOgKvartal — alle kategorier validert, ingen data sendt")
     }
 
     fun kjørImport(
