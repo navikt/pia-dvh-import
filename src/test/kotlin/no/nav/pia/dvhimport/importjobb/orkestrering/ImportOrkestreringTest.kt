@@ -12,6 +12,7 @@ import no.nav.pia.dvhimport.importjobb.domene.ÅrstallOgKvartal
 import no.nav.pia.dvhimport.importjobb.publiseringsdato.PubliseringsdatoRepository
 import no.nav.pia.dvhimport.konfigurasjon.createDataSource
 import no.nav.pia.dvhimport.konfigurasjon.runMigration
+import no.nav.pia.dvhimport.varsling.SlackVarsler
 import org.testcontainers.postgresql.PostgreSQLContainer
 import java.time.LocalDate
 import kotlin.test.AfterTest
@@ -25,6 +26,7 @@ class ImportOrkestreringTest {
     private lateinit var lockRepository: ImportLockRepository
     private lateinit var stegRepository: ImportStegRepository
     private lateinit var importService: ImportService
+    private lateinit var slackVarsler: SlackVarsler
     private lateinit var orkestrering: ImportOrkestrering
 
     private val kvartal = ÅrstallOgKvartal(årstall = 2099, kvartal = 1)
@@ -39,7 +41,8 @@ class ImportOrkestreringTest {
         lockRepository = ImportLockRepository(dataSource)
         stegRepository = ImportStegRepository(dataSource)
         importService = mockk()
-        orkestrering = ImportOrkestrering(importService, lockRepository, stegRepository, publiseringsdatoRepository)
+        slackVarsler = mockk(relaxed = true)
+        orkestrering = ImportOrkestrering(importService, lockRepository, stegRepository, publiseringsdatoRepository, slackVarsler)
     }
 
     @AfterTest
@@ -128,5 +131,48 @@ class ImportOrkestreringTest {
         shouldThrow<IllegalStateException> {
             orkestrering.kjørImportForKvartal(kvartal, dryRun = false)
         }
+    }
+
+    @Test
+    fun `kjørImportForPubliseringsdato gjør ingenting når det ikke er publiseringsdato i dag`() {
+        orkestrering.kjørImportForPubliseringsdato(dato)
+
+        verify(exactly = 0) { importService.lesOgValiderSteg(any(), any(), any()) }
+        verify(exactly = 0) { importService.sendSteg(any(), any()) }
+    }
+
+    @Test
+    fun `sender Slack-varsler for start, validering, per kategori og ferdig`() {
+        val id = opprettPubliseringsdato()
+        every { importService.lesOgValiderSteg(any(), any(), any()) } returns StegValideringsresultat(1, null)
+        every { importService.sendSteg(any(), any()) } returns 1
+
+        orkestrering.kjørImport(id, kvartal)
+
+        verify { slackVarsler.send(match { it.contains("Import startet") }) }
+        verify { slackVarsler.send(match { it.contains("Alle kategorier validert") }) }
+        verify { slackVarsler.send(match { it.contains("Land ferdig") }) }
+        verify { slackVarsler.send(match { it.contains("Virksomhet metadata ferdig") }) }
+        verify { slackVarsler.send(match { it.contains("Import ferdig") }) }
+    }
+
+    @Test
+    fun `varsler heads-up når det er 3 dager til publiseringsdato`() {
+        val iDag = LocalDate.of(2099, 5, 29)
+        publiseringsdatoRepository.lagrePubliseringsdato(årstall = 2099, kvartal = 1, dato = iDag.plusDays(3))
+
+        orkestrering.kjørImportForPubliseringsdato(iDag)
+
+        verify { slackVarsler.send(match { it.contains("3 dager til publiseringsdato") }) }
+    }
+
+    @Test
+    fun `varsler ikke heads-up når antall dager ikke er en milepæl`() {
+        val iDag = LocalDate.of(2099, 5, 29)
+        publiseringsdatoRepository.lagrePubliseringsdato(årstall = 2099, kvartal = 1, dato = iDag.plusDays(5))
+
+        orkestrering.kjørImportForPubliseringsdato(iDag)
+
+        verify(exactly = 0) { slackVarsler.send(any()) }
     }
 }

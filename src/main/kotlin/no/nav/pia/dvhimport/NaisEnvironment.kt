@@ -5,6 +5,7 @@ class NaisEnvironment(
     val statistikkBucketName: String = getEnvVar("GCS_SYKEFRAVARSSTATISTIKK_BUCKET_NAME"),
     val databaseJdbcUrl: String = getEnvVar("NAIS_DATABASE_PIA_DVH_IMPORT_PIA_DVH_IMPORT_DB_JDBC_URL"),
     val naisClusterName: String = getEnvVar("NAIS_CLUSTER_NAME", "lokal"),
+    val slackWebhookUrl: String = getEnvVar("SLACK_WEBHOOK_URL", ""),
 ) {
     companion object {
         fun getEnvVar(

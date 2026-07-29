@@ -31,6 +31,30 @@ class PubliseringsdatoRepository(
             }
         }
 
+    fun hentNesteUprosessertePubliseringsdato(fraDato: LocalDate): PubliseringsdatoDto? =
+        using(sessionOf(dataSource)) { session ->
+            session.single(
+                queryOf(
+                    """
+                    SELECT id, arstall, kvartal, offentlig_dato, prosessert
+                    FROM publiseringsdato
+                    WHERE offentlig_dato >= :dato AND prosessert = false
+                    ORDER BY offentlig_dato ASC
+                    LIMIT 1
+                    """.trimIndent(),
+                    mapOf("dato" to fraDato),
+                ),
+            ) { row ->
+                PubliseringsdatoDto(
+                    id = row.int("id"),
+                    årstall = row.int("arstall"),
+                    kvartal = row.int("kvartal"),
+                    dato = row.localDate("offentlig_dato"),
+                    prosessert = row.boolean("prosessert"),
+                )
+            }
+        }
+
     fun markerSomProsessert(id: Int) {
         using(sessionOf(dataSource)) { session ->
             session.run(

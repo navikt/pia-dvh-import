@@ -19,6 +19,7 @@ import no.nav.pia.dvhimport.konfigurasjon.plugins.configureRouting
 import no.nav.pia.dvhimport.konfigurasjon.plugins.configureSerialization
 import no.nav.pia.dvhimport.konfigurasjon.runMigration
 import no.nav.pia.dvhimport.storage.BucketKlient
+import no.nav.pia.dvhimport.varsling.SlackVarsler
 
 fun main() {
     val naisEnvironment = NaisEnvironment()
@@ -54,6 +55,7 @@ fun main() {
         lockRepository = ImportLockRepository(dataSource),
         stegRepository = ImportStegRepository(dataSource),
         publiseringsdatoRepository = publiseringsdatoRepository,
+        slackVarsler = SlackVarsler(webhookUrl = naisEnvironment.slackWebhookUrl),
     )
 
     Jobblytter(

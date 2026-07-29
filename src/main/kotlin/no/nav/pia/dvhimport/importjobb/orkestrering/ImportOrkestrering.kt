@@ -3,16 +3,19 @@ package no.nav.pia.dvhimport.importjobb.orkestrering
 import no.nav.pia.dvhimport.importjobb.ImportService
 import no.nav.pia.dvhimport.importjobb.domene.ÅrstallOgKvartal
 import no.nav.pia.dvhimport.importjobb.publiseringsdato.PubliseringsdatoRepository
+import no.nav.pia.dvhimport.varsling.SlackVarsler
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import java.math.BigDecimal
 import java.time.LocalDate
+import java.time.temporal.ChronoUnit
 
 class ImportOrkestrering(
     private val importService: ImportService,
     private val lockRepository: ImportLockRepository,
     private val stegRepository: ImportStegRepository,
     private val publiseringsdatoRepository: PubliseringsdatoRepository,
+    private val slackVarsler: SlackVarsler,
 ) {
     private val logger: Logger = LoggerFactory.getLogger(this::class.java)
 
@@ -23,6 +26,7 @@ class ImportOrkestrering(
         val uprosessert = publiseringsdatoRepository.hentUprosessertForDato(dato)
         if (uprosessert == null) {
             logger.info("Ikke publiseringsdato i dag ($dato), ingen import kjøres")
+            varsleOmKommendePubliseringsdato(dato)
             return
         }
         val årstallOgKvartal = ÅrstallOgKvartal(årstall = uprosessert.årstall, kvartal = uprosessert.kvartal)
@@ -83,6 +87,7 @@ class ImportOrkestrering(
                     logger.info("En annen kjøring holder allerede låsen for $årstallOgKvartal, avbryter")
                     return
                 }
+                slackVarsler.send("📥 Import startet for $årstallOgKvartal")
             }
 
             ImportLockStatus.FERDIG -> {
@@ -98,6 +103,7 @@ class ImportOrkestrering(
             ImportLockStatus.FEILET -> {
                 logger.info("Gjenopptar feilet import for $årstallOgKvartal")
                 lockRepository.markerStartet(publiseringsdatoId)
+                slackVarsler.send("🔄 Import gjenopptatt for $årstallOgKvartal")
             }
         }
 
@@ -109,6 +115,7 @@ class ImportOrkestrering(
             lockRepository.markerFerdig(publiseringsdatoId)
             publiseringsdatoRepository.markerSomProsessert(publiseringsdatoId)
             logger.info("Import ferdig for $årstallOgKvartal")
+            slackVarsler.send("🎉 Import ferdig for $årstallOgKvartal")
         } catch (e: Exception) {
             logger.error("Import feilet for $årstallOgKvartal", e)
             lockRepository.markerFeilet(publiseringsdatoId)
@@ -138,6 +145,7 @@ class ImportOrkestrering(
                 throw e
             }
         }
+        slackVarsler.send("✅ Alle kategorier validert for $årstallOgKvartal — starter sending")
     }
 
     private fun sendAlleSteg(
@@ -152,10 +160,25 @@ class ImportOrkestrering(
             try {
                 val antallSendt = importService.sendSteg(steg, årstallOgKvartal)
                 stegRepository.markerFerdig(publiseringsdatoId, steg, antallSendt)
+                slackVarsler.send("✅ ${steg.visningsnavn} ferdig")
             } catch (e: Exception) {
                 stegRepository.markerFeilet(publiseringsdatoId, steg, Kontroll.KAFKA_ERROR)
                 throw e
             }
         }
+    }
+
+    private fun varsleOmKommendePubliseringsdato(dato: LocalDate) {
+        val neste = publiseringsdatoRepository.hentNesteUprosessertePubliseringsdato(dato) ?: return
+        val dagerTil = ChronoUnit.DAYS.between(dato, neste.dato)
+        val tekst = when (dagerTil) {
+            7L -> "📅 1 uke til publiseringsdato"
+            3L -> "📅 3 dager til publiseringsdato"
+            2L -> "📅 2 dager til publiseringsdato"
+            1L -> "📅 1 dag til publiseringsdato"
+            else -> return
+        }
+        val kvartal = ÅrstallOgKvartal(årstall = neste.årstall, kvartal = neste.kvartal)
+        slackVarsler.send("$tekst ($kvartal)")
     }
 }
