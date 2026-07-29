@@ -2,15 +2,8 @@ package no.nav.pia.dvhimport.importjobb.kafka
 
 import ia.felles.integrasjoner.jobbsender.Jobb
 import ia.felles.integrasjoner.jobbsender.Jobb.alleKategorierSykefraværsstatistikkDvhImport
-import ia.felles.integrasjoner.jobbsender.Jobb.bransjeSykefraværsstatistikkDvhImport
-import ia.felles.integrasjoner.jobbsender.Jobb.landSykefraværsstatistikkDvhImport
-import ia.felles.integrasjoner.jobbsender.Jobb.næringSykefraværsstatistikkDvhImport
-import ia.felles.integrasjoner.jobbsender.Jobb.næringskodeSykefraværsstatistikkDvhImport
 import ia.felles.integrasjoner.jobbsender.Jobb.publiseringsdatoDvhImport
-import ia.felles.integrasjoner.jobbsender.Jobb.sektorSykefraværsstatistikkDvhImport
 import ia.felles.integrasjoner.jobbsender.Jobb.sjekkPubliseringsdatoOgImporter
-import ia.felles.integrasjoner.jobbsender.Jobb.virksomhetMetadataSykefraværsstatistikkDvhImport
-import ia.felles.integrasjoner.jobbsender.Jobb.virksomhetSykefraværsstatistikkDvhImport
 import ia.felles.integrasjoner.jobbsender.JobbInfo
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -21,7 +14,6 @@ import kotlinx.coroutines.runBlocking
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
 import no.nav.pia.dvhimport.importjobb.ImportService
-import no.nav.pia.dvhimport.importjobb.domene.StatistikkKategori
 import no.nav.pia.dvhimport.importjobb.domene.ÅrstallOgKvartal
 import no.nav.pia.dvhimport.importjobb.orkestrering.ImportOrkestrering
 import no.nav.pia.dvhimport.konfigurasjon.KafkaConfig
@@ -85,63 +77,12 @@ class Jobblytter(
                                             )
                                         }
 
-                                        landSykefraværsstatistikkDvhImport -> {
-                                            importService.importForStatistikkKategori(
-                                                StatistikkKategori.LAND,
-                                                årstallOgKvartal,
-                                            )
-                                        }
-
-                                        sektorSykefraværsstatistikkDvhImport -> {
-                                            importService.importForStatistikkKategori(
-                                                StatistikkKategori.SEKTOR,
-                                                årstallOgKvartal,
-                                            )
-                                        }
-
-                                        næringSykefraværsstatistikkDvhImport -> {
-                                            importService.importForStatistikkKategori(
-                                                StatistikkKategori.NÆRING,
-                                                årstallOgKvartal,
-                                            )
-                                        }
-
-                                        næringskodeSykefraværsstatistikkDvhImport -> {
-                                            importService.importForStatistikkKategori(
-                                                StatistikkKategori.NÆRINGSKODE,
-                                                årstallOgKvartal,
-                                            )
-                                        }
-
-                                        bransjeSykefraværsstatistikkDvhImport -> {
-                                            importService.importForStatistikkKategori(
-                                                StatistikkKategori.BRANSJE,
-                                                årstallOgKvartal,
-                                            )
-                                        }
-
-                                        virksomhetSykefraværsstatistikkDvhImport -> {
-                                            importService.importForStatistikkKategori(
-                                                StatistikkKategori.VIRKSOMHET,
-                                                årstallOgKvartal,
-                                            )
-                                        }
-
-                                        virksomhetMetadataSykefraværsstatistikkDvhImport -> {
-                                            importService.importVirksomhetMetadata(årstallOgKvartal)
-                                        }
-
                                         publiseringsdatoDvhImport -> {
                                             importService.importPubliseringsdatoer()
                                         }
 
                                         sjekkPubliseringsdatoOgImporter -> {
-                                            // Auto-import er deaktivert til go-live (3. sept 2026).
-                                            // sjekkPubliseringsdatoOgStartImport() returnerer før import (se ImportService).
-                                            importService.sjekkPubliseringsdatoOgStartImport()
-                                            // TODO (nær go-live): aktiver automatisk orkestrert import ved å erstatte
-                                            // linjen over med linjen under:
-                                            // importOrkestrering.kjørImportForPubliseringsdato()
+                                            importOrkestrering.kjørImportForPubliseringsdato()
                                         }
 
                                         else -> {

@@ -15,7 +15,9 @@ spec:
             consequence: "pia-dvh-import har logget en (eller flere) feil"
             action: |-
               Sjekk logger for pia-dvh-import i Grafana for å se hva som feilet.
-              Dersom det er importdag, kan importen gjenopptas manuelt med startFra-parameter via pia-jobbsender.
+              Dersom det er importdag, kan importen gjenopptas manuelt ved å kjøre jobben
+              alleKategorierSykefraværsstatistikkDvhImport på nytt med kvartal-parameter (YYYY-K)
+              via pia-jobbsender — orkestreringen gjenopptar automatisk fra steget som feilet.
           labels:
             namespace: pia
             severity: warning
