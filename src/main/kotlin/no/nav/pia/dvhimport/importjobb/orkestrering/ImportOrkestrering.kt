@@ -20,7 +20,8 @@ class ImportOrkestrering(
 
     fun kjørImportForPubliseringsdato(
         dato: LocalDate = LocalDate.now(),
-        dryRun: Boolean = false,
+        // Midlertidig: auto-flyten kjøres som dry-run mens den testes i dev. Reverter til false før ekte prod-import.
+        dryRun: Boolean = true,
     ) {
         val uprosessert = publiseringsdatoRepository.hentUprosessertForDato(dato)
         if (uprosessert == null) {
