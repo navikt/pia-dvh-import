@@ -1,7 +1,6 @@
 package no.nav.pia.dvhimport.importjobb.domene
 
 import ia.felles.integrasjoner.jobbsender.Jobb
-import io.kotest.matchers.collections.shouldBeEmpty
 import io.kotest.matchers.maps.shouldHaveSize
 import io.kotest.matchers.nulls.shouldNotBeNull
 import io.kotest.matchers.shouldBe
@@ -97,7 +96,7 @@ class ImportServiceIntegrasjonstest {
     }
 
     @Test
-    fun `dry-run validerer alle steg uten å endre DB eller sende Kafka`() {
+    fun `dry-run kjører full sti men sender ikke til Kafka`() {
         val årstall = 2027
         val kvartal = 1
         val dato = LocalDate.of(2027, 3, 1)
@@ -108,21 +107,22 @@ class ImportServiceIntegrasjonstest {
 
         kafkaContainer.sendJobbMelding(Jobb.alleKategorierSykefraværsstatistikkDvhImport, "2027-1:DRY_RUN")
 
-        dvhImportApplikasjon shouldContainLog "DRY_RUN: validering fullført for 1. kvartal 2027".toRegex()
+        ventPåLåsStatus(id, ImportLockStatus.FERDIG, timeoutSekunder = 60)
 
-        // Dry-run persisterer ingenting: ingen lås, ingen steg, publiseringsdato fortsatt uprosessert
-        lockRepository.hentForPubliseringsdato(id) shouldBe null
-        stegRepository.hentAlle(id).shouldBeEmpty()
-        publiseringsdatoRepository.hentUprosessertForDato(dato).shouldNotBeNull()
+        // Kafka hoppes over, men hele DB-stien kjøres: lås FERDIG, alle steg FERDIG, publiseringsdato prosessert
+        dvhImportApplikasjon shouldContainLog "DRY_RUN: hopper over Kafka-sending for kategori LAND".toRegex()
+        val steg = stegRepository.hentAlle(id)
+        steg.size shouldBe 7
+        steg.all { it.status == ImportStegStatus.FERDIG } shouldBe true
+        publiseringsdatoRepository.hentUprosessertForDato(dato) shouldBe null
     }
 
     @Test
-    fun `dry-run rapporterer valideringsfeil uten å endre DB eller sende Kafka`() {
+    fun `dry-run som feiler i validering ender i FEILET uten Kafka`() {
         val årstall = 2027
         val kvartal = 2
         val dato = LocalDate.of(2027, 6, 1)
         publiseringsdatoRepository.lagrePubliseringsdato(årstall = årstall, kvartal = kvartal, dato = dato)
-        val id = publiseringsdatoRepository.hentIdForKvartal(årstall, kvartal)!!
 
         KonsistentTestdata.skrivAlleKonsistenteFiler(gcsContainer = gcsContainer, årstall = årstall, kvartal = kvartal)
         // Overstyr sektor slik at aggregert sf_prosent avviker fra LAND (6.2)
@@ -130,11 +130,13 @@ class ImportServiceIntegrasjonstest {
 
         kafkaContainer.sendJobbMelding(Jobb.alleKategorierSykefraværsstatistikkDvhImport, "2027-2:DRY_RUN")
 
-        dvhImportApplikasjon shouldContainLog "DRY_RUN: validering FEILET på steg IMPORT_SEKTOR \\(SF_PROSENT_FEIL\\)".toRegex()
-
-        // Ingen bivirkninger — heller ikke på feil-stien (motsatt av ekte kjøring som ville skrevet lås+steg FEILET)
-        lockRepository.hentForPubliseringsdato(id) shouldBe null
-        stegRepository.hentAlle(id).shouldBeEmpty()
+        // Full feil-sti (samme som ekte kjøring): lås FEILET, sektor FEILET, ingen steg FERDIG
+        verifiserFeilet(
+            årstall = årstall,
+            kvartal = kvartal,
+            feilendeSteg = ImportSteg.IMPORT_SEKTOR,
+            forventetKontroll = Kontroll.SF_PROSENT_FEIL,
+        )
         publiseringsdatoRepository.hentUprosessertForDato(dato).shouldNotBeNull()
     }
 

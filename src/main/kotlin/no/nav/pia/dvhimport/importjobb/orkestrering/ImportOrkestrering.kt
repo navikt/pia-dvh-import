@@ -6,7 +6,6 @@ import no.nav.pia.dvhimport.importjobb.publiseringsdato.PubliseringsdatoReposito
 import no.nav.pia.dvhimport.varsling.SlackVarsler
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
-import java.math.BigDecimal
 import java.time.LocalDate
 import java.time.temporal.ChronoUnit
 
@@ -30,59 +29,27 @@ class ImportOrkestrering(
             return
         }
         val årstallOgKvartal = ÅrstallOgKvartal(årstall = uprosessert.årstall, kvartal = uprosessert.kvartal)
-        if (dryRun) {
-            kjørDryRun(årstallOgKvartal)
-            return
-        }
-        kjørImport(publiseringsdatoId = uprosessert.id, årstallOgKvartal = årstallOgKvartal)
+        kjørImport(publiseringsdatoId = uprosessert.id, årstallOgKvartal = årstallOgKvartal, dryRun = dryRun)
     }
 
     fun kjørImportForKvartal(
         årstallOgKvartal: ÅrstallOgKvartal,
         dryRun: Boolean = false,
     ) {
-        if (dryRun) {
-            kjørDryRun(årstallOgKvartal)
-            return
-        }
         val publiseringsdatoId = publiseringsdatoRepository.hentIdForKvartal(
             årstall = årstallOgKvartal.årstall,
             kvartal = årstallOgKvartal.kvartal,
         )
             ?: throw IllegalStateException("Ingen publiseringsdato funnet for $årstallOgKvartal, kan ikke starte orkestrert import")
-        kjørImport(publiseringsdatoId = publiseringsdatoId, årstallOgKvartal = årstallOgKvartal)
-    }
-
-    /**
-     * Dry-run: validerer alle 7 steg mot ekte data uten å sende Kafka og uten å endre DB.
-     * Tar ingen lås, oppretter ingen steg-rader, markerer ingenting som prosessert.
-     * Fritt re-kjørbar og blokkerer aldri en ekte import. Utfallet går til logg.
-     */
-    fun kjørDryRun(årstallOgKvartal: ÅrstallOgKvartal) {
-        logger.info("DRY_RUN: starter validering for $årstallOgKvartal — ingen lås, ingen DB-endring, ingen Kafka")
-        slackVarsler.send("🧪 Dry-run startet for $årstallOgKvartal — validerer alle kategorier, ingen data sendes")
-        var landSfProsent: BigDecimal? = null
-        ImportSteg.iRekkefolge.forEach { steg ->
-            val resultat = try {
-                importService.lesOgValiderSteg(steg, årstallOgKvartal, landSfProsent)
-            } catch (e: ValideringsfeilException) {
-                logger.warn("DRY_RUN: validering FEILET på steg $steg (${e.kontroll}): ${e.message} — ville stoppet ekte kjøring")
-                slackVarsler.send("❌ Dry-run FEILET på ${steg.visningsnavn} (${e.kontroll}) for $årstallOgKvartal: ${e.message}")
-                return
-            }
-            if (steg == ImportSteg.IMPORT_LAND) {
-                landSfProsent = resultat.sfProsent
-            }
-            logger.info("DRY_RUN: steg $steg validert (rader=${resultat.antallRaderLest}, sfProsent=${resultat.sfProsent})")
-        }
-        logger.info("DRY_RUN: validering fullført for $årstallOgKvartal — ingen data sendt")
-        slackVarsler.send("🧪 Dry-run fullført for $årstallOgKvartal — alle kategorier validert, ingen data sendt")
+        kjørImport(publiseringsdatoId = publiseringsdatoId, årstallOgKvartal = årstallOgKvartal, dryRun = dryRun)
     }
 
     fun kjørImport(
         publiseringsdatoId: Int,
         årstallOgKvartal: ÅrstallOgKvartal,
+        dryRun: Boolean = false,
     ) {
+        val markør = if (dryRun) " — 🧪 dry-run (ingen Kafka)" else ""
         val eksisterendeLås = lockRepository.hentForPubliseringsdato(publiseringsdatoId)
         when (eksisterendeLås?.status) {
             null -> {
@@ -90,7 +57,7 @@ class ImportOrkestrering(
                     logger.info("En annen kjøring holder allerede låsen for $årstallOgKvartal, avbryter")
                     return
                 }
-                slackVarsler.send("📥 Import startet for $årstallOgKvartal")
+                slackVarsler.send("📥 Import startet for $årstallOgKvartal$markør")
             }
 
             ImportLockStatus.FERDIG -> {
@@ -106,7 +73,7 @@ class ImportOrkestrering(
             ImportLockStatus.FEILET -> {
                 logger.info("Gjenopptar feilet import for $årstallOgKvartal")
                 lockRepository.markerStartet(publiseringsdatoId)
-                slackVarsler.send("🔄 Import gjenopptatt for $årstallOgKvartal")
+                slackVarsler.send("🔄 Import gjenopptatt for $årstallOgKvartal$markør")
             }
         }
 
@@ -114,11 +81,11 @@ class ImportOrkestrering(
 
         try {
             validerAlleSteg(publiseringsdatoId, årstallOgKvartal)
-            sendAlleSteg(publiseringsdatoId, årstallOgKvartal)
+            sendAlleSteg(publiseringsdatoId, årstallOgKvartal, dryRun)
             lockRepository.markerFerdig(publiseringsdatoId)
             publiseringsdatoRepository.markerSomProsessert(publiseringsdatoId)
             logger.info("Import ferdig for $årstallOgKvartal")
-            slackVarsler.send("🎉 Import ferdig for $årstallOgKvartal")
+            slackVarsler.send("🎉 ${if (dryRun) "Dry-run" else "Import"} ferdig for $årstallOgKvartal")
         } catch (e: Exception) {
             logger.error("Import feilet for $årstallOgKvartal", e)
             lockRepository.markerFeilet(publiseringsdatoId)
@@ -154,6 +121,7 @@ class ImportOrkestrering(
     private fun sendAlleSteg(
         publiseringsdatoId: Int,
         årstallOgKvartal: ÅrstallOgKvartal,
+        dryRun: Boolean,
     ) {
         val gjenstår = stegRepository.hentAlle(publiseringsdatoId)
             .filter { it.status != ImportStegStatus.FERDIG }
@@ -161,7 +129,7 @@ class ImportOrkestrering(
 
         gjenstår.forEach { steg ->
             try {
-                val antallSendt = importService.sendSteg(steg, årstallOgKvartal)
+                val antallSendt = importService.sendSteg(steg, årstallOgKvartal, dryRun)
                 stegRepository.markerFerdig(publiseringsdatoId, steg, antallSendt)
                 slackVarsler.send("✅ ${steg.visningsnavn} ferdig")
             } catch (e: Exception) {

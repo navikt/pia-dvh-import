@@ -146,6 +146,7 @@ class ImportService(
     fun sendSteg(
         steg: ImportSteg,
         årstallOgKvartal: ÅrstallOgKvartal,
+        dryRun: Boolean = false,
     ): Int {
         logger.info("Sender steg '$steg' for $årstallOgKvartal")
         if (!bucketKlient.sjekkBucketExists()) {
@@ -156,31 +157,31 @@ class ImportService(
         return when (steg) {
             ImportSteg.IMPORT_LAND -> {
                 val data = import<LandSykefraværsstatistikkDto>(StatistikkKategori.LAND, path)
-                sendTilKafka(årstallOgKvartal, data, StatistikkKategori.LAND)
+                sendTilKafka(årstallOgKvartal, data, StatistikkKategori.LAND, dryRun)
                 data.size
             }
             ImportSteg.IMPORT_SEKTOR -> {
                 val data = import<SektorSykefraværsstatistikkDto>(StatistikkKategori.SEKTOR, path)
-                sendTilKafka(årstallOgKvartal, data, StatistikkKategori.SEKTOR)
+                sendTilKafka(årstallOgKvartal, data, StatistikkKategori.SEKTOR, dryRun)
                 data.size
             }
             ImportSteg.IMPORT_NARING -> {
                 val data = import<NæringSykefraværsstatistikkDto>(StatistikkKategori.NÆRING, path)
-                sendTilKafka(årstallOgKvartal, data, StatistikkKategori.NÆRING)
+                sendTilKafka(årstallOgKvartal, data, StatistikkKategori.NÆRING, dryRun)
                 data.size
             }
             ImportSteg.IMPORT_NARINGSKODE -> {
                 val data = import<NæringskodeSykefraværsstatistikkDto>(StatistikkKategori.NÆRINGSKODE, path)
-                sendTilKafka(årstallOgKvartal, data, StatistikkKategori.NÆRINGSKODE)
+                sendTilKafka(årstallOgKvartal, data, StatistikkKategori.NÆRINGSKODE, dryRun)
                 data.size
             }
             ImportSteg.IMPORT_BRANSJE -> {
                 val data = importBransje(path, årstallOgKvartal)
-                sendTilKafka(årstallOgKvartal, data, StatistikkKategori.BRANSJE)
+                sendTilKafka(årstallOgKvartal, data, StatistikkKategori.BRANSJE, dryRun)
                 data.size
             }
-            ImportSteg.IMPORT_VIRKSOMHET -> importStatistikkVirksomhetOgSendTilKafka(path, årstallOgKvartal)
-            ImportSteg.IMPORT_VIRKSOMHET_METADATA -> importVirksomhetMetadataOgSendTilKafka(path, årstallOgKvartal)
+            ImportSteg.IMPORT_VIRKSOMHET -> importStatistikkVirksomhetOgSendTilKafka(path, årstallOgKvartal, dryRun)
+            ImportSteg.IMPORT_VIRKSOMHET_METADATA -> importVirksomhetMetadataOgSendTilKafka(path, årstallOgKvartal, dryRun)
         }
     }
 
@@ -306,6 +307,7 @@ class ImportService(
     private fun importStatistikkVirksomhetOgSendTilKafka(
         path: String,
         årstallOgKvartal: ÅrstallOgKvartal,
+        dryRun: Boolean = false,
     ): Int {
         try {
             val sumAntallVirksomheter = AtomicReference(0)
@@ -324,6 +326,7 @@ class ImportService(
                         årstallOgKvartal = årstallOgKvartal,
                         statistikk,
                         kategori = StatistikkKategori.VIRKSOMHET,
+                        dryRun = dryRun,
                     )
                     sumAntallVirksomheter.getAndAccumulate(statistikk.size) { x, y -> x + y }
                 }
@@ -345,6 +348,7 @@ class ImportService(
     private fun importVirksomhetMetadataOgSendTilKafka(
         path: String,
         årstallOgKvartal: ÅrstallOgKvartal,
+        dryRun: Boolean = false,
     ): Int {
         logger.info("Starter import av virksomhet metadata")
         try {
@@ -364,6 +368,7 @@ class ImportService(
                         årstall = årstallOgKvartal.årstall,
                         kvartal = årstallOgKvartal.kvartal,
                         metadata,
+                        dryRun = dryRun,
                     )
                     sumAntallMetadata.getAndAccumulate(metadata.size) { x, y -> x + y }
                 }
@@ -579,7 +584,12 @@ class ImportService(
         årstallOgKvartal: ÅrstallOgKvartal,
         statistikk: List<T>,
         kategori: StatistikkKategori,
+        dryRun: Boolean = false,
     ) {
+        if (dryRun) {
+            logger.info("DRY_RUN: hopper over Kafka-sending for kategori $kategori (${statistikk.size} meldinger)")
+            return
+        }
         logger.info("Sender ${statistikk.size} statistikk for kategori $kategori til Kafka")
         statistikk.forEach {
             eksportProdusent.sendMelding(
@@ -597,7 +607,12 @@ class ImportService(
         årstall: Int,
         kvartal: Int,
         metadata: List<VirksomhetMetadataDto>,
+        dryRun: Boolean = false,
     ) {
+        if (dryRun) {
+            logger.info("DRY_RUN: hopper over Kafka-sending for kategori VIRKSOMHET_METADATA (${metadata.size} meldinger)")
+            return
+        }
         metadata.forEach {
             val metadataMelding = VirksomhetMetadataMelding(
                 årstall = årstall,

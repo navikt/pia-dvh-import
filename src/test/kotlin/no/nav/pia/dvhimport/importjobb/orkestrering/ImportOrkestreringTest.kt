@@ -59,7 +59,7 @@ class ImportOrkestreringTest {
     fun `happy path - alle 7 steg FERDIG, lock FERDIG og publiseringsdato prosessert`() {
         val id = opprettPubliseringsdato()
         every { importService.lesOgValiderSteg(any(), any(), any()) } returns StegValideringsresultat(1, null)
-        every { importService.sendSteg(any(), any()) } returns 1
+        every { importService.sendSteg(any(), any(), any()) } returns 1
 
         orkestrering.kjørImport(id, kvartal)
 
@@ -80,7 +80,7 @@ class ImportOrkestreringTest {
             orkestrering.kjørImport(id, kvartal)
         }
 
-        verify(exactly = 0) { importService.sendSteg(any(), any()) }
+        verify(exactly = 0) { importService.sendSteg(any(), any(), any()) }
         lockRepository.hentForPubliseringsdato(id)!!.status shouldBe ImportLockStatus.FEILET
         stegRepository.hent(id, ImportSteg.IMPORT_SEKTOR)!!.status shouldBe ImportStegStatus.FEILET
         stegRepository.hent(id, ImportSteg.IMPORT_LAND)!!.status shouldBe ImportStegStatus.VALIDERT
@@ -89,7 +89,7 @@ class ImportOrkestreringTest {
     @Test
     fun `gjenopptar fra FEILET steg uten å re-validere allerede validerte steg`() {
         val id = opprettPubliseringsdato()
-        every { importService.sendSteg(any(), any()) } returns 1
+        every { importService.sendSteg(any(), any(), any()) } returns 1
         every { importService.lesOgValiderSteg(any(), any(), any()) } answers {
             if (firstArg<ImportSteg>() == ImportSteg.IMPORT_NARING) {
                 throw IllegalStateException("valideringsfeil")
@@ -115,13 +115,13 @@ class ImportOrkestreringTest {
     fun `lock hindrer ny kjøring når importen allerede er ferdig`() {
         val id = opprettPubliseringsdato()
         every { importService.lesOgValiderSteg(any(), any(), any()) } returns StegValideringsresultat(1, null)
-        every { importService.sendSteg(any(), any()) } returns 1
+        every { importService.sendSteg(any(), any(), any()) } returns 1
 
         orkestrering.kjørImport(id, kvartal)
         orkestrering.kjørImport(id, kvartal)
 
         verify(exactly = 7) { importService.lesOgValiderSteg(any(), any(), any()) }
-        verify(exactly = 7) { importService.sendSteg(any(), any()) }
+        verify(exactly = 7) { importService.sendSteg(any(), any(), any()) }
     }
 
     @Test
@@ -138,14 +138,14 @@ class ImportOrkestreringTest {
         orkestrering.kjørImportForPubliseringsdato(dato)
 
         verify(exactly = 0) { importService.lesOgValiderSteg(any(), any(), any()) }
-        verify(exactly = 0) { importService.sendSteg(any(), any()) }
+        verify(exactly = 0) { importService.sendSteg(any(), any(), any()) }
     }
 
     @Test
     fun `sender Slack-varsler for start, validering, per kategori og ferdig`() {
         val id = opprettPubliseringsdato()
         every { importService.lesOgValiderSteg(any(), any(), any()) } returns StegValideringsresultat(1, null)
-        every { importService.sendSteg(any(), any()) } returns 1
+        every { importService.sendSteg(any(), any(), any()) } returns 1
 
         orkestrering.kjørImport(id, kvartal)
 
@@ -177,13 +177,18 @@ class ImportOrkestreringTest {
     }
 
     @Test
-    fun `dry-run sender Slack-varsel for start og fullført`() {
+    fun `dry-run kjører full sti men kaller sendSteg med dryRun`() {
+        val id = opprettPubliseringsdato()
         every { importService.lesOgValiderSteg(any(), any(), any()) } returns StegValideringsresultat(1, null)
+        every { importService.sendSteg(any(), any(), any()) } returns 1
 
-        orkestrering.kjørDryRun(kvartal)
+        orkestrering.kjørImportForKvartal(kvartal, dryRun = true)
 
-        verify { slackVarsler.send(match { it.contains("Dry-run startet") }) }
-        verify { slackVarsler.send(match { it.contains("Dry-run fullført") }) }
-        verify(exactly = 0) { importService.sendSteg(any(), any()) }
+        val steg = stegRepository.hentAlle(id)
+        steg shouldHaveSize 7
+        steg.all { it.status == ImportStegStatus.FERDIG } shouldBe true
+        lockRepository.hentForPubliseringsdato(id)!!.status shouldBe ImportLockStatus.FERDIG
+        verify(exactly = 7) { importService.sendSteg(any(), any(), true) }
+        verify { slackVarsler.send(match { it.contains("dry-run") }) }
     }
 }
