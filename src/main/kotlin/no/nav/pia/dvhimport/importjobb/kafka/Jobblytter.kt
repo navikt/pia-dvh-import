@@ -62,15 +62,14 @@ class Jobblytter(
                                     "Received record with key ${it.key()} and value ${it.value()} from topic ${it.topic()} but jobInfo.job is ${jobbInfo.jobb}",
                                 )
                             } else {
-                                val årstallOgKvartal =
-                                    jobbInfo.tilÅrstallOgKvartal() ?: run {
-                                        logger.error("Jobb '${jobbInfo.jobb}' krever årstallOgKvartal-parameter, men ingen ble gitt")
-                                        return@forEach
-                                    }
-                                logger.info("Starter jobb ${jobbInfo.jobb} for $årstallOgKvartal")
+                                logger.info("Starter jobb ${jobbInfo.jobb}")
                                 try {
                                     when (jobbInfo.jobb) {
                                         alleKategorierSykefraværsstatistikkDvhImport -> {
+                                            val årstallOgKvartal = jobbInfo.tilÅrstallOgKvartal() ?: run {
+                                                logger.error("Jobb '${jobbInfo.jobb}' krever årstallOgKvartal-parameter, men ingen ble gitt")
+                                                return@forEach
+                                            }
                                             importOrkestrering.kjørImportForKvartal(
                                                 årstallOgKvartal,
                                                 dryRun = jobbInfo.tilDryRun(),
@@ -91,7 +90,7 @@ class Jobblytter(
                                     }
                                     logger.info("Jobb '${jobbInfo.jobb}' ferdig")
                                 } catch (e: Exception) {
-                                    logger.error("Jobb '${jobbInfo.jobb}' feilet for $årstallOgKvartal", e)
+                                    logger.error("Jobb '${jobbInfo.jobb}' feilet", e)
                                 }
                             }
                         }
