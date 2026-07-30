@@ -109,9 +109,13 @@ class ImportOrkestrering(
                 stegRepository.markerValidert(publiseringsdatoId, steg, resultat.antallRaderLest, resultat.sfProsent)
             } catch (e: ValideringsfeilException) {
                 stegRepository.markerFeilet(publiseringsdatoId, steg, e.kontroll)
+                logger.error("Validering feilet på ${steg.visningsnavn} (${e.kontroll}) for $årstallOgKvartal: ${e.message}")
+                slackVarsler.send("❌ Import feilet på ${steg.visningsnavn} (${e.kontroll}) for $årstallOgKvartal: ${e.message}")
                 throw e
             } catch (e: Exception) {
                 stegRepository.markerFeilet(publiseringsdatoId, steg, Kontroll.ANNET)
+                logger.error("Uventet feil på ${steg.visningsnavn} for $årstallOgKvartal: ${e.message}", e)
+                slackVarsler.send("❌ Import feilet på ${steg.visningsnavn} (uventet feil) for $årstallOgKvartal: ${e.message}")
                 throw e
             }
         }

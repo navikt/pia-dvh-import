@@ -130,6 +130,8 @@ class ImportServiceIntegrasjonstest {
 
         kafkaContainer.sendJobbMelding(Jobb.alleKategorierSykefraværsstatistikkDvhImport, "2027-2:DRY_RUN")
 
+        dvhImportApplikasjon shouldContainLog "Validering feilet på Sektor \\(SF_PROSENT_FEIL\\)".toRegex()
+
         // Full feil-sti (samme som ekte kjøring): lås FEILET, sektor FEILET, ingen steg FERDIG
         verifiserFeilet(
             årstall = årstall,

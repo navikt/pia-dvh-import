@@ -87,6 +87,20 @@ class ImportOrkestreringTest {
     }
 
     @Test
+    fun `valideringsfeil gir Slack-varsel med kategori og kontroll`() {
+        val id = opprettPubliseringsdato()
+        every { importService.lesOgValiderSteg(ImportSteg.IMPORT_LAND, any(), any()) } returns StegValideringsresultat(1, null)
+        every { importService.lesOgValiderSteg(ImportSteg.IMPORT_SEKTOR, any(), any()) } throws
+            ValideringsfeilException(Kontroll.SF_PROSENT_FEIL, "sykefraværsprosent 5.4 avviker fra referanse 6.2")
+
+        shouldThrow<ValideringsfeilException> {
+            orkestrering.kjørImport(id, kvartal)
+        }
+
+        verify { slackVarsler.send(match { it.contains("Sektor") && it.contains("SF_PROSENT_FEIL") }) }
+    }
+
+    @Test
     fun `gjenopptar fra FEILET steg uten å re-validere allerede validerte steg`() {
         val id = opprettPubliseringsdato()
         every { importService.sendSteg(any(), any(), any()) } returns 1
