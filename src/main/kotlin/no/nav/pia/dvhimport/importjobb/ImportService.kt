@@ -62,6 +62,7 @@ class ImportService(
     private val brukÅrOgKvartalIPathTilFilene: Boolean,
     private val publiseringsdatoRepository: PubliseringsdatoRepository,
     private val radgrenser: Radgrenser,
+    private val skalValidereSfProsent: Boolean = true,
 ) {
     private val logger: Logger = LoggerFactory.getLogger(this::class.java)
     private val eksportProdusent by lazy {
@@ -100,7 +101,7 @@ class ImportService(
                 validerRadgrense(steg, data.size)
                 val beregnet = kalkulerOgLoggSykefraværsprosent(StatistikkKategori.LAND, data)
                 // LAND er referansen: beregnet sf_prosent skal stemme med prosent-feltet i fila.
-                validerSfProsent(steg, beregnet, data.first().prosent)
+                validerSfProsent(steg, beregnet, data.first().prosent, årstallOgKvartal)
                 StegValideringsresultat(data.size, beregnet)
             }
             ImportSteg.IMPORT_SEKTOR -> {
@@ -109,7 +110,7 @@ class ImportService(
                 validerÅrstall(steg, data, årstallOgKvartal)
                 validerRadgrense(steg, data.size)
                 val beregnet = kalkulerOgLoggSykefraværsprosent(StatistikkKategori.SEKTOR, data)
-                validerSfProsent(steg, beregnet, landSfProsent)
+                validerSfProsent(steg, beregnet, landSfProsent, årstallOgKvartal)
                 StegValideringsresultat(data.size, beregnet)
             }
             ImportSteg.IMPORT_NARING -> {
@@ -118,7 +119,7 @@ class ImportService(
                 validerÅrstall(steg, data, årstallOgKvartal)
                 validerRadgrense(steg, data.size)
                 val beregnet = kalkulerOgLoggSykefraværsprosent(StatistikkKategori.NÆRING, data)
-                validerSfProsent(steg, beregnet, landSfProsent)
+                validerSfProsent(steg, beregnet, landSfProsent, årstallOgKvartal)
                 StegValideringsresultat(data.size, beregnet)
             }
             ImportSteg.IMPORT_NARINGSKODE -> {
@@ -127,7 +128,7 @@ class ImportService(
                 validerÅrstall(steg, data, årstallOgKvartal)
                 validerRadgrense(steg, data.size)
                 val beregnet = kalkulerOgLoggSykefraværsprosent(StatistikkKategori.NÆRINGSKODE, data)
-                validerSfProsent(steg, beregnet, landSfProsent)
+                validerSfProsent(steg, beregnet, landSfProsent, årstallOgKvartal)
                 StegValideringsresultat(data.size, beregnet)
             }
             ImportSteg.IMPORT_BRANSJE -> {
@@ -231,21 +232,28 @@ class ImportService(
         steg: ImportSteg,
         beregnet: BigDecimal,
         referanse: BigDecimal?,
+        årstallOgKvartal: ÅrstallOgKvartal,
     ) {
-        if (referanse == null) {
-            throw ValideringsfeilException(
-                Kontroll.SF_PROSENT_FEIL,
-                "Steg $steg: mangler referanse-sykefraværsprosent (LAND ikke validert)",
-            )
-        }
+        // Avrund begge til 1 desimal og sammenlign; like verdier = gyldig steg
         val a = beregnet.setScale(ANTALL_SIFRE_I_RESULTAT, RoundingMode.HALF_UP)
-        val b = referanse.setScale(ANTALL_SIFRE_I_RESULTAT, RoundingMode.HALF_UP)
-        if (a.compareTo(b) != 0) {
-            throw ValideringsfeilException(
-                Kontroll.SF_PROSENT_FEIL,
-                "Steg $steg: sykefraværsprosent $a avviker fra referanse $b",
-            )
+        val b = referanse?.setScale(ANTALL_SIFRE_I_RESULTAT, RoundingMode.HALF_UP)
+        if (b != null && a.compareTo(b) == 0) {
+            return
         }
+        // Her har vi et avvik: enten mangler LAND-referansen, eller sf-prosenten er ulik den
+        val detalj = if (b == null) {
+            "Steg $steg: mangler referanse-sykefraværsprosent (LAND ikke validert)"
+        } else {
+            "Steg $steg: sykefraværsprosent $a avviker fra referanse $b"
+        }
+        if (!skalValidereSfProsent) {
+            logger.info(
+                "ℹ️ Import ville ha feilet på ${steg.visningsnavn} (SF_PROSENT_FEIL) for $årstallOgKvartal: " +
+                    "$detalj, MEN ettersom vi er i dev fortsetter vi importen",
+            )
+            return
+        }
+        throw ValideringsfeilException(Kontroll.SF_PROSENT_FEIL, detalj)
     }
 
     private fun <T> filtrerPåOrgnr(
@@ -281,7 +289,7 @@ class ImportService(
                 StatistikkKategori.VIRKSOMHET,
                 gyldige.filter { it.rectype == DatavarehusRecordType.UNDERENHET.kode },
             )
-            validerSfProsent(steg, beregnet, landSfProsent)
+            validerSfProsent(steg, beregnet, landSfProsent, årstallOgKvartal)
             inputStream.close()
             StegValideringsresultat(gyldige.size, beregnet)
         }

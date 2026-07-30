@@ -49,6 +49,7 @@ fun main() {
         brukÅrOgKvartalIPathTilFilene = brukÅrOgKvartalIPathTilFilene,
         publiseringsdatoRepository = publiseringsdatoRepository,
         radgrenser = Radgrenser.forCluster(naisEnvironment.naisClusterName),
+        skalValidereSfProsent = naisEnvironment.naisClusterName != "dev-gcp",
     )
     val importOrkestrering = ImportOrkestrering(
         importService = importService,
