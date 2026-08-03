@@ -10,6 +10,7 @@ val kotliqueryVersion = "1.9.1"
 val ktorVersion = "3.5.1"
 val logbackVersion = "1.5.37"
 val logstashLogbackEncoderVersion = "9.0"
+val mockServerVersion = "2.50.9"
 val opentelemetryLogbackMdcVersion = "2.29.0-alpha"
 val postgresqlVersion = "42.7.9"
 val prometheusVersion = "1.17.0"
@@ -77,6 +78,9 @@ dependencies {
     testImplementation("org.wiremock:wiremock-standalone:$wiremockStandaloneVersion")
     // In-memory Google Cloud storage bucket
     testImplementation("com.google.cloud:google-cloud-nio:$gcsNioVersion")
+    // Mockserver neolight
+    testImplementation("software.xdev.mockserver:testcontainers:$mockServerVersion")
+    testImplementation("software.xdev.mockserver:client:$mockServerVersion")
 
     constraints {
         implementation("com.fasterxml.jackson.core:jackson-core") {

@@ -29,6 +29,7 @@ class TestContainerHelper {
         val kafka = KafkaContainerHelper(network = network, log = log)
         val googleCloudStorage = GoogleCloudStorageContainerHelper(network = network, log = log)
         val postgresContainerHelper = PostgresContainerHelper(network = network, log = log)
+        val slackWebhookContainerHelper = SlackWebhookContainerHelper(network = network, log = log)
 
         val dvhImportApplikasjon =
             GenericContainer(
@@ -43,11 +44,13 @@ class TestContainerHelper {
                             "NAIS_CLUSTER_NAME" to "lokal",
                         )
                             .plus(googleCloudStorage.envVars())
-                            .plus(postgresContainerHelper.envVars()),
+                            .plus(postgresContainerHelper.envVars())
+                            .plus(slackWebhookContainerHelper.envVars()),
                 )
                 .dependsOn(kafka.kafkaContainer)
                 .dependsOn(googleCloudStorage.container)
                 .dependsOn(postgresContainerHelper.container)
+                .dependsOn(slackWebhookContainerHelper.container)
                 .waitingFor(HttpWaitStrategy().forPath("/internal/isalive").withStartupTimeout(Duration.ofSeconds(20)))
                 .apply {
                     start()

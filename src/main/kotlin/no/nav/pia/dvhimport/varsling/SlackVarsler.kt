@@ -24,7 +24,9 @@ class SlackVarsler(
     private val logger: Logger = LoggerFactory.getLogger(this::class.java)
 
     @Serializable
-    private data class SlackMelding(val text: String)
+    data class SlackMelding(
+        val text: String,
+    )
 
     fun send(melding: String) {
         if (webhookUrl.isBlank()) {
