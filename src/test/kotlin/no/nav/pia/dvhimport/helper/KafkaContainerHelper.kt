@@ -177,7 +177,7 @@ class KafkaContainerHelper(
 
     fun sendJobbMelding(
         jobb: Jobb,
-        parameter: String = "2024-2",
+        parameter: String = "2024-2", // TODO: fix -> vi sender ikke lenger årstall/kvartal som parameter
     ) {
         sendOgVentTilKonsumert(
             nøkkel = jobb.name,

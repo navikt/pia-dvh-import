@@ -88,18 +88,21 @@ class Jobblytter(
 
                                         // Scheduled job [daglig, kl. 21:00] for å hente publiseringsdatoer fra DVH, lagre i DB og sende vider til Kafka
                                         publiseringsdatoDvhImport -> {
-                                            importService.importPubliseringsdatoer(dryRun = true)
+                                            importService.importPubliseringsdatoer(
+                                                dryRun = jobbInfo.tilDryRun(),
+                                            )
                                         }
 
                                         // Scheduled job [daglig, kl. 08:05] for å sjekke om det er publiseringsdato i dag, og kjøre import for kvartalet hvis det er
                                         sjekkPubliseringsdatoOgImporter -> {
-                                            importOrkestrering.kjørImportForPubliseringsdato(dryRun = true)
+                                            importOrkestrering.kjørImportForPubliseringsdato(
+                                                dryRun = jobbInfo.tilDryRun(),
+                                            )
                                         }
 
                                         else -> {
                                             logger.info(
-                                                "Jobb '${jobbInfo.jobb}' ignorert. " +
-                                                    "Starter ikke jobb (Kafka-meldingen committes).",
+                                                "Jobb '${jobbInfo.jobb}' ignorert. " + "Starter ikke jobb (Kafka-meldingen committes).",
                                             )
                                         }
                                     }
@@ -160,7 +163,7 @@ class Jobblytter(
     }
 
     private fun SerializableJobbInfo.tilDryRun(): Boolean {
-        if (this.parameter.isNullOrBlank()) return false
+        if (this.parameter.isNullOrBlank()) return true // default er dry-run når parameter er tom
         val deler = this.parameter.split(":")
         return deler.size == 2 && deler[1].equals("DRY_RUN", ignoreCase = true)
     }
