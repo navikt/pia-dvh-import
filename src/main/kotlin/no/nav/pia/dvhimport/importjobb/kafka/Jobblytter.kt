@@ -59,33 +59,48 @@ class Jobblytter(
                             val jobbInfo = Json.decodeFromString<SerializableJobbInfo>(it.value())
                             if (jobbInfo.jobb.name != it.key()) {
                                 logger.warn(
-                                    "Received record with key ${it.key()} and value ${it.value()} from topic ${it.topic()} but jobInfo.job is ${jobbInfo.jobb}",
+                                    "Mottok melding fra topic ${it.topic()} med nøkkel ${it.key()}, " +
+                                        "men jobbInfo.jobb er ${jobbInfo.jobb}. " +
+                                        "Starter ikke jobb (Kafka-meldingen committes).",
                                 )
                             } else {
-                                logger.info("Starter jobb ${jobbInfo.jobb}")
+                                logger.info(
+                                    "Starter jobb '${jobbInfo.jobb}' på tidspunkt '${jobbInfo.tidspunkt}' " +
+                                        "for applikasjon '${jobbInfo.applikasjon}' " +
+                                        "med parameter '${jobbInfo.parameter}'",
+                                )
                                 try {
                                     when (jobbInfo.jobb) {
+                                        // Manuell start av import for alle kategorier statistikk
                                         alleKategorierSykefraværsstatistikkDvhImport -> {
                                             val årstallOgKvartal = jobbInfo.tilÅrstallOgKvartal() ?: run {
-                                                logger.error("Jobb '${jobbInfo.jobb}' krever årstallOgKvartal-parameter, men ingen ble gitt")
+                                                logger.warn(
+                                                    "Jobb '${jobbInfo.jobb}' krever årstallOgKvartal-parameter, men ingen ble gitt. " +
+                                                        "Starter ikke jobb (Kafka-meldingen committes).",
+                                                )
                                                 return@forEach
                                             }
                                             importOrkestrering.kjørImportForKvartal(
-                                                årstallOgKvartal,
+                                                årstallOgKvartal = årstallOgKvartal,
                                                 dryRun = jobbInfo.tilDryRun(),
                                             )
                                         }
 
+                                        // Scheduled job [daglig, kl. 21:00] for å hente publiseringsdatoer fra DVH, lagre i DB og sende vider til Kafka
                                         publiseringsdatoDvhImport -> {
-                                            importService.importPubliseringsdatoer()
+                                            importService.importPubliseringsdatoer(dryRun = jobbInfo.tilDryRun())
                                         }
 
+                                        // Scheduled job [daglig, kl. 08:05] for å sjekke om det er publiseringsdato i dag, og kjøre import for kvartalet hvis det er
                                         sjekkPubliseringsdatoOgImporter -> {
-                                            importOrkestrering.kjørImportForPubliseringsdato()
+                                            importOrkestrering.kjørImportForPubliseringsdato(dryRun = jobbInfo.tilDryRun())
                                         }
 
                                         else -> {
-                                            logger.info("Jobb '${jobbInfo.jobb}' ignorert")
+                                            logger.info(
+                                                "Jobb '${jobbInfo.jobb}' ignorert. " +
+                                                    "Starter ikke jobb (Kafka-meldingen committes).",
+                                            )
                                         }
                                     }
                                     logger.info("Jobb '${jobbInfo.jobb}' ferdig")
@@ -104,7 +119,7 @@ class Jobblytter(
                 } catch (e: RetriableException) {
                     logger.error("Kafka consumer got retriable exception", e)
                 } catch (e: Exception) {
-                    logger.error("Exception is shutting down kafka listner for ${topic.navnMedNamespace}", e)
+                    logger.error("Exception is shutting down kafka listener for ${topic.navnMedNamespace}", e)
                     throw e
                 }
             }

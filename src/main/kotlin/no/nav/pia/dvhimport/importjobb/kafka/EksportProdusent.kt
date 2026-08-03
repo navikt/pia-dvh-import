@@ -6,7 +6,6 @@ import no.nav.pia.dvhimport.importjobb.domene.BransjeSykefraværsstatistikkDto
 import no.nav.pia.dvhimport.importjobb.domene.LandSykefraværsstatistikkDto
 import no.nav.pia.dvhimport.importjobb.domene.NæringSykefraværsstatistikkDto
 import no.nav.pia.dvhimport.importjobb.domene.NæringskodeSykefraværsstatistikkDto
-import no.nav.pia.dvhimport.importjobb.publiseringsdato.PubliseringsdatoKafkaDto
 import no.nav.pia.dvhimport.importjobb.domene.SektorSykefraværsstatistikkDto
 import no.nav.pia.dvhimport.importjobb.domene.StatistikkKategori
 import no.nav.pia.dvhimport.importjobb.domene.StatistikkKategori.BRANSJE
@@ -21,6 +20,7 @@ import no.nav.pia.dvhimport.importjobb.domene.VirksomhetSykefraværsstatistikkDt
 import no.nav.pia.dvhimport.importjobb.kafka.EksportProdusent.MeldingType.METADATA_FOR_VIRKSOMHET
 import no.nav.pia.dvhimport.importjobb.kafka.EksportProdusent.MeldingType.PUBLISERINGSDATO
 import no.nav.pia.dvhimport.importjobb.kafka.EksportProdusent.MeldingType.SYKEFRAVÆRSSTATISTIKK
+import no.nav.pia.dvhimport.importjobb.publiseringsdato.PubliseringsdatoKafkaDto
 import no.nav.pia.dvhimport.konfigurasjon.KafkaConfig
 import no.nav.pia.dvhimport.konfigurasjon.KafkaTopics
 import org.apache.kafka.clients.producer.KafkaProducer
@@ -46,23 +46,29 @@ class EksportProdusent(
         )
     }
 
-    fun <T> sendMelding(melding: EksportMelding<T>) {
+    fun <T> sendMelding(
+        melding: EksportMelding<T>,
+        dryRun: Boolean,
+    ) {
         val topic = tilTopic(melding)
-
         val nøkkel = melding.tilNøkkel()
         val content = melding.tilMelding()
 
-        producer.send(
-            ProducerRecord(
-                topic,
-                nøkkel,
-                content,
-            ),
-        ) { _, exception ->
-            if (exception != null) {
-                logger.error("Feil ved sending av melding til topic '$topic'", exception)
-                førsteFeil.compareAndSet(null, exception)
+        if (!dryRun) {
+            producer.send(
+                ProducerRecord(
+                    topic,
+                    nøkkel,
+                    content,
+                ),
+            ) { _, exception ->
+                if (exception != null) {
+                    logger.error("Feil ved sending av melding til topic '$topic'", exception)
+                    førsteFeil.compareAndSet(null, exception)
+                }
             }
+        } else {
+            logger.debug("Dry-run: Sender melding til topic '$topic' med nøkkel '$nøkkel' og innhold: $content")
         }
     }
 
@@ -73,7 +79,9 @@ class EksportProdusent(
             } else {
                 KafkaTopics.KVARTALSVIS_SYKEFRAVARSSTATISTIKK_ØVRIGE_KATEGORIER.navnMedNamespace
             }
+
             is VirksomhetMetadataMelding -> KafkaTopics.KVARTALSVIS_SYKEFRAVARSSTATISTIKK_VIRKSOMHET_METADATA.navnMedNamespace
+
             is PubliseringsdatoMelding -> KafkaTopics.KVARTALSVIS_SYKEFRAVARSSTATISTIKK_PUBLISERINGSDATO.navnMedNamespace
         }
 
@@ -85,7 +93,10 @@ class EksportProdusent(
         }
     }
 
-    class KafkaSendException(message: String, cause: Throwable) : RuntimeException(message, cause)
+    class KafkaSendException(
+        message: String,
+        cause: Throwable,
+    ) : RuntimeException(message, cause)
 
     class VirksomhetMetadataMelding(
         årstall: Int,
@@ -129,7 +140,10 @@ class EksportProdusent(
     ) {
         fun isViksomhetStatistikk(): Boolean =
             when (data) {
-                is SykefraværsstatistikkDto -> data.kategori() == VIRKSOMHET
+                is SykefraværsstatistikkDto -> {
+                    data.kategori() == VIRKSOMHET
+                }
+
                 else -> {
                     false
                 }
@@ -157,9 +171,18 @@ class EksportProdusent(
 
         private fun tilNøkkelverdi(): String =
             when (data) {
-                is SykefraværsstatistikkDto -> data.tilStatistikkSpesifikkVerdi()
-                is VirksomhetMetadataDto -> data.orgnr
-                is PubliseringsdatoKafkaDto -> data.rapportPeriode
+                is SykefraværsstatistikkDto -> {
+                    data.tilStatistikkSpesifikkVerdi()
+                }
+
+                is VirksomhetMetadataDto -> {
+                    data.orgnr
+                }
+
+                is PubliseringsdatoKafkaDto -> {
+                    data.rapportPeriode
+                }
+
                 else -> {
                     throw RuntimeException("Kunne ikke hente kode verdi for '${data!!::class.java.name}'")
                 }
@@ -167,7 +190,10 @@ class EksportProdusent(
 
         private fun statistikkKategori(): StatistikkKategori =
             when (data) {
-                is SykefraværsstatistikkDto -> data.kategori()
+                is SykefraværsstatistikkDto -> {
+                    data.kategori()
+                }
+
                 else -> {
                     throw RuntimeException("Kan ikke hente statistikk kategori for '${data!!::class.java.name}'")
                 }

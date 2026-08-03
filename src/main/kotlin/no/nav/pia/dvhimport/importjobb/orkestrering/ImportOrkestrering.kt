@@ -20,8 +20,7 @@ class ImportOrkestrering(
 
     fun kjørImportForPubliseringsdato(
         dato: LocalDate = LocalDate.now(),
-        // Midlertidig: auto-flyten kjøres som dry-run mens den testes i dev. Reverter til false før ekte prod-import.
-        dryRun: Boolean = true,
+        dryRun: Boolean,
     ) {
         val uprosessert = publiseringsdatoRepository.hentUprosessertForDato(dato)
         if (uprosessert == null) {
@@ -35,7 +34,7 @@ class ImportOrkestrering(
 
     fun kjørImportForKvartal(
         årstallOgKvartal: ÅrstallOgKvartal,
-        dryRun: Boolean = false,
+        dryRun: Boolean,
     ) {
         val publiseringsdatoId = publiseringsdatoRepository.hentIdForKvartal(
             årstall = årstallOgKvartal.årstall,
@@ -48,7 +47,7 @@ class ImportOrkestrering(
     fun kjørImport(
         publiseringsdatoId: Int,
         årstallOgKvartal: ÅrstallOgKvartal,
-        dryRun: Boolean = false,
+        dryRun: Boolean,
     ) {
         val markør = if (dryRun) " — 🧪 dry-run (ingen Kafka)" else ""
         val eksisterendeLås = lockRepository.hentForPubliseringsdato(publiseringsdatoId)

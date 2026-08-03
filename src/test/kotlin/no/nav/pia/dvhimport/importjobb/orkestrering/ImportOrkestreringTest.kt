@@ -20,7 +20,6 @@ import kotlin.test.BeforeTest
 import kotlin.test.Test
 
 class ImportOrkestreringTest {
-
     private val postgres = PostgreSQLContainer("postgres:17-alpine")
     private lateinit var publiseringsdatoRepository: PubliseringsdatoRepository
     private lateinit var lockRepository: ImportLockRepository
@@ -42,7 +41,8 @@ class ImportOrkestreringTest {
         stegRepository = ImportStegRepository(dataSource)
         importService = mockk()
         slackVarsler = mockk(relaxed = true)
-        orkestrering = ImportOrkestrering(importService, lockRepository, stegRepository, publiseringsdatoRepository, slackVarsler)
+        orkestrering =
+            ImportOrkestrering(importService, lockRepository, stegRepository, publiseringsdatoRepository, slackVarsler)
     }
 
     @AfterTest
@@ -51,7 +51,11 @@ class ImportOrkestreringTest {
     }
 
     private fun opprettPubliseringsdato(): Int {
-        publiseringsdatoRepository.lagrePubliseringsdato(årstall = kvartal.årstall, kvartal = kvartal.kvartal, dato = dato)
+        publiseringsdatoRepository.lagrePubliseringsdato(
+            årstall = kvartal.årstall,
+            kvartal = kvartal.kvartal,
+            dato = dato,
+        )
         return publiseringsdatoRepository.hentUprosessertForDato(dato)!!.id
     }
 
@@ -61,7 +65,7 @@ class ImportOrkestreringTest {
         every { importService.lesOgValiderSteg(any(), any(), any()) } returns StegValideringsresultat(1, null)
         every { importService.sendSteg(any(), any(), any()) } returns 1
 
-        orkestrering.kjørImport(id, kvartal)
+        orkestrering.kjørImport(publiseringsdatoId = id, årstallOgKvartal = kvartal, dryRun = false)
 
         val steg = stegRepository.hentAlle(id)
         steg shouldHaveSize 7
@@ -73,11 +77,23 @@ class ImportOrkestreringTest {
     @Test
     fun `validering feiler - ingen sending skjer og lock blir FEILET`() {
         val id = opprettPubliseringsdato()
-        every { importService.lesOgValiderSteg(ImportSteg.IMPORT_LAND, any(), any()) } returns StegValideringsresultat(1, null)
-        every { importService.lesOgValiderSteg(ImportSteg.IMPORT_SEKTOR, any(), any()) } throws IllegalStateException("valideringsfeil")
+        every {
+            importService.lesOgValiderSteg(
+                ImportSteg.IMPORT_LAND,
+                any(),
+                any(),
+            )
+        } returns StegValideringsresultat(1, null)
+        every {
+            importService.lesOgValiderSteg(
+                ImportSteg.IMPORT_SEKTOR,
+                any(),
+                any(),
+            )
+        } throws IllegalStateException("valideringsfeil")
 
         shouldThrow<IllegalStateException> {
-            orkestrering.kjørImport(id, kvartal)
+            orkestrering.kjørImport(publiseringsdatoId = id, årstallOgKvartal = kvartal, dryRun = false)
         }
 
         verify(exactly = 0) { importService.sendSteg(any(), any(), any()) }
@@ -89,12 +105,18 @@ class ImportOrkestreringTest {
     @Test
     fun `valideringsfeil gir Slack-varsel med kategori og kontroll`() {
         val id = opprettPubliseringsdato()
-        every { importService.lesOgValiderSteg(ImportSteg.IMPORT_LAND, any(), any()) } returns StegValideringsresultat(1, null)
+        every {
+            importService.lesOgValiderSteg(
+                ImportSteg.IMPORT_LAND,
+                any(),
+                any(),
+            )
+        } returns StegValideringsresultat(1, null)
         every { importService.lesOgValiderSteg(ImportSteg.IMPORT_SEKTOR, any(), any()) } throws
             ValideringsfeilException(Kontroll.SF_PROSENT_FEIL, "sykefraværsprosent 5.4 avviker fra referanse 6.2")
 
         shouldThrow<ValideringsfeilException> {
-            orkestrering.kjørImport(id, kvartal)
+            orkestrering.kjørImport(publiseringsdatoId = id, årstallOgKvartal = kvartal, dryRun = false)
         }
 
         verify { slackVarsler.send(match { it.contains("Sektor") && it.contains("SF_PROSENT_FEIL") }) }
@@ -113,12 +135,12 @@ class ImportOrkestreringTest {
         }
 
         shouldThrow<IllegalStateException> {
-            orkestrering.kjørImport(id, kvartal)
+            orkestrering.kjørImport(publiseringsdatoId = id, årstallOgKvartal = kvartal, dryRun = false)
         }
         lockRepository.hentForPubliseringsdato(id)!!.status shouldBe ImportLockStatus.FEILET
 
         every { importService.lesOgValiderSteg(any(), any(), any()) } returns StegValideringsresultat(1, null)
-        orkestrering.kjørImport(id, kvartal)
+        orkestrering.kjørImport(publiseringsdatoId = id, årstallOgKvartal = kvartal, dryRun = false)
 
         stegRepository.hentAlle(id).all { it.status == ImportStegStatus.FERDIG } shouldBe true
         lockRepository.hentForPubliseringsdato(id)!!.status shouldBe ImportLockStatus.FERDIG
@@ -131,8 +153,8 @@ class ImportOrkestreringTest {
         every { importService.lesOgValiderSteg(any(), any(), any()) } returns StegValideringsresultat(1, null)
         every { importService.sendSteg(any(), any(), any()) } returns 1
 
-        orkestrering.kjørImport(id, kvartal)
-        orkestrering.kjørImport(id, kvartal)
+        orkestrering.kjørImport(publiseringsdatoId = id, årstallOgKvartal = kvartal, dryRun = false)
+        orkestrering.kjørImport(publiseringsdatoId = id, årstallOgKvartal = kvartal, dryRun = false)
 
         verify(exactly = 7) { importService.lesOgValiderSteg(any(), any(), any()) }
         verify(exactly = 7) { importService.sendSteg(any(), any(), any()) }
@@ -149,7 +171,7 @@ class ImportOrkestreringTest {
 
     @Test
     fun `kjørImportForPubliseringsdato gjør ingenting når det ikke er publiseringsdato i dag`() {
-        orkestrering.kjørImportForPubliseringsdato(dato)
+        orkestrering.kjørImportForPubliseringsdato(dato = dato, dryRun = false)
 
         verify(exactly = 0) { importService.lesOgValiderSteg(any(), any(), any()) }
         verify(exactly = 0) { importService.sendSteg(any(), any(), any()) }
@@ -161,7 +183,7 @@ class ImportOrkestreringTest {
         every { importService.lesOgValiderSteg(any(), any(), any()) } returns StegValideringsresultat(1, null)
         every { importService.sendSteg(any(), any(), any()) } returns 1
 
-        orkestrering.kjørImport(id, kvartal)
+        orkestrering.kjørImport(publiseringsdatoId = id, årstallOgKvartal = kvartal, dryRun = false)
 
         verify { slackVarsler.send(match { it.contains("Import startet") }) }
         verify { slackVarsler.send(match { it.contains("Alle kategorier validert") }) }
@@ -175,7 +197,7 @@ class ImportOrkestreringTest {
         val iDag = LocalDate.of(2099, 5, 29)
         publiseringsdatoRepository.lagrePubliseringsdato(årstall = 2099, kvartal = 1, dato = iDag.plusDays(3))
 
-        orkestrering.kjørImportForPubliseringsdato(iDag)
+        orkestrering.kjørImportForPubliseringsdato(dato = iDag, dryRun = false)
 
         verify { slackVarsler.send(match { it.contains("3 dager til publiseringsdato") }) }
     }
@@ -185,13 +207,13 @@ class ImportOrkestreringTest {
         val iDag = LocalDate.of(2099, 5, 29)
         publiseringsdatoRepository.lagrePubliseringsdato(årstall = 2099, kvartal = 1, dato = iDag.plusDays(5))
 
-        orkestrering.kjørImportForPubliseringsdato(iDag)
+        orkestrering.kjørImportForPubliseringsdato(dato = iDag, dryRun = false)
 
         verify(exactly = 0) { slackVarsler.send(any()) }
     }
 
     @Test
-    fun `dry-run kjører full sti men kaller sendSteg med dryRun`() {
+    fun `dry-run kjører full sti og kaller sendSteg med dryRun`() {
         val id = opprettPubliseringsdato()
         every { importService.lesOgValiderSteg(any(), any(), any()) } returns StegValideringsresultat(1, null)
         every { importService.sendSteg(any(), any(), any()) } returns 1

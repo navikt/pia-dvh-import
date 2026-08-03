@@ -13,7 +13,7 @@ class JobblytterTest {
     @Test
     fun `skal kunne trigge import jobb via kafka`() {
         kafkaContainer.sendJobbMelding(alleKategorierSykefraværsstatistikkDvhImport)
-        dvhImportApplikasjon shouldContainLog "Starter jobb $alleKategorierSykefraværsstatistikkDvhImport".toRegex()
+        dvhImportApplikasjon shouldContainLog "Starter jobb '$alleKategorierSykefraværsstatistikkDvhImport'".toRegex()
     }
 
     @Test
@@ -26,6 +26,6 @@ class JobblytterTest {
     @Test
     fun `skal kunne sende med årstall og kvartal for import jobb`() {
         kafkaContainer.sendJobbMelding(alleKategorierSykefraværsstatistikkDvhImport, "2024-3")
-        dvhImportApplikasjon shouldContainLog "Starter jobb $alleKategorierSykefraværsstatistikkDvhImport".toRegex()
+        dvhImportApplikasjon shouldContainLog "Starter jobb '$alleKategorierSykefraværsstatistikkDvhImport'".toRegex()
     }
 }
