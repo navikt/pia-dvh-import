@@ -68,23 +68,23 @@ dependencies {
 
     constraints {
         implementation("com.fasterxml.jackson.core:jackson-core") {
-            version { require("2.22.0") }
-            because("versjoner < 2.21.1 har sårbarhet. inkludert i ktor-server-auth:3.4.0")
+            version { require("2.22.1") }
+            because("versjoner < 2.22.1 har sårbarhet. inkludert i ktor-server-auth:3.4.0")
         }
         implementation("com.fasterxml.jackson.core:jackson-databind") {
-            version { require("2.22.0") }
-            because("versjoner < 2.21.1 har sårbarhet. inkludert i ktor-server-auth:3.4.0")
+            version { require("2.22.1") }
+            because("versjoner < 2.22.1 har sårbarhet. inkludert i ktor-server-auth:3.4.0")
         }
         implementation("io.netty:netty-codec-http2") {
             version {
-                require("4.2.15.Final")
+                require("4.2.16.Final")
             }
             because(
-                "versjoner < 4.2.10.Final har sårbarhet. inkludert i ktor-server-netty-jvm:3.4.2",
+                "versjoner < 4.2.16.Final har sårbarhet. inkludert i ktor-server-netty-jvm:3.4.2",
             )
         }
         implementation("tools.jackson.core:jackson-core") {
-            version { require("3.2.0") }
+            version { require("3.2.1") }
             because("versjoner < 3.1.0 har sårbarhet. inkludert i logstash-logback-encoder:9.0")
         }
     }
