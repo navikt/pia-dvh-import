@@ -88,12 +88,12 @@ class Jobblytter(
 
                                         // Scheduled job [daglig, kl. 21:00] for å hente publiseringsdatoer fra DVH, lagre i DB og sende vider til Kafka
                                         publiseringsdatoDvhImport -> {
-                                            importService.importPubliseringsdatoer(dryRun = jobbInfo.tilDryRun())
+                                            importService.importPubliseringsdatoer(dryRun = true)
                                         }
 
                                         // Scheduled job [daglig, kl. 08:05] for å sjekke om det er publiseringsdato i dag, og kjøre import for kvartalet hvis det er
                                         sjekkPubliseringsdatoOgImporter -> {
-                                            importOrkestrering.kjørImportForPubliseringsdato(dryRun = jobbInfo.tilDryRun())
+                                            importOrkestrering.kjørImportForPubliseringsdato(dryRun = true)
                                         }
 
                                         else -> {
