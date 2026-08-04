@@ -115,7 +115,7 @@ class Jobblytter(
                         consumer.commitSync()
                     }
                 } catch (e: ManglerJobbParameterException) {
-                    logger.warn("Mangler parameter årstallOgKvartal i jobb, commit og ignorer meldingen")
+                    logger.warn("Mangler parameter årstallOgKvartal i jobb, commit og ignorer meldingen", e)
                     consumer.commitSync()
                 } catch (e: WakeupException) {
                     logger.info("Jobblytter is shutting down")
@@ -129,14 +129,6 @@ class Jobblytter(
         }
     }
 
-    @Serializable
-    data class SerializableJobbInfo(
-        override val jobb: Jobb,
-        override val tidspunkt: String,
-        override val applikasjon: String,
-        override val parameter: String?,
-    ) : JobbInfo
-
     private fun cancel() =
         runBlocking {
             logger.info("Stopping kafka consumer job for ${topic.navn}")
@@ -144,27 +136,37 @@ class Jobblytter(
             job.cancelAndJoin()
             logger.info("Stopped kafka consumer job for ${topic.navn}")
         }
+}
 
-    private fun SerializableJobbInfo.tilÅrstallOgKvartal(): ÅrstallOgKvartal? {
-        if (this.parameter.isNullOrBlank()) return null
-        return try {
-            val kvartalDel = this.parameter.split(":").first()
-            val deler = kvartalDel.split("-")
-            val årstall = deler.first().toInt()
-            val kvartal = deler.last().toInt()
-            ÅrstallOgKvartal(
-                årstall = årstall,
-                kvartal = kvartal,
-            )
-        } catch (e: Exception) {
-            logger.error("Kunne ikke parse årstall og kvartal fra parameter: '$parameter'", e)
-            throw ManglerJobbParameterException()
-        }
-    }
+@Serializable
+data class SerializableJobbInfo(
+    override val jobb: Jobb,
+    override val tidspunkt: String,
+    override val applikasjon: String,
+    override val parameter: String?,
+) : JobbInfo
 
-    private fun SerializableJobbInfo.tilDryRun(): Boolean {
-        if (this.parameter.isNullOrBlank()) return true // default er dry-run når parameter er tom
-        val deler = this.parameter.split(":")
-        return deler.size == 2 && deler[1].equals("DRY_RUN", ignoreCase = true)
+fun SerializableJobbInfo.tilÅrstallOgKvartal(): ÅrstallOgKvartal? {
+    if (this.parameter.isNullOrBlank()) return null
+    return try {
+        val kvartalDel = this.parameter.split(":").first()
+        val deler = kvartalDel.split("-")
+        val årstall = deler.first().toInt()
+        val kvartal = deler.last().toInt()
+        ÅrstallOgKvartal(
+            årstall = årstall,
+            kvartal = kvartal,
+        )
+    } catch (e: Exception) {
+        throw ManglerJobbParameterException("Kunne ikke parse årstall og kvartal fra parameter: '$parameter'")
     }
+}
+
+// Parameter kan være: '<empty>', 'DRY_RUN', '<årstall>-<kvartal>' eller '<årstall>-<kvartal>:DRY_RUN'
+fun SerializableJobbInfo.tilDryRun(): Boolean {
+    if (this.parameter.isNullOrBlank()) return true // default er dry-run når parameter er tom
+    if (this.parameter.startsWith("DRY_RUN")) return true
+
+    val deler = this.parameter.split(":")
+    return deler.size == 2 && deler[1].equals("DRY_RUN", ignoreCase = true)
 }

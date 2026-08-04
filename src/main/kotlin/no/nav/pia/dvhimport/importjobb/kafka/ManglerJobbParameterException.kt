@@ -1,3 +1,5 @@
 package no.nav.pia.dvhimport.importjobb.kafka
 
-class ManglerJobbParameterException : Throwable()
+class ManglerJobbParameterException(
+    message: String,
+) : Throwable(message)
