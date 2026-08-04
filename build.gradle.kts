@@ -2,13 +2,13 @@ val flywayPostgresqlVersion = "12.0.0"
 val gcsNioVersion = "0.134.0"
 val googleCloudStorageVersion = "2.70.0"
 val hikariCPVersion = "7.0.2"
-val iaFellesVersion = "3.0.1"
+val iaFellesVersion = "1.10.2"
 val kafkaClientsVersion = "4.3.1"
-val kotestVersion = "6.2.2"
-val kotlinVersion = "2.4.0"
 val kotliqueryVersion = "1.9.1"
+val kotestVersion = "6.2.3"
+val kotlinVersion = "2.4.10"
 val ktorVersion = "3.5.1"
-val logbackVersion = "1.5.37"
+val logbackVersion = "1.6.0"
 val logstashLogbackEncoderVersion = "9.0"
 val mockServerVersion = "2.50.9"
 val opentelemetryLogbackMdcVersion = "2.29.0-alpha"
@@ -16,10 +16,11 @@ val postgresqlVersion = "42.7.9"
 val prometheusVersion = "1.17.0"
 val testcontainersVersion = "2.0.5"
 val wiremockStandaloneVersion = "3.13.2"
+val opentelemetryLogbackMdcVersion = "2.30.0-alpha"
 
 plugins {
-    kotlin("jvm") version "2.4.0"
-    kotlin("plugin.serialization") version "2.4.0"
+    kotlin("jvm") version "2.4.10"
+    kotlin("plugin.serialization") version "2.4.10"
     id("application")
 }
 
@@ -85,14 +86,18 @@ dependencies {
     constraints {
         implementation("com.fasterxml.jackson.core:jackson-core") {
             version { require("2.22.1") }
-            because("versjoner < 2.21.1 har sårbarhet. inkludert i ktor-server-auth:3.4.0")
+            because("versjoner < 2.22.1 har sårbarhet. inkludert i ktor-server-auth:3.4.0")
+        }
+        implementation("com.fasterxml.jackson.core:jackson-databind") {
+            version { require("2.22.1") }
+            because("versjoner < 2.22.1 har sårbarhet. inkludert i ktor-server-auth:3.4.0")
         }
         implementation("io.netty:netty-codec-http2") {
             version {
                 require("4.2.16.Final")
             }
             because(
-                "versjoner < 4.2.10.Final har sårbarhet. inkludert i ktor-server-netty-jvm:3.4.2",
+                "versjoner < 4.2.16.Final har sårbarhet. inkludert i ktor-server-netty-jvm:3.4.2",
             )
         }
         implementation("tools.jackson.core:jackson-core") {

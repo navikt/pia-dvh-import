@@ -13,6 +13,8 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
+import kotlinx.serialization.json.jsonObject
+import kotlinx.serialization.json.jsonPrimitive
 import no.nav.pia.dvhimport.importjobb.ImportService
 import no.nav.pia.dvhimport.importjobb.domene.ÅrstallOgKvartal
 import no.nav.pia.dvhimport.importjobb.orkestrering.ImportOrkestrering
@@ -56,8 +58,25 @@ class Jobblytter(
                     while (job.isActive) {
                         val records = consumer.poll(Duration.ofSeconds(1))
                         records.forEach {
-                            val jobbInfo = Json.decodeFromString<SerializableJobbInfo>(it.value())
-                            if (jobbInfo.jobb.name != it.key()) {
+                            val kafkaMeldingNøkkel = it.key()
+                            val kafkaMeldingVerdi = it.value()
+
+                            val json = Json.parseToJsonElement(string = kafkaMeldingVerdi)
+                            val målapplikasjon: String? = json.jsonObject["applikasjon"]?.jsonPrimitive?.content
+
+                            if (målapplikasjon != "pia-dvh-import") {
+                                logger.info(
+                                    "Mottok en Kafka melding hvor målapplikasjonen er: '$målapplikasjon' (forventer 'pia-dvh-import'). " +
+                                        "Skal ikke prosessere melding med nøkkel: '$kafkaMeldingNøkkel' og verdi: '$kafkaMeldingVerdi' " +
+                                        "fra topic '${it.topic()}' i konsummentGruppe '${
+                                            consumer.groupMetadata().groupId()
+                                        }'. ",
+                                )
+                                return@forEach
+                            }
+
+                            val jobbInfo = Json.decodeFromString<SerializableJobbInfo>(kafkaMeldingVerdi)
+                            if (jobbInfo.jobb.name != kafkaMeldingNøkkel) {
                                 logger.warn(
                                     "Mottok melding fra topic ${it.topic()} med nøkkel ${it.key()}, " +
                                         "men jobbInfo.jobb er ${jobbInfo.jobb}. " +
