@@ -19,6 +19,8 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
+import kotlinx.serialization.json.jsonObject
+import kotlinx.serialization.json.jsonPrimitive
 import no.nav.pia.dvhimport.importjobb.ImportService
 import no.nav.pia.dvhimport.importjobb.domene.DvhMetadata
 import no.nav.pia.dvhimport.importjobb.domene.StatistikkKategori
@@ -62,10 +64,27 @@ class Jobblytter(
                     while (job.isActive) {
                         val records = consumer.poll(Duration.ofSeconds(1))
                         records.forEach {
-                            val jobbInfo = Json.decodeFromString<SerializableJobbInfo>(it.value())
-                            if (jobbInfo.jobb.name != it.key()) {
+                            val kafkaMeldingNøkkel = it.key()
+                            val kafkaMeldingVerdi = it.value()
+
+                            val json = Json.parseToJsonElement(string = kafkaMeldingVerdi)
+                            val målapplikasjon: String? = json.jsonObject["applikasjon"]?.jsonPrimitive?.content
+
+                            if (målapplikasjon != "pia-dvh-import") {
+                                logger.info(
+                                    "Mottok en Kafka melding hvor målapplikasjonen er: '$målapplikasjon' (forventer 'pia-dvh-import'). " +
+                                        "Skal ikke prosessere melding med nøkkel: '$kafkaMeldingNøkkel' og verdi: '$kafkaMeldingVerdi' " +
+                                        "fra topic '${it.topic()}' i konsummentGruppe '${
+                                            consumer.groupMetadata().groupId()
+                                        }'. ",
+                                )
+                                return@forEach
+                            }
+
+                            val jobbInfo = Json.decodeFromString<SerializableJobbInfo>(kafkaMeldingVerdi)
+                            if (jobbInfo.jobb.name != kafkaMeldingNøkkel) {
                                 logger.warn(
-                                    "Received record with key ${it.key()} and value ${it.value()} from topic ${it.topic()} but jobInfo.job is ${jobbInfo.jobb}",
+                                    "Received record with key $kafkaMeldingNøkkel and value $kafkaMeldingVerdi from topic ${it.topic()} but jobInfo.job is ${jobbInfo.jobb}",
                                 )
                             } else {
                                 val årstallOgKvartal = jobbInfo.tilÅrstallOgKvartal() ?: ÅrstallOgKvartal(2024, 2)
@@ -76,30 +95,60 @@ class Jobblytter(
                                     alleKategorierSykefraværsstatistikkDvhImport -> {
                                         importService.importAlleStatistikkKategorier(årstallOgKvartal)
                                     }
+
                                     landSykefraværsstatistikkDvhImport -> {
-                                        importService.importForStatistikkKategori(StatistikkKategori.LAND, årstallOgKvartal)
+                                        importService.importForStatistikkKategori(
+                                            StatistikkKategori.LAND,
+                                            årstallOgKvartal,
+                                        )
                                     }
+
                                     sektorSykefraværsstatistikkDvhImport -> {
-                                        importService.importForStatistikkKategori(StatistikkKategori.SEKTOR, årstallOgKvartal)
+                                        importService.importForStatistikkKategori(
+                                            StatistikkKategori.SEKTOR,
+                                            årstallOgKvartal,
+                                        )
                                     }
+
                                     næringSykefraværsstatistikkDvhImport -> {
-                                        importService.importForStatistikkKategori(StatistikkKategori.NÆRING, årstallOgKvartal)
+                                        importService.importForStatistikkKategori(
+                                            StatistikkKategori.NÆRING,
+                                            årstallOgKvartal,
+                                        )
                                     }
+
                                     næringskodeSykefraværsstatistikkDvhImport -> {
-                                        importService.importForStatistikkKategori(StatistikkKategori.NÆRINGSKODE, årstallOgKvartal)
+                                        importService.importForStatistikkKategori(
+                                            StatistikkKategori.NÆRINGSKODE,
+                                            årstallOgKvartal,
+                                        )
                                     }
+
                                     bransjeSykefraværsstatistikkDvhImport -> {
-                                        importService.importForStatistikkKategori(StatistikkKategori.BRANSJE, årstallOgKvartal)
+                                        importService.importForStatistikkKategori(
+                                            StatistikkKategori.BRANSJE,
+                                            årstallOgKvartal,
+                                        )
                                     }
+
                                     virksomhetSykefraværsstatistikkDvhImport -> {
-                                        importService.importForStatistikkKategori(StatistikkKategori.VIRKSOMHET, årstallOgKvartal)
+                                        importService.importForStatistikkKategori(
+                                            StatistikkKategori.VIRKSOMHET,
+                                            årstallOgKvartal,
+                                        )
                                     }
+
                                     virksomhetMetadataSykefraværsstatistikkDvhImport -> {
-                                        importService.importMetadata(DvhMetadata.VIRKSOMHET_METADATA, årstallOgKvartal)
+                                        importService.importMetadata(
+                                            DvhMetadata.VIRKSOMHET_METADATA,
+                                            årstallOgKvartal,
+                                        )
                                     }
+
                                     publiseringsdatoDvhImport -> {
                                         importService.importMetadata(DvhMetadata.PUBLISERINGSDATO, årstallOgKvartal)
                                     }
+
                                     else -> {
                                         logger.info("Jobb '${jobbInfo.jobb}' ignorert")
                                     }
