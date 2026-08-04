@@ -1,7 +1,7 @@
 package no.nav.pia.dvhimport.helper
 
-import ia.felles.definisjoner.bransjer.Bransje
 import ia.felles.definisjoner.bransjer.BransjeId
+import ia.felles.definisjoner.bransjer.BransjeSN2007
 import io.kotest.matchers.shouldBe
 import no.nav.pia.dvhimport.importjobb.ImportService.Companion.tilFilNavn
 import no.nav.pia.dvhimport.importjobb.domene.DvhMetadata
@@ -20,7 +20,7 @@ object KonsistentTestdata {
 
     // Ekte barnehage-næringskode (5 siffer) slik at BARNEHAGER-bransjen faktisk utledes
     // og bransje-steget ikke ender med tom liste (0/0 i kalkulering).
-    private val barnehageNæringskode = (Bransje.BARNEHAGER.bransjeId as BransjeId.Næringskoder).næringskoder.first()
+    private val barnehageNæringskode = (BransjeSN2007.BARNEHAGER.bransjeId as BransjeId.Næringskoder).næringskoder.first()
 
     fun skrivAlleKonsistenteFiler(
         gcsContainer: GoogleCloudStorageContainerHelper,
@@ -159,7 +159,7 @@ object KonsistentTestdata {
     ) = """
         {"årstall": $årstall, "kvartal": $kvartal, "$felt": "$verdi", "prosent": "$PROSENT",
          "tapteDagsverk": "$tapteDagsverk", "muligeDagsverk": "$muligeDagsverk", "antallPersoner": "100"}
-    """.trimIndent()
+        """.trimIndent()
 
     private fun statistikkRadMedVarighet(
         felt: String,
@@ -170,7 +170,7 @@ object KonsistentTestdata {
         {"årstall": $årstall, "kvartal": $kvartal, "$felt": "$verdi", "prosent": "$PROSENT",
          "tapteDagsverk": "$TAPTE", "muligeDagsverk": "$MULIGE", "tapteDagsverkGradert": 5,
          "tapteDagsverkPerVarighet": [{"varighet": "D", "tapteDagsverk": 10}], "antallPersoner": "100"}
-    """.trimIndent()
+        """.trimIndent()
 
     private fun skriv(
         gcsContainer: GoogleCloudStorageContainerHelper,

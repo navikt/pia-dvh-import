@@ -1,7 +1,7 @@
 package no.nav.pia.dvhimport.importjobb
 
-import ia.felles.definisjoner.bransjer.Bransje
 import ia.felles.definisjoner.bransjer.BransjeId
+import ia.felles.definisjoner.bransjer.BransjeSN2007
 import kotlinx.coroutines.runBlocking
 import kotlinx.datetime.Clock
 import kotlinx.datetime.toJavaLocalDateTime
@@ -138,7 +138,6 @@ class ImportService(
             ImportSteg.IMPORT_BRANSJE -> {
                 // Bransje utledes fra næring/næringskode. Struktur, årstall og radgrense er allerede
                 // dekket av NÆRING- og NÆRINGSKODE-stegene, og bransje er unntatt sf_prosent-sjekken.
-                // TODO: vurder en egen sjekk på selve bransje-outputen (bransjeData) i stedet.
                 val næringData = import<NæringSykefraværsstatistikkDto>(StatistikkKategori.NÆRING, path)
                 val bransjeData = importBransje(path, årstallOgKvartal)
                 StegValideringsresultat(
@@ -559,36 +558,37 @@ class ImportService(
             val sykefraværsstatistikkNæringskodeDtoList: List<NæringskodeSykefraværsstatistikkDto> =
                 statistikkNæringskode.toSykefraværsstatistikkDto<NæringskodeSykefraværsstatistikkDto>()
 
-            val sykefraværsstatistikkDtoList: List<BransjeSykefraværsstatistikkDto?> = Bransje.entries.map { bransje ->
-                when (bransje.bransjeId) {
-                    is BransjeId.Næring -> sykefraværsstatistikkNæringDtoList.filter { dto ->
-                        dto.næring == (bransje.bransjeId as BransjeId.Næring).næring
-                    }.firstOrNull()?.let {
-                        BransjeSykefraværsstatistikkDto(
-                            bransje = bransje.navn,
+            val sykefraværsstatistikkDtoList: List<BransjeSykefraværsstatistikkDto?> =
+                BransjeSN2007.entries.map { bransje ->
+                    when (bransje.bransjeId) {
+                        is BransjeId.Næring -> sykefraværsstatistikkNæringDtoList.filter { dto ->
+                            dto.næring == (bransje.bransjeId as BransjeId.Næring).næring
+                        }.firstOrNull()?.let {
+                            BransjeSykefraværsstatistikkDto(
+                                bransje = bransje.navn,
+                                årstall = årstallOgKvartal.årstall,
+                                kvartal = årstallOgKvartal.kvartal,
+                                prosent = it.prosent,
+                                tapteDagsverk = it.tapteDagsverk,
+                                muligeDagsverk = it.muligeDagsverk,
+                                tapteDagsverkGradert = it.tapteDagsverkGradert,
+                                tapteDagsverkPerVarighet = it.tapteDagsverkPerVarighet,
+                                antallPersoner = it.antallPersoner,
+                            )
+                        }
+
+                        is BransjeId.Næringskoder -> sykefraværsstatistikkNæringskodeDtoList.filter { dto ->
+                            (bransje.bransjeId as BransjeId.Næringskoder).næringskoder.contains(dto.næringskode)
+                        }.utleddBransjeStatistikk(
                             årstall = årstallOgKvartal.årstall,
                             kvartal = årstallOgKvartal.kvartal,
-                            prosent = it.prosent,
-                            tapteDagsverk = it.tapteDagsverk,
-                            muligeDagsverk = it.muligeDagsverk,
-                            tapteDagsverkGradert = it.tapteDagsverkGradert,
-                            tapteDagsverkPerVarighet = it.tapteDagsverkPerVarighet,
-                            antallPersoner = it.antallPersoner,
+                            bransje = bransje,
                         )
                     }
-
-                    is BransjeId.Næringskoder -> sykefraværsstatistikkNæringskodeDtoList.filter { dto ->
-                        (bransje.bransjeId as BransjeId.Næringskoder).næringskoder.contains(dto.næringskode)
-                    }.utleddBransjeStatistikk(
-                        årstall = årstallOgKvartal.årstall,
-                        kvartal = årstallOgKvartal.kvartal,
-                        bransje = bransje,
-                    )
                 }
-            }
 
             // kontroll
-            kalkulerOgLoggSykefraværsprosent(StatistikkKategori.BRANSJE, sykefraværsstatistikkDtoList)
+            kalkulerOgLoggSykefraværsprosent(kategori = StatistikkKategori.BRANSJE, statistikk = sykefraværsstatistikkDtoList)
             return sykefraværsstatistikkDtoList.filterNotNull()
         } catch (e: Exception) {
             logger.error("Import feilet for kategori '${StatistikkKategori.BRANSJE}'", e)
@@ -732,7 +732,7 @@ class ImportService(
         fun List<NæringskodeSykefraværsstatistikkDto>.utleddBransjeStatistikk(
             årstall: Int,
             kvartal: Int,
-            bransje: Bransje,
+            bransje: BransjeSN2007,
         ): BransjeSykefraværsstatistikkDto? {
             if (this.isEmpty()) {
                 return null

@@ -1,6 +1,6 @@
 package no.nav.pia.dvhimport.importjobb.domene
 
-import ia.felles.definisjoner.bransjer.Bransje
+import ia.felles.definisjoner.bransjer.BransjeSN2007
 import io.kotest.matchers.shouldBe
 import kotlinx.datetime.LocalDateTime
 import no.nav.pia.dvhimport.helper.TestDataGenerator.Companion.RUTEBILTRANSPORT_NÆRINGSKODE
@@ -186,11 +186,11 @@ class ImportServiceUnitTest {
         )
 
         næringskodeStatistikk.utleddBransjeStatistikk(
-            bransje = Bransje.TRANSPORT,
+            bransje = BransjeSN2007.TRANSPORT,
             årstall = 2024,
             kvartal = 4,
         ) shouldBe BransjeSykefraværsstatistikkDto(
-            bransje = Bransje.TRANSPORT.navn,
+            bransje = BransjeSN2007.TRANSPORT.navn,
             årstall = 2024,
             kvartal = 4,
             prosent = 8.0.toBigDecimal(),

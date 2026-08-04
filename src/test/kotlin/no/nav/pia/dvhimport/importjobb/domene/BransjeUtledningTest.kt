@@ -1,6 +1,6 @@
 package no.nav.pia.dvhimport.importjobb.domene
 
-import ia.felles.definisjoner.bransjer.Bransje
+import ia.felles.definisjoner.bransjer.BransjeSN2007
 import io.kotest.matchers.nulls.shouldBeNull
 import io.kotest.matchers.shouldBe
 import no.nav.pia.dvhimport.importjobb.ImportService
@@ -8,7 +8,6 @@ import java.math.BigDecimal
 import kotlin.test.Test
 
 class BransjeUtledningTest {
-
     private fun næringskode(
         kode: String,
         tapteDagsverk: String,
@@ -56,10 +55,10 @@ class BransjeUtledningTest {
         )
 
         val bransje = with(ImportService.Companion) {
-            næringskoder.utleddBransjeStatistikk(årstall = 2024, kvartal = 2, bransje = Bransje.SYKEHJEM)
+            næringskoder.utleddBransjeStatistikk(årstall = 2024, kvartal = 2, bransje = BransjeSN2007.SYKEHJEM)
         }!!
 
-        bransje.bransje shouldBe Bransje.SYKEHJEM.navn
+        bransje.bransje shouldBe BransjeSN2007.SYKEHJEM.navn
         bransje.årstall shouldBe 2024
         bransje.kvartal shouldBe 2
         // Aggregering: summer over næringskodene
@@ -83,7 +82,7 @@ class BransjeUtledningTest {
             emptyList<NæringskodeSykefraværsstatistikkDto>().utleddBransjeStatistikk(
                 årstall = 2024,
                 kvartal = 2,
-                bransje = Bransje.SYKEHJEM,
+                bransje = BransjeSN2007.SYKEHJEM,
             )
         }
         resultat.shouldBeNull()

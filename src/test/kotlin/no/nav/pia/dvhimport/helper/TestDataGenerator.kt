@@ -1,7 +1,7 @@
 package no.nav.pia.dvhimport.helper
 
-import ia.felles.definisjoner.bransjer.Bransje
 import ia.felles.definisjoner.bransjer.BransjeId
+import ia.felles.definisjoner.bransjer.BransjeSN2007
 import io.kotest.matchers.shouldBe
 import no.nav.pia.dvhimport.importjobb.ImportService.Companion.DatavarehusRecordType
 import no.nav.pia.dvhimport.importjobb.ImportService.Companion.tilFilNavn
@@ -150,7 +150,7 @@ class TestDataGenerator {
             kvartal: Int = 2,
         ) {
             val filnavn = tilFilNavn(StatistikkKategori.NÆRINGSKODE)
-            val næringskodeBarnehager = (Bransje.BARNEHAGER.bransjeId as BransjeId.Næringskoder).næringskoder.first()
+            val næringskodeBarnehager = (BransjeSN2007.BARNEHAGER.bransjeId as BransjeId.Næringskoder).næringskoder.first()
             gcsContainer.lagreTestBlob(
                 blobNavn = filnavn,
                 bytes =
