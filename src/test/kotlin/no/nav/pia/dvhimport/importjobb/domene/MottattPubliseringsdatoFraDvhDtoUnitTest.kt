@@ -2,6 +2,7 @@ package no.nav.pia.dvhimport.importjobb.domene
 
 import io.kotest.matchers.shouldBe
 import kotlinx.datetime.LocalDateTime
+import no.nav.pia.dvhimport.importjobb.publiseringsdato.tilPubliseringsdatoFraDvhDto
 import kotlin.test.Test
 
 class MottattPubliseringsdatoFraDvhDtoUnitTest {

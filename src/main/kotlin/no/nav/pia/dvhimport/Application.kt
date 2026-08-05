@@ -7,11 +7,19 @@ import io.ktor.server.application.Application
 import io.ktor.server.engine.embeddedServer
 import io.ktor.server.netty.Netty
 import no.nav.pia.dvhimport.importjobb.ImportService
+import no.nav.pia.dvhimport.importjobb.orkestrering.ImportLockRepository
+import no.nav.pia.dvhimport.importjobb.orkestrering.ImportOrkestrering
+import no.nav.pia.dvhimport.importjobb.orkestrering.ImportStegRepository
+import no.nav.pia.dvhimport.importjobb.orkestrering.Radgrenser
+import no.nav.pia.dvhimport.importjobb.publiseringsdato.PubliseringsdatoRepository
 import no.nav.pia.dvhimport.importjobb.kafka.Jobblytter
+import no.nav.pia.dvhimport.konfigurasjon.createDataSource
 import no.nav.pia.dvhimport.konfigurasjon.plugins.configureMonitoring
 import no.nav.pia.dvhimport.konfigurasjon.plugins.configureRouting
 import no.nav.pia.dvhimport.konfigurasjon.plugins.configureSerialization
+import no.nav.pia.dvhimport.konfigurasjon.runMigration
 import no.nav.pia.dvhimport.storage.BucketKlient
+import no.nav.pia.dvhimport.varsling.SlackVarsler
 
 fun main() {
     val naisEnvironment = NaisEnvironment()
@@ -33,11 +41,27 @@ fun main() {
             .service // Http / No credentials -> bare for testing med testcontainers
     }
 
+    val dataSource = createDataSource(naisEnvironment.databaseJdbcUrl)
+    runMigration(dataSource)
+    val publiseringsdatoRepository = PubliseringsdatoRepository(dataSource)
+    val importService = ImportService(
+        bucketKlient = BucketKlient(gcpStorage = storage, bucketName = naisEnvironment.statistikkBucketName),
+        brukÅrOgKvartalIPathTilFilene = brukÅrOgKvartalIPathTilFilene,
+        publiseringsdatoRepository = publiseringsdatoRepository,
+        radgrenser = Radgrenser.forCluster(naisEnvironment.naisClusterName),
+        skalValidereSfProsent = naisEnvironment.naisClusterName != "dev-gcp",
+    )
+    val importOrkestrering = ImportOrkestrering(
+        importService = importService,
+        lockRepository = ImportLockRepository(dataSource),
+        stegRepository = ImportStegRepository(dataSource),
+        publiseringsdatoRepository = publiseringsdatoRepository,
+        slackVarsler = SlackVarsler(webhookUrl = naisEnvironment.slackWebhookUrl),
+    )
+
     Jobblytter(
-        importService = ImportService(
-            bucketKlient = BucketKlient(gcpStorage = storage, bucketName = naisEnvironment.statistikkBucketName),
-            brukÅrOgKvartalIPathTilFilene = brukÅrOgKvartalIPathTilFilene,
-        ),
+        importService = importService,
+        importOrkestrering = importOrkestrering,
     ).run()
     embeddedServer(Netty, port = 8080, host = "0.0.0.0", module = Application::dvhImport).start(wait = true)
 }

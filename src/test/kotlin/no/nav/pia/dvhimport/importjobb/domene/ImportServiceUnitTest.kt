@@ -1,19 +1,25 @@
 package no.nav.pia.dvhimport.importjobb.domene
 
-import ia.felles.definisjoner.bransjer.Bransje
+import ia.felles.definisjoner.bransjer.BransjeSN2007
 import io.kotest.matchers.shouldBe
 import kotlinx.datetime.LocalDateTime
-import no.nav.pia.dvhimport.helper.TestDataGenerator.Companion.RUTEBILTRANSPORT_NÆRINGSKODE
-import no.nav.pia.dvhimport.helper.TestDataGenerator.Companion.TURBILTRANSPORT_NÆRINGSKODE
+
 import no.nav.pia.dvhimport.importjobb.ImportService.Companion.aggreger
 import no.nav.pia.dvhimport.importjobb.ImportService.Companion.kalkulerOgLoggSykefraværsprosent
 import no.nav.pia.dvhimport.importjobb.ImportService.Companion.leggTil
 import no.nav.pia.dvhimport.importjobb.ImportService.Companion.nestePubliseringsdato
 import no.nav.pia.dvhimport.importjobb.ImportService.Companion.utleddBransjeStatistikk
+import no.nav.pia.dvhimport.importjobb.publiseringsdato.NestePubliseringsdato
+import no.nav.pia.dvhimport.importjobb.publiseringsdato.PubliseringsdatoFraDvhDto
 import java.math.BigDecimal
 import kotlin.test.Test
 
 class ImportServiceUnitTest {
+    companion object {
+        const val TURBILTRANSPORT_NÆRINGSKODE = "49391"
+        const val RUTEBILTRANSPORT_NÆRINGSKODE = "49392"
+    }
+
     @Test
     fun `mapper JsonArray til array of strings`() {
         val result =
@@ -184,11 +190,11 @@ class ImportServiceUnitTest {
         )
 
         næringskodeStatistikk.utleddBransjeStatistikk(
-            bransje = Bransje.TRANSPORT,
+            bransje = BransjeSN2007.TRANSPORT,
             årstall = 2024,
             kvartal = 4,
         ) shouldBe BransjeSykefraværsstatistikkDto(
-            bransje = Bransje.TRANSPORT.navn,
+            bransje = BransjeSN2007.TRANSPORT.navn,
             årstall = 2024,
             kvartal = 4,
             prosent = 8.0.toBigDecimal(),

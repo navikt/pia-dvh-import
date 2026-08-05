@@ -1,12 +1,17 @@
+val flywayPostgresqlVersion = "12.0.0"
 val gcsNioVersion = "0.134.0"
 val googleCloudStorageVersion = "2.70.0"
-val iaFellesVersion = "1.10.2"
+val hikariCPVersion = "7.0.2"
+val iaFellesVersion = "3.1.1"
 val kafkaClientsVersion = "4.3.1"
+val kotliqueryVersion = "1.9.1"
 val kotestVersion = "6.2.3"
 val kotlinVersion = "2.4.10"
 val ktorVersion = "3.5.1"
 val logbackVersion = "1.6.0"
 val logstashLogbackEncoderVersion = "9.0"
+val mockServerVersion = "2.50.9"
+val postgresqlVersion = "42.7.9"
 val prometheusVersion = "1.17.0"
 val testcontainersVersion = "2.0.5"
 val wiremockStandaloneVersion = "3.13.2"
@@ -54,17 +59,28 @@ dependencies {
     }
     // Felles definisjoner for IA-domenet
     implementation("com.github.navikt:ia-felles:$iaFellesVersion")
+
+    // Database
+    implementation("org.postgresql:postgresql:$postgresqlVersion")
+    implementation("com.zaxxer:HikariCP:$hikariCPVersion")
+    implementation("org.flywaydb:flyway-database-postgresql:$flywayPostgresqlVersion")
+    implementation("com.github.seratch:kotliquery:$kotliqueryVersion")
     // https://mvnrepository.com/artifact/io.opentelemetry.instrumentation/opentelemetry-logback-mdc-1.0
 
     testImplementation("io.kotest:kotest-assertions-core:$kotestVersion")
     testImplementation("io.kotest:kotest-assertions-json:$kotestVersion")
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit:$kotlinVersion")
+    testImplementation("io.mockk:mockk:1.14.4")
     testImplementation("org.testcontainers:testcontainers:$testcontainersVersion")
     testImplementation("org.testcontainers:testcontainers-kafka:$testcontainersVersion")
+    testImplementation("org.testcontainers:testcontainers-postgresql:$testcontainersVersion")
     testImplementation("io.aiven:testcontainers-fake-gcs-server:0.3.0")
     testImplementation("org.wiremock:wiremock-standalone:$wiremockStandaloneVersion")
     // In-memory Google Cloud storage bucket
     testImplementation("com.google.cloud:google-cloud-nio:$gcsNioVersion")
+    // Mockserver neolight
+    testImplementation("software.xdev.mockserver:testcontainers:$mockServerVersion")
+    testImplementation("software.xdev.mockserver:client:$mockServerVersion")
 
     constraints {
         implementation("com.fasterxml.jackson.core:jackson-core") {

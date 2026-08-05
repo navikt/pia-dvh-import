@@ -177,7 +177,7 @@ class KafkaContainerHelper(
 
     fun sendJobbMelding(
         jobb: Jobb,
-        parameter: String? = null,
+        parameter: String = "2024-2",
     ) {
         sendJobbMelding(
             jobbnavn = jobb.name,

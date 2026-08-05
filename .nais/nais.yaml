@@ -14,6 +14,13 @@ spec:
       memory: 4Gi
   kafka:
     pool: {{kafkaPool}}
+  gcp:
+    sqlInstances:
+      - type: POSTGRES_17
+        diskAutoresize: {{dbAutoresizeDisk}}
+        tier: {{dbTier}}
+        databases:
+          - name: "pia-dvh-import-db"
   prometheus:
     enabled: true
     path: /metrics
@@ -27,8 +34,15 @@ spec:
       destinations:
         - id: loki
         - id: elastic
+  accessPolicy:
+    outbound:
+      external:
+        - host: hooks.slack.com
+  envFrom:
+    - secret: pia-slack-webhook-url
   env:
     - name: GCS_SYKEFRAVARSSTATISTIKK_BUCKET_NAME  # GCS: Google Cloud Storage
       value: {{bucketName}}
     - name: GCS_URL
       value: "https://storage.googleapis.com"
+

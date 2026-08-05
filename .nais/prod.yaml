@@ -1,2 +1,4 @@
 kafkaPool: nav-prod
 bucketName: syfra-ia-agg-data-prod
+dbTier: db-custom-1-3840
+dbAutoresizeDisk: true
