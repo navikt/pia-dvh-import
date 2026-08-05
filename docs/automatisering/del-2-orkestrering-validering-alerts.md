@@ -1,7 +1,7 @@
 # Del 2 — Orkestrering, validering og alerts
 
-Del 2 er hovedarbeidet som gjenstår før vi går live **3. september 2026**. På overordnet
-nivå legger vi til tre ting:
+Del 2 var hovedarbeidet før go-live **3. september 2026**, og er nå **ferdig**. På overordnet
+nivå la vi til tre ting:
 
 1. **Orkestrering** — en selvkjørende mekanisme som starter automatisk på riktig tidspunkt,
    og som sørger for at *resume on error* skjer på riktig sted (unngår å sende samme data
@@ -34,7 +34,7 @@ sørger for at *resume on error* skjer på riktig sted.
 
 Denne raden er **låsepunktet** og gir total-status ("er alt bra?").
 
-#### `automatisering_import_orkestrering_jobber` — de 7 stegene per kjøring
+#### `automatisering_import_steg` — de 7 stegene per kjøring
 
 | Kolonne | Type | Beskrivelse |
 |---|---|---|
@@ -42,14 +42,17 @@ Denne raden er **låsepunktet** og gir total-status ("er alt bra?").
 | `navn` | varchar | IMPORT_LAND, IMPORT_SEKTOR, IMPORT_NARING, IMPORT_NARINGSKODE, IMPORT_BRANSJE, IMPORT_VIRKSOMHET, IMPORT_VIRKSOMHET_METADATA |
 | `publiseringsdato_id` | int FK → `publiseringsdato(id)` | |
 | `rekkefolge` | smallint | 1..7 |
-| `status` | varchar null | status for steget |
-| `kontroll` | varchar null | OK eller årsak til feil (se under) |
+| `status` | varchar **NOT NULL** | `PLANLAGT` \| `STARTET` \| `VALIDERT` \| `FEILET` \| `FERDIG` |
+| `kontroll` | varchar null | `OK` eller årsak til feil (se under) |
 | `start_dato` / `slutt_dato` | timestamp null | |
 | `antall_rader_lest` | int | antall rader lest i JSON-filen |
 | `antall_sendt_paa_kafka` | int | antall meldinger sendt på topic |
 | `sf_prosent` | numeric null | kalkulert sykefraværsprosent |
 
 `UNIQUE(publiseringsdato_id, navn)`.
+
+**Steg-livssyklus:** `PLANLAGT → STARTET → VALIDERT → FERDIG` (eller `FEILET`). Statusen er
+`NOT NULL` — når de 7 stegene opprettes settes de eksplisitt til `PLANLAGT`. `FERDIG` brukes som fullført-status, konsistent med lås-tabellen.
 
 ### Orkestreringslogikk (på publiseringsdato)
 
@@ -58,7 +61,7 @@ Er det publiseringsdato i dag? Hvis ja, slå opp lock-rad for `publiseringsdato_
 1. **Finnes + `status = STARTET`/`FERDIG`** → ikke kjør (pågår eller ferdig). Dette hindrer
    dobbel/parallell kjøring på flere pods.
 2. **Finnes + `status = FEILET`** → sett `STARTET`, gjenoppta fra siste FEILET-steg i
-   `automatisering_import_orkestrering_jobber`.
+   `automatisering_import_steg`.
 3. **Finnes ikke** → skriv ny rad (`STARTET`), start importen fra første steg etter
    `rekkefolge`.
    - Hvis import feiler → `status = FEILET`.
@@ -67,13 +70,15 @@ Er det publiseringsdato i dag? Hvis ja, slå opp lock-rad for `publiseringsdato_
 ### Auto-parameter (resume uten manuell input)
 
 Master-jobben skal automatisk vite hvor den skal starte, basert på tabellene — slik at man
-slipper å spesifisere `2025-4:BRANSJE` manuelt:
+slipper å spesifisere hvilket steg importen skal starte fra (man oppgir kun kvartalet
+`2025-4`, ikke steget):
 
 - Har jobben kjørt allerede? Finnes det 7 rader koblet til gjeldende `publiseringsdato_id`?
-- Hvis ingen steg er funnet → opprett de 7 stegene.
-- Hva er status på stegene? (NULL / OK / FEILET)
-- Hva er neste steg? (siste steg med status FEILET, eller første ikke-kjørte)
-- Fortsett importen på siste FEILET-steg, eller start på det første.
+- Hvis ingen steg er funnet → opprett de 7 stegene (`PLANLAGT`).
+- Hva er status på stegene? (`PLANLAGT` / `STARTET` / `VALIDERT` / `FEILET` / `FERDIG`)
+- Hva er neste steg? (siste steg med status `FEILET`, eller første som ikke er ferdig i
+  gjeldende fase — se to-fase over)
+- Fortsett importen fra det steget.
 
 **Forutsetninger:**
 - `publiseringsdato`-tabellen har de datoene vi trenger (script eller automatisert).
@@ -109,7 +114,8 @@ automatisk. Målet er å flytte sjekkene **før** data sendes, og automatisere d
 #### Datakvalitet / støy
 - Ca. **100 virksomheter med 7-sifret orgnr** har blitt importert hver eneste gang.
   Salesforce spurte oss nylig om dette. Orgnr skal ha 9 siffer — vi legger til en regex-sjekk
-  og filtrerer bort støyen.
+  og filtrerer bort støyen. Filteret gjelder i **både validerings- og sendefasen**, slik at
+  støyen aldri når Kafka.
 - Det kan hende vi oppdager **mer støy** enn vi trodde vi hadde. Dette kan vi logge.
 
 #### `sf_prosent` dobbeltsjekkes før sending
@@ -122,12 +128,16 @@ For LAND, SEKTOR, NÆRING, NÆRINGSKODE og VIRKSOMHET (ikke bransje/metadata):
    - For LAND: sammenlign mot `land.prosent` i filen.
    - For øvrige kategorier: aggregert prosent skal være lik `land.prosent` (hver kategori er
      en full partisjon av hele landet).
-3. Hvis **ulik** → STOP import, `logger.error`, sett `status = FEILET` og
-   `kontroll = SF_PROSENT_FEIL`.
-4. Hvis **lik** → send Kafka, lagre `prosent` i `sf_prosent`, `kontroll = OK`,
-   `status = FERDIG`.
+3. Hvis **ulik** → `logger.error`, sett `status = FEILET`, `kontroll = SF_PROSENT_FEIL`, og
+   **abort hele importen** (ingen Kafka sendes for noe steg).
+4. Hvis **lik** → sett `status = VALIDERT` og lagre `prosent` i `sf_prosent`. Kafka sendes
+   **først i sendefasen**, når alle 7 steg er `VALIDERT` (se to-fase over).
 
 Vi kan gjenbruke `kalkulerOgLoggSykefraværsprosent()` for kalkuleringen.
+
+> I **dev** håndheves ikke `sf_prosent`-likheten: avviket logges (`ℹ️ Import ville ha feilet …`)
+> og importen fortsetter, slik at testkjøringer med bevisst inkonsistente testdata går gjennom.
+> **Lokal og prod** stopper fortsatt ved avvik. Cluster-styrt på `NAIS_CLUSTER_NAME`.
 
 #### Strukturvalidering (regex) — `FEIL_STRUKTUR_I_INPUT_FIL`
 
@@ -155,9 +165,12 @@ Etter lesing, før Kafka-sending. Utenfor intervallet → feil og stopp:
 | Sektor | 3–5 |
 | Næring | 50–150 |
 | Næringskode | 500–1500 |
-| Bransje (leser næring på nytt) | 50–150 |
+| Bransje | ingen egen radgrense (utledes fra næring/næringskode) |
 | Virksomhet | 300 000–500 000 |
 | Virksomhet_metadata | 300 000–500 000 |
+
+Tallene over gjelder **PROD**. Grensene velges per miljø på `NAIS_CLUSTER_NAME`: **DEV** bruker
+1000–3000 for virksomhet/metadata, og **LOKAL** (test) bruker 0..MAX.
 
 ### `kontroll`-verdier
 
@@ -183,6 +196,54 @@ Stor fordel at FAGER og Salesforce kan få tilgang på loggene.
 
 ---
 
+## 4. Testing og verifisering
+
+Prinsipp: **gode automatiske tester er viktigere enn testing i dev.** Med en solid
+test-suite blir dev-verifiseringen triviell — den er egentlig bare determinisme-loopen under,
+kjørt én gang mot ekte dev-bucket og dev-DB.
+
+### Objekt-basert testdata
+
+Testdataene bygges av `KonsistentTestdata` som **typede objekter** per kategori-fil, med et
+gyldig, internt konsistent baseline-sett (sf_prosent summerer eksakt til `land.prosent`, så
+validering passerer). En korrupsjon er da å overstyre ett enkelt felt:
+
+| Korrupsjon | Forventet `kontroll` |
+|---|---|
+| Orgnr med 7 siffer | `FEIL_STRUKTUR_I_INPUT_FIL` |
+| Næringskode med 10 siffer | `FEIL_STRUKTUR_I_INPUT_FIL` |
+| For få / for mange rader i en kategori | `FEIL_ANTALL_RADER_I_INPUT_FIL` |
+| sf_prosent som ikke summerer til `land.prosent` | `SF_PROSENT_FEIL` |
+| Manglende fil | `INPUT_FIL_IKKE_FUNNET` |
+
+### Negative tester (én per `kontroll`-verdi)
+
+For hver korrupsjon: trigg `alleKategorierImport` og assert på DB:
+
+- `automatisering_import_lock.status = FEILET`
+- riktig `automatisering_import_steg.status = FEILET` med riktig `kontroll`
+- **ingen Kafka sendt for noe steg** — to-fase-garantien: feil i valideringsfasen ⇒
+  sendefasen kjøres aldri
+
+### DRY_RUN som parameter
+
+`DRY_RUN` sendes som et **per-melding-parameter**: `2026-1:DRY_RUN`. `Jobblytter.tilDryRun()`
+parser tokenet og kjører **hele den orkestrerte stien** (lås, steg-rader, validering,
+DB-oppdateringer og resume) — men hopper over **kun** Kafka-publiseringen. Dry-run er dermed en
+realistisk generalprøve som tester orkestreringen ende-til-ende uten å sende data videre.
+DB-sporene fra en dry-run ryddes **manuelt** etterpå. Dermed kan dev-verifisering trigges via
+`pia-jobbsender` uten redeploy.
+
+### Determinisme-/volumtest
+
+Determinismen dekkes nå av en **automatisk test** (ikke dry-run). Testen kjører en **ekte**
+import av ~1200 virksomheter tre ganger,
+med sletting av lås- og steg-radene mellom hver kjøring, og sammenligner sluttilstanden per
+steg (`status`, `antall_rader_lest`, `antall_sendt_paa_kafka`, `sf_prosent`). Alle tre
+kjøringene skal gi identisk resultat. Sammenligningen skjer mot DB-snapshot (ikke
+Kafka-drenering, som er flaky pga. delte consumer-offsets), noe som gir et robust og raskt
+determinisme-bevis. Volumet legges på virksomhet/metadata (streaming-stien).
+
 ## Oppsummert estimat for del 2
 
 | Oppgave | Estimat |
@@ -193,6 +254,3 @@ Stor fordel at FAGER og Salesforce kan få tilgang på loggene.
 | Test i dev | 2 dager |
 | **Totalt** | **10 dager** |
 
-> Forutsetter at åpne spørsmål er avklart (se `/memories`-plan): steg-status (beholde
-> STARTET?), eksakt likhet vs. toleranse for `sf_prosent`, og hva "start nytt kvartal dersom
-> forrige ikke er OK" presist betyr.
