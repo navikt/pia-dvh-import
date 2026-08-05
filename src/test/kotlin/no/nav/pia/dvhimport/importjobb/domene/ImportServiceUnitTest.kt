@@ -3,8 +3,7 @@ package no.nav.pia.dvhimport.importjobb.domene
 import ia.felles.definisjoner.bransjer.BransjeSN2007
 import io.kotest.matchers.shouldBe
 import kotlinx.datetime.LocalDateTime
-import no.nav.pia.dvhimport.helper.TestDataGenerator.Companion.RUTEBILTRANSPORT_NÆRINGSKODE
-import no.nav.pia.dvhimport.helper.TestDataGenerator.Companion.TURBILTRANSPORT_NÆRINGSKODE
+
 import no.nav.pia.dvhimport.importjobb.ImportService.Companion.aggreger
 import no.nav.pia.dvhimport.importjobb.ImportService.Companion.kalkulerOgLoggSykefraværsprosent
 import no.nav.pia.dvhimport.importjobb.ImportService.Companion.leggTil
@@ -16,6 +15,11 @@ import java.math.BigDecimal
 import kotlin.test.Test
 
 class ImportServiceUnitTest {
+    companion object {
+        const val TURBILTRANSPORT_NÆRINGSKODE = "49391"
+        const val RUTEBILTRANSPORT_NÆRINGSKODE = "49392"
+    }
+
     @Test
     fun `mapper JsonArray til array of strings`() {
         val result =
