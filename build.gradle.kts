@@ -1,17 +1,17 @@
-val flywayPostgresqlVersion = "12.0.0"
-val gcsNioVersion = "0.134.0"
-val googleCloudStorageVersion = "2.70.0"
-val hikariCPVersion = "7.0.2"
+val flywayPostgresqlVersion = "13.3.0"
+val gcsNioVersion = "0.135.0"
+val googleCloudStorageVersion = "2.71.0"
+val hikariCPVersion = "7.1.0"
 val iaFellesVersion = "3.1.1"
 val kafkaClientsVersion = "4.3.1"
 val kotliqueryVersion = "1.9.1"
-val kotestVersion = "6.2.3"
+val kotestVersion = "6.2.4"
 val kotlinVersion = "2.4.10"
-val ktorVersion = "3.5.1"
-val logbackVersion = "1.6.0"
+val ktorVersion = "3.5.2"
+val logbackVersion = "1.6.3"
 val logstashLogbackEncoderVersion = "9.0"
-val mockServerVersion = "2.50.9"
-val postgresqlVersion = "42.7.9"
+val mockServerVersion = "2.51.1"
+val postgresqlVersion = "42.7.13"
 val prometheusVersion = "1.17.0"
 val testcontainersVersion = "2.0.5"
 val wiremockStandaloneVersion = "3.13.2"
@@ -52,7 +52,7 @@ dependencies {
     // Google Cloud Storage
     implementation("com.google.cloud:google-cloud-storage:$googleCloudStorageVersion")
     // Kafka
-    implementation("at.yawk.lz4:lz4-java:1.11.1")
+    implementation("at.yawk.lz4:lz4-java:1.11.2")
     implementation("org.apache.kafka:kafka-clients:$kafkaClientsVersion") {
         // "Fikser CVE-2025-12183 - lz4-java >1.8.1 har sårbar versjon (transitive dependency fra kafka-clients:4.1.0)"
         exclude("org.lz4", "lz4-java")
@@ -70,7 +70,7 @@ dependencies {
     testImplementation("io.kotest:kotest-assertions-core:$kotestVersion")
     testImplementation("io.kotest:kotest-assertions-json:$kotestVersion")
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit:$kotlinVersion")
-    testImplementation("io.mockk:mockk:1.14.4")
+    testImplementation("io.mockk:mockk:1.14.11")
     testImplementation("org.testcontainers:testcontainers:$testcontainersVersion")
     testImplementation("org.testcontainers:testcontainers-kafka:$testcontainersVersion")
     testImplementation("org.testcontainers:testcontainers-postgresql:$testcontainersVersion")
