@@ -1,4 +1,4 @@
-val flywayPostgresqlVersion = "12.0.0"
+val flywayPostgresqlVersion = "13.3.0"
 val gcsNioVersion = "0.136.0"
 val googleCloudStorageVersion = "2.72.0"
 val hikariCPVersion = "7.1.0"
