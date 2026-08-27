@@ -148,6 +148,7 @@ class ImportOrkestrering(
         val dagerTil = ChronoUnit.DAYS.between(dato, neste.dato)
         val tekst = when (dagerTil) {
             7L -> "📅 1 uke til publiseringsdato"
+            6L -> "📅 6 dager til publiseringsdato"
             3L -> "📅 3 dager til publiseringsdato"
             2L -> "📅 2 dager til publiseringsdato"
             1L -> "📅 1 dag til publiseringsdato"
