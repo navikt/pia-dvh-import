@@ -1,9 +1,9 @@
 {
   "collection": "kotlin-backend",
-  "version": "2026.07.26-074941-46bcf6b",
+  "version": "2026.08.28-095355-026f5a3",
   "scope": "repo",
   "source_repo": "navikt/copilot",
-  "source_sha": "fd01ca2",
+  "source_sha": "026f5a3",
   "installed_at": "2026-07-28T11:52:41Z",
   "files": [
     {
@@ -20,7 +20,7 @@
     },
     {
       "path": ".github/agents/nav-pilot.agent.md",
-      "hash": "09c7351bf3ceb03b"
+      "hash": "6ae2b1bab2466968"
     },
     {
       "path": ".github/skills/api-design/",
