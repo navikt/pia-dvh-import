@@ -15,7 +15,7 @@ val postgresqlVersion = "42.7.13"
 val prometheusVersion = "1.17.1"
 val testcontainersVersion = "2.0.5"
 val wiremockStandaloneVersion = "3.13.2"
-val opentelemetryLogbackMdcVersion = "2.31.0-alpha"
+val opentelemetryLogbackMdcVersion = "2.31.1-alpha"
 
 plugins {
     kotlin("jvm") version "2.4.10"
