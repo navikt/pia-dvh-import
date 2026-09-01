@@ -26,7 +26,7 @@ class SerializableJobbInfoUnitTest {
     fun `JobbInfo kan inneholde dry-run`() {
         jobbInfo("2024-3:DRY_RUN").tilDryRun() shouldBe true
         jobbInfo("DRY_RUN").tilDryRun() shouldBe true
-        jobbInfo("").tilDryRun() shouldBe true // default er dry-run
+        jobbInfo("").tilDryRun() shouldBe false // dry-run må bes om eksplisitt
         jobbInfo("2024-3").tilDryRun() shouldBe false
     }
 

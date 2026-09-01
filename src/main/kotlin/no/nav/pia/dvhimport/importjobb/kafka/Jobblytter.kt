@@ -183,7 +183,7 @@ fun SerializableJobbInfo.tilÅrstallOgKvartal(): ÅrstallOgKvartal? {
 
 // Parameter kan være: '<empty>', 'DRY_RUN', '<årstall>-<kvartal>' eller '<årstall>-<kvartal>:DRY_RUN'
 fun SerializableJobbInfo.tilDryRun(): Boolean {
-    if (this.parameter.isNullOrBlank()) return true // default er dry-run når parameter er tom
+    if (this.parameter.isNullOrBlank()) return false // dry-run må bes om eksplisitt
     if (this.parameter.startsWith("DRY_RUN")) return true
 
     val deler = this.parameter.split(":")
