@@ -4,12 +4,11 @@ import io.kotest.matchers.shouldBe
 import kotlin.test.Test
 
 class RadgrenserTest {
-
     @Test
     fun `prod-profilen har prod-grenser for virksomhet`() {
         val grenser = Radgrenser.forCluster("prod-gcp")
-        grenser.forSteg(ImportSteg.IMPORT_VIRKSOMHET) shouldBe Radgrense(300_000, 500_000)
-        grenser.forSteg(ImportSteg.IMPORT_VIRKSOMHET_METADATA) shouldBe Radgrense(300_000, 500_000)
+        grenser.forSteg(ImportSteg.IMPORT_VIRKSOMHET) shouldBe Radgrense(250_000, 500_000)
+        grenser.forSteg(ImportSteg.IMPORT_VIRKSOMHET_METADATA) shouldBe Radgrense(250_000, 500_000)
         grenser.forSteg(ImportSteg.IMPORT_LAND) shouldBe Radgrense(1, 1)
     }
 

@@ -19,8 +19,8 @@ class Radgrenser(
             ImportSteg.IMPORT_NARING to Radgrense(50, 150),
             ImportSteg.IMPORT_NARINGSKODE to Radgrense(500, 1500),
             ImportSteg.IMPORT_BRANSJE to Radgrense(50, 150),
-            ImportSteg.IMPORT_VIRKSOMHET to Radgrense(300_000, 500_000),
-            ImportSteg.IMPORT_VIRKSOMHET_METADATA to Radgrense(300_000, 500_000),
+            ImportSteg.IMPORT_VIRKSOMHET to Radgrense(250_000, 500_000),
+            ImportSteg.IMPORT_VIRKSOMHET_METADATA to Radgrense(250_000, 500_000),
         )
 
         // Kun VIRKSOMHET/METADATA skiller seg fra prod.
