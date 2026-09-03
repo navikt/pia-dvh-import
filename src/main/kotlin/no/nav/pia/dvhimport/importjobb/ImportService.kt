@@ -218,14 +218,40 @@ class ImportService(
         felt: (T) -> String,
     ) {
         val regex = steg.strukturRegex ?: return
-        val antallUgyldige = data.count { !regex.matches(felt(it)) }
+        val ugyldige = data.filter { !regex.matches(felt(it)) }
+        val antallUgyldige = ugyldige.size
+
         if (antallUgyldige > 0) {
-            throw ValideringsfeilException(
-                Kontroll.FEIL_STRUKTUR_I_INPUT_FIL,
-                "Steg $steg: $antallUgyldige rader bryter strukturkravet '${regex.pattern}'",
+            val førsteUgyldige = ugyldige.map(felt)
+                .take(5)
+            logger.warn(
+                "Steg '$steg': '$antallUgyldige' rader bryter strukturkravet '${regex.pattern}'. Første 5 ugyldige: '$førsteUgyldige'",
             )
+
+            if (antallUgyldige > steg.toleranseForFeil()) {
+                logger.error(
+                    "Steg '$steg': '$antallUgyldige' rader bryter strukturkravet '${regex.pattern}' og overstiger toleransegrensen på ${steg.toleranseForFeil()}",
+                )
+                throw ValideringsfeilException(
+                    Kontroll.FEIL_STRUKTUR_I_INPUT_FIL,
+                    "Steg $steg: $antallUgyldige rader bryter strukturkravet '${regex.pattern}'",
+                )
+            } else {
+                logger.warn(
+                    "Steg '$steg': '$antallUgyldige' rader bryter strukturkravet '${regex.pattern}' men er innenfor toleransegrensen på ${steg.toleranseForFeil()}",
+                )
+            }
         }
     }
+
+    fun ImportSteg.toleranseForFeil(): Int =
+        when (this) {
+            ImportSteg.IMPORT_LAND -> 0
+            ImportSteg.IMPORT_SEKTOR -> 0
+            ImportSteg.IMPORT_NARING -> 0
+            ImportSteg.IMPORT_NARINGSKODE -> 4
+            else -> 0 // De andre stegene har ikke strukturkrav, så toleransegrense er ikke relevant
+        }
 
     private fun validerÅrstall(
         steg: ImportSteg,
@@ -588,7 +614,10 @@ class ImportService(
                 }
 
             // kontroll
-            kalkulerOgLoggSykefraværsprosent(kategori = StatistikkKategori.BRANSJE, statistikk = sykefraværsstatistikkDtoList)
+            kalkulerOgLoggSykefraværsprosent(
+                kategori = StatistikkKategori.BRANSJE,
+                statistikk = sykefraværsstatistikkDtoList,
+            )
             return sykefraværsstatistikkDtoList.filterNotNull()
         } catch (e: Exception) {
             logger.error("Import feilet for kategori '${StatistikkKategori.BRANSJE}'", e)

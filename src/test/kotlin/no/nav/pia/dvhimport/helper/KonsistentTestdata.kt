@@ -20,7 +20,7 @@ object KonsistentTestdata {
 
     // Ekte barnehage-næringskode (5 siffer) slik at BARNEHAGER-bransjen faktisk utledes
     // og bransje-steget ikke ender med tom liste (0/0 i kalkulering).
-    private val barnehageNæringskode = (BransjeSN2007.BARNEHAGER.bransjeId as BransjeId.Næringskoder).næringskoder.first()
+    val barnehageNæringskode = (BransjeSN2007.BARNEHAGER.bransjeId as BransjeId.Næringskoder).næringskoder.first()
 
     fun skrivAlleKonsistenteFiler(
         gcsContainer: GoogleCloudStorageContainerHelper,

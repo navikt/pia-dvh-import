@@ -4,10 +4,15 @@ import ia.felles.integrasjoner.jobbsender.Jobb
 import io.kotest.matchers.maps.shouldHaveSize
 import io.kotest.matchers.nulls.shouldNotBeNull
 import io.kotest.matchers.shouldBe
-import no.nav.pia.dvhimport.helper.TestContainerHelper
+import kotliquery.queryOf
+import kotliquery.sessionOf
+import kotliquery.using
 import no.nav.pia.dvhimport.helper.KonsistentTestdata
+import no.nav.pia.dvhimport.helper.KonsistentTestdata.barnehageNæringskode
+import no.nav.pia.dvhimport.helper.TestContainerHelper
 import no.nav.pia.dvhimport.helper.TestContainerHelper.Companion.dvhImportApplikasjon
 import no.nav.pia.dvhimport.helper.TestContainerHelper.Companion.shouldContainLog
+import no.nav.pia.dvhimport.helper.TestContainerHelper.Companion.slackWebhookContainerHelper
 import no.nav.pia.dvhimport.importjobb.orkestrering.ImportLockRepository
 import no.nav.pia.dvhimport.importjobb.orkestrering.ImportLockStatus
 import no.nav.pia.dvhimport.importjobb.orkestrering.ImportSteg
@@ -17,14 +22,12 @@ import no.nav.pia.dvhimport.importjobb.orkestrering.Kontroll
 import no.nav.pia.dvhimport.importjobb.publiseringsdato.PubliseringsdatoRepository
 import no.nav.pia.dvhimport.konfigurasjon.KafkaTopics
 import no.nav.pia.dvhimport.konfigurasjon.createDataSource
+import no.nav.pia.dvhimport.varsling.SlackVarsler.SlackMelding
+import java.math.BigDecimal
+import java.time.LocalDate
 import kotlin.test.AfterTest
 import kotlin.test.BeforeTest
 import kotlin.test.Test
-import java.math.BigDecimal
-import java.time.LocalDate
-import kotliquery.queryOf
-import kotliquery.sessionOf
-import kotliquery.using
 
 class ImportServiceIntegrasjonstest {
     private val gcsContainer = TestContainerHelper.googleCloudStorage
@@ -41,6 +44,7 @@ class ImportServiceIntegrasjonstest {
         private val lockRepository = ImportLockRepository(testDataSource)
         private val stegRepository = ImportStegRepository(testDataSource)
     }
+
     private val eksportertStatistikkKonsument =
         kafkaContainer.nyKonsument(topic = KafkaTopics.KVARTALSVIS_SYKEFRAVARSSTATISTIKK_ØVRIGE_KATEGORIER)
 
@@ -66,6 +70,7 @@ class ImportServiceIntegrasjonstest {
         eksportertVirksomhetMetadataKonsument.subscribe(
             mutableListOf(KafkaTopics.KVARTALSVIS_SYKEFRAVARSSTATISTIKK_VIRKSOMHET_METADATA.navnMedNamespace),
         )
+        slackWebhookContainerHelper.slettAlleMeldinger()
     }
 
     @AfterTest
@@ -78,6 +83,7 @@ class ImportServiceIntegrasjonstest {
 
         eksportertVirksomhetMetadataKonsument.unsubscribe()
         eksportertVirksomhetMetadataKonsument.close()
+        slackWebhookContainerHelper.slettAlleMeldinger()
     }
 
     @Test
@@ -126,7 +132,12 @@ class ImportServiceIntegrasjonstest {
 
         KonsistentTestdata.skrivAlleKonsistenteFiler(gcsContainer = gcsContainer, årstall = årstall, kvartal = kvartal)
         // Overstyr sektor slik at aggregert sf_prosent avviker fra LAND (6.2)
-        KonsistentTestdata.skrivSektor(gcsContainer = gcsContainer, årstall = årstall, kvartal = kvartal, tapteDagsverk = "30")
+        KonsistentTestdata.skrivSektor(
+            gcsContainer = gcsContainer,
+            årstall = årstall,
+            kvartal = kvartal,
+            tapteDagsverk = "30",
+        )
 
         kafkaContainer.sendJobbMelding(Jobb.alleKategorierSykefraværsstatistikkDvhImport, "2027-2:DRY_RUN")
 
@@ -194,8 +205,18 @@ class ImportServiceIntegrasjonstest {
 
         val alleOrgnr = KonsistentTestdata.volumOrgnr(antallGyldige) + ugyldigeOrgnr
         KonsistentTestdata.skrivAlleKonsistenteFiler(gcsContainer = gcsContainer, årstall = årstall, kvartal = kvartal)
-        KonsistentTestdata.skrivVirksomhet(gcsContainer = gcsContainer, årstall = årstall, kvartal = kvartal, orgnr = alleOrgnr)
-        KonsistentTestdata.skrivMetadata(gcsContainer = gcsContainer, årstall = årstall, kvartal = kvartal, orgnr = alleOrgnr)
+        KonsistentTestdata.skrivVirksomhet(
+            gcsContainer = gcsContainer,
+            årstall = årstall,
+            kvartal = kvartal,
+            orgnr = alleOrgnr,
+        )
+        KonsistentTestdata.skrivMetadata(
+            gcsContainer = gcsContainer,
+            årstall = årstall,
+            kvartal = kvartal,
+            orgnr = alleOrgnr,
+        )
 
         kafkaContainer.sendJobbMelding(Jobb.alleKategorierSykefraværsstatistikkDvhImport, "2029-1")
         ventPåLåsStatus(id, ImportLockStatus.FERDIG, timeoutSekunder = 60)
@@ -266,7 +287,21 @@ class ImportServiceIntegrasjonstest {
     fun `import feiler ved feil struktur i næringskode`() {
         KonsistentTestdata.skrivAlleKonsistenteFiler(gcsContainer = gcsContainer, årstall = 2026, kvartal = 1)
         // Næringskode med 10 siffer bryter strukturkravet ^\d{5}$
-        KonsistentTestdata.skrivNæringskode(gcsContainer = gcsContainer, årstall = 2026, kvartal = 1, næringskoder = listOf("0111012345"))
+        KonsistentTestdata.skrivNæringskode(
+            gcsContainer = gcsContainer,
+            årstall = 2026,
+            kvartal = 1,
+            næringskoder = listOf(
+                "0111012345",
+                "0222012345",
+                "0333012345",
+                "0444012345",
+                "0555012345",
+                "0666012345",
+            ),
+        )
+        // Vi må legge til nok rader til at næringskode-steget faktisk feler.
+        // Det trenges minst 4 rader - terskel for feiltoleranse -  for å fange opp feilen.
 
         kafkaContainer.sendJobbMelding(Jobb.alleKategorierSykefraværsstatistikkDvhImport, "2026-1")
 
@@ -277,6 +312,53 @@ class ImportServiceIntegrasjonstest {
             forventetKontroll = Kontroll.FEIL_STRUKTUR_I_INPUT_FIL,
         )
         dvhImportApplikasjon shouldContainLog "bryter strukturkravet".toRegex()
+    }
+
+    @Test
+    fun `import har en vis feiltoleranse ved feil struktur i næringskode`() {
+        val årstall = 2030
+        val kvartal = 1
+        val dato = LocalDate.of(2027, 3, 1)
+        publiseringsdatoRepository.lagrePubliseringsdato(årstall = årstall, kvartal = kvartal, dato = dato)
+
+        KonsistentTestdata.skrivAlleKonsistenteFiler(gcsContainer = gcsContainer, årstall = årstall, kvartal = kvartal)
+        // Næringskode med 10 siffer bryter strukturkravet ^\d{5}$
+        KonsistentTestdata.skrivNæringskode(
+            gcsContainer = gcsContainer,
+            årstall = årstall,
+            kvartal = kvartal,
+            næringskoder = listOf(
+                barnehageNæringskode, // Trenger denne koden så import av Bransje ikke feiler (0/0 i kalkulering)
+                "0111012345",
+                "0222012345",
+                "0333012345",
+                "0444012345",
+            ),
+        )
+        // Vi må legge til nok rader til at næringskode-steget faktisk feler.
+        // Det trenges minst 4 rader - terskel for feiltoleranse -  for å fange opp feilen.
+
+        kafkaContainer.sendJobbMelding(Jobb.alleKategorierSykefraværsstatistikkDvhImport, "$årstall-$kvartal")
+
+        // log som lister de feilende radene, men feilen tolereres
+        dvhImportApplikasjon shouldContainLog "Steg 'IMPORT_NARINGSKODE': '4' rader bryter strukturkravet".toRegex()
+        dvhImportApplikasjon shouldContainLog "0111012345, 0222012345, 0333012345, 0444012345".toRegex()
+        dvhImportApplikasjon shouldContainLog "men er innenfor toleransegrensen".toRegex()
+
+        slackWebhookContainerHelper.shouldHaveReceived(
+            meldinger = listOf(
+                SlackMelding(text = "📥 Import startet for 1. kvartal 2030"),
+                SlackMelding(text = "✅ Alle kategorier validert for 1. kvartal 2030 — starter sending"),
+                SlackMelding(text = "✅ Land ferdig"),
+                SlackMelding(text = "✅ Sektor ferdig"),
+                SlackMelding(text = "✅ Næring ferdig"),
+                SlackMelding(text = "✅ Næringskode ferdig"),
+                SlackMelding(text = "✅ Bransje ferdig"),
+                SlackMelding(text = "✅ Virksomhet ferdig"),
+                SlackMelding(text = "✅ Virksomhet metadata ferdig"),
+                SlackMelding(text = "🎉 Import ferdig for 1. kvartal 2030"),
+            ),
+        )
     }
 
     @Test
