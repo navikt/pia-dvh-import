@@ -1,25 +1,25 @@
-val flywayPostgresqlVersion = "13.3.0"
-val gcsNioVersion = "0.136.0"
-val googleCloudStorageVersion = "2.72.0"
+val flywayPostgresqlVersion = "13.8.0"
+val gcsNioVersion = "0.138.0"
+val googleCloudStorageVersion = "2.74.0"
 val hikariCPVersion = "7.1.0"
 val iaFellesVersion = "3.1.1"
 val kafkaClientsVersion = "4.3.1"
 val kotliqueryVersion = "1.9.1"
-val kotestVersion = "6.2.4"
-val kotlinVersion = "2.4.10"
-val ktorVersion = "3.5.2"
-val logbackVersion = "1.6.3"
+val kotestVersion = "6.2.5"
+val kotlinVersion = "2.4.20"
+val ktorVersion = "3.6.0"
+val logbackVersion = "1.6.4"
 val logstashLogbackEncoderVersion = "9.0"
-val mockServerVersion = "2.51.1"
+val mockServerVersion = "2.52.1"
 val postgresqlVersion = "42.7.13"
 val prometheusVersion = "1.17.1"
 val testcontainersVersion = "2.0.5"
 val wiremockStandaloneVersion = "3.13.2"
-val opentelemetryLogbackMdcVersion = "2.31.0-alpha"
+val opentelemetryLogbackMdcVersion = "2.31.1-alpha"
 
 plugins {
-    kotlin("jvm") version "2.4.10"
-    kotlin("plugin.serialization") version "2.4.10"
+    kotlin("jvm") version "2.4.20"
+    kotlin("plugin.serialization") version "2.4.20"
     id("application")
 }
 
@@ -52,7 +52,7 @@ dependencies {
     // Google Cloud Storage
     implementation("com.google.cloud:google-cloud-storage:$googleCloudStorageVersion")
     // Kafka
-    implementation("at.yawk.lz4:lz4-java:1.11.2")
+    implementation("at.yawk.lz4:lz4-java:1.12.0")
     implementation("org.apache.kafka:kafka-clients:$kafkaClientsVersion") {
         // "Fikser CVE-2025-12183 - lz4-java >1.8.1 har sårbar versjon (transitive dependency fra kafka-clients:4.1.0)"
         exclude("org.lz4", "lz4-java")
