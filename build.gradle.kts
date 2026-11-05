@@ -1,25 +1,25 @@
-val flywayPostgresqlVersion = "13.3.0"
-val gcsNioVersion = "0.136.0"
-val googleCloudStorageVersion = "2.72.0"
+val flywayPostgresqlVersion = "13.12.0"
+val gcsNioVersion = "0.140.0"
+val googleCloudStorageVersion = "2.76.0"
 val hikariCPVersion = "7.1.0"
-val iaFellesVersion = "3.1.1"
-val kafkaClientsVersion = "4.3.1"
+val iaFellesVersion = "3.1.2"
+val kafkaClientsVersion = "4.4.0"
 val kotliqueryVersion = "1.9.1"
-val kotestVersion = "6.2.4"
-val kotlinVersion = "2.4.10"
-val ktorVersion = "3.5.2"
-val logbackVersion = "1.6.3"
+val kotestVersion = "6.2.6"
+val kotlinVersion = "2.4.21"
+val ktorVersion = "3.6.1"
+val logbackVersion = "1.6.6"
 val logstashLogbackEncoderVersion = "9.0"
-val mockServerVersion = "2.51.1"
-val postgresqlVersion = "42.7.13"
-val prometheusVersion = "1.17.1"
+val mockServerVersion = "2.52.1"
+val postgresqlVersion = "42.7.14"
+val prometheusVersion = "1.17.2"
 val testcontainersVersion = "2.0.5"
 val wiremockStandaloneVersion = "3.13.2"
-val opentelemetryLogbackMdcVersion = "2.31.0-alpha"
+val opentelemetryLogbackMdcVersion = "2.33.1-alpha"
 
 plugins {
-    kotlin("jvm") version "2.4.10"
-    kotlin("plugin.serialization") version "2.4.10"
+    kotlin("jvm") version "2.4.21"
+    kotlin("plugin.serialization") version "2.4.21"
     id("application")
 }
 
@@ -52,7 +52,7 @@ dependencies {
     // Google Cloud Storage
     implementation("com.google.cloud:google-cloud-storage:$googleCloudStorageVersion")
     // Kafka
-    implementation("at.yawk.lz4:lz4-java:1.11.2")
+    implementation("at.yawk.lz4:lz4-java:1.13.0")
     implementation("org.apache.kafka:kafka-clients:$kafkaClientsVersion") {
         // "Fikser CVE-2025-12183 - lz4-java >1.8.1 har sårbar versjon (transitive dependency fra kafka-clients:4.1.0)"
         exclude("org.lz4", "lz4-java")
@@ -83,25 +83,45 @@ dependencies {
     testImplementation("software.xdev.mockserver:client:$mockServerVersion")
 
     constraints {
+        implementation("org.xerial.snappy:snappy-java") {
+            version { require("1.1.10.12") }
+            because("Sikkerhetsoppdatering av transitiv avhengighet")
+        }
+        implementation("com.google.guava:guava") {
+            version { require("33.8.0-jre") }
+            because("Sikkerhetsoppdatering av transitiv avhengighet")
+        }
+        implementation("com.google.code.gson:gson") {
+            version { require("2.15.0") }
+            because("Oppdaterer transitiv avhengighet")
+        }
         implementation("com.fasterxml.jackson.core:jackson-core") {
-            version { require("2.22.2") }
+            version { require("2.22.4") }
             because("versjoner < 2.22.1 har sårbarhet. inkludert i ktor-server-auth:3.4.0")
         }
         implementation("com.fasterxml.jackson.core:jackson-databind") {
-            version { require("2.22.2") }
+            version { require("2.22.4") }
             because("versjoner < 2.22.1 har sårbarhet. inkludert i ktor-server-auth:3.4.0")
         }
         implementation("io.netty:netty-codec-http2") {
             version {
-                require("4.2.17.Final")
+                require("4.2.20.Final")
             }
             because(
                 "versjoner < 4.2.16.Final har sårbarhet. inkludert i ktor-server-netty-jvm:3.4.2",
             )
         }
         implementation("tools.jackson.core:jackson-core") {
-            version { require("3.2.2") }
+            version { require("3.2.4") }
             because("versjoner < 3.1.0 har sårbarhet. inkludert i logstash-logback-encoder:9.0")
+        }
+        testImplementation("org.apache.commons:commons-lang3") {
+            version { require("3.21.0") }
+            because("Oppdaterer transitiv testavhengighet")
+        }
+        testImplementation("net.minidev:json-smart") {
+            version { require("2.6.1") }
+            because("Oppdaterer transitiv testavhengighet")
         }
     }
 
